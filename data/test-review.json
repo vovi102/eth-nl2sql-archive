@@ -1,0 +1,709 @@
+{
+  "cases": [
+    {
+      "id": "t35-001",
+      "note": "COUNT transaction rows; UTC half-open first-week window.",
+      "question_sha256": "9b76c17877fc9cc60c9511cbdb28c48f711b926ba69eebe8babc9268379cdecb",
+      "sql_sha256": "8ddeb06da9858649264f8c5ae58661a7ba2bb4e99fe7d664aa7304f3eb3db9cc",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-002",
+      "note": "COUNTIF success TRUE, not all transactions.",
+      "question_sha256": "ab26799a21a44b54bfc2875134c03f83ddd85dcb548402e499bd98892790e331",
+      "sql_sha256": "7d2778809c4c465cd7d2bd0ce27b63173989861e8c618597df357b26693bfef3",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-003",
+      "note": "COUNTIF success FALSE; NULL status is not failure.",
+      "question_sha256": "cbce651e2798e699152dbebba6d33f32a1f721dcb4f1038ad07c00029bc94111",
+      "sql_sha256": "88a2aa361f16ba830446d8904b98433c0a7b2e046cec7371b3166756dbc51856",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-004",
+      "note": "SUM recorded value_wei, all statuses; not settled balance change.",
+      "question_sha256": "080a6239e9ce9c0fa2ccdd7980fff6edcb3c3652dc15021c3f573941cc4d84a4",
+      "sql_sha256": "2820694149f40871b36273c6dd8a358e8a047e2aa829d1c6263fd6700819f7c4",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-005",
+      "note": "COUNT block facts, not transactions.",
+      "question_sha256": "ee4c918cf24765b728f8778b86f5cef47e5c3b054351b2109f33edceee9d7961",
+      "sql_sha256": "44698b1935ddb321aa63f347d9a5e3ffe69bec5fc01b80dfd0a34f197c2bc306",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-006",
+      "note": "AVG transactions per block using block facts, not sampled transaction frequency.",
+      "question_sha256": "46cdd8369b210341a8fb75fbec3069e27ea21c964703a4d3fd920932991e4fa2",
+      "sql_sha256": "97b12c98bc8cb247a2cc6dd5a7f24f6eeb91d62efbd8168a5d513121d4851348",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-007",
+      "note": "COUNT log events; multiple logs per transaction remain multiple events.",
+      "question_sha256": "7e3a2fa052fe3ccd7cd27f45da5558d851ac03a427654ed4a6e3a4d4da7e3a51",
+      "sql_sha256": "4bedb7994abd3fc6bc6889c8aeb2b461eaa876be0c5c5c60066343b0abcac51f",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-008",
+      "note": "COUNT non-NULL normalized amounts, not SUM amounts.",
+      "question_sha256": "496281f75d9607d26409ad7c6ffacbd0e54a33291937d131fee2065bd376a007",
+      "sql_sha256": "313bfbd09c173abf206cdb0694e302c35ed50c110ea70ddcca5ea2a8961e7819",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-028",
+      "note": "COUNT transaction rows; UTC half-open first-week window. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "e12fba3c3a3f095f641ee23dd0bc3056f73b11753f6872c9d84e205acc0816d6",
+      "sql_sha256": "9861b8d672cbe6a0e5838ce1704d7e900cac6b3a945f61c411e1bbabfea37197",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-029",
+      "note": "COUNTIF success TRUE, not all transactions. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "edf1995996656cee73e769a861f3eadfd66aad747a9f9c18ead8e6aeacae8378",
+      "sql_sha256": "0918479c5d332161dbb50160c6e96b484aefcd356641daf1117e26499fa948f8",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-030",
+      "note": "COUNTIF success FALSE; NULL status is not failure. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "0b2bb28a5ea6b6a53450b3ddedfa79a973bd8ec44ff8e6a8ff68e051d6642aca",
+      "sql_sha256": "4c3af9a912864ef35dccb7333d0c3f30baac95d676b382d65bb6c964fe781cbe",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-031",
+      "note": "SUM recorded value_wei, all statuses; not settled balance change. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "c80067dec2d593ff0024600ce1e8e1bfd7341478e0f9513061e99c485318b7e8",
+      "sql_sha256": "89fc2ee89cebd7c154ae666f95a37bfe5e650b76a1d6a8772a645094cf4f1d19",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-032",
+      "note": "COUNT block facts, not transactions. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "2e756e8e046507b9474e6286b0cb7d4e118334434972542d89529b1b817b7a8c",
+      "sql_sha256": "118d33480bfefbbda2cb5f58a02a7bcf65273d8e9fe2b506cc1aabcb9218c56d",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-033",
+      "note": "AVG transactions per block using block facts, not sampled transaction frequency. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "414deca8eb1f2998a9a19f055b58391925da2f318e6bf82c057351ed159d3224",
+      "sql_sha256": "1ba61d0d04921324ce8b7058eb1a0ea0c35d8828478b7ecf21815d5c319a62c6",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-034",
+      "note": "COUNT log events; multiple logs per transaction remain multiple events. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "10c2664ed468b8b7fbfedb2da82c2992c2cb2102d2da86a72780f9f37909ec28",
+      "sql_sha256": "19679cef9152f2d0aa1ba530e5091e71c744e4cdb370d30aa7eaa1592956d80f",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-039",
+      "note": "Daily transaction counts; UTC DATE(timestamp); ascending date.",
+      "question_sha256": "31ccd9fab086262d91c53e47bb4f771653cf1f3f7f2f578a6b877f30f180bad4",
+      "sql_sha256": "51528df881e4f5b1beb8818671cdd7543ddad6c35ea254ccf3772fa7aef71efc",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-040",
+      "note": "Daily success/failure counts; neither bucket includes NULL status.",
+      "question_sha256": "52b860aafa32ed7a9b700ba789bbe4bef0b0e9bdc07c6589ca4240d0e7f8ac97",
+      "sql_sha256": "cac598aaf6de45e476c1cd61f69302974c75321347705b6dc6d36df2483e4d00",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-041",
+      "note": "Daily AVG of gas price in wei and receipt gas used; not total gas or fees.",
+      "question_sha256": "c6b1bee9eebb85c9d31973391cc524f8f57d9d24df0e122150df43a2e2ae617f",
+      "sql_sha256": "31c835d4cddb32477f2a2377c794501100be6ff2971d528d7e44456e1366d1cf",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-042",
+      "note": "Top 10 beneficiaries by block count; address tie-break; no validator-identity claim.",
+      "question_sha256": "30194a5df33d8fc0f47036db0210c135386bdc617c910314ffa6a06381cf70c2",
+      "sql_sha256": "077302bf1e3bf2f6bb182eca32c8ada306855e09c6344cfbcd7d251ee90537a2",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-043",
+      "note": "Independent block aggregates by UTC day; block transaction totals exceed sampled rows.",
+      "question_sha256": "2a508d77fb9be38700d8092d74cc3f99d0a702fb86ad6976e2abe1937c9b7ea9",
+      "sql_sha256": "b83867041188c3233a62be2fdf35d0bfde0956bbc86d54955f4c0c0ae4200c34",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-044",
+      "note": "Top 10 token contracts by event count; address tie-break.",
+      "question_sha256": "f6ca046c61200225fdbd1eadc2be1e4a004c1a1ae27bb49752430480e1eb605d",
+      "sql_sha256": "fe177ac7f918df10fdd6054a79cc5acaf59edb0fb54bb548e3c88277e2094cec",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-045",
+      "note": "Top token symbols by normalized units; symbol collisions grouped deliberately; not monetary values.",
+      "question_sha256": "b0ebca164217abcfc1b2598c865b1b53bbc5a77a5193682cde4cf8e39aa305c7",
+      "sql_sha256": "43b5a6fc3eeaed2cc84a1799487e7b807922c34d63123e1580f3a56478607201",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-046",
+      "note": "ERC721 precedence, then ERC20, else other/unknown including NULL flags.",
+      "question_sha256": "67cc5fd46621e043ce015a64f950d1beae519f32dc25baa7cbd97e78a95e6c95",
+      "sql_sha256": "85749ea38ed8eecb56dd0c01ab62c19b4fdeebd2a6ed8c6398e0c3438e774663",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-047",
+      "note": "Log from_address, not enclosing transaction sender; event count; address tie-break.",
+      "question_sha256": "6c9f7f43834c83544877e987aacff54ca8754dbb8c5d1e485e23b9634ff55509",
+      "sql_sha256": "be751814f1653c08d3249fb498c63ded9f967856f5b3e03ead182e1945b900e2",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-048",
+      "note": "Log to_address, not enclosing transaction recipient; event count; address tie-break.",
+      "question_sha256": "bf916ca577c710868535ad1f6ec3a3e8876644aa21a28d77b49376363158baa1",
+      "sql_sha256": "49b4f028a56d962522b1944b424006549db6c31d780c2733d504a4663cb32ecb",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-049",
+      "note": "Count by transaction_type; NULL type retained as a group.",
+      "question_sha256": "209618529949a3eb3392ae65336adb756b87fdcd5b1749ddfef98d143bcdc972",
+      "sql_sha256": "3c9909769282b1c07be2f66bf4c0bf27c548b4f0556b6b327e44217b16f4a0bf",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-050",
+      "note": "Creation receipt addresses ranked by attached transaction value; not current balance.",
+      "question_sha256": "f9e5782d293de005537cce52d5082bea600f511d7b3b65a66da7f6d6d21b8893",
+      "sql_sha256": "7e2dd391940e6399c75cc1e6d19954c150b6ace4950eb8a2b2e9242eb9601a5f",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-051",
+      "note": "All labeled recipients, not only protocols; wording corrected at T05; SQL unchanged.",
+      "question_sha256": "1d104ab97a933c82f04904c61e24ec2ff1b05d1b35014ca195d47434343d7c8c",
+      "sql_sha256": "c9339af76f2a39ea14962c67439d91b8f5ce525b62d24be3c70ef74d770844ce",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-052",
+      "note": "Top 10 outer senders by transaction count; address tie-break.",
+      "question_sha256": "aa4da0f43cac7dec6002761feb999cc216384f501c097c9b9abf56e3c67be68d",
+      "sql_sha256": "4cc7c9ca8d485cefce2bb1e0d360cabec6851e86fe00e5b943bbc61029d4d531",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-053",
+      "note": "Top 10 non-NULL outer recipients by count; excludes contract-creation NULL recipients.",
+      "question_sha256": "0353866b6da1bc4a1e646030a3b087f004de64fba3665bad8a72714ea6f327c0",
+      "sql_sha256": "57de7d730bccdd07db4894b5e41ec5a69f2a6bc8e53e57b682387563161380c3",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-070",
+      "note": "Daily success/failure counts; neither bucket includes NULL status. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "7685a69390e405f835b881ea2ece9a91e3bb76ddefbd031234fc94a42e553aff",
+      "sql_sha256": "cf4a04ba6fd1a6307657e66e47e49fc6d7d0e5d9dbf3136819a37914f1cf8ece",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-080",
+      "note": "Creation receipt addresses ranked by attached transaction value; not current balance. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "9fd1913933b151df88087e16e8c1f20e658684e1fec799b21aa9915ea28ee7d4",
+      "sql_sha256": "b7e21c483120d0f2ef9712b30758b179b5863f4c1709937181d31329d9fe748c",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-084",
+      "note": "Daily transaction counts; UTC DATE(timestamp); ascending date. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "975ef0921d838c510bc52cb6b86c96c490aa5f7176f3882bca4ef01a903a37c9",
+      "sql_sha256": "7f118c7d46528bd22dad7f23ceb6ea7c2faccc3f61af925c1454b64dbde4a590",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-086",
+      "note": "Daily AVG of gas price in wei and receipt gas used; not total gas or fees. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "bc928b12ceedac51cd6dc70f59f712dc95affe7be47833c3e3095100f506b0c8",
+      "sql_sha256": "091ccc48fa48be24b882ebb452efb07229e9fcb74e33ba871ee159b599edcbe8",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-087",
+      "note": "Top 10 beneficiaries by block count; address tie-break; no validator-identity claim. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "44c64ab843ca6017abfa55259edf15ce99b5a60f346f2cefd2fe5707f5798539",
+      "sql_sha256": "b6da0332ba85e7f04f70d23bbf81144ac8b5a451879cd8db6db257c3f7cbf80a",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-088",
+      "note": "Independent block aggregates by UTC day; block transaction totals exceed sampled rows. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "1f7601daac2b9d898158eac195f4837f31402af018e5c9c04c111ff78d5bea7d",
+      "sql_sha256": "1ae5ea9322e094df0a6ff1d305f8aee047ec8af1204630182015b7821f45acc1",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-089",
+      "note": "Top 10 token contracts by event count; address tie-break. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "45e63b9ac8e3d19b49e16ba6d0622a16a978cdf3a2fedb0409bc2ac2b40f68b9",
+      "sql_sha256": "c8214b03c8c2a0470d7c0227879a87e5a190ef669b5c6ee2ef5c6e749ab7fc84",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-090",
+      "note": "Top token symbols by normalized units; symbol collisions grouped deliberately; not monetary values. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "2a5179c5d9588877ad425e54e1f66d2fc23c856c40300b1c859d81339c588b4a",
+      "sql_sha256": "e3e3cb40366ba545dffc04d956c2e210a35b1a4e2b2ad1fbf5fa6812650ba6f2",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-091",
+      "note": "ERC721 precedence, then ERC20, else other/unknown including NULL flags. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "32b2a72a427292fb580d2df3f56127b5aba1590de6c57c71b8ff769cb4b1e625",
+      "sql_sha256": "a4e69b49dfc81412bf5b1ab7ae66ee468695376c54c7c965add13a248e8a752b",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-093",
+      "note": "Log to_address, not enclosing transaction recipient; event count; address tie-break. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "36555d2e329cc4abbb7e0855b8a8e87e4e14e03f43e97d5aa6f4118318d3e896",
+      "sql_sha256": "a00f4ec1dbffc83db20fdc0f3593119e1737d8194ccc20d098daa30574d2c511",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-094",
+      "note": "Count by transaction_type; NULL type retained as a group. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "cf46653bfbfe91b5047a2c5689b0aa5e483d0f384c2a098a00da329a4c979795",
+      "sql_sha256": "b53e69cc7912651075000f406f6cfc65c7d2e4203fc69e8f2b5f6969ffb448ce",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-096",
+      "note": "All labeled recipients, not only protocols; wording corrected at T05; SQL unchanged. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "21f49ad36ef15ab8f84e0281eb94f36e88bc5ed9f462cfeaf231c8ea2fcb0219",
+      "sql_sha256": "0e268dbe5f2af4c368336629864ba71ab8611487727be693f60975ee813497cc",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-098",
+      "note": "Independent daily tx/block aggregates joined on UTC date; no row-multiplying fact join.",
+      "question_sha256": "7bb8a9b141884029c92be79c417b6486df45145f0d0a7243629de3af8a8addfd",
+      "sql_sha256": "24237fa76f1dd06d766bcfbf63e7363f71f00d3053f984fa5049ea17dfcfbd5c",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-099",
+      "note": "Recipient contract dimension at window end; ERC721 precedence; count and recorded wei.",
+      "question_sha256": "ac355e8d22e0530b298243abf9a2db9d982dc5ffac0168d88cf77b7ba492ed07",
+      "sql_sha256": "fe34def443e97f9d9e1f1e617683744f59e7b5f33f3cc58e8566c420392c3bf2",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-100",
+      "note": "Event-count priority, then native wei, then hash; wording corrected at T05; composite block/hash join.",
+      "question_sha256": "f8f315bda0c440213d4b68cc087fff7648c531cf2c462c08f8fe2c5605e73667",
+      "sql_sha256": "3f2b60cd5c2d0bed835ee9359f34c56e4a106f5f2b85be8adf9b9d6d4ae6914d",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-101",
+      "note": "Sender class, not recipient; order by total recorded wei; all statuses.",
+      "question_sha256": "43b6b8fec2051586aa4502a83f70a01ccbbda354135ca4c027d46a61666d731d",
+      "sql_sha256": "fb24d0bce7f94ed85f2044083687495c898dfa737e58084600ab84f8e9970207",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-102",
+      "note": "Recipient owner and token symbol; valid normalized units; not dollar values.",
+      "question_sha256": "0a5f298a7a98ddbf0a942fa8ab0376e79fe3e20dbdd84548604d63a0e0ac3d73",
+      "sql_sha256": "39de8b30ea8c4b8788f976c89d16825d8850767b5bc5be68e6ff0f45d6b05841",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-103",
+      "note": "Early June 8-10; late June 11-14; threshold June 11 UTC; count and recorded wei.",
+      "question_sha256": "f7c36d7b09d37c11b020a0fcfc21e47925af3aa5c5bb31c588b5720ee221381e",
+      "sql_sha256": "4274d36951caf25db8254d904eff0511f53b08c5648e203999d2661893477edf",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-119",
+      "note": "Sender class, not recipient; order by total recorded wei; all statuses. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "1a01786d0d2892c39cc96ff8ac1dd94bb8bdaeb7f84a11705283427ec5457eb0",
+      "sql_sha256": "21d2316c2117fd8cb13b207c7d3122619a863055834cacafca912b8a7e749f17",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t35-120",
+      "note": "Recipient owner and token symbol; valid normalized units; not dollar values. Same reviewed intent in its explicit later UTC window.",
+      "question_sha256": "eb909b857967381291ec43a128b1ddc9fff633e2718d5086284035e9bfe75dc3",
+      "sql_sha256": "bb164d010bbd428031cedf907632f03cf5d28b4c791e8c5398abeb25637b6087",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e001",
+      "note": "All labeled Binance endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "49f6857db9c5e861a704e8e1c450655c3aef66c7da8c7914023c595e53461b05",
+      "sql_sha256": "be3a0d0681696d32e7d0db38d39608e83f0f9737195573e2b34d7adc71687f0d",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e002",
+      "note": "All labeled Bitfinex endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "2b13c8da086ddbd2c2f49792bc293b2e4a805bbbe96fbdd45827abcf1833214a",
+      "sql_sha256": "3824349ed788411f29e6319ff67b0bf051f7c7e3cb6f69e4bbcffb91eab95287",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e003",
+      "note": "All labeled Bitget endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "4c1d17ad53dc96efc8d76e3187abef750f21158c076a34c276539d3c7185bf63",
+      "sql_sha256": "0eb8a9b82780026b0f3ff6e86d0f9e3782f9d07fb7a5232bee515ab3c8ff5dc2",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e004",
+      "note": "All labeled Bitkub endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "c77eb3b12bad5416976c76d13961c232a4da79766778a84ed76f320b1f021a1d",
+      "sql_sha256": "50f617ca1bf1f21c45132794e6aae78ee9134d467b0f124926145ea6d0636e15",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e005",
+      "note": "All labeled Bitmex endpoints; outer transaction endpoints, all receipt statuses. OR counts an internal transaction once.",
+      "question_sha256": "f15a6f9fe6c41512064925f9bbed282ed5b4d95237379be5ec60c685a8bec328",
+      "sql_sha256": "cddd9ca59b360a9db56ca9b34485eabd6b59f6cb972c2203c5aac677eb724129",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e006",
+      "note": "All labeled Bitstamp endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "66d11d7c7861de9c6f59f3a70f340006c56dffb29ce8a685eb6350f68e865b22",
+      "sql_sha256": "2bee112c1a93ee8e4c7991bdab5c7c552975eb59cdc05a8e02823cebfdc06467",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e007",
+      "note": "All labeled Bitvavo endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "7f28663b6192e9bbf73dc0de17c68538a898e903db28010a78bca9342e6f90c6",
+      "sql_sha256": "7fdebe0a19d68466f5f20ac7e947536c0fc9e7cefee82f4da103c5f9df6d842c",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e008",
+      "note": "All labeled Bybit endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "8cd71ad3377324805e9ef4f52a6d5fa9dde4059c12d4796255e61b3666a63557",
+      "sql_sha256": "84b7d752911c51bbe1f4085d7d4a4b9607977a83880cc7d8400eee5cf71effb1",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e009",
+      "note": "All labeled CoinEx endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "32aabebc978a52a993198043499c5dc58c2562e3985799b9f7670f54e10e69c8",
+      "sql_sha256": "d73c1a14b66948b1cb58e95ad2442434c1095fd297eedf2cefa2c931b9a7136c",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e010",
+      "note": "All labeled Crypto-com endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "e019124b78f131c9488298a34a9a1dda1e4d74a380a788d92a4ce7b732ab5555",
+      "sql_sha256": "eea6d074fd92351fe7ca5dfba1bdebaf152bebdaa45fcb897b51071944f85147",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e011",
+      "note": "All labeled Curve DEX endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "8339d35299302f9f9c94821b74810cafcd9cd4dd5e4c2713239ed11246c895cc",
+      "sql_sha256": "5dd603242c21573649375cee6b1599d509a0995f19386a8162dbae6c9d887159",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e012",
+      "note": "All labeled Deribit endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "bfe64f440ced489132eb3ac19be0b32e145fe0830ab7b51684f67c4d4c6bd322",
+      "sql_sha256": "6716e952ec3c1bad6c98ee1cfb94daee7218dd999cbbc43a3383e8ea1a6016d9",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e013",
+      "note": "All labeled Gate.io endpoints; outer transaction endpoints, all receipt statuses. OR counts an internal transaction once.",
+      "question_sha256": "73cf37a959eedd5cb0f2772773d59b3e743e4bbeab0433709e8ab9744e45b325",
+      "sql_sha256": "a04055c2c63baea98594c21de14393e69fa18872e15778e44e74b3f33d62ee98",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e014",
+      "note": "All labeled Gauntlet endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "d4da5be5cc785fadeb0ee71b7f6774455d8ebddcede6b713bb3bac4b991b6594",
+      "sql_sha256": "c2ce40edaf1fe86b9dec49e23e5c3d401e250073b0e88314eb0be98f294b42f8",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e015",
+      "note": "All labeled Gemini endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "2cc35f72420d6df80d52e2ecf613b2e0743ddcbe198787f9b897e28a1f8aed4c",
+      "sql_sha256": "3f43fed9a3e9e04d4c85fbf575e432317654fef64a8ac8952f1455de3c1a40d4",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e016",
+      "note": "All labeled HTX endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "0e92fcfbc1f81fec9499df97ab9b1a22416f9dc7af4e88cd762b3e24a7a07dfc",
+      "sql_sha256": "feb79d6c44c937ad96be97577d1f9ca34af9f462803a6c67e4e3c3999df559cc",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e017",
+      "note": "All labeled HashKey Exchange endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "7de47011dafbe9a56a120c9eba3e8077258e9ab288097711638ecb43a3b8ca58",
+      "sql_sha256": "120d9849c51a1121746ce51f1af5e01e224ef9c2f93c343e367ae4406e3eb0b8",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e018",
+      "note": "All labeled Indodax endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "510a97c2b7c032156026a6e950e57dce7951e3766b1564d0809d037c49189954",
+      "sql_sha256": "f6ea58addd872ec76c56be3ac676b09ef5639480c123673871d80c924ff8ad7c",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e019",
+      "note": "All labeled Korbit endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "ecb71855dcebb60f96a3eab634b2b5f5e39e662f88d5f9e8812fef4fd48b02dd",
+      "sql_sha256": "3b52c2e3dd466167c6cda2600b24ceb146b6f4dbe331bcc810e8a39feca90bd0",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e020",
+      "note": "All labeled KuCoin endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "71171253866e3f6aa0661029ecdafc2c756ac6ef32f114ddabaf7260464a2d4a",
+      "sql_sha256": "3280eab27edd06e50f6fae21d8e1211df58436db9962c777e7fe260b5e45ad11",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e021",
+      "note": "All labeled MEXC endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "43e7b55ec1d0eb4789e295d5fd694c09ccff096840a42eff3f73f73affb485bd",
+      "sql_sha256": "88005191339b378c11b0b57f32b222999bdba5fa5d3779ec60f29db07fbc0319",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e022",
+      "note": "All labeled Nexo endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "f25c066d5e0c9418ce2b1aebf96495a368ac64cdbbdbefebab9ebb3ef8051229",
+      "sql_sha256": "de510af8004ec0d9f4af3e30a00985034893bd7589d294492532013495116e38",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e023",
+      "note": "All labeled OKX endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "1928f84015a1a7046a1aa5a5f54ede3e9a824b1401391179b9c4d1066fbcca61",
+      "sql_sha256": "a3381ad63fdb4415f4d9837dd02c990ecbf7949597c305a95f35f06ec06649cc",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e024",
+      "note": "All labeled OSL HK endpoints; outer transaction endpoints, all receipt statuses. OR counts an internal transaction once.",
+      "question_sha256": "8fc3745d3d03a3df79e3f1c49d38d5dc1600ff0ae53ced2cd283da0b7c509429",
+      "sql_sha256": "d49f00a55a9386966b3c9451360762664bc8b892c3eca79952db77f2cbdeea4f",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e025",
+      "note": "All labeled Optimism Bridge endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "b7646947c2b4c9adae38dea207aae577d9a0f6e2d46220ecd52c22bc431206d3",
+      "sql_sha256": "a25a7a4137e5c73574fe4779ba01f5ec05a4054fb7a5c8328e1054ebe9d889d9",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e026",
+      "note": "All labeled Phemex endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "87ecc6315190d11e1c497e011036df3f8e4846901ef641e09a57918e008e4a38",
+      "sql_sha256": "127ad8704b12673487d75f6d7ce2273c0dff6679905dc0924db297d08c6eee15",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e027",
+      "note": "All labeled Poloniex endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "682b4627220417100ad6a230bc5c2e07642401fb8433c0390b2c4dc7539b01f8",
+      "sql_sha256": "6b54f780e3c1ea81eacace2e269cf94aa7e645325c826f04c93d56bac9b673b8",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e028",
+      "note": "All labeled Sentora endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "ec802d6c51f51565b6e6182877d295b3c53d800655a9d9ec88ed0623dde0427d",
+      "sql_sha256": "287d4befa3718efc09c30bbefe6952de9e901a7e8a8b02f548a9dc75c0092c2d",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e029",
+      "note": "All labeled SwissBorg endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "4a1ed77323d7c40903167d5f0159e74e7e63941c6aebcc028c3eeee78715c449",
+      "sql_sha256": "45ccf9b42773a056c2ae7f5c5167de951cdb42057ad57eef70f40021ba7255c9",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e030",
+      "note": "All labeled Uniswap V2 endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "214150cccf42bb6fb5c1b30ba8d540fe2f956409c4a34192efe0e33bc8b0faac",
+      "sql_sha256": "bc2c57301b1a4118db0c294d7a3358ae933f52709e8140bef4c750cc95d5cdf1",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e031",
+      "note": "All labeled Uniswap V3 endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "807ffb94e136254452818e6fbc1e07c736d079c271da2813bdb5b62732b3e6ab",
+      "sql_sha256": "20008499872d7d2b6aeb2d9a39678df1850696d57a02f729866ef6e424f80e36",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e032",
+      "note": "All labeled Uniswap V4 endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "b4bd58c453cdff73647c56bd89a3855295b5485c61532ac4e203936778fb8b17",
+      "sql_sha256": "71987bb4def8ef04be436a53a2124e09c95da1221747f18a036ed50982ed8307",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e033",
+      "note": "All labeled VALR endpoints; outer transaction endpoints, all receipt statuses.",
+      "question_sha256": "90676032a29a6980c709eab8a8ac2c72c963b9cda612084576dc933d59c0d33b",
+      "sql_sha256": "0535623de627dc2a32cbc6277589e8ebd8e215bce2a15d17ad973af7736d723f",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e034",
+      "note": "All labeled WEEX endpoints; token log endpoints, independent of the enclosing transaction.",
+      "question_sha256": "0893252767bf17f1336261bb39e3ecbc50324004f3f8245fb6ea8568112c7966",
+      "sql_sha256": "7a41244f5b7da33812ecedd70ef823c59fdc036caba8e978b36d0bc26480af60",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e035",
+      "note": "TC resolves to the service owner; only router activity is observed. Not a multi-address witness.",
+      "question_sha256": "444d786eb41572ff376913f62537b30ea812631b700583b305c1468a3c235766",
+      "sql_sha256": "551f146fc79bcc80c3ae14ab4717bd5d3a4b949e79a46b82d439a0aa2439d7db",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e036",
+      "note": "Filter token contract owner, not service endpoints or the transaction sender.",
+      "question_sha256": "4f168e39782c345efe3b2beed0a5566a83c4f354a0dbc7bcdeaf3dc8571743df",
+      "sql_sha256": "bb88ac7b517b6261279c7a91d84f7bcffff9c4757e3c375eebde04366b80fd39",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e037",
+      "note": "BNB exchange maps to Binance, not the BNB token; multiple logs remain multiple events.",
+      "question_sha256": "cee2fc300438040a0eb00d228b233440ea579adc3dddf7cabf701bdc60a3df54",
+      "sql_sha256": "f7c069cf3679289e5905bc2d73c6a53d85812516972d8ab49db8347361c934e8",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e038",
+      "note": "USDT maps to Tether; use token_owner, not from_owner or to_owner.",
+      "question_sha256": "c5e43663e500bbfac83dcf9c07285ab57028782069c2ef912c607a33d67b3c82",
+      "sql_sha256": "bc3cb6aba3bf7a62eb9178e9ad034521b3d604cc0be2c95b11b9a4092aef02d4",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e039",
+      "note": "All owners of category exchange; include all labeled address roles; omit owners with no matching rows.",
+      "question_sha256": "d3db109bf4fa39acd0670d5b40ddd7348f8b3b79fe295bc6f2c1a497f0838fae",
+      "sql_sha256": "648bbf3c3419c039c675cec6632044cd0f6bcacc7bc666d87586c5369ec8d586",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e040",
+      "note": "All owners of category dex; include all labeled address roles; omit owners with no matching rows.",
+      "question_sha256": "a31d9a6cd76fa8ba99dd2b16eafd9df37f8582c9d38548cd95dbf1ab9a79a4f0",
+      "sql_sha256": "d75511c2033e95ef8bd2e5ca7585eeec953881c90d2f47afb2dc557edd9a160b",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e041",
+      "note": "All owners of category mixer; include all labeled address roles; omit owners with no matching rows.",
+      "question_sha256": "eecdd3b2aeea56c6236c75d17704301d7527fbd18d9bbd8465a1db3f7cdaa25f",
+      "sql_sha256": "2e22ac7ed231f4f537676469c031c26b7e1433f5a75db7fc505224342d898081",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e042",
+      "note": "All owners of category bridge; include all labeled address roles; omit owners with no matching rows.",
+      "question_sha256": "54fb4afdca7f59cf936b93176b02c0dc0d3f8dd9ac5b81c8efbb85150baffdf1",
+      "sql_sha256": "e07e982217de7807c62b085d7e76048c1c138336c519febe44aee6522fdaabad",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e043",
+      "note": "All owners of category lending; include all labeled address roles; omit owners with no matching rows.",
+      "question_sha256": "78ab3b49179357a256da3fa047b25d02d8b26c1558f2e8197f7f10c1e180ce03",
+      "sql_sha256": "9296d59fe3cef883fe9348758e4394a3967889b7d3363108957b68e00d711fd0",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e044",
+      "note": "Directed class-to-class outer transactions; no multi-hop or transfer-log inference. Known empty local result retained as a negative control.",
+      "question_sha256": "c93e342b50b83ff90e79cbfd87f31cbadb9570938d96bda9352feb98af16f103",
+      "sql_sha256": "b43ec830d35d75835f7d982d5eda00c44772f490d45305e8d171b59fb7ff76c3",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e045",
+      "note": "BNB exchange resolves to Binance, the sender, SwissBorg recipient. Token events in those transactions are not counted.",
+      "question_sha256": "b0cd670072e3ada09e6a0c4722e12233afcca0575041a2d07fb114c6c61ac57a",
+      "sql_sha256": "9a5d79a802bd174f68635bcedc6e64693c054fd9c110afa2e11a297dca03ca8a",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e046",
+      "note": "Composite hash/number/block-hash join; tx.from_owner and transfers.to_owner are distinct predicates.",
+      "question_sha256": "9ec04ed04e959d17db254c9b1428a62256a2f074f58181eaff9af5fc7ea2aad5",
+      "sql_sha256": "110bfdc66c82f37c1ea38773c4f38ed254dc27f26fdd19aa8c9f7680af5d6281",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e047",
+      "note": "Successful outer transactions to the protocol endpoints; governance token transfers alone do not qualify.",
+      "question_sha256": "9191ebd5b16acaf1076ef7130376fd81107e0186f35193324e08e98e880f6e0e",
+      "sql_sha256": "b1e41b40d4a3717f710e0be82302b0b312bcbf16091390770d0e11a3d8aef916",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e048",
+      "note": "Either endpoint uses OR. Huobi Global is the unambiguous exchange alias; bare Huobi also names a token.",
+      "question_sha256": "0b475df8ba7eecd9df542c26b47a05b92953d1820174868dd207dc8150aeca2f",
+      "sql_sha256": "b02d155a84363e01ea9bf4cb7138748d2b18796d5e4795cebbd03771d3abf7ca",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e049",
+      "note": "Union of the two directed owner pairs; not any transaction touching either owner.",
+      "question_sha256": "23ca28840a46c932a3c42852ae9fd48532507080df6843cc46774bff7891a2ec",
+      "sql_sha256": "54edacf886eafca91e65e5f2a86c988f4bfbbea9567651228a5b02a0cd9e46f4",
+      "status": "agent_reviewed"
+    },
+    {
+      "id": "t05-e050",
+      "note": "Service log sender, not TORN token contract; an empty list is valid for this sample.",
+      "question_sha256": "7df652182698252d772ecf426214907d8bf00f3267922a505dabe78a908eb6ee",
+      "sql_sha256": "697f24b95f92425ca83abbd7d44d4a366bcbd0b07653e6bbd47b66dd94a15538",
+      "status": "agent_reviewed"
+    }
+  ],
+  "date": "2026-10-26",
+  "human_review": "pending; no human sign-off claimed",
+  "reviewer": "Codex (agent semantic review)",
+  "scope": "All 100 question/SQL pairs: UTC dates, endpoints, owner/alias/class, count unit, status, ordering, empty answers. Local sampled data only.",
+  "version": 1
+}

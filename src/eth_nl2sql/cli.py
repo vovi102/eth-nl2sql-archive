@@ -55,9 +55,37 @@ def cmd_snapshot_run(args: argparse.Namespace) -> None:
 
 
 def cmd_build_store(args: argparse.Namespace) -> None:
+    from eth_nl2sql.linking.dictionary import load_dictionary
     from eth_nl2sql.store.build import build_store
 
+    load_dictionary(args.labels)
     _print(build_store(args.store, args.parquet, args.labels / "entities.json"))
+
+
+def cmd_check_dictionary(args: argparse.Namespace) -> None:
+    from eth_nl2sql.linking.audit import check_dictionary
+
+    _print(check_dictionary(args.dictionary))
+
+
+def cmd_dictionary_coverage(args: argparse.Namespace) -> None:
+    from eth_nl2sql.linking.audit import dictionary_coverage, render_coverage
+    from eth_nl2sql.store.build import connect
+
+    protected = {
+        args.store.resolve(),
+        *(p.resolve() for p in args.dictionary.rglob("*") if p.is_file()),
+    }
+    if args.out.resolve() in protected or args.report.resolve() in protected:
+        raise SystemExit("Coverage output must not overwrite the dictionary or store")
+    if args.out.resolve() == args.report.resolve():
+        raise SystemExit("JSON and Markdown report paths must be different")
+    with connect(args.store) as con:
+        report = dictionary_coverage(con, args.dictionary)
+    cfg.write_json(args.out, report)
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(render_coverage(report))
+    _print({**report["summary"], "out": str(args.out), "report": str(args.report)})
 
 
 def cmd_parity(args: argparse.Namespace) -> None:
@@ -70,6 +98,45 @@ def cmd_parity(args: argparse.Namespace) -> None:
     )
     cfg.write_json(RUNS_DIR / "parity.json", report)
     _print({key: report[key] for key in ("gold_exact", "witness_row_counts", "passed")})
+    if not report["passed"]:
+        if report.get("reason"):
+            print(report["reason"], file=sys.stderr)
+        sys.exit(1)
+
+
+def cmd_local_plan(args: argparse.Namespace) -> None:
+    from eth_nl2sql.store.local import plan_local
+
+    report = plan_local(args.directory)
+    cfg.write_json(args.out, report)
+    _print({"joins_ok": report["joins_ok"], "joins": report["joins"], "out": str(args.out)})
+    if not report["joins_ok"]:
+        sys.exit(1)
+
+
+def cmd_supplements(args: argparse.Namespace) -> None:
+    from eth_nl2sql.store.supplements import download, plan
+
+    if args.command == "supplement-plan":
+        report = plan(args.project, args.directory)
+        cfg.write_json(args.out, report)
+        _print(report)
+    else:
+        report = download(args.project, args.directory, args.supplements, storage_api=not args.rest)
+        _print({"tables": {k: v["rows"] for k, v in report["files"].items()}})
+
+
+def cmd_prepare_local(args: argparse.Namespace) -> None:
+    from eth_nl2sql.store.local import prepare_local
+
+    report = prepare_local(args.directory, args.parquet, args.supplements)
+    _print(
+        {
+            "scope": report["scope"],
+            "complete_snapshot": False,
+            "tables": {row["table"]: row["rows"] for row in report["files"]},
+        }
+    )
 
 
 def cmd_check_sql(args: argparse.Namespace) -> None:
@@ -91,6 +158,37 @@ def cmd_check_sql(args: argparse.Namespace) -> None:
                 failures.append({"split": split, "code": exc.code, "error": str(exc), "sql": sql})
     _print({"checked": total, "failures": failures})
     if failures:
+        sys.exit(1)
+
+
+def cmd_build_entity_data(args: argparse.Namespace) -> None:
+    from eth_nl2sql.data.entities import build_entity_data
+
+    _print(build_entity_data(args.data, args.dictionary)["generated"])
+
+
+def cmd_check_dataset(args: argparse.Namespace) -> None:
+    from eth_nl2sql.data.dataset_audit import audit_dataset, render_audit
+    from eth_nl2sql.store.build import connect
+
+    protected = {args.store.resolve()}
+    protected.update(p.resolve() for p in args.data.rglob("*") if p.is_file())
+    protected.update(p.resolve() for p in args.dictionary.rglob("*") if p.is_file())
+    if args.out.resolve() in protected or args.report.resolve() in protected:
+        raise SystemExit("Dataset reports must not overwrite data, dictionary or store")
+    if args.out.resolve() == args.report.resolve():
+        raise SystemExit("JSON and Markdown report paths must be different")
+    with connect(args.store) as con:
+        report = audit_dataset(
+            con, args.data, args.dictionary,
+            progress=lambda message: print(message, file=sys.stderr),
+        )
+    cfg.write_json(args.out, report)
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(render_audit(report))
+    _print({"passed": report["passed"], "test_subsets": report["test_subsets"],
+            "specifics": report["specifics"], "out": str(args.out)})
+    if not report["passed"]:
         sys.exit(1)
 
 
@@ -258,22 +356,26 @@ def cmd_echo_gold(args: argparse.Namespace) -> None:
 def cmd_evaluate(args: argparse.Namespace) -> None:
     from eth_nl2sql.evaluate import case_rows, evaluate_predictions, summarize
     from eth_nl2sql.store.build import connect
+    from eth_nl2sql.store.manifest import store_profile
 
     settings = cfg.load()["evaluation"]
     out_dir = RUNS_DIR / args.config
     predictions_path = out_dir / f"predictions-{args.split}.jsonl"
     predictions = {row["id"]: row for row in cfg.read_jsonl(predictions_path)}
     cases = cfg.read_jsonl(SPLITS[args.split])
-    results = evaluate_predictions(
-        connect(args.store),
-        cases,
-        predictions,
-        float_digits=settings["float_digits"],
-        timeout_s=settings["timeout_s"],
-    )
+    with connect(args.store) as con:
+        profile = store_profile(con)
+        results = evaluate_predictions(
+            con,
+            cases,
+            predictions,
+            float_digits=settings["float_digits"],
+            timeout_s=settings["timeout_s"],
+        )
     summary = summarize(
         results, samples=settings["bootstrap_samples"], seed=settings["bootstrap_seed"]
     )
+    summary["store"] = profile
     summary.update(
         {
             "config": args.config,
@@ -316,8 +418,65 @@ def main(argv: list[str] | None = None) -> None:
 
     command = add("build-store", cmd_build_store, "build the DuckDB store from parquet")
     command.add_argument("--parquet", type=Path, default=cfg.PARQUET_DIR)
-    command.add_argument("--labels", type=Path, default=cfg.DATA_DIR / "entities" / "v1")
+    command.add_argument("--labels", type=Path, default=cfg.DICTIONARY_DIR)
     command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
+
+    command = add("check-dictionary", cmd_check_dictionary, "validate labels, aliases and concepts")
+    command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
+
+    command = add("build-entity-data", cmd_build_entity_data, "render entity train/dev templates")
+    command.add_argument("--data", type=Path, default=cfg.DATA_DIR)
+    command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
+
+    command = add("check-dataset", cmd_check_dataset, "execute golds and audit splits/review")
+    command.add_argument("--data", type=Path, default=cfg.DATA_DIR)
+    command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
+    command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
+    command.add_argument("--out", type=Path,
+                         default=cfg.ROOT / "reports" / "entity-dataset" / "validation.json")
+    command.add_argument("--report", type=Path,
+                         default=cfg.ROOT / "reports" / "entity-dataset" / "validation.md")
+
+    command = add(
+        "dictionary-coverage", cmd_dictionary_coverage, "measure dictionary presence in local data"
+    )
+    command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
+    command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
+    command.add_argument(
+        "--out", type=Path, default=cfg.ROOT / "reports" / "dictionary-v2" / "coverage.json"
+    )
+    command.add_argument(
+        "--report", type=Path, default=cfg.ROOT / "reports" / "dictionary-v2" / "coverage.md"
+    )
+
+    command = add("local-plan", cmd_local_plan, "audit CSV joins and plan local enrichment")
+    command.add_argument("--directory", type=Path, default=cfg.DATA_DIR / "raw" / "luanvan")
+    command.add_argument(
+        "--out", type=Path, default=cfg.ROOT / "reports" / "local-store" / "plan.json"
+    )
+
+    for name in ("supplement-plan", "supplement-run"):
+        command = add(name, cmd_supplements, "dry-run or download missing local CSV attributes")
+        command.add_argument("--project", required=True)
+        command.add_argument("--directory", type=Path, default=cfg.DATA_DIR / "raw" / "luanvan")
+        command.add_argument(
+            "--rest", action="store_true", help="download via REST if Storage API is unavailable"
+        )
+        command.add_argument(
+            "--supplements", type=Path, default=cfg.DATA_DIR / "store" / "supplements"
+        )
+        command.add_argument(
+            "--out",
+            type=Path,
+            default=cfg.ROOT / "reports" / "local-store" / "supplement-plan.json",
+        )
+
+    command = add(
+        "prepare-local", cmd_prepare_local, "enrich CSVs and export verified subset Parquet"
+    )
+    command.add_argument("--directory", type=Path, default=cfg.DATA_DIR / "raw" / "luanvan")
+    command.add_argument("--supplements", type=Path, default=cfg.DATA_DIR / "store" / "supplements")
+    command.add_argument("--parquet", type=Path, default=cfg.PARQUET_DIR)
 
     command = add("parity", cmd_parity, "compare local results with BigQuery observations")
     command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
@@ -335,7 +494,7 @@ def main(argv: list[str] | None = None) -> None:
 
     command = add("link", cmd_link, "compute linking hints for a split")
     command.add_argument("--split", choices=SPLITS, required=True)
-    command.add_argument("--dictionary", type=Path, default=cfg.DATA_DIR / "entities" / "v1")
+    command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
     command.add_argument("--no-encoder", action="store_true", help="lexical/fuzzy stages only")
 
     command = add("prompts", cmd_prompts, "render prompts (or SFT rows) for a configuration")

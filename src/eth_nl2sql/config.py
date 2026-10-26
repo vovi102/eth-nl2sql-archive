@@ -14,6 +14,7 @@ SYNONYMS_PATH = ROOT / "configs" / "schema_synonyms.json"
 DATA_DIR = ROOT / "data"
 STORE_PATH = DATA_DIR / "store" / "eth.duckdb"
 PARQUET_DIR = DATA_DIR / "store" / "parquet"
+DICTIONARY_DIR = DATA_DIR / "entities" / "v2"
 
 
 def load(path: Path = CONFIG_PATH) -> dict:

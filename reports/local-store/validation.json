@@ -1,0 +1,200 @@
+{
+  "checks": [
+    {
+      "actual": 4431329,
+      "elapsed_ms": 1.8470229988452047,
+      "expected": 4431329,
+      "passed": true,
+      "relation": "transaction_facts",
+      "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-05-31', DATE '2026-07-01')"
+    },
+    {
+      "actual": 221548,
+      "elapsed_ms": 2.2072799984016456,
+      "expected": 221548,
+      "passed": true,
+      "relation": "block_facts",
+      "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-05-31', DATE '2026-07-01')"
+    },
+    {
+      "actual": 4001230,
+      "elapsed_ms": 842.7077809974435,
+      "expected": 4001230,
+      "passed": true,
+      "relation": "token_transfer_facts",
+      "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-05-31', DATE '2026-07-01')"
+    },
+    {
+      "actual": 4431329,
+      "elapsed_ms": 335.6863990047714,
+      "expected": 4431329,
+      "passed": true,
+      "relation": "labeled_transactions",
+      "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-05-31', DATE '2026-07-01')"
+    },
+    {
+      "actual": 4001230,
+      "elapsed_ms": 1736.2736590002896,
+      "expected": 4001230,
+      "passed": true,
+      "relation": "labeled_token_transfers",
+      "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-05-31', DATE '2026-07-01')"
+    },
+    {
+      "actual": "6631709976641603315068081.000000000",
+      "check": "transaction_value_sum_exact",
+      "passed": true,
+      "source": "6631709976641603315068081.000000000"
+    }
+  ],
+  "coverage": {
+    "contracts": {
+      "historical_flag_differences_preserved": 2110,
+      "source_rows": 3513,
+      "store_rows": 16386
+    },
+    "token_transfers": {
+      "erc20": 1300493,
+      "with_decimals": 3919357,
+      "with_normalized_amount": 1290700
+    },
+    "transactions": {
+      "contract_creation_receipts": 701,
+      "missing_block_hash": 0,
+      "missing_index": 0,
+      "missing_receipt_gas_used": 0
+    }
+  },
+  "gold_echo": {
+    "answer_f1": 1.0,
+    "by_group": {
+      "difficulty:easy": {
+        "execution_accuracy": 1.0,
+        "n": 15
+      },
+      "difficulty:hard": {
+        "execution_accuracy": 1.0,
+        "n": 8
+      },
+      "difficulty:medium": {
+        "execution_accuracy": 1.0,
+        "n": 27
+      },
+      "subset:generic": {
+        "execution_accuracy": 1.0,
+        "n": 50
+      }
+    },
+    "config": "gold-echo",
+    "exact_match": 1.0,
+    "execution_accuracy": 1.0,
+    "execution_accuracy_ci95": [
+      1.0,
+      1.0
+    ],
+    "execution_ms": {
+      "n": 50,
+      "p50": 40.108844499627594,
+      "p95": 430.16938390028355
+    },
+    "format_ok_rate": 1.0,
+    "generation_ms": {
+      "n": 0,
+      "p50": null,
+      "p95": null
+    },
+    "missing_predictions": [],
+    "n": 50,
+    "predictions_sha256": "ffb396d6d4b915ad50fa0306358de7b325b434dd3180850dcce2bcdf336908ca",
+    "split": "test",
+    "status_counts": {
+      "ok": 50
+    },
+    "store": {
+      "complete_snapshot": false,
+      "labels_sha256": "d860391f6175cce5848abd7385ade48999293b3539b6be1df10d04d7eaf75602",
+      "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+      "rows": {
+        "amended_tokens": 2489651,
+        "blocks": 221548,
+        "contracts": 16386,
+        "entity_labels_snapshot": 5135,
+        "token_transfers": 4001230,
+        "transactions": 4431329
+      },
+      "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+      "window": [
+        "2026-05-31",
+        "2026-07-01"
+      ]
+    },
+    "structural_match": 1.0,
+    "test_sha256": "9dc4b0d2378179001fd034962270c4cbdc1edf444523d358a948d42a8fca87ba",
+    "valid_sql_rate": 1.0
+  },
+  "parity": {
+    "gate": 0.95,
+    "gold_exact": {
+      "matched": 0,
+      "rate": null,
+      "total": 88
+    },
+    "gold_mismatches": [],
+    "passed": false,
+    "reason": "parity requires a complete snapshot; this store is sampled or unrecorded",
+    "skipped": true,
+    "store": {
+      "complete_snapshot": false,
+      "labels_sha256": "d860391f6175cce5848abd7385ade48999293b3539b6be1df10d04d7eaf75602",
+      "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+      "rows": {
+        "amended_tokens": 2489651,
+        "blocks": 221548,
+        "contracts": 16386,
+        "entity_labels_snapshot": 5135,
+        "token_transfers": 4001230,
+        "transactions": 4431329
+      },
+      "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+      "window": [
+        "2026-05-31",
+        "2026-07-01"
+      ]
+    },
+    "witness_mismatches": [],
+    "witness_row_counts": {
+      "matched": 0,
+      "rate": null,
+      "total": 206
+    }
+  },
+  "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+  "passed": true,
+  "regression_suite": {
+    "command": ".venv/bin/pytest -q",
+    "failed": 0,
+    "passed": 122
+  },
+  "source_unchanged": true,
+  "store": {
+    "complete_snapshot": false,
+    "labels_sha256": "d860391f6175cce5848abd7385ade48999293b3539b6be1df10d04d7eaf75602",
+    "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+    "rows": {
+      "amended_tokens": 2489651,
+      "blocks": 221548,
+      "contracts": 16386,
+      "entity_labels_snapshot": 5135,
+      "token_transfers": 4001230,
+      "transactions": 4431329
+    },
+    "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+    "window": [
+      "2026-05-31",
+      "2026-07-01"
+    ]
+  },
+  "store_bytes": 1267478528,
+  "store_path": "data/store/eth.duckdb",
+  "validated_at": "2026-10-26T14:22:35.171086+00:00"
+}

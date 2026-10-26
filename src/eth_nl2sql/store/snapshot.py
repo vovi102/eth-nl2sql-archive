@@ -9,6 +9,8 @@ not), and `contracts` is limited to addresses that appear in the window.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
@@ -36,7 +38,7 @@ def _window(column: str, start: date, end: date) -> str:
 
 
 def _columns(table: str) -> str:
-    return ", ".join(RAW_SCHEMAS[table])
+    return ", ".join(f"`{column}`" for column in RAW_SCHEMAS[table])
 
 
 def extraction_queries(
@@ -124,12 +126,40 @@ def run(project: str, out_dir: Path) -> dict:
     import pyarrow.parquet as pq
     from google.cloud import bigquery
 
+    from eth_nl2sql.store.manifest import file_digest
+
     client = _client(project)
     config = bigquery.QueryJobConfig(maximum_bytes_billed=MAX_BYTES_PER_QUERY)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    manifest_path = out_dir / "manifest.json"
+    window = [SNAPSHOT_START.isoformat(), SNAPSHOT_END.isoformat()]
+    manifest = (
+        json.loads(manifest_path.read_text())
+        if manifest_path.exists()
+        else {
+            "version": 1,
+            "scope": "full_ethereum_window",
+            "window": window,
+            "complete_snapshot": False,
+            "files": [],
+        }
+    )
+    if manifest.get("scope") != "full_ethereum_window" or manifest.get("window") != window:
+        raise ValueError("existing Parquet directory belongs to a different data scope/window")
+    recorded = {r["path"]: r for r in manifest["files"]}
     written, skipped, billed = 0, 0, 0
     for query in extraction_queries():
         target = out_dir / query.table / f"{query.name}.parquet"
+        relative = f"{query.table}/{query.name}.parquet"
+        query_hash = hashlib.sha256(query.sql.encode()).hexdigest()
         if target.exists():
+            record = recorded.get(relative)
+            if (
+                not record
+                or record.get("query_sha256") != query_hash
+                or file_digest(target) != record["sha256"]
+            ):
+                raise ValueError(f"existing snapshot file lacks matching provenance: {target}")
             skipped += 1
             continue
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -138,7 +168,25 @@ def run(project: str, out_dir: Path) -> dict:
         partial = target.with_suffix(".parquet.partial")
         pq.write_table(table, partial)
         partial.rename(target)
+        record = {
+            "table": query.table,
+            "path": relative,
+            "rows": table.num_rows,
+            "bytes": target.stat().st_size,
+            "sha256": file_digest(target),
+            "query_sha256": query_hash,
+            "job_id": job.job_id,
+        }
+        recorded[relative] = record
+        manifest["files"] = list(recorded.values())
+        staged_manifest = manifest_path.with_suffix(".json.partial")
+        staged_manifest.write_text(json.dumps(manifest, indent=2) + "\n")
+        staged_manifest.replace(manifest_path)
         billed += int(job.total_bytes_billed or 0)
         written += 1
         print(f"{query.table}/{query.name}: {table.num_rows} rows", flush=True)
+    manifest["complete_snapshot"] = True
+    staged_manifest = manifest_path.with_suffix(".json.partial")
+    staged_manifest.write_text(json.dumps(manifest, indent=2) + "\n")
+    staged_manifest.replace(manifest_path)
     return {"written": written, "skipped": skipped, "billed_gib": round(billed / 2**30, 2)}

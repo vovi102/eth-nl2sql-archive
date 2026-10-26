@@ -68,6 +68,8 @@ thay thế snapshot đầy đủ hoặc chứng minh parity với kết quả go
 | `contracts` | `block_number`, `block_hash` |
 | `amended_tokens` | Toàn bộ file |
 
-Lần nhập này giữ nguyên CSV, chưa chuyển sang Parquet, chưa điền giá trị cho cột thiếu và chưa
-dựng DuckDB. Cần xử lý các khác biệt trên và ghi rõ phạm vi đánh giá trước khi nối bộ dữ liệu
-này vào pipeline. `entities.csv` được giữ làm dữ liệu nguồn, không thay `data/entities/v1/`.
+CSV tại đây giữ nguyên bản nhập. T03 đã xử lý các khác biệt trên bằng join đã kiểm tra và
+thuộc tính bổ sung từ BigQuery, xuất Parquet ở `data/store/parquet/` rồi dựng
+`data/store/eth.duckdb`. Số giao dịch, block và transfer giữ nguyên; contract được bổ sung cho
+các token address quan sát được. `entities.csv` được giữ làm dữ liệu nguồn, dictionary dùng
+trong store là `data/entities/v1/`. Xem [kết quả và giới hạn T03](../../../reports/local-store/README.md).

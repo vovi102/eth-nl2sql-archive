@@ -1,0 +1,419 @@
+{
+  "base": {
+    "directory": "data/entities/v1",
+    "files": {
+      "aliases.json": "9a79ba50a29d449903c623729902fdf6461c9a21b02959e8505db710973e4fb6",
+      "concepts.json": "45b427608a63ff58df72760422d36ff2fcb1baf393d77b94a16fc469d5f7747d",
+      "entities.json": "d860391f6175cce5848abd7385ade48999293b3539b6be1df10d04d7eaf75602"
+    }
+  },
+  "chain_id": 1,
+  "changes": [
+    {
+      "address": "0x256f2d67e52fe834726d2ddcd8413654f5eb8b53",
+      "new_owner": "Solv Token",
+      "old_owner": "SolvBTC",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0xD533a949740bb3306d119CC777fa900bA034cd52",
+      "new_owner": "Curve DAO Token",
+      "old_owner": "Curve DEX",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+      "new_owner": "Uniswap Token",
+      "old_owner": "Uniswap V3",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+      "new_owner": "Aave Token",
+      "old_owner": "Aave V3",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x5c8d0c48810fd37a0a824d074ee290e64f7a8fa2",
+      "new_owner": "Avalon Token",
+      "old_owner": "Avalon USDa",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0xc00e94cb662c3520282e6f5717214004a7f26888",
+      "new_owner": "Compound Token",
+      "old_owner": "Compound V3",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x6f40d4a6237c257fff2db00fa0510deeecd303eb",
+      "new_owner": "Fluid Token",
+      "old_owner": "Fluid Lending",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x643c4e15d7d62ad0abec4a9bd4b001aa3ef52d66",
+      "new_owner": "Maple Token",
+      "old_owner": "Maple",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x58D97B57BB95320F9a05dC918Aef65434969c2B2",
+      "new_owner": "Morpho Token",
+      "old_owner": "Morpho Blue",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x56072c95faa701256059aa122697b133aded9279",
+      "new_owner": "Sky Token",
+      "old_owner": "Sky Lending",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x5983B89FA184f14917013B9C3062afD9434C5b03",
+      "new_owner": "Power by M0 Token",
+      "old_owner": "M0",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0xec53bf9167f50cdeb3ae105f56099aaab9061f83",
+      "new_owner": "EigenCloud Token",
+      "old_owner": "EigenCloud",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x3f80b1c54ae920be41a77f8b902259d48cf24ccf",
+      "new_owner": "KernelDAO Token",
+      "old_owner": "Kelp",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x5a98fcbea516cf06857215779fd812ca3bef1b32",
+      "new_owner": "Lido DAO Token",
+      "old_owner": "Lido",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x48c3399719b582dd63eb5aadf12a40b4c3f52fa2",
+      "new_owner": "StakeWise Token",
+      "old_owner": "StakeWise V2",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb",
+      "new_owner": "Ether.fi Token",
+      "old_owner": "ether.fi Stake",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x081f67afa0ccf8c7b17540767bbe95df2ba8d97f",
+      "new_owner": "CoinEx Token",
+      "old_owner": "CoinEx",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x64d0f55cd8c7133a9d7102b13987235f486f2224",
+      "new_owner": "SwissBorg Token",
+      "old_owner": "SwissBorg",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "address": "0x77777feddddffc19ff86db637967013e6c6a116c",
+      "new_owner": "Tornado Cash Token",
+      "old_owner": "Tornado Cash",
+      "reason": "Separate token attribution from operational protocol/exchange addresses; inherited source verification date retained."
+    },
+    {
+      "new_owner": "Gauntlet",
+      "old_owner": "Gauntlet",
+      "reason": "Pinned adapter describes curated lending vaults, not MEV activity."
+    },
+    {
+      "new_owner": "Sentora",
+      "old_owner": "Sentora",
+      "reason": "Pinned adapter describes curated lending vaults, not MEV activity."
+    },
+    {
+      "address": "0xb1cdf3c96000330f018b7d7df5bee5e7f9e13b62",
+      "new_owner": "Concrete",
+      "old_owner": "Concrete",
+      "reason": "Use operational vault/staking category supported by inherited source instead of TokenContract; original verification date retained."
+    },
+    {
+      "address": "0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+      "new_owner": "Hastra",
+      "old_owner": "Hastra",
+      "reason": "Use operational vault/staking category supported by inherited source instead of TokenContract; original verification date retained."
+    },
+    {
+      "address": "0xeA1A6307D9b18F8d1cbf1c3Dd6aad8416C06a221",
+      "new_owner": "Veda",
+      "old_owner": "Veda",
+      "reason": "Use operational vault/staking category supported by inherited source instead of TokenContract; original verification date retained."
+    }
+  ],
+  "curated_date": "2026-10-26",
+  "files": {
+    "aliases.json": "689eafe3e8d1734671f3f22abcec313e57462efe3cf8e4991eb44a9d1bb06ac9",
+    "concepts.json": "e24e16f7ad2a5258905b1fb3cec2c22ca98e0069cb7f85a65eb981d6f2d3237d",
+    "entities.json": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549"
+  },
+  "scope": "Publicly attributed Ethereum addresses; curated subset, not an exhaustive owner address list. Dates describe source verification, not valid ownership intervals. Unchanged v1 records retain original provenance and dates.",
+  "sources": {
+    "https://console.cloud.google.com/bigquery?project=bigquery-public-data&p=bigquery-public-data&d=crypto_ethereum&t=amended_tokens&page=table": {
+      "note": "Selected facts from local amended_tokens; checksum identifies this evidence extract, not the full upstream BigQuery table.",
+      "retrieved_date": "2026-10-26",
+      "revision": "sha256:21d3944a10292968d7b9221e1690b1c78a4c41fff4c8cd6eefac61e6698f8fd9",
+      "sha256": "21d3944a10292968d7b9221e1690b1c78a4c41fff4c8cd6eefac61e6698f8fd9",
+      "snapshot": "evidence/token-metadata.json"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/bitkub-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "c762ae4c14d00b83a824949d4563fd801f8dfb18e4b179c067a408bfbf00b221"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/bitmex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "cb790df2cf59da728840bef84762c6b7ef3562d15b8223e81c877472548e9b25"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/bitunix-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "a336d013442b7aa4bc2da7e7519d3002af921e57321b66d45dbd0ab619927f0c"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/bitvavo.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "6bd9925d5d63bae77d11ab12b9ba6d3d1f84f5c63964704a64a925792b287b5b"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/bybit.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "b034808a21813bfce60d7d16a13b239e0590367d3ed6b5a1ecc289c8961dda8d"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/crypto-com.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "9f0befd123a36db8050020c2421928a33dea2795832a052c2e06c6757a40f224"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/deribit.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "2c19d86f4bd16d0325adfea8ec27c4a3b7a9274b4708fcd181ad71d2285395c8"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/hashkey-exchange.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "61b58a5747d84cbf3b9976628e15ceef344fc7be0b6a226f019e316cb7a2b327"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/indodax.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "edda7a5bcb351ca229989b8eb115120b5a663ae02c4069732ac5553dfc9bf456"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/korbit.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "ec7be3a4316577fa21ac94b9757a9a235dc156adff6f7119e6fe202897eebd37"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/mexc-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "bb4de320da5ac08ebb4e71b09a64dffcd9a8ec2c597ef15a8d8a8997423b3f74"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/nexo-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "a46e79c45ec7ba89a6a60136522f839f09ec7e2390277402509963e792eaac24"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/osl-hk.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "10895ce733a9fa57094cc4b25f3daddc0d006428d692d61e89b0efa0dd466abe"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/phemex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "ff789e15b799c2311d212337719b34d89bb3fa23bdacb67f35a0e688f286201a"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/poloniex-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "2a16c579b502ebc350f2fdfff7354ff46e2afb3bbd37869006499ec5784b70c6"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/robinhood.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "809aae84cd6db8eea9882df0cd7ebcd3822f286c4f0febc1d32a0a6f00e501a0"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/swissborg.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "1adb9a480bb0bef781a7bbe7c90b8509971d5afec4657230ec1ec8484893332c"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/valr-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "dbd4f571f7044e8d8ff897517c6e4411cddbe2facd989c8d23d259305bc7d74a"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/cex/weex-cex.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "257c65e858271a42cbb0f0f34b5208b615103f115d44e17d0b097eabce36a2aa"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/astherus/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "0e2ea35dcd36d4d3313e7453257579a07b1d5f3cc4ec5bdbcac47a3a45489130"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/binance/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "38a45c8d0484addf6f431f2d787084459a81d379a1f43979fa3ae5836ad0ccde"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/bitfinex/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "aab07472df89fef78ec4efb80a437574f1627fbada9a3459ad39a3852bacbf8a"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/bitget/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "0485ea2e69ecc620edde5199a011be1c9de7a8814cc7bf32b78cf0bac9d517f7"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/bitrue-cex/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "cf8ff550264e37d56023bf0d386599da169d01fa4238ba5358a04d6bda198902"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/bitstamp/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "f966f3b0b046e7367f9290df4b0bb0822f0cd04db0c024fe20d124fc82b39be2"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/ccip/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "77ff68f8eb002d9e7fc09dd752ff5dbb3576967f8b6f8a7b79f58d8f9ab3d5a6"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/coinex/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "f9a239de3ee8342d311362e2359faf208ee85af186625ae4d9aca79f15b0fb3a"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/gate-io/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "bcd950051992b54aa48ca0b42615df779df9d827a336617fc79fb3f1535f81a4"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/gauntlet/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "b59c7489f60c8bc3640465e4ebf5e494362db36a1ae4261facfe585ac74cf68e"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/gemini/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "669aa8b57472aa6097d30b9d4dfe55f694fe531f79bba7093fab86964841b481"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/huobi/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "1491689e33cf55b9349ab8e8a001d08b55a997a164c076036b39215b1111deed"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/kucoin/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "9263eb3e12fa1e49c05882053fcbdba827d5537e0e9d90a9c1902a0cff5444a5"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/lista-lending/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "43042f99ca1de18c600d1614ef01d98c7fee635209ae223b72b55091b741671e"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/merlin-l2/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "dfccf978ed2a857df32bf40ebafa2cb16c337e448f890663296e48aa1a14c62b"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/okex/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "8714aee7d251e1a67d09b0c5057bc547516049bbd0fb3998c544688fa3cc25b3"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/optimism/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "11eb15e87c0fcf4186c5a0bef8131780a9c90d7454e90ed93dd2181c8bfb7e6b"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/pancake-swap/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "918a140bad5f71358bd19cec0bac0f3053af527cafa76cb03f918f9f97b20dcc"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/sentora/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "1819090ba739bafa47520f10d999c15fa5570310c1d2deeb529636a08568c5b8"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/uniswap-v2/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "234ce8286daf2dba1d5eaa12b62dbf3f544852908ae76cb33c3f9f4ba83e20f0"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/uniswap-v4/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "83b3df4319131e7f722471729103a59761d0e21c0e1f68fb1f5a9a3e142b39fa"
+    },
+    "https://github.com/DefiLlama/DefiLlama-Adapters/blob/bbd74a89801e9729ea1a5076d80bc7d636520f4b/projects/usdt0/index.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "bbd74a89801e9729ea1a5076d80bc7d636520f4b",
+      "sha256": "9c17c76d36684cd953385daa25a6d23da93839863c2c4e356c51eaee1f898bd6"
+    },
+    "https://github.com/Uniswap/docs/blob/1c7597d73be0e9a3a4e44aa75b8fb212b40ea136/content/protocols/v2/deployments.mdx": {
+      "retrieved_date": "2026-10-26",
+      "revision": "1c7597d73be0e9a3a4e44aa75b8fb212b40ea136",
+      "sha256": "647af759a2c354fc51f001eaba2645d7cebb53f45266834fa140e6f10c145129"
+    },
+    "https://github.com/Uniswap/docs/blob/1c7597d73be0e9a3a4e44aa75b8fb212b40ea136/content/protocols/v3/deployments/v3-ethereum-deployments.mdx": {
+      "retrieved_date": "2026-10-26",
+      "revision": "1c7597d73be0e9a3a4e44aa75b8fb212b40ea136",
+      "sha256": "d3afde38c0cb53569db37bb64a52e2564747f3cc21eff01524afda40d0108c05"
+    },
+    "https://github.com/Uniswap/docs/blob/1c7597d73be0e9a3a4e44aa75b8fb212b40ea136/content/protocols/v4/deployments.mdx": {
+      "retrieved_date": "2026-10-26",
+      "revision": "1c7597d73be0e9a3a4e44aa75b8fb212b40ea136",
+      "sha256": "83d2e6aa87d0ddfec9d30816a5ccd18c3680ab964cbe97fa2cc82cd7172895e9"
+    },
+    "https://github.com/curvefi/curve-js/blob/c0e67873b8a743853118e2b1ed2537e13f01a9bf/src/constants/network_constants.ts": {
+      "retrieved_date": "2026-10-26",
+      "revision": "c0e67873b8a743853118e2b1ed2537e13f01a9bf",
+      "sha256": "d5c40bf43474f38994faa440ba5976d58bd016fc38d09aab4e36cfb4f2398979"
+    },
+    "https://github.com/ethereum-optimism/superchain-registry/blob/08d6deb24d26b1177f0d0c85b9cef2e5193f47bd/superchain/configs/mainnet/op.toml": {
+      "retrieved_date": "2026-10-26",
+      "revision": "08d6deb24d26b1177f0d0c85b9cef2e5193f47bd",
+      "sha256": "419779a2c50fa240b97d2e783cb356ec718072011d6d86636c9d10b922121c99"
+    },
+    "https://github.com/tornadocash/tornado-classic-ui/blob/a83fae0772c8da084c0e76b3a756b456f5b9f5bb/networkConfig.js": {
+      "retrieved_date": "2026-10-26",
+      "revision": "a83fae0772c8da084c0e76b3a756b456f5b9f5bb",
+      "sha256": "6e1dde5f4aa34676cb3a53f27515dc076b24abec548ef40737752d869f0887bf"
+    },
+    "https://www.binance.com/bapi/apex/v1/public/apex/market/por/address": {
+      "retrieved_date": "2026-10-26",
+      "revision": "sha256:01686fed03df87f44e39d7a6794bc5812428768e498449ea6ec2f9f950b1be1d",
+      "sha256": "01686fed03df87f44e39d7a6794bc5812428768e498449ea6ec2f9f950b1be1d",
+      "snapshot": "evidence/binance-por.json"
+    },
+    "https://www.bitstamp.net/api/v2/wallet_transparency/": {
+      "retrieved_date": "2026-10-26",
+      "revision": "sha256:eae289ee787415b0d2dbc035a21417b3c038fd3c3cfb399f42b43c97e0ea217a",
+      "sha256": "eae289ee787415b0d2dbc035a21417b3c038fd3c3cfb399f42b43c97e0ea217a",
+      "snapshot": "evidence/bitstamp-transparency.json"
+    }
+  },
+  "version": 2
+}

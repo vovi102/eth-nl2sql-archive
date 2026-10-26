@@ -1,13 +1,13 @@
 """Entity dictionary loading: owner targets (one entity, many addresses) and concept targets.
 
 Ported from luanvan `linking/entity/documents.py`. A dictionary directory holds
-`entities.json` (one row per address), `aliases.json` (phrase -> owner) and
-`concepts.json` (class key -> aliases, description, instances).
+`entities.json` (one row per address), `aliases.json` (phrase -> owner or an
+explicit list of ambiguous owners) and `concepts.json` (class key -> aliases,
+description, instances). V2 includes a checksum/provenance manifest.
 """
 
 from __future__ import annotations
 
-import json
 import unicodedata
 from collections import defaultdict
 from collections.abc import Mapping
@@ -58,19 +58,18 @@ def owner_id(owner: str) -> str:
 
 
 def load_dictionary(directory: Path) -> Dictionary:
-    entities = json.loads((directory / "entities.json").read_text())
-    aliases = json.loads((directory / "aliases.json").read_text())
-    concepts = json.loads((directory / "concepts.json").read_text())
+    from eth_nl2sql.linking.validation import read_dictionary
+
+    entities, aliases, concepts = read_dictionary(directory)
 
     rows_by_owner: dict[str, list[dict]] = defaultdict(list)
     for row in entities:
         rows_by_owner[row["owner"]].append(row)
     phrase_targets: dict[str, set[str]] = defaultdict(set)
     extra_aliases: dict[str, set[str]] = defaultdict(set)
-    for phrase, owner in aliases.items():
-        if owner not in rows_by_owner:
-            raise ValueError(f"alias {phrase!r} points to unknown owner {owner!r}")
-        extra_aliases[owner].add(normalize_phrase(phrase))
+    for phrase, owners in aliases.items():
+        for owner in [owners] if isinstance(owners, str) else owners:
+            extra_aliases[owner].add(normalize_phrase(phrase))
 
     targets: list[Target] = []
     address_targets: dict[str, str] = {}

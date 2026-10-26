@@ -1,0 +1,132 @@
+{
+  "complete_snapshot": false,
+  "distinct_transfer_token_addresses": 15276,
+  "joins": {
+    "contracts_to_local_blocks": {
+      "matched": 10,
+      "missing": 3503,
+      "rows": 3513,
+      "timestamp_mismatches": 0
+    },
+    "transactions_to_blocks": {
+      "matched": 4431329,
+      "missing": 0,
+      "rows": 4431329,
+      "timestamp_mismatches": 0
+    },
+    "transfers_to_transactions": {
+      "matched": 4001230,
+      "missing": 0,
+      "rows": 4001230,
+      "timestamp_mismatches": 0
+    }
+  },
+  "joins_ok": true,
+  "mapping": {
+    "amended_tokens": "BigQuery amended_tokens supplement",
+    "blocks.base_fee_per_gas": "BigQuery blocks supplement",
+    "contracts.block_number/block_hash": "local block timestamp where present; supplement for historical blocks",
+    "token_transfers.block_hash": "transactions -> blocks.hash",
+    "token_transfers.block_number": "transactions.block_number joined by transaction_hash",
+    "transactions.block_hash": "blocks.hash joined by block_number",
+    "transactions.transaction_index/receipt_gas_used/receipt_contract_address": "BigQuery transactions supplement"
+  },
+  "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+  "source_files": [
+    {
+      "bytes": 37203055,
+      "columns": [
+        "number",
+        "hash",
+        "timestamp",
+        "miner",
+        "gas_used",
+        "gas_limit",
+        "transaction_count"
+      ],
+      "expected_bytes": 37203055,
+      "name": "blocks.csv",
+      "sha256": "85467aaba92e371187b8542f3fddf7077e44e79acb204526bdd9b9dd40cfee95",
+      "verified": true
+    },
+    {
+      "bytes": 287870,
+      "columns": [
+        "address",
+        "is_erc20",
+        "is_erc721",
+        "block_timestamp"
+      ],
+      "expected_bytes": 287870,
+      "name": "contracts.csv",
+      "sha256": "e111a53f1f91782ca1efb010d5f074d2299c5e5e2bf9861ef897bb1212479d1c",
+      "verified": true
+    },
+    {
+      "bytes": 960178,
+      "columns": [
+        "address",
+        "primary_label",
+        "owner",
+        "category",
+        "concept_class",
+        "aliases"
+      ],
+      "expected_bytes": 960178,
+      "name": "entities.csv",
+      "sha256": "e1c45803cf408226212c91e4fe69b41fe5d2ba9f90ce2ae2af2c0edbad6e41c5",
+      "verified": true
+    },
+    {
+      "bytes": 974736705,
+      "columns": [
+        "transaction_hash",
+        "from_address",
+        "to_address",
+        "value",
+        "token_address",
+        "block_timestamp",
+        "log_index"
+      ],
+      "expected_bytes": 974736705,
+      "name": "token_transfers.csv",
+      "sha256": "c4dc6772672b6dece0f0e5de3fbdf11c193f8038e530b29c28314a48dd38d97d",
+      "verified": true
+    },
+    {
+      "bytes": 979057090,
+      "columns": [
+        "hash",
+        "from_address",
+        "to_address",
+        "value",
+        "gas",
+        "gas_price",
+        "block_number",
+        "block_timestamp",
+        "transaction_type",
+        "receipt_status",
+        "tier"
+      ],
+      "expected_bytes": 979057090,
+      "name": "transactions.csv",
+      "sha256": "d7c324112c6d5f80b462e46d959f4282a4a9881c0ac07ba70b80ffec9cb4e597",
+      "verified": true
+    },
+    {
+      "bytes": 1152,
+      "expected_bytes": 1152,
+      "name": "manifest.json",
+      "sha256": "32059f6de2bfacd7c2136a078b723be13579226fa0f36aeb5aa8a5064696e8c3",
+      "verified": true
+    }
+  ],
+  "source_manifest_sha256": "c25c42d8e5ec38aa69da48269170d28d0a78564ab5cfa60b89b6ade5dd7455e9",
+  "supplements_required": [
+    "transactions",
+    "blocks",
+    "contracts",
+    "amended_tokens"
+  ],
+  "version": 1
+}

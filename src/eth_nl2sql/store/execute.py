@@ -52,6 +52,12 @@ class QueryResult:
 def to_duckdb(sql: str) -> tuple[str, list[tuple[str, list[exp.Expression]]]]:
     """Return DuckDB SQL plus every table-function call with its argument expressions."""
     tree = validate_sql(sql)
+    # Unparameterized GoogleSQL NUMERIC is precision 38, scale 9. DuckDB's
+    # bare DECIMAL defaults to (18,3), which overflows at a one-ETH wei literal
+    # and rounds sub-milliunit fractions. Preserve explicit precision/scale.
+    for data_type in list(tree.find_all(exp.DataType)):
+        if data_type.this == exp.DataType.Type.DECIMAL and not data_type.expressions:
+            data_type.replace(exp.DataType.build("DECIMAL(38, 9)", dialect="duckdb"))
     calls: list[tuple[str, list[exp.Expression]]] = []
     for table in list(tree.find_all(exp.Table)):
         name = relation_name(table)

@@ -1,0 +1,73 @@
+{
+  "dictionary_manifest_sha256": "c8b268c2f96282d506ed7712bae80bed040c75621b5f7c63e36e6c0d116c3c4d",
+  "files": {
+    "dev.jsonl": "8b7bd4355d8a75d078f4986a735f1c16596eb98156a3a6777bc512eccee42042",
+    "test.jsonl": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+    "train.jsonl": "927848a840b9d5503f147117b17afee5cfbb663092ab87589bd997868eb25e9f"
+  },
+  "generated": {
+    "dev": {
+      "families": 30,
+      "rows": 120,
+      "templates": [
+        "E_ACTIVE_ADDRESSES",
+        "E_CLASS_FROM",
+        "E_CLASS_PAIR",
+        "E_CLASS_TO",
+        "E_TOKEN_FROM",
+        "E_TOKEN_TO",
+        "E_TX_EITHER",
+        "E_TX_FROM",
+        "E_TX_PAIR",
+        "E_TX_TO"
+      ]
+    },
+    "train": {
+      "families": 317,
+      "rows": 1268,
+      "templates": [
+        "E_ACTIVE_ADDRESSES",
+        "E_CLASS_FROM",
+        "E_CLASS_PAIR",
+        "E_CLASS_TO",
+        "E_TOKEN_FROM",
+        "E_TOKEN_TO",
+        "E_TX_EITHER",
+        "E_TX_FROM",
+        "E_TX_PAIR",
+        "E_TX_TO"
+      ]
+    }
+  },
+  "minimum_dev_families_per_template": 1,
+  "removed_families_for_test_overlap": [],
+  "seed": 42,
+  "source": "t05:entity-templates-v1",
+  "split_unit": "canonical filled SQL (all aliases and styles together)",
+  "styles": [
+    "formal",
+    "conversational",
+    "abbreviated",
+    "alternative"
+  ],
+  "templates_sha256": "006460f6abdea688955da3b329d22c0c295c9e2a64626457037c1ba0425d649a",
+  "version": 1,
+  "windows_utc_half_open": [
+    [
+      "2026-06-02",
+      "2026-06-03"
+    ],
+    [
+      "2026-06-09",
+      "2026-06-11"
+    ],
+    [
+      "2026-06-16",
+      "2026-06-19"
+    ],
+    [
+      "2026-06-23",
+      "2026-06-27"
+    ]
+  ]
+}

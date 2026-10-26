@@ -1,0 +1,259 @@
+[
+  {
+    "expected_columns": [
+      "transaction_count",
+      "total_value_wei"
+    ],
+    "id": "E_TX_FROM",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, give the transaction count and total recorded value in wei for transactions sent by {entity}.",
+      "How many transactions were sent by {entity}, and what was their summed recorded value in wei? Use UTC [{start_date}, {end_date}).",
+      "{entity} sent transactions: count and total recorded wei; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, summarize transactions sent by all labeled addresses of {entity} with their count and recorded wei value."
+    ],
+    "semantics": "All labeled owner addresses; all receipt statuses; value is the transaction field, not settled balance change.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT COUNT(*) AS transaction_count, COALESCE(SUM(value_wei), 0) AS total_value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE from_owner = '{owner}'",
+    "target_kind": "owner"
+  },
+  {
+    "expected_columns": [
+      "transaction_count",
+      "total_value_wei"
+    ],
+    "id": "E_TX_TO",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, give the transaction count and total recorded value in wei for transactions received by {entity}.",
+      "How many transactions were received by {entity}, and what was their summed recorded value in wei? Use UTC [{start_date}, {end_date}).",
+      "{entity} received transactions: count and total recorded wei; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, summarize transactions received by all labeled addresses of {entity} with their count and recorded wei value."
+    ],
+    "semantics": "All labeled owner addresses; all receipt statuses; value is the transaction field, not settled balance change.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT COUNT(*) AS transaction_count, COALESCE(SUM(value_wei), 0) AS total_value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE to_owner = '{owner}'",
+    "target_kind": "owner"
+  },
+  {
+    "expected_columns": [
+      "transaction_hash",
+      "block_timestamp",
+      "from_address",
+      "to_address",
+      "value_wei"
+    ],
+    "id": "E_TX_EITHER",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, list the latest {n} transactions involving {entity} on either side.",
+      "Can you show the most recent {n} transactions with {entity} as sender or recipient? Use UTC [{start_date}, {end_date}).",
+      "{entity} either endpoint: latest {n} transaction rows; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, retrieve the {n} newest transactions in which an address labeled {entity} sent or received."
+    ],
+    "semantics": "OR on endpoints counts internal transactions once; hash breaks timestamp ties.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE from_owner = '{owner}' OR to_owner = '{owner}'\nORDER BY block_timestamp DESC, transaction_hash\nLIMIT {n}",
+    "target_kind": "owner"
+  },
+  {
+    "expected_columns": [
+      "transaction_hash",
+      "block_timestamp",
+      "value_wei"
+    ],
+    "id": "E_TX_PAIR",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, list the latest {n} transactions from {entity} to {entity_b}.",
+      "Show me the newest {n} transactions sent by {entity} and received by {entity_b}. Use UTC [{start_date}, {end_date}).",
+      "{entity} -> {entity_b}: {n} newest transaction hashes, timestamps and wei values; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, find up to {n} recent transactions with {entity} sending to {entity_b}."
+    ],
+    "semantics": "Directed owner pair, not an unordered relationship; no token-transfer inference.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT transaction_hash, block_timestamp, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE from_owner = '{owner}' AND to_owner = '{owner_b}'\nORDER BY block_timestamp DESC, transaction_hash\nLIMIT {n}",
+    "target_kind": "owner"
+  },
+  {
+    "expected_columns": [
+      "token_address",
+      "token_symbol",
+      "transfer_count"
+    ],
+    "id": "E_TOKEN_FROM",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, rank the top {n} token contracts by transfer-event count sent by {entity}.",
+      "Which {n} token addresses have the most transfer events sent by {entity}? Include symbols and event counts. Use UTC [{start_date}, {end_date}).",
+      "{entity} sent token events: top {n} contracts with symbols and counts; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, count token-transfer events sent by {entity} per token address and symbol, keeping the {n} largest counts."
+    ],
+    "semantics": "Transfer log endpoints, not outer transaction sender/recipient; count events, not transactions or token amounts.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT token_address, token_symbol, COUNT(*) AS transfer_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '{start_date}', DATE '{end_date}')\nWHERE from_owner = '{owner}'\nGROUP BY token_address, token_symbol\nORDER BY transfer_count DESC, token_address\nLIMIT {n}",
+    "target_kind": "owner"
+  },
+  {
+    "expected_columns": [
+      "token_address",
+      "token_symbol",
+      "transfer_count"
+    ],
+    "id": "E_TOKEN_TO",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, rank the top {n} token contracts by transfer-event count received by {entity}.",
+      "Which {n} token addresses have the most transfer events received by {entity}? Include symbols and event counts. Use UTC [{start_date}, {end_date}).",
+      "{entity} received token events: top {n} contracts with symbols and counts; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, count token-transfer events received by {entity} per token address and symbol, keeping the {n} largest counts."
+    ],
+    "semantics": "Transfer log endpoints, not outer transaction sender/recipient; count events, not transactions or token amounts.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT token_address, token_symbol, COUNT(*) AS transfer_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '{start_date}', DATE '{end_date}')\nWHERE to_owner = '{owner}'\nGROUP BY token_address, token_symbol\nORDER BY transfer_count DESC, token_address\nLIMIT {n}",
+    "target_kind": "owner"
+  },
+  {
+    "expected_columns": [
+      "owner",
+      "transaction_count"
+    ],
+    "id": "E_CLASS_FROM",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, rank {n} owners by transactions sent by all {category} addresses.",
+      "Among all {category} accounts, which {n} owners sent the most transactions? Use UTC [{start_date}, {end_date}).",
+      "All {category} addresses, transactions sent: {n} owners by count; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, group transactions sent by every labeled {category} account by owner, and show the top {n} owners."
+    ],
+    "semantics": "Category across all dictionary owners/roles; not one named owner or token contract.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT from_owner AS owner, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE from_category = '{category}'\nGROUP BY owner\nORDER BY transaction_count DESC, owner\nLIMIT {n}",
+    "target_kind": "category"
+  },
+  {
+    "expected_columns": [
+      "owner",
+      "transaction_count"
+    ],
+    "id": "E_CLASS_TO",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, rank {n} owners by transactions received by all {category} addresses.",
+      "Among all {category} accounts, which {n} owners received the most transactions? Use UTC [{start_date}, {end_date}).",
+      "All {category} addresses, transactions received: {n} owners by count; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, group transactions received by every labeled {category} account by owner, and show the top {n} owners."
+    ],
+    "semantics": "Category across all dictionary owners/roles; not one named owner or token contract.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT to_owner AS owner, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE to_category = '{category}'\nGROUP BY owner\nORDER BY transaction_count DESC, owner\nLIMIT {n}",
+    "target_kind": "category"
+  },
+  {
+    "expected_columns": [
+      "from_owner",
+      "to_owner",
+      "transaction_count"
+    ],
+    "id": "E_CLASS_PAIR",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, rank {n} directed owner pairs by transactions from all {category} accounts to all {category_b} accounts.",
+      "Which {n} owner pairs have the most transactions sent from any {category} address to any {category_b} address? Use UTC [{start_date}, {end_date}).",
+      "All {category} -> all {category_b}: top {n} owner pairs by transaction count; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, count directed transactions from every {category} account into every {category_b} account by sender and recipient owner, keeping {n} pairs."
+    ],
+    "semantics": "Both class constraints; grouping by directed pair; no inferred multi-hop path.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT from_owner, to_owner, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '{start_date}', DATE '{end_date}')\nWHERE from_category = '{category}' AND to_category = '{category_b}'\nGROUP BY from_owner, to_owner\nORDER BY transaction_count DESC, from_owner, to_owner\nLIMIT {n}",
+    "target_kind": "category"
+  },
+  {
+    "expected_columns": [
+      "address",
+      "transaction_count"
+    ],
+    "id": "E_ACTIVE_ADDRESSES",
+    "nl_seeds": [
+      "During [{start_date}, {end_date}) UTC, list every active labeled address of {entity} and its transaction count on either endpoint.",
+      "Which labeled {entity} addresses appear as sender or recipient? Give a transaction count per address. Use UTC [{start_date}, {end_date}).",
+      "{entity}: active labeled addresses with either-endpoint transaction counts; UTC [{start_date}, {end_date}).",
+      "For UTC dates starting {start_date} and ending before {end_date}, find all addresses owned by {entity} that appear in transactions and report the number of transactions involving each address."
+    ],
+    "semantics": "Per address: self-transfer once for that address; internal transfer once for each involved address. No LIMIT to hide a second address.",
+    "slots": [
+      "owner",
+      "owner_b",
+      "category",
+      "category_b",
+      "start_date",
+      "end_date",
+      "n"
+    ],
+    "sql_template": "SELECT labels.address, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels\nJOIN `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '{start_date}', DATE '{end_date}') AS tx\n  ON tx.from_address = labels.address OR tx.to_address = labels.address\nWHERE labels.owner = '{owner}'\nGROUP BY labels.address\nORDER BY transaction_count DESC, labels.address",
+    "target_kind": "owner"
+  }
+]

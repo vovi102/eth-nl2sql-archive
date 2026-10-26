@@ -276,12 +276,8 @@ def _quality_issues(report: dict, table: str, profile: dict) -> None:
         )
 
 
-def audit_import(directory: Path, *, progress: Callable[[str], None] | None = None) -> dict:
-    """Return integrity, full CSV profiles and store compatibility as separate results.
-
-    Missing/corrupt files fail before CSV profiling. Missing store columns and
-    sampled scope are reported explicitly, without pretending this is a full snapshot.
-    """
+def verify_import(directory: Path, *, progress: Callable[[str], None] | None = None) -> dict:
+    """Verify manifest/file integrity without rescanning CSV data quality."""
     directory = directory.resolve()
     report = {
         "version": 1,
@@ -324,6 +320,18 @@ def audit_import(directory: Path, *, progress: Callable[[str], None] | None = No
         _issue(report, "error", "source_manifest_mismatch", str(exc), "manifest.json")
         report["integrity_ok"] = False
         return report
+    report["passed"] = True
+    return report
+
+
+def audit_import(directory: Path, *, progress: Callable[[str], None] | None = None) -> dict:
+    """Return integrity, full CSV profiles and store compatibility separately."""
+    directory = directory.resolve()
+    report = verify_import(directory, progress=progress)
+    if not report["passed"]:
+        return report
+    manifest = json.loads((directory / "import-manifest.json").read_text())
+    source = json.loads((directory / "manifest.json").read_text())
     start, end = _period(manifest["data_period_from_source_manifest"])
     with TemporaryDirectory(prefix="eth-nl2sql-audit-") as temporary:
         con = duckdb.connect(

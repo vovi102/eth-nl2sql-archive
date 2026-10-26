@@ -14,6 +14,7 @@ import duckdb
 
 from eth_nl2sql.results import is_order_sensitive, results_equal, row_digests
 from eth_nl2sql.store.execute import ExecutionError, execute
+from eth_nl2sql.store.manifest import store_profile
 from eth_nl2sql.validation import ValidationError
 
 GATE = 0.95
@@ -21,6 +22,20 @@ GATE = 0.95
 
 def check(con: duckdb.DuckDBPyConnection, gold_path: Path, witness_path: Path) -> dict:
     gold_cases = json.loads(gold_path.read_text())
+    profile = store_profile(con)
+    if not profile.get("complete_snapshot"):
+        witnesses = json.loads(witness_path.read_text())
+        return {
+            "passed": False,
+            "skipped": True,
+            "gate": GATE,
+            "reason": "parity requires a complete snapshot; this store is sampled or unrecorded",
+            "store": profile,
+            "gold_exact": {"matched": 0, "total": len(gold_cases), "rate": None},
+            "witness_row_counts": {"matched": 0, "total": len(witnesses), "rate": None},
+            "gold_mismatches": [],
+            "witness_mismatches": [],
+        }
     mismatches = []
     gold_matches = 0
     for case in gold_cases:

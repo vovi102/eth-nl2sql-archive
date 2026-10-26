@@ -29,6 +29,23 @@ def test_half_open_window_and_multi_address_owner(store):
     assert run(store, sql) == [(Decimal(3 * ETH),)]
 
 
+def test_bigquery_numeric_wei_threshold_runs_on_nonempty_data(store):
+    sql = (
+        f"SELECT COUNT(*) AS n FROM `{P}.transaction_facts`"
+        "(DATE '2026-06-01', DATE '2026-06-08') "
+        "WHERE value_wei >= NUMERIC '1000000000000000000'"
+    )
+    assert run(store, sql) == [(2,)]
+
+
+def test_numeric_cast_retains_nine_fractional_digits(store):
+    sql = (
+        "SELECT CAST('1000000000000000000.000000001' AS NUMERIC) AS amount "
+        f"FROM `{P}.transaction_facts`(DATE '2026-06-01', DATE '2026-06-02')"
+    )
+    assert run(store, sql) == [(Decimal('1000000000000000000.000000001'),)]
+
+
 def test_labeled_transactions_expose_owner_columns(store):
     sql = (
         f"SELECT from_owner, to_owner, COUNT(*) AS n FROM `{P}.labeled_transactions`"

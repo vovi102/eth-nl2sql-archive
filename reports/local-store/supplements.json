@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "project": "nl2sparql-thesis",
+  "source_manifest_sha256": "c25c42d8e5ec38aa69da48269170d28d0a78564ab5cfa60b89b6ade5dd7455e9",
+  "files": {
+    "transactions": {
+      "path": "transactions.parquet",
+      "sha256": "0abbf9499efb6a5ef9d3c73d4e22104e74e216f88902adb976a963eb8fc09ccd",
+      "rows": 4431329,
+      "query_sha256": "cbfeb18e04ab37510a7c49dc7d18be3459a8eee7c1b9aaca3e7cc028a6498d58",
+      "sql": "SELECT `hash`, block_number, block_timestamp, block_hash, transaction_index, receipt_gas_used, receipt_contract_address FROM `bigquery-public-data.crypto_ethereum.transactions` WHERE block_timestamp >= TIMESTAMP('2026-05-31') AND block_timestamp < TIMESTAMP('2026-07-01') AND (lower(from_address) IN UNNEST(@labeled) OR lower(to_address) IN UNNEST(@labeled) OR MOD(ABS(FARM_FINGERPRINT(`hash`)), 100) = 0)",
+      "job_id": "626609e3-b6f3-42b4-b326-beec619efd7e",
+      "estimated_bytes": 16877195520,
+      "bytes_billed": 16877879296,
+      "retrieval": "bigquery_storage_existing_job"
+    },
+    "blocks": {
+      "path": "blocks.parquet",
+      "sha256": "54ee1615d21831f3987140d395c6f9f4a2055044c7507272b3c584415c759e82",
+      "rows": 222310,
+      "query_sha256": "3a2724f5d8b8583e4c74ec22e3219cd434125894e06f7b1995481e4adcd41c00",
+      "sql": "SELECT number, `hash`, base_fee_per_gas FROM `bigquery-public-data.crypto_ethereum.blocks` WHERE timestamp >= TIMESTAMP('2026-05-31') AND timestamp < TIMESTAMP('2026-07-01')",
+      "job_id": "6e4ca5d8-292f-4873-8c4b-ad44863fb4c6",
+      "estimated_bytes": 2313762620,
+      "bytes_billed": 22020096
+    },
+    "contracts": {
+      "path": "contracts.parquet",
+      "sha256": "231f2c1365caa9bfc6cabda544d9cbc6845600586052f6cbe97219f58ab0b062",
+      "rows": 16386,
+      "query_sha256": "7eab9ff2da25cc8a048a587687a3d726418346d441b74e70d0295ffd03f651a8",
+      "sql": "SELECT address, is_erc20, is_erc721, block_timestamp, block_number, block_hash FROM `bigquery-public-data.crypto_ethereum.contracts` WHERE block_timestamp < TIMESTAMP('2026-07-01') AND lower(address) IN UNNEST(@addresses)",
+      "job_id": "85db921d-1e39-4694-a5fb-c2b6d32a1643",
+      "estimated_bytes": 13320914360,
+      "bytes_billed": 13265534976
+    },
+    "amended_tokens": {
+      "path": "amended_tokens.parquet",
+      "sha256": "ef5f3ecd85eda9718e6a3d325886a898691cd69b73bd719fa70751325489bf76",
+      "rows": 2489651,
+      "query_sha256": "8def4e01f455c04411bf361b419cad8d5ffb71f3fdd326f7df1155c15d0af584",
+      "sql": "SELECT address, symbol, name, decimals FROM `bigquery-public-data.crypto_ethereum.amended_tokens`",
+      "job_id": "62c9795b-6475-47b9-9c69-6cd680d01f80",
+      "estimated_bytes": 188070477,
+      "bytes_billed": 188743680
+    }
+  },
+  "jobs": {
+    "contracts": {
+      "job_id": "85db921d-1e39-4694-a5fb-c2b6d32a1643",
+      "location": "US",
+      "query_sha256": "7eab9ff2da25cc8a048a587687a3d726418346d441b74e70d0295ffd03f651a8",
+      "bytes_billed": 13265534976
+    },
+    "amended_tokens": {
+      "job_id": "62c9795b-6475-47b9-9c69-6cd680d01f80",
+      "location": "US",
+      "query_sha256": "8def4e01f455c04411bf361b419cad8d5ffb71f3fdd326f7df1155c15d0af584",
+      "bytes_billed": 188743680
+    }
+  }
+}

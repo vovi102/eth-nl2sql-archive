@@ -1,0 +1,1671 @@
+{
+  "checks": [
+    {
+      "actual": 4431329,
+      "check": "transaction_facts_row_count",
+      "expected": 4431329,
+      "passed": true
+    },
+    {
+      "actual": 221548,
+      "check": "block_facts_row_count",
+      "expected": 221548,
+      "passed": true
+    },
+    {
+      "actual": 4001230,
+      "check": "token_transfer_facts_row_count",
+      "expected": 4001230,
+      "passed": true
+    },
+    {
+      "actual": 4431329,
+      "check": "labeled_transactions_row_count",
+      "expected": 4431329,
+      "passed": true
+    },
+    {
+      "actual": 4001230,
+      "check": "labeled_token_transfers_row_count",
+      "expected": 4001230,
+      "passed": true
+    },
+    {
+      "actual": 20,
+      "check": "sql_alias_tc",
+      "expected": 20,
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "check": "sql_alias_torn",
+      "expected": 1,
+      "passed": true
+    },
+    {
+      "actual": 50,
+      "check": "sql_alias_binance",
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "check": "loaded_dictionary_hash",
+      "passed": true
+    },
+    {
+      "actual": 285290,
+      "check": "coverage_matches_managed_Binance",
+      "expected": 285290,
+      "passed": true
+    },
+    {
+      "actual": 83,
+      "check": "coverage_matches_managed_Tornado Cash",
+      "expected": 83,
+      "passed": true
+    },
+    {
+      "actual": 4835,
+      "check": "coverage_matches_managed_Uniswap V2",
+      "expected": 4835,
+      "passed": true
+    },
+    {
+      "actual": 2513,
+      "check": "coverage_matches_managed_Uniswap V3",
+      "expected": 2513,
+      "passed": true
+    },
+    {
+      "actual": 1285,
+      "check": "coverage_matches_managed_Uniswap V4",
+      "expected": 1285,
+      "passed": true
+    },
+    {
+      "actual": 3910,
+      "check": "coverage_matches_managed_CoinEx",
+      "expected": 3910,
+      "passed": true
+    },
+    {
+      "actual": 7078,
+      "check": "coverage_matches_managed_SwissBorg",
+      "expected": 7078,
+      "passed": true
+    },
+    {
+      "check": "v1_unchanged_aliases.json",
+      "passed": true
+    },
+    {
+      "check": "v1_unchanged_concepts.json",
+      "passed": true
+    },
+    {
+      "check": "v1_unchanged_entities.json",
+      "passed": true
+    }
+  ],
+  "dictionary": {
+    "addresses": 6647,
+    "aliases": 8924,
+    "ambiguous_aliases": {
+      "aaave": [
+        "Aave AAVE",
+        "Aave v3 AAVE"
+      ],
+      "abal": [
+        "Aave BAL",
+        "Aave v3 BAL"
+      ],
+      "abat": [
+        "Aave BAT",
+        "Aave BAT v1"
+      ],
+      "abe": [
+        "Abe",
+        "Aboard"
+      ],
+      "abt": [
+        "Abbott Laboratories (Dinari Tokenized Stock)",
+        "Arcblock"
+      ],
+      "abusd": [
+        "Aave BUSD",
+        "Aave BUSD v1"
+      ],
+      "acrv": [
+        "Aave CRV",
+        "Aave v3 CRV"
+      ],
+      "adai": [
+        "Aave DAI",
+        "Aave DAI v1",
+        "Aave v3 DAI"
+      ],
+      "aenj": [
+        "Aave ENJ",
+        "Aave ENJ v1"
+      ],
+      "aga": [
+        "AGA",
+        "AgoraHub"
+      ],
+      "agi": [
+        "Artificial General Intelligence",
+        "Delysium"
+      ],
+      "agix": [
+        "AGIX",
+        "SingularityNET"
+      ],
+      "ai": [
+        "AI PIN",
+        "Any Inu",
+        "Flourishing AI",
+        "Gensyn",
+        "Multiverse"
+      ],
+      "aib": [
+        "$AIBOT IYI",
+        "America is Back"
+      ],
+      "akita": [
+        "Akita",
+        "Akita Inu [OLD]"
+      ],
+      "aknc": [
+        "Aave KNC",
+        "Aave KNC v1",
+        "Aave v3 KNC"
+      ],
+      "alink": [
+        "Aave LINK",
+        "Aave LINK v1",
+        "Aave v3 LINK"
+      ],
+      "alusd": [
+        "Aave v3 LUSD",
+        "Alchemix USD"
+      ],
+      "amana": [
+        "Aave MANA",
+        "Aave MANA v1"
+      ],
+      "amc": [
+        "AMC",
+        "AMC ENTERTAINMENT HOLDINGS (Dinari Tokenized Stock)"
+      ],
+      "america": [
+        "America Party",
+        "America1776"
+      ],
+      "amkr": [
+        "Aave MKR",
+        "Aave MKR v1",
+        "Aave v3 MKR"
+      ],
+      "andy": [
+        "ANDY ETH",
+        "Andy on ETH",
+        "aNDY"
+      ],
+      "ape": [
+        "Ape",
+        "ApeCoin"
+      ],
+      "arc": [
+        "ARC",
+        "Archly Finance"
+      ],
+      "aren": [
+        "Aave REN",
+        "Aave REN v1"
+      ],
+      "arm-usdc": [
+        "USDC ARM LP Token",
+        "USDC ARM LP Token [OLD]"
+      ],
+      "asnx": [
+        "Aave SNX",
+        "Aave SNX v1",
+        "Aave v3 SNX"
+      ],
+      "asteroid": [
+        "Asteroid",
+        "Asteroid Shiba"
+      ],
+      "astra": [
+        "Astra Protocol",
+        "AstraAI"
+      ],
+      "asusd": [
+        "Aave SUSD",
+        "Aave SUSD v1"
+      ],
+      "ath": [
+        "Aethir",
+        "AthenaDAO"
+      ],
+      "atusd": [
+        "Aave TUSD",
+        "Aave TUSD v1"
+      ],
+      "auc": [
+        "Advanced United Continent",
+        "Auctus"
+      ],
+      "auni": [
+        "Aave UNI",
+        "Aave v3 UNI"
+      ],
+      "ausdc": [
+        "Aave v1 USDC",
+        "Aave v2 USDC",
+        "Aave v3 USDC",
+        "Alpha USDC Vault"
+      ],
+      "ausdt": [
+        "Aave USDT",
+        "Aave USDT v1",
+        "Aave v3 USDT",
+        "Alloy Tether"
+      ],
+      "auto": [
+        "Auto Finance",
+        "Hastra AUTO"
+      ],
+      "awbtc": [
+        "Aave WBTC",
+        "Aave WBTC v1",
+        "Aave v3 WBTC"
+      ],
+      "aweth": [
+        "Aave WETH",
+        "Aave v3 WETH",
+        "Alpha WETH Vault"
+      ],
+      "axgt": [
+        "AxonDAO Governance Token",
+        "AxonDAO Governance Token [OLD]"
+      ],
+      "azrx": [
+        "Aave ZRX",
+        "Aave ZRX v1"
+      ],
+      "babyneiro": [
+        "Baby Neiro",
+        "Baby Neiro Token"
+      ],
+      "babypepe": [
+        "Baby Pepe",
+        "BabyPepe"
+      ],
+      "bac": [
+        "Bank of America (Dinari Tokenized Stock)",
+        "Basis Cash"
+      ],
+      "bag": [
+        "Bag",
+        "tehBag"
+      ],
+      "banana": [
+        "ApeSwap",
+        "Banana",
+        "Banana Gun"
+      ],
+      "bank": [
+        "Bankless DAO",
+        "Float Protocol"
+      ],
+      "base": [
+        "Base Protocol",
+        "Maximus BASE"
+      ],
+      "bb": [
+        "BookieBot",
+        "BounceBit"
+      ],
+      "bc": [
+        "Blood Crystal",
+        "Old Bitcoin"
+      ],
+      "beam": [
+        "BEAM",
+        "Beam"
+      ],
+      "berry": [
+        "Rentberry",
+        "Strawberry AI",
+        "Strawberry In Bloom"
+      ],
+      "biao": [
+        "Biaocoin",
+        "Biaoqing"
+      ],
+      "bifi": [
+        "Beefy",
+        "BiFi"
+      ],
+      "big": [
+        "BIG Indie Games",
+        "Big Eyes"
+      ],
+      "birddog": [
+        "Bird Dog",
+        "Birddog"
+      ],
+      "bitmex": [
+        "BitMEX",
+        "Bitmex"
+      ],
+      "blast": [
+        "Blast Inu",
+        "SafeBlast"
+      ],
+      "blepe": [
+        "Blepe",
+        "Blepe the Blue"
+      ],
+      "bmx": [
+        "BitMart",
+        "Boardwalk [OLD]"
+      ],
+      "bnb": [
+        "BNB",
+        "Binance Coin (Wormhole)"
+      ],
+      "bnpl": [
+        "BNPL Pay",
+        "BNPL Pay [OLD]"
+      ],
+      "bob": [
+        "BOB",
+        "BOB (Build on Bitcoin)",
+        "BOB Token"
+      ],
+      "boba": [
+        "Boba Cat",
+        "Boba Network"
+      ],
+      "bobo": [
+        "BOBO [OLD]",
+        "Bobo"
+      ],
+      "bog": [
+        "Bog",
+        "Bogdanoff"
+      ],
+      "bone": [
+        "Bone ShibaSwap",
+        "FLEABONE"
+      ],
+      "bonk": [
+        "BONK on ETH",
+        "Bonk"
+      ],
+      "boo": [
+        "BOO",
+        "SpookySwap [Old]"
+      ],
+      "boysclub": [
+        "BoysClub",
+        "Matt Furie's Boys Club"
+      ],
+      "brett": [
+        "Brett",
+        "Brett (ETH)",
+        "Brett ETH",
+        "Bretter Brett"
+      ],
+      "brrr": [
+        "Brrr de Money",
+        "Coinshares Bitcoin ETF Common of Beneficial Interest (Dinari"
+      ],
+      "bso": [
+        "Bitsocial",
+        "Bitsocial [OLD]"
+      ],
+      "btr": [
+        "Bitlayer",
+        "Bitrue Coin"
+      ],
+      "cat": [
+        "Catcoin (ETH)",
+        "Caterpillar (Dinari Tokenized Stock)",
+        "Mooncat CAT"
+      ],
+      "chad": [
+        "Based Chad",
+        "Chad Coin"
+      ],
+      "closedai": [
+        "ClosedAI",
+        "Super Closed Source"
+      ],
+      "cook": [
+        "Cook",
+        "mETH Protocol"
+      ],
+      "cot": [
+        "CoTrader",
+        "Cosplay Token"
+      ],
+      "crypto": [
+        "BetbuInu",
+        "Cryptocurrency Coin"
+      ],
+      "cswap": [
+        "ChainSwap",
+        "CrossSwap"
+      ],
+      "cult": [
+        "Cult DAO",
+        "Milady Cult Coin"
+      ],
+      "cvx": [
+        "Chevron Corp (Dinari Tokenized Stock)",
+        "Convex Finance"
+      ],
+      "cyc": [
+        "Cycle Network",
+        "Cyclone Protocol"
+      ],
+      "cyph": [
+        "Cypher",
+        "Cypherpunk Technologies (Dinari Tokenized Stock)"
+      ],
+      "dam": [
+        "Datamine",
+        "Reservoir"
+      ],
+      "data": [
+        "Databot",
+        "Streamr"
+      ],
+      "dawae": [
+        "DaWae",
+        "Dawae"
+      ],
+      "defi": [
+        "DeFi",
+        "Hashdex Commodities Trust (Dinari Tokenized ETF)"
+      ],
+      "degen": [
+        "Degen",
+        "Degen Arena",
+        "DegensTogether"
+      ],
+      "dfx": [
+        "CoinDesk DeFi Select Index",
+        "DFX Finance"
+      ],
+      "dg": [
+        "DeGate",
+        "Decentral Games"
+      ],
+      "dia": [
+        "DIA",
+        "State Street SPDR Dow Jones Industrial Average ETF Trust (Di"
+      ],
+      "dna": [
+        "DNA",
+        "EncrypGen",
+        "Muhdo Hub"
+      ],
+      "dog": [
+        "LEDOG (DOG)",
+        "Own The Doge"
+      ],
+      "dogc": [
+        "DOGC",
+        "DogeClub"
+      ],
+      "doge-1": [
+        "DOGE-1",
+        "Satellite Doge-1 Mission"
+      ],
+      "dogenarii": [
+        "Dogenarii",
+        "Dogenarii coin"
+      ],
+      "doggo": [
+        "Doggo",
+        "Doggo Inu"
+      ],
+      "dogs": [
+        "Doggensnout Skeptic",
+        "We Love Dogs"
+      ],
+      "dojo": [
+        "DOJO",
+        "Project Dojo"
+      ],
+      "dope": [
+        "Decentralization obligatory, practicality essential",
+        "Department Of Propaganda Everywhere"
+      ],
+      "dusd": [
+        "Alto DUSD",
+        "Dialectic USD Vault",
+        "dTRINITY USD"
+      ],
+      "ebtc": [
+        "Ether.fi Staked BTC",
+        "eBTC"
+      ],
+      "eden": [
+        "EDEN",
+        "OpenEden"
+      ],
+      "edge": [
+        "Edge",
+        "edgeX"
+      ],
+      "edoge": [
+        "EtherDoge",
+        "Ethereum Doge"
+      ],
+      "egg": [
+        "Nestree",
+        "Waves Ducks"
+      ],
+      "elon": [
+        "Dogelon Mars",
+        "Eloncoin"
+      ],
+      "ern": [
+        "Ethernity Chain",
+        "Ethos Reserve Note"
+      ],
+      "ess": [
+        "Earth 2 Essence",
+        "Essentia"
+      ],
+      "estee": [
+        "Estee",
+        "Kaga No Fuuka Go Sapporo Kagasou"
+      ],
+      "ethereum": [
+        "HarryPotterTrumpHomerSimpson777Inu",
+        "Ketaicoin",
+        "VoldemortTrumpRobotnik-10Neko"
+      ],
+      "eure": [
+        "Monerium EUR emoney",
+        "Monerium EUR emoney [OLD]"
+      ],
+      "eusd": [
+        "Electronic USD",
+        "eUSD",
+        "eUSD (OLD)"
+      ],
+      "eye": [
+        "Behodler",
+        "Eyeverse"
+      ],
+      "f": [
+        "Ford Motor (Dinari Tokenized Stock)",
+        "SynFutures"
+      ],
+      "fbtc": [
+        "Fidelity Wise Origin Bitcoin Fund (Dinari Tokenized ETF)",
+        "Function FBTC"
+      ],
+      "fdai": [
+        "Fluid DAI",
+        "Flux DAI"
+      ],
+      "fine": [
+        "FINE",
+        "This Is Fine - Ethereum"
+      ],
+      "fis": [
+        "Fidelity National Information Services (Dinari Tokenized Sto",
+        "Stafi"
+      ],
+      "flip": [
+        "Chainflip",
+        "Flip the Frog"
+      ],
+      "flx": [
+        "Flux Protocol",
+        "Reflexer Ungovernance"
+      ],
+      "fofar": [
+        "Fofar",
+        "Fofar0x71"
+      ],
+      "fold": [
+        "Manifold Finance",
+        "The Interfold"
+      ],
+      "four": [
+        "4th Pillar FOUR",
+        "FourCoin"
+      ],
+      "fox": [
+        "Metafox",
+        "ShapeShift FOX"
+      ],
+      "frax": [
+        "Frax (prev. FXS)",
+        "Legacy Frax Dollar"
+      ],
+      "free": [
+        "FREEdom coin",
+        "FreeRossDAO"
+      ],
+      "frog": [
+        "Beer Frog",
+        "Frog on ETH"
+      ],
+      "ftusd": [
+        "Fluid TUSD",
+        "Flying Tulip USD"
+      ],
+      "ftx": [
+        "FTX",
+        "FintruX",
+        "HairyPlotterFTX"
+      ],
+      "fuel": [
+        "Fuel",
+        "Fuel Network"
+      ],
+      "fuku": [
+        "FUKU",
+        "Fuku-Kun"
+      ],
+      "game": [
+        "GameBuild",
+        "Gamestarter"
+      ],
+      "gate": [
+        "GATENet",
+        "Gate"
+      ],
+      "gbtc": [
+        "GBTC6900",
+        "Grayscale Bitcoin Trust ETF (Dinari Tokenized ETF)",
+        "Green Bitcoin"
+      ],
+      "gdt": [
+        "Globe Derivative Exchange",
+        "Gradient Protocol"
+      ],
+      "geth": [
+        "Goerli ETH",
+        "Guarded Ether"
+      ],
+      "ginnan": [
+        "Ginnan",
+        "Ginnan Doge's Brother"
+      ],
+      "gme": [
+        "DumbMoney",
+        "GME (Ethereum)",
+        "GameStop (Dinari Tokenized Stock)"
+      ],
+      "goat": [
+        "Goat Trading",
+        "Goatseus Maximus"
+      ],
+      "gof": [
+        "Get Out Frog",
+        "Golff"
+      ],
+      "gold": [
+        "Gold",
+        "GoldenBoys"
+      ],
+      "gpu": [
+        "GPUnet",
+        "NodeAI"
+      ],
+      "grok": [
+        "First GROK AI",
+        "Grok",
+        "My life as Grok"
+      ],
+      "grow": [
+        "Grow",
+        "ValleyDAO"
+      ],
+      "gs": [
+        "GammaSwap",
+        "Genesis Shards",
+        "Goldman Sachs Group (Dinari Tokenized Stock)"
+      ],
+      "gtc": [
+        "Gitcoin",
+        "Global Trust Coin"
+      ],
+      "guru": [
+        "Guru",
+        "Guru Network"
+      ],
+      "gusd": [
+        "Gemini Dollar",
+        "Generic USD"
+      ],
+      "hachi": [
+        "Hachi",
+        "Hachiko Inu"
+      ],
+      "hai": [
+        "Hacken",
+        "HapticAI"
+      ],
+      "harambe": [
+        "CTO Harambe",
+        "Harambe"
+      ],
+      "hlx": [
+        "HELIOS",
+        "Helix AI"
+      ],
+      "hobbes": [
+        "Hobbes",
+        "Hobbes [OLD]"
+      ],
+      "hold": [
+        "Everybody",
+        "HOLD"
+      ],
+      "honk": [
+        "Clown Pepe",
+        "Pepoclown"
+      ],
+      "hoppy": [
+        "Hoppy",
+        "Hoppy The Frog",
+        "Hoppy Token"
+      ],
+      "htx": [
+        "HTX",
+        "HTX DAO"
+      ],
+      "huobi": [
+        "HTX",
+        "Huobi"
+      ],
+      "hydra": [
+        "HYDRA",
+        "HydraDAO"
+      ],
+      "hyper": [
+        "Hyper",
+        "Hyperlane"
+      ],
+      "ichi": [
+        "ICHI",
+        "Legacy ICHI"
+      ],
+      "id": [
+        "Everest",
+        "SPACE ID"
+      ],
+      "int": [
+        "InteNet",
+        "Intrepid Token"
+      ],
+      "inu": [
+        "Inu Token",
+        "Inu."
+      ],
+      "inx": [
+        "Infinex",
+        "InsightX"
+      ],
+      "ishi": [
+        "Ishi",
+        "Ishi Go"
+      ],
+      "iusd": [
+        "InfiniFi USD",
+        "iZUMi Bond USD"
+      ],
+      "jaaa": [
+        "Janus Henderson AAA CLO ETF (Dinari Tokenized ETF)",
+        "Janus Henderson Anemoy AAA CLO Fund"
+      ],
+      "jpyc": [
+        "JPY Coin",
+        "JPY Coin v1"
+      ],
+      "kabosu": [
+        "Kabosu",
+        "Kabosu Inu"
+      ],
+      "kai": [
+        "Kai Ken",
+        "Komputai"
+      ],
+      "keep": [
+        "Keep Finance",
+        "Keep Network"
+      ],
+      "kek": [
+        "KEK",
+        "Kek",
+        "Kekcoin (ETH)",
+        "Kekistan",
+        "Pepe Prophet"
+      ],
+      "ken": [
+        "Ken",
+        "Kohenoor"
+      ],
+      "kimchi": [
+        "KIMCHI.finance",
+        "Kimchi",
+        "Kimchi Coin"
+      ],
+      "king": [
+        "KING Coin",
+        "King Protocol"
+      ],
+      "la": [
+        "LA",
+        "Lagrange"
+      ],
+      "laika": [
+        "Laika",
+        "Laïka"
+      ],
+      "lake": [
+        "Data Lake",
+        "LAKE"
+      ],
+      "landwolf": [
+        "LandWolf",
+        "Landwolf"
+      ],
+      "lends": [
+        "Aktionariat Switzerlend AG Shares",
+        "Lends"
+      ],
+      "lion": [
+        "King Of Meme",
+        "Li Auto (Ondo Tokenized)"
+      ],
+      "lit": [
+        "LIT",
+        "Lighter",
+        "Litentry",
+        "Timeless"
+      ],
+      "liusd": [
+        "infiniFi Locked iUSD (2week)",
+        "infiniFi Locked iUSD (4week)",
+        "infiniFi Locked iUSD (8week)"
+      ],
+      "lunc": [
+        "Terra Classic (Wormhole)",
+        "Wrapped LUNC"
+      ],
+      "lusd": [
+        "LUSD",
+        "Liquity USD"
+      ],
+      "machina": [
+        "Church of the Machina",
+        "Machina"
+      ],
+      "mag": [
+        "Magnify Cash",
+        "Magnum"
+      ],
+      "maga": [
+        "MAGA",
+        "MAGA Coin ETH",
+        "MAGA Hat"
+      ],
+      "manyu": [
+        "LilManyu",
+        "Manyu"
+      ],
+      "mars": [
+        "GATEWAY TO MARS",
+        "MARS",
+        "Mars"
+      ],
+      "marvin": [
+        "Marvin Inu",
+        "Marvin The Robot",
+        "The Martian Dog"
+      ],
+      "matrix": [
+        "MATRIX",
+        "Matrix.Win"
+      ],
+      "max": [
+        "MAX",
+        "Mastercard xStock",
+        "Matr1x"
+      ],
+      "mbtc": [
+        "MAGA Bitcoin",
+        "Midas mBTC"
+      ],
+      "meow": [
+        "MEOW",
+        "Meow Meow Coin",
+        "Schrodinger"
+      ],
+      "meta": [
+        "Meta Platforms (Dinari Tokenized Stock)",
+        "Metadium"
+      ],
+      "mind": [
+        "Mind",
+        "Mind of Pepe"
+      ],
+      "mirai": [
+        "MIRAI",
+        "Mirai The WhiteRabbit"
+      ],
+      "mk": [
+        "Meme Kombat",
+        "Memelinked"
+      ],
+      "moaner": [
+        "Moaner Melter Slime",
+        "Moaner by Matt Furie"
+      ],
+      "moca": [
+        "Moca Network",
+        "Museum of Crypto Art"
+      ],
+      "moon": [
+        "Black Unicorn Corp.",
+        "r/CryptoCurrency Moons"
+      ],
+      "morpho": [
+        "Legacy Morpho",
+        "Morpho Token"
+      ],
+      "mph": [
+        "88mph",
+        "Morpher"
+      ],
+      "mstr": [
+        "MSTR2100",
+        "Strategy (Dinari Tokenized Stock)"
+      ],
+      "msusd": [
+        "Main Street USD",
+        "Metronome Synth USD"
+      ],
+      "musd": [
+        "MetaMask USD",
+        "Mezo USD",
+        "mStable USD"
+      ],
+      "mystery": [
+        "MYSTERY",
+        "Mystery"
+      ],
+      "naka": [
+        "Naka Go",
+        "Nakamoto (Dinari Tokenized Stock)"
+      ],
+      "navi": [
+        "Atlas Navi",
+        "Navigator by MetaWin"
+      ],
+      "nbtc": [
+        "Nest BTC Vault",
+        "NexusBTC"
+      ],
+      "ncash": [
+        "Nucleus Vision",
+        "Nutcash"
+      ],
+      "nex": [
+        "NEXUS",
+        "Nash",
+        "NexAI",
+        "Nexora",
+        "Nexus"
+      ],
+      "nexo": [
+        "NEXO",
+        "Nexo"
+      ],
+      "nexus": [
+        "NEXUS",
+        "Nexus"
+      ],
+      "nft": [
+        "AINFT",
+        "NFT Protocol"
+      ],
+      "nftl": [
+        "NFTLaunch",
+        "Nifty League"
+      ],
+      "nina": [
+        "Nina",
+        "NinaPumps"
+      ],
+      "nuts": [
+        "Squirrel Wallet",
+        "Thetanuts Finance"
+      ],
+      "oct": [
+        "Octra",
+        "Omnity Convertible Token"
+      ],
+      "ohm": [
+        "Olympus",
+        "Olympus v1"
+      ],
+      "open": [
+        "Open Stablecoin Index",
+        "OpenLedger",
+        "Opendoor Technologies (Dinari Tokenized Stock)"
+      ],
+      "openx": [
+        "OPEN xStock",
+        "OpenSwap.One"
+      ],
+      "opn": [
+        "OPEN Ticketing Ecosystem",
+        "Opinion"
+      ],
+      "order": [
+        "ORDER",
+        "Orderly"
+      ],
+      "orion": [
+        "Orion",
+        "Orion Money"
+      ],
+      "pancakeswap": [
+        "PancakeSwap",
+        "PancakeSwap AMM"
+      ],
+      "par": [
+        "Parachute",
+        "Parallel"
+      ],
+      "paw": [
+        "PAW",
+        "PAWZONE"
+      ],
+      "peanut": [
+        "Peanut",
+        "Peanut [OLD]"
+      ],
+      "pepe": [
+        "El Sapo Pepe",
+        "Pepe",
+        "Pepe Community",
+        "Pepe King Prawn",
+        "The Original Pepe"
+      ],
+      "pepu": [
+        "Pepe Unchained",
+        "Pepe Unchained [OLD]"
+      ],
+      "pickle": [
+        "Pickle",
+        "Pickle Finance"
+      ],
+      "pika": [
+        "Pika",
+        "Pikaboss"
+      ],
+      "pirate": [
+        "Pirate Nation Token",
+        "PirateCash"
+      ],
+      "pleb": [
+        "PLEB Token",
+        "Plebz"
+      ],
+      "plx": [
+        "Planet Labs xStock",
+        "Pullix"
+      ],
+      "pmx": [
+        "Philip Morris xStock",
+        "Primex Finance"
+      ],
+      "pochita": [
+        "Pochita",
+        "Pochita on Ethereum"
+      ],
+      "power": [
+        "Power Protocol",
+        "Power by M0 Token",
+        "Powerloom"
+      ],
+      "prism": [
+        "Portfolio of Risk-adjusted Investment Strategy Mix",
+        "Prism"
+      ],
+      "pro": [
+        "Prodigy Bot",
+        "Propy"
+      ],
+      "pros": [
+        "Prospective",
+        "Prosper",
+        "Prosper [OLD]"
+      ],
+      "punk": [
+        "Punk Vault (NFTX)",
+        "PunkCity"
+      ],
+      "pusd": [
+        "Palm USD",
+        "Plume USD"
+      ],
+      "qs": [
+        "Quantumscape (Dinari Tokenized Stock)",
+        "Quick Sync"
+      ],
+      "quick": [
+        "Quickswap",
+        "Quickswap [OLD]"
+      ],
+      "radar": [
+        "DappRadar",
+        "Radar"
+      ],
+      "rai": [
+        "Rai Reflex Index",
+        "Reploy"
+      ],
+      "rain": [
+        "Precipitate.ai",
+        "Rain Coin",
+        "Rainmaker Games"
+      ],
+      "rally": [
+        "RALLY",
+        "Rally"
+      ],
+      "red": [
+        "RED TOKEN",
+        "RedStone"
+      ],
+      "reusd": [
+        "Re Protocol reUSD",
+        "Resupply USD"
+      ],
+      "ring": [
+        "Ring AI",
+        "RingDAO"
+      ],
+      "rizo": [
+        "Haha Yes Hedgehog",
+        "Rizo"
+      ],
+      "route": [
+        "Router Protocol",
+        "Router Protocol [OLD]"
+      ],
+      "rusd": [
+        "Reservoir rUSD",
+        "Royal Dollar",
+        "f(x) rUSD"
+      ],
+      "sai": [
+        "Sai",
+        "Sharpe AI"
+      ],
+      "sata": [
+        "Signata",
+        "Strive Series A Preferred (Dinari Tokenized Stock)"
+      ],
+      "sbet": [
+        "SharpLink Gaming, Inc.",
+        "Sharplink (Dinari Tokenized Stock)",
+        "Sports Bet"
+      ],
+      "sdusd": [
+        "Davos Protocol Staked DUSD",
+        "dTRINITY Staked dUSD"
+      ],
+      "sfi": [
+        "Singularity Finance",
+        "saffron.finance"
+      ],
+      "shi": [
+        "Shina Inu",
+        "Shirtum"
+      ],
+      "shib": [
+        "NicCageWaluigiElmo42069Inu",
+        "Shiba Inu",
+        "Strategic Hub for Innovation in Blockchain"
+      ],
+      "shiro": [
+        "Shiro Neko",
+        "Shiro Neko CTO"
+      ],
+      "sierra": [
+        "Sierra",
+        "Sierra [OLD]"
+      ],
+      "sigma": [
+        "SIGMA",
+        "cSigma Finance"
+      ],
+      "silo": [
+        "Silo Finance",
+        "Silo Finance [OLD]"
+      ],
+      "skull": [
+        "WOLF SKULL",
+        "Wolf Skull"
+      ],
+      "snap": [
+        "Snap (Dinari Tokenized Stock)",
+        "Snap: first space coin"
+      ],
+      "snc": [
+        "Scandic Coin",
+        "SunContract"
+      ],
+      "snow": [
+        "Snowflake (Dinari Tokenized Stock)",
+        "Snowswap"
+      ],
+      "solv": [
+        "Solv Protocol",
+        "Solv Token"
+      ],
+      "soph": [
+        "SophiaVerse",
+        "Sophon"
+      ],
+      "sora": [
+        "Sora",
+        "Sora AI"
+      ],
+      "space": [
+        "Space Token",
+        "Spacecoin",
+        "Spacelens"
+      ],
+      "spcx": [
+        "SPACEX4200",
+        "Space Exploration Technologies (Dinari Tokenized Stock)"
+      ],
+      "spectre": [
+        "Spectre",
+        "Spectre AI"
+      ],
+      "speth": [
+        "Spark Savings ETH",
+        "Spectrum ETH"
+      ],
+      "spot": [
+        "Defispot",
+        "Spot",
+        "Spotify Technology (Dinari Tokenized Stock)"
+      ],
+      "spurdo": [
+        "SPURDO",
+        "SPURDO ON ETH",
+        "Spurdo"
+      ],
+      "stars": [
+        "Mogul Productions [OLD]",
+        "STARS"
+      ],
+      "steaketh": [
+        "Steakhouse ETH Morpho Vault",
+        "Steakhouse WETH V2"
+      ],
+      "steakpyusd": [
+        "Steakhouse PYUSD Morpho Vault",
+        "Steakhouse PYUSD V2"
+      ],
+      "steakusdc": [
+        "Steakhouse USDC Morpho Vault",
+        "Steakhouse USDC V2"
+      ],
+      "steakusdt": [
+        "Steakhouse USDT Morpho Vault",
+        "Steakhouse USDT V2"
+      ],
+      "sthusd": [
+        "Staked Tharwa USD",
+        "Staked thUSD"
+      ],
+      "strk": [
+        "Starknet",
+        "Strategy Strike Preferred (Dinari Tokenized Stock)"
+      ],
+      "stt": [
+        "SilverTimes Token",
+        "State Street (Dinari Tokenized Stock)"
+      ],
+      "su": [
+        "Sanity United",
+        "Smol Su"
+      ],
+      "tap": [
+        "Tap Protocol",
+        "The America Party"
+      ],
+      "tarot": [
+        "Tarot",
+        "Tarot V1"
+      ],
+      "ten": [
+        "TEN",
+        "Tokenomy"
+      ],
+      "thusd": [
+        "Tharwa USD",
+        "Theo USD",
+        "Threshold USD"
+      ],
+      "time": [
+        "Time Alliance Guild Time",
+        "chrono.tech"
+      ],
+      "tkn": [
+        "Monolith",
+        "Token Name Service"
+      ],
+      "ton": [
+        "AT&T (Ondo Tokenized Stock)",
+        "TON Community",
+        "Tokamak Network"
+      ],
+      "toto": [
+        "TOTO",
+        "Toto Finance"
+      ],
+      "trade": [
+        "Polytrade",
+        "Unitrade"
+      ],
+      "treat": [
+        "Shiba Inu Treat",
+        "Treat Token"
+      ],
+      "tree": [
+        "Tree",
+        "Treehouse"
+      ],
+      "tru": [
+        "TrueFi",
+        "Truebit Protocol"
+      ],
+      "truth": [
+        "Truth",
+        "TruthGPT"
+      ],
+      "tsla": [
+        "TSLA6900",
+        "Tesla (Dinari Tokenized Stock)"
+      ],
+      "turbo": [
+        "TURBO.WIN",
+        "Turbo"
+      ],
+      "u": [
+        "Union",
+        "United Stables"
+      ],
+      "ufo": [
+        "Procure ETF Trust II Procure Space ETF (Dinari Tokenized ETF",
+        "UFO Gaming"
+      ],
+      "uni": [
+        "UNICORN",
+        "Uniswap Token"
+      ],
+      "uniswap": [
+        "Uniswap V2",
+        "Uniswap V3",
+        "Uniswap V4"
+      ],
+      "uno": [
+        "Lunos",
+        "Uno"
+      ],
+      "up": [
+        "Superform",
+        "Unitas"
+      ],
+      "usde": [
+        "Ethena USDe",
+        "Ethereum Reserve Dollar USDE"
+      ],
+      "usdf": [
+        "Falcon USD",
+        "USDF - Global Fund Dollar"
+      ],
+      "usdfi": [
+        "DeFi Dollar",
+        "USDFI"
+      ],
+      "usdm": [
+        "MegaUSD",
+        "Mountain Protocol USD",
+        "USD Mapped Token"
+      ],
+      "usdp": [
+        "Parallel USDp",
+        "Pax Dollar"
+      ],
+      "usdr": [
+        "Ring USD",
+        "StablR USD"
+      ],
+      "usdx": [
+        "Hex Trust USD",
+        "Stables Labs USDX"
+      ],
+      "usp": [
+        "Pareto USP",
+        "USP Yield Optimized Stablecoin"
+      ],
+      "valentine": [
+        "Valentine",
+        "Valentine Michael Smith"
+      ],
+      "veth": [
+        "Bifrost Voucher ETH",
+        "Vector ETH"
+      ],
+      "vision": [
+        "APY.vision",
+        "OpenVision",
+        "Vision"
+      ],
+      "vita": [
+        "Vita.fun",
+        "VitaDAO"
+      ],
+      "volt": [
+        "VOLT.WIN",
+        "Volt Inu"
+      ],
+      "wagmi": [
+        "WAGMI",
+        "WAGMICOIN",
+        "Wagmi",
+        "Wagmi Coin"
+      ],
+      "white": [
+        "WhiteRock",
+        "Whiteheart"
+      ],
+      "wmtx": [
+        "Walmart xStock",
+        "World Mobile Token"
+      ],
+      "wojak": [
+        "Wojak Coin",
+        "wojak"
+      ],
+      "wolf": [
+        "LandWolf",
+        "Landwolf",
+        "Wolfenstein"
+      ],
+      "wolf skull": [
+        "WOLF SKULL",
+        "Wolf Skull"
+      ],
+      "wsb": [
+        "WSB Coin",
+        "Wall Street Baby",
+        "WallStreetBets DApp"
+      ],
+      "wxrp": [
+        "Hex Trust Wrapped XRP",
+        "Wrapped XRP"
+      ],
+      "wxt": [
+        "WEEX Token",
+        "WXT Token"
+      ],
+      "x": [
+        "AI-X",
+        "CruxDecussata",
+        "Free Speech",
+        "X"
+      ],
+      "xai": [
+        "SideShift",
+        "XAI Corp"
+      ],
+      "xdoge": [
+        "XDOGE",
+        "XDoge"
+      ],
+      "xed": [
+        "Exeedme",
+        "Exeedme [OLD]"
+      ],
+      "xrp": [
+        "HarryPotterObamaPacMan8Inu",
+        "WarioXRPDumbledoreYugioh69Inu"
+      ],
+      "xrt": [
+        "Robonomics Network",
+        "Robonomics Network [OLD]"
+      ],
+      "xusd": [
+        "Staked Stream USD",
+        "StraitsX XUSD"
+      ],
+      "xyz": [
+        "Block (Dinari Tokenized Stock)",
+        "Universe.XYZ"
+      ],
+      "ybtc": [
+        "YieldFi yBTC",
+        "pSTAKE Staked Bitcoin"
+      ],
+      "yee": [
+        "YEE",
+        "Yee Token"
+      ],
+      "yum": [
+        "Yum",
+        "Yum! Brands (Dinari Tokenized Stock)"
+      ],
+      "yusd": [
+        "Aegis YUSD",
+        "YieldFi yToken"
+      ],
+      "zent": [
+        "ZENTU",
+        "Zentry"
+      ],
+      "zeus": [
+        "Pepes Dog",
+        "Zeus",
+        "Zeus AI"
+      ],
+      "zkp": [
+        "Panther Protocol",
+        "zkPass"
+      ],
+      "zoo": [
+        "Zoo",
+        "ZooCoin"
+      ]
+    },
+    "categories": {
+      "bridge": 8,
+      "dex": 21,
+      "exchange": 1496,
+      "lending": 10,
+      "mixer": 20,
+      "staking": 1,
+      "token_contract": 5091
+    },
+    "files": {
+      "aliases.json": "689eafe3e8d1734671f3f22abcec313e57462efe3cf8e4991eb44a9d1bb06ac9",
+      "concepts.json": "e24e16f7ad2a5258905b1fb3cec2c22ca98e0069cb7f85a65eb981d6f2d3237d",
+      "entities.json": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549"
+    },
+    "multi_address_operational_owners": 40,
+    "multi_address_owners": 72,
+    "operational_owners": 47,
+    "owners": 5102,
+    "passed": true,
+    "verified_dates": {
+      "2026-08-09": 5083,
+      "2026-10-26": 1564
+    }
+  },
+  "lint": {
+    "command": ".venv/bin/ruff check src tests",
+    "passed": true
+  },
+  "managed_owner_transaction_counts": {
+    "Binance": 285290,
+    "CoinEx": 3910,
+    "SwissBorg": 7078,
+    "Tornado Cash": 83,
+    "Uniswap V2": 4835,
+    "Uniswap V3": 2513,
+    "Uniswap V4": 1285
+  },
+  "passed": true,
+  "regression_suite": {
+    "command": ".venv/bin/pytest -q",
+    "failed": 0,
+    "passed": 156
+  },
+  "sql_compilation": {
+    "checked": 1050,
+    "command": ".venv/bin/eth-nl2sql check-sql",
+    "failures": []
+  },
+  "store": {
+    "complete_snapshot": false,
+    "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+    "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+    "rows": {
+      "amended_tokens": 2489651,
+      "blocks": 221548,
+      "contracts": 16386,
+      "entity_labels_snapshot": 6647,
+      "token_transfers": 4001230,
+      "transactions": 4431329
+    },
+    "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+    "window": [
+      "2026-05-31",
+      "2026-07-01"
+    ]
+  },
+  "validated_at": "2026-10-26T14:50:38.080735+00:00"
+}

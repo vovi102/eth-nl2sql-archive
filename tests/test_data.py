@@ -5,6 +5,7 @@ from collections import Counter
 
 from eth_nl2sql.cli import SPLITS
 from eth_nl2sql.config import read_jsonl
+from eth_nl2sql.data.entities import SOURCE
 from eth_nl2sql.data.leakage import family_split, leaked_ids
 from eth_nl2sql.store.build import connect, create_schema
 from eth_nl2sql.store.execute import execute
@@ -14,8 +15,12 @@ TRAIN, DEV, TEST = (read_jsonl(SPLITS[name]) for name in ("train", "dev", "test"
 
 
 def test_split_sizes_and_unique_ids():
-    assert (len(TRAIN), len(DEV)) == (3604, 396)
-    assert len(TEST) >= 50
+    assert (
+        sum(r.get("source") != SOURCE for r in TRAIN),
+        sum(r.get("source") != SOURCE for r in DEV),
+    ) == (3604, 396)
+    assert sum(r.get("source") == SOURCE for r in TRAIN + DEV) == 1388
+    assert len(TEST) == 100
     ids = [row["id"] for row in TRAIN + DEV + TEST]
     assert len(ids) == len(set(ids))
 

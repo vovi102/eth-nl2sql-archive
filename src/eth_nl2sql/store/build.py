@@ -12,6 +12,7 @@ import hashlib
 import json
 from datetime import date
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import duckdb
 
@@ -239,32 +240,47 @@ def create_schema(con: duckdb.DuckDBPyConnection) -> None:
     for table, schema in RAW_SCHEMAS.items():
         con.execute(f"CREATE TABLE IF NOT EXISTS {table} ({_columns_ddl(schema)})")
     con.execute(f"CREATE TABLE IF NOT EXISTS entity_labels_snapshot ({_columns_ddl(LABEL_SCHEMA)})")
+    con.execute(
+        "CREATE TABLE IF NOT EXISTS store_metadata (key VARCHAR PRIMARY KEY, value VARCHAR)"
+    )
     for ddl in MANAGED_DDL:
         con.execute(ddl)
 
 
 def load_parquet(con: duckdb.DuckDBPyConnection, parquet_dir: Path) -> dict[str, int]:
     """Load `<parquet_dir>/<table>/*.parquet` into the raw tables with exact column types."""
+    from eth_nl2sql.store.manifest import verify_parquet
+
+    verify_parquet(parquet_dir)
     counts = {}
     for table, schema in RAW_SCHEMAS.items():
         files = sorted((parquet_dir / table).glob("*.parquet"))
         if not files:
             raise FileNotFoundError(f"no parquet files for {table} under {parquet_dir}")
         columns = ", ".join(f'CAST("{name}" AS {kind})' for name, kind in schema.items())
-        file_list = ", ".join(f"'{file.as_posix()}'" for file in files)
         con.execute(f"DELETE FROM {table}")
-        con.execute(f"INSERT INTO {table} SELECT {columns} FROM read_parquet([{file_list}])")
+        con.execute(
+            f"INSERT INTO {table} SELECT {columns} FROM read_parquet(?)",
+            [[str(file) for file in files]],
+        )
         counts[table] = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
     return counts
 
 
 def label_rows(entities_path: Path) -> list[tuple]:
     """Build one label row per address exactly as luanvan's BigQuery snapshot did."""
+    from eth_nl2sql.linking.validation import read_dictionary, validate_entities
+
     payload = entities_path.read_bytes()
     digest = hashlib.sha256(payload).hexdigest()
+    entries = json.loads(payload)
+    if entities_path.name == "entities.json" and (entities_path.parent / "manifest.json").exists():
+        entries, _, _ = read_dictionary(entities_path.parent)
+    else:
+        validate_entities(entries)
     rows = []
     seen = set()
-    for entry in json.loads(payload):
+    for entry in entries:
         address = entry["address"].lower()
         if address in seen:
             raise ValueError(f"duplicate label address {address}")
@@ -308,13 +324,28 @@ def load_labels(con: duckdb.DuckDBPyConnection, entities_path: Path) -> int:
 
 def build_store(store_path: Path, parquet_dir: Path, entities_path: Path) -> dict[str, int]:
     """Create or refresh the DuckDB store from snapshot parquet files and a label dictionary."""
+    from eth_nl2sql.store.manifest import file_digest, verify_parquet
+
+    manifest = verify_parquet(parquet_dir)
     store_path.parent.mkdir(parents=True, exist_ok=True)
-    con = connect(store_path, read_only=False)
-    try:
-        create_schema(con)
-        counts = load_parquet(con, parquet_dir)
-        counts["entity_labels_snapshot"] = load_labels(con, entities_path)
-        con.execute("CHECKPOINT")
-        return counts
-    finally:
-        con.close()
+    with TemporaryDirectory(prefix=".build-store-", dir=store_path.parent) as temporary:
+        staged = Path(temporary) / "store.duckdb"
+        con = connect(staged, read_only=False)
+        try:
+            create_schema(con)
+            counts = load_parquet(con, parquet_dir)
+            counts["entity_labels_snapshot"] = load_labels(con, entities_path)
+            profile = {
+                "scope": manifest["scope"],
+                "complete_snapshot": manifest["complete_snapshot"],
+                "window": manifest["window"],
+                "parquet_manifest_sha256": file_digest(parquet_dir / "manifest.json"),
+                "labels_sha256": file_digest(entities_path),
+                "rows": counts,
+            }
+            con.execute("INSERT INTO store_metadata VALUES ('profile', ?)", [json.dumps(profile)])
+            con.execute("CHECKPOINT")
+        finally:
+            con.close()
+        staged.replace(store_path)
+    return counts

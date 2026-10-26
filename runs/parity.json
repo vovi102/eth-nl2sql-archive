@@ -1,0 +1,36 @@
+{
+  "gate": 0.95,
+  "gold_exact": {
+    "matched": 0,
+    "rate": null,
+    "total": 88
+  },
+  "gold_mismatches": [],
+  "passed": false,
+  "reason": "parity requires a complete snapshot; this store is sampled or unrecorded",
+  "skipped": true,
+  "store": {
+    "complete_snapshot": false,
+    "labels_sha256": "d860391f6175cce5848abd7385ade48999293b3539b6be1df10d04d7eaf75602",
+    "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+    "rows": {
+      "amended_tokens": 2489651,
+      "blocks": 221548,
+      "contracts": 16386,
+      "entity_labels_snapshot": 5135,
+      "token_transfers": 4001230,
+      "transactions": 4431329
+    },
+    "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+    "window": [
+      "2026-05-31",
+      "2026-07-01"
+    ]
+  },
+  "witness_mismatches": [],
+  "witness_row_counts": {
+    "matched": 0,
+    "rate": null,
+    "total": 206
+  }
+}
