@@ -1,0 +1,34 @@
+{
+  "dex": {
+    "ontology_class": "https://thesis.example.org/eth-kg/DEXProtocol",
+    "aliases": [
+      "dex",
+      "decentralized exchange"
+    ],
+    "description": "Decentralized exchanges.",
+    "instances": [
+      "Uniswap V3"
+    ]
+  },
+  "exchange": {
+    "ontology_class": "https://thesis.example.org/eth-kg/ExchangeAccount",
+    "aliases": [
+      "exchange",
+      "cex"
+    ],
+    "description": "Centralized exchanges.",
+    "instances": [
+      "Binance"
+    ]
+  },
+  "mixer": {
+    "ontology_class": "https://thesis.example.org/eth-kg/Mixer",
+    "aliases": [
+      "mixer"
+    ],
+    "description": "Coin mixers.",
+    "instances": [
+      "Tornado Cash"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "counts": {
+    "dev": 396,
+    "test_generic": 50,
+    "train": 3604
+  },
+  "files": {
+    "data/dataset/processed/bilingual-training.jsonl": "72285871518a14c0a30e09ee31e58bbb06bfb25089465555625ad9fd929f7f55",
+    "data/dataset/raw/synthetic-stage-a-v2.jsonl": "15b7cd6144301f040ecef54028929131afab76c45ccf3282011fd68f9ce62203",
+    "data/dataset/test/test-100.jsonl": "5d342a5c063ea2d4b5fb7cd62ab15fabb82d2164e5eca5cb248843797989ff0d",
+    "docs/evidence/t54-genuine-shared-2026-10-24-c03/evidence.json": "4cf0caf857e0d555c62d49dab203734483be9b4aad3695cee919d8ee48dbe001",
+    "src/nl2sparql/dataset/templates/templates.json": "6f4393d9a118942a82c976f04c37ec1c51a3056a662ffd915d6db637c41ae8f9",
+    "src/nl2sparql/linking/dictionary/aliases.json": "9a79ba50a29d449903c623729902fdf6461c9a21b02959e8505db710973e4fb6",
+    "src/nl2sparql/linking/dictionary/concepts.json": "3f707fa1507d6fa902057f5c6e6172656cc631f0f464c5f768ce7a921b2b4608",
+    "src/nl2sparql/linking/dictionary/entities.json": "cdc7856df81f2cce61290ef27a8872477f1b77da998a6aa88ca0ed75cc19617e",
+    "src/nl2sparql/linking/schema/synonyms.json": "24bf716e536cf8ec155019e1554a7ea5447102aa565967e4f6d142d38561a718",
+    "src/nl2sparql/sql/catalog/ethereum_analytics.json": "db8393aa7258d1331387eff9825e22ca729daf93234419f00d7dd538196cb3dd"
+  },
+  "source_commit": "0ed5cd1dfb95a3e330f953d4958536de8fa563b5",
+  "source_repository": "https://github.com/vovi102/luanvan"
+}

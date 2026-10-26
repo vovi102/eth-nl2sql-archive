@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eth-nl2sql"
+version = "0.1.0"
+description = "Small-LLM natural language to GoogleSQL for Ethereum analytics with blockchain-specific linking."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Khoa VD" }]
+dependencies = [
+  "duckdb>=1.1,<2",
+  "numpy>=1.26,<3",
+  "pyarrow>=15,<22",
+  "pytz>=2024.1",
+  "rapidfuzz>=3.6,<4",
+  "sqlglot>=30.17,<31",
+]
+
+[project.optional-dependencies]
+# Linking and few-shot retrieval (MiniLM encoder; pulls in torch).
+embed = ["sentence-transformers>=3.4,<6"]
+# One-time snapshot extraction from the BigQuery public dataset.
+bq = [
+  "db-dtypes>=1.2,<2",
+  "google-cloud-bigquery>=3.20,<4",
+  "google-cloud-bigquery-storage>=2.24,<3",
+]
+# Generation and QLoRA fine-tuning; installed on Kaggle, not locally.
+gpu = [
+  "accelerate>=0.34,<2",
+  "bitsandbytes>=0.43",
+  "peft>=0.10,<1",
+  "torch>=2.3",
+  "transformers>=4.43,<5",
+]
+
+[project.scripts]
+eth-nl2sql = "eth_nl2sql.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<9", "ruff>=0.4,<1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/eth_nl2sql"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

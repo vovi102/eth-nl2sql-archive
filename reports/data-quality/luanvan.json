@@ -1,0 +1,432 @@
+{
+  "directory": "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/data/raw/luanvan",
+  "expected_period_inclusive": {
+    "end": "2026-06-30",
+    "start": "2026-05-31"
+  },
+  "files": [
+    {
+      "bytes": 37203055,
+      "columns": [
+        "number",
+        "hash",
+        "timestamp",
+        "miner",
+        "gas_used",
+        "gas_limit",
+        "transaction_count"
+      ],
+      "expected_bytes": 37203055,
+      "name": "blocks.csv",
+      "sha256": "85467aaba92e371187b8542f3fddf7077e44e79acb204526bdd9b9dd40cfee95",
+      "verified": true
+    },
+    {
+      "bytes": 287870,
+      "columns": [
+        "address",
+        "is_erc20",
+        "is_erc721",
+        "block_timestamp"
+      ],
+      "expected_bytes": 287870,
+      "name": "contracts.csv",
+      "sha256": "e111a53f1f91782ca1efb010d5f074d2299c5e5e2bf9861ef897bb1212479d1c",
+      "verified": true
+    },
+    {
+      "bytes": 960178,
+      "columns": [
+        "address",
+        "primary_label",
+        "owner",
+        "category",
+        "concept_class",
+        "aliases"
+      ],
+      "expected_bytes": 960178,
+      "name": "entities.csv",
+      "sha256": "e1c45803cf408226212c91e4fe69b41fe5d2ba9f90ce2ae2af2c0edbad6e41c5",
+      "verified": true
+    },
+    {
+      "bytes": 974736705,
+      "columns": [
+        "transaction_hash",
+        "from_address",
+        "to_address",
+        "value",
+        "token_address",
+        "block_timestamp",
+        "log_index"
+      ],
+      "expected_bytes": 974736705,
+      "name": "token_transfers.csv",
+      "sha256": "c4dc6772672b6dece0f0e5de3fbdf11c193f8038e530b29c28314a48dd38d97d",
+      "verified": true
+    },
+    {
+      "bytes": 979057090,
+      "columns": [
+        "hash",
+        "from_address",
+        "to_address",
+        "value",
+        "gas",
+        "gas_price",
+        "block_number",
+        "block_timestamp",
+        "transaction_type",
+        "receipt_status",
+        "tier"
+      ],
+      "expected_bytes": 979057090,
+      "name": "transactions.csv",
+      "sha256": "d7c324112c6d5f80b462e46d959f4282a4a9881c0ac07ba70b80ffec9cb4e597",
+      "verified": true
+    },
+    {
+      "bytes": 1152,
+      "expected_bytes": 1152,
+      "name": "manifest.json",
+      "sha256": "32059f6de2bfacd7c2136a078b723be13579226fa0f36aeb5aa8a5064696e8c3",
+      "verified": true
+    }
+  ],
+  "full_snapshot_verified": false,
+  "import_manifest_sha256": "c25c42d8e5ec38aa69da48269170d28d0a78564ab5cfa60b89b6ade5dd7455e9",
+  "integrity_ok": true,
+  "issues": [
+    {
+      "code": "missing_store_columns",
+      "detail": "base_fee_per_gas",
+      "file": "blocks.csv",
+      "severity": "warning"
+    },
+    {
+      "code": "missing_store_columns",
+      "detail": "block_hash, block_number",
+      "file": "contracts.csv",
+      "severity": "warning"
+    },
+    {
+      "code": "missing_store_columns",
+      "detail": "block_hash, block_number",
+      "file": "token_transfers.csv",
+      "severity": "warning"
+    },
+    {
+      "code": "missing_store_columns",
+      "detail": "block_hash, receipt_contract_address, receipt_gas_used, transaction_index",
+      "file": "transactions.csv",
+      "severity": "warning"
+    },
+    {
+      "code": "missing_store_tables",
+      "detail": "amended_tokens",
+      "file": null,
+      "severity": "warning"
+    },
+    {
+      "code": "full_snapshot_not_verified",
+      "detail": "The imported data is a declared subset; date coverage does not prove full-chain coverage.",
+      "file": null,
+      "severity": "warning"
+    }
+  ],
+  "missing_tables_for_current_store": [
+    "amended_tokens"
+  ],
+  "passed": true,
+  "quality_ok": true,
+  "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+  "store_schema_complete": false,
+  "tables": {
+    "blocks": {
+      "duplicate_full_extra_rows": 0,
+      "duplicate_key_extra_rows": 0,
+      "duplicate_key_groups": 0,
+      "expected_rows": 221548,
+      "identity_columns": [
+        "number"
+      ],
+      "invalid_addresses": {},
+      "missing_columns_for_current_store": [
+        "base_fee_per_gas"
+      ],
+      "null_or_blank_by_column": {
+        "gas_limit": 0,
+        "gas_used": 0,
+        "hash": 0,
+        "miner": 0,
+        "number": 0,
+        "timestamp": 0,
+        "transaction_count": 0
+      },
+      "rows": 221548,
+      "rows_with_missing_identity": 0,
+      "timestamps": {
+        "column": "timestamp",
+        "daily_rows_in_period": {
+          "2026-05-31": 7155,
+          "2026-06-01": 7156,
+          "2026-06-02": 7137,
+          "2026-06-03": 7136,
+          "2026-06-04": 7115,
+          "2026-06-05": 7077,
+          "2026-06-06": 7135,
+          "2026-06-07": 7122,
+          "2026-06-08": 7147,
+          "2026-06-09": 7155,
+          "2026-06-10": 7153,
+          "2026-06-11": 7146,
+          "2026-06-12": 7155,
+          "2026-06-13": 7151,
+          "2026-06-14": 7147,
+          "2026-06-15": 7152,
+          "2026-06-16": 7171,
+          "2026-06-17": 7144,
+          "2026-06-18": 7148,
+          "2026-06-19": 7163,
+          "2026-06-20": 7164,
+          "2026-06-21": 7160,
+          "2026-06-22": 7144,
+          "2026-06-23": 7152,
+          "2026-06-24": 7125,
+          "2026-06-25": 7152,
+          "2026-06-26": 7153,
+          "2026-06-27": 7166,
+          "2026-06-28": 7161,
+          "2026-06-29": 7145,
+          "2026-06-30": 7161
+        },
+        "invalid_or_missing": 0,
+        "max_utc": "2026-06-30T23:59:59+00:00",
+        "min_utc": "2026-05-31T00:00:11+00:00",
+        "missing_days": [],
+        "outside_expected_period": 0,
+        "window_rule": "within_period"
+      }
+    },
+    "contracts": {
+      "duplicate_full_extra_rows": 0,
+      "duplicate_key_extra_rows": 0,
+      "duplicate_key_groups": 0,
+      "expected_rows": 3513,
+      "identity_columns": [
+        "address",
+        "block_timestamp"
+      ],
+      "invalid_addresses": {
+        "address": 0
+      },
+      "missing_columns_for_current_store": [
+        "block_hash",
+        "block_number"
+      ],
+      "null_or_blank_by_column": {
+        "address": 0,
+        "block_timestamp": 0,
+        "is_erc20": 0,
+        "is_erc721": 0
+      },
+      "rows": 3513,
+      "rows_with_missing_identity": 0,
+      "timestamps": {
+        "column": "block_timestamp",
+        "daily_rows_in_period": {
+          "2026-05-31": 1,
+          "2026-06-01": 1,
+          "2026-06-02": 1,
+          "2026-06-03": 1,
+          "2026-06-11": 1,
+          "2026-06-12": 2,
+          "2026-06-16": 2,
+          "2026-06-25": 1
+        },
+        "invalid_or_missing": 0,
+        "max_utc": "2026-06-25T12:21:11+00:00",
+        "min_utc": "2016-06-24T21:38:09+00:00",
+        "missing_days": [],
+        "outside_expected_period": 0,
+        "window_rule": "before_end_exclusive"
+      }
+    },
+    "entities": {
+      "duplicate_full_extra_rows": 0,
+      "duplicate_key_extra_rows": 0,
+      "duplicate_key_groups": 0,
+      "expected_rows": null,
+      "identity_columns": [
+        "address"
+      ],
+      "invalid_addresses": {
+        "address": 0
+      },
+      "missing_columns_for_current_store": [],
+      "null_or_blank_by_column": {
+        "address": 0,
+        "aliases": 0,
+        "category": 0,
+        "concept_class": 0,
+        "owner": 0,
+        "primary_label": 0
+      },
+      "rows": 4520,
+      "rows_with_missing_identity": 0
+    },
+    "token_transfers": {
+      "duplicate_full_extra_rows": 0,
+      "duplicate_key_extra_rows": 0,
+      "duplicate_key_groups": 0,
+      "expected_rows": 4001230,
+      "identity_columns": [
+        "transaction_hash",
+        "log_index"
+      ],
+      "invalid_addresses": {
+        "from_address": 0,
+        "to_address": 0,
+        "token_address": 0
+      },
+      "missing_columns_for_current_store": [
+        "block_hash",
+        "block_number"
+      ],
+      "null_or_blank_by_column": {
+        "block_timestamp": 0,
+        "from_address": 0,
+        "log_index": 0,
+        "to_address": 0,
+        "token_address": 0,
+        "transaction_hash": 0,
+        "value": 0
+      },
+      "rows": 4001230,
+      "rows_with_missing_identity": 0,
+      "timestamps": {
+        "column": "block_timestamp",
+        "daily_rows_in_period": {
+          "2026-05-31": 110809,
+          "2026-06-01": 126938,
+          "2026-06-02": 136773,
+          "2026-06-03": 129915,
+          "2026-06-04": 137939,
+          "2026-06-05": 144293,
+          "2026-06-06": 124718,
+          "2026-06-07": 119843,
+          "2026-06-08": 134197,
+          "2026-06-09": 129284,
+          "2026-06-10": 126929,
+          "2026-06-11": 115425,
+          "2026-06-12": 116994,
+          "2026-06-13": 113080,
+          "2026-06-14": 114662,
+          "2026-06-15": 128440,
+          "2026-06-16": 130647,
+          "2026-06-17": 131351,
+          "2026-06-18": 126684,
+          "2026-06-19": 122215,
+          "2026-06-20": 125351,
+          "2026-06-21": 101870,
+          "2026-06-22": 121666,
+          "2026-06-23": 137946,
+          "2026-06-24": 131930,
+          "2026-06-25": 135789,
+          "2026-06-26": 143711,
+          "2026-06-27": 133427,
+          "2026-06-28": 126422,
+          "2026-06-29": 147043,
+          "2026-06-30": 174939
+        },
+        "invalid_or_missing": 0,
+        "max_utc": "2026-06-30T23:59:59+00:00",
+        "min_utc": "2026-05-31T00:00:11+00:00",
+        "missing_days": [],
+        "outside_expected_period": 0,
+        "window_rule": "within_period"
+      }
+    },
+    "transactions": {
+      "duplicate_full_extra_rows": 0,
+      "duplicate_key_extra_rows": 0,
+      "duplicate_key_groups": 0,
+      "expected_rows": 4431329,
+      "identity_columns": [
+        "hash"
+      ],
+      "invalid_addresses": {
+        "from_address": 0,
+        "to_address": 0
+      },
+      "missing_columns_for_current_store": [
+        "block_hash",
+        "receipt_contract_address",
+        "receipt_gas_used",
+        "transaction_index"
+      ],
+      "null_or_blank_by_column": {
+        "block_number": 0,
+        "block_timestamp": 0,
+        "from_address": 0,
+        "gas": 0,
+        "gas_price": 0,
+        "hash": 0,
+        "receipt_status": 0,
+        "tier": 0,
+        "to_address": 701,
+        "transaction_type": 0,
+        "value": 0
+      },
+      "rows": 4431329,
+      "rows_with_missing_identity": 0,
+      "tier_counts": {
+        "tier1": 3812074,
+        "tier2": 619255
+      },
+      "timestamps": {
+        "column": "block_timestamp",
+        "daily_rows_in_period": {
+          "2026-05-31": 122023,
+          "2026-06-01": 142861,
+          "2026-06-02": 150311,
+          "2026-06-03": 153352,
+          "2026-06-04": 157489,
+          "2026-06-05": 166896,
+          "2026-06-06": 124832,
+          "2026-06-07": 111717,
+          "2026-06-08": 149006,
+          "2026-06-09": 167301,
+          "2026-06-10": 142632,
+          "2026-06-11": 131661,
+          "2026-06-12": 125750,
+          "2026-06-13": 115669,
+          "2026-06-14": 112115,
+          "2026-06-15": 133681,
+          "2026-06-16": 129630,
+          "2026-06-17": 136855,
+          "2026-06-18": 137636,
+          "2026-06-19": 124776,
+          "2026-06-20": 146660,
+          "2026-06-21": 120547,
+          "2026-06-22": 143092,
+          "2026-06-23": 164068,
+          "2026-06-24": 154826,
+          "2026-06-25": 163194,
+          "2026-06-26": 164120,
+          "2026-06-27": 138479,
+          "2026-06-28": 139053,
+          "2026-06-29": 164703,
+          "2026-06-30": 196394
+        },
+        "invalid_or_missing": 0,
+        "max_utc": "2026-06-30T23:59:59+00:00",
+        "min_utc": "2026-05-31T00:00:11+00:00",
+        "missing_days": [],
+        "outside_expected_period": 0,
+        "window_rule": "within_period"
+      }
+    }
+  },
+  "version": 1
+}

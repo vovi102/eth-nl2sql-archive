@@ -1,0 +1,1032 @@
+[
+  {
+    "id": "syn-v2-000000",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-02')"
+  },
+  {
+    "id": "syn-v2-000001",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-02', DATE '2026-06-03')"
+  },
+  {
+    "id": "syn-v2-000002",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-03', DATE '2026-06-04')"
+  },
+  {
+    "id": "syn-v2-000003",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-04', DATE '2026-06-05')"
+  },
+  {
+    "id": "syn-v2-000004",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-05', DATE '2026-06-06')"
+  },
+  {
+    "id": "syn-v2-000005",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-06', DATE '2026-06-07')"
+  },
+  {
+    "id": "syn-v2-000006",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-07', DATE '2026-06-08')"
+  },
+  {
+    "id": "syn-v2-000007",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-09')"
+  },
+  {
+    "id": "syn-v2-000008",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-09', DATE '2026-06-10')"
+  },
+  {
+    "id": "syn-v2-000009",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-10', DATE '2026-06-11')"
+  },
+  {
+    "id": "syn-v2-000010",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-11', DATE '2026-06-12')"
+  },
+  {
+    "id": "syn-v2-000011",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-12', DATE '2026-06-13')"
+  },
+  {
+    "id": "syn-v2-000012",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-13', DATE '2026-06-14')"
+  },
+  {
+    "id": "syn-v2-000013",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-14', DATE '2026-06-15')"
+  },
+  {
+    "id": "syn-v2-000014",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')"
+  },
+  {
+    "id": "syn-v2-000015",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-16', DATE '2026-06-17')"
+  },
+  {
+    "id": "syn-v2-000016",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-17', DATE '2026-06-18')"
+  },
+  {
+    "id": "syn-v2-000017",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-18', DATE '2026-06-19')"
+  },
+  {
+    "id": "syn-v2-000018",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-19', DATE '2026-06-20')"
+  },
+  {
+    "id": "syn-v2-000019",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-20', DATE '2026-06-21')"
+  },
+  {
+    "id": "syn-v2-000020",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-21', DATE '2026-06-22')"
+  },
+  {
+    "id": "syn-v2-000021",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-06-23')"
+  },
+  {
+    "id": "syn-v2-000022",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-23', DATE '2026-06-24')"
+  },
+  {
+    "id": "syn-v2-000023",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-24', DATE '2026-06-25')"
+  },
+  {
+    "id": "syn-v2-000024",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-25', DATE '2026-06-26')"
+  },
+  {
+    "id": "syn-v2-000025",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-26', DATE '2026-06-27')"
+  },
+  {
+    "id": "syn-v2-000026",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-27', DATE '2026-06-28')"
+  },
+  {
+    "id": "syn-v2-000027",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-28', DATE '2026-06-29')"
+  },
+  {
+    "id": "syn-v2-000028",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-29', DATE '2026-06-30')"
+  },
+  {
+    "id": "syn-v2-000029",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-30', DATE '2026-07-01')"
+  },
+  {
+    "id": "syn-v2-000030",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-03')"
+  },
+  {
+    "id": "syn-v2-000031",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-02', DATE '2026-06-04')"
+  },
+  {
+    "id": "syn-v2-000032",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-03', DATE '2026-06-05')"
+  },
+  {
+    "id": "syn-v2-000033",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-04', DATE '2026-06-06')"
+  },
+  {
+    "id": "syn-v2-000034",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-05', DATE '2026-06-07')"
+  },
+  {
+    "id": "syn-v2-000035",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-06', DATE '2026-06-08')"
+  },
+  {
+    "id": "syn-v2-000036",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-07', DATE '2026-06-09')"
+  },
+  {
+    "id": "syn-v2-000037",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-10')"
+  },
+  {
+    "id": "syn-v2-000038",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-09', DATE '2026-06-11')"
+  },
+  {
+    "id": "syn-v2-000039",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-10', DATE '2026-06-12')"
+  },
+  {
+    "id": "syn-v2-000040",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-11', DATE '2026-06-13')"
+  },
+  {
+    "id": "syn-v2-000041",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-12', DATE '2026-06-14')"
+  },
+  {
+    "id": "syn-v2-000042",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-13', DATE '2026-06-15')"
+  },
+  {
+    "id": "syn-v2-000043",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-14', DATE '2026-06-16')"
+  },
+  {
+    "id": "syn-v2-000044",
+    "row_count": 1,
+    "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-17')"
+  },
+  {
+    "id": "syn-v2-000045",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE from_address = '0x77021d475e36b3ab1921a0e3a8380f069d3263de'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000046",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE from_address = '0x0d0707963952f2fba59dd06f2b425ace40b492fe'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000047",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE from_address = '0xf51710015536957a01f32558402902a2d9c35d82'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000048",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE from_address = '0x8fca4ade3a517133ff23ca55cdaea29c78c990b8'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000085",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_address = '0x77021d475e36b3ab1921a0e3a8380f069d3263de'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000086",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_address = '0x0d0707963952f2fba59dd06f2b425ace40b492fe'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000087",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_address = '0xf51710015536957a01f32558402902a2d9c35d82'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000088",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_address = '0x8fca4ade3a517133ff23ca55cdaea29c78c990b8'\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000125",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE value_wei >= NUMERIC '1000000000000000000'\nORDER BY value_wei DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000170",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, receipt_gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE is_success IS FALSE\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000215",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319182"
+  },
+  {
+    "id": "syn-v2-000216",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319183"
+  },
+  {
+    "id": "syn-v2-000217",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319184"
+  },
+  {
+    "id": "syn-v2-000218",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319185"
+  },
+  {
+    "id": "syn-v2-000219",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319186"
+  },
+  {
+    "id": "syn-v2-000220",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319187"
+  },
+  {
+    "id": "syn-v2-000221",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319188"
+  },
+  {
+    "id": "syn-v2-000222",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319189"
+  },
+  {
+    "id": "syn-v2-000223",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319190"
+  },
+  {
+    "id": "syn-v2-000224",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319191"
+  },
+  {
+    "id": "syn-v2-000225",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319173"
+  },
+  {
+    "id": "syn-v2-000226",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319192"
+  },
+  {
+    "id": "syn-v2-000227",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319193"
+  },
+  {
+    "id": "syn-v2-000228",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319194"
+  },
+  {
+    "id": "syn-v2-000229",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319195"
+  },
+  {
+    "id": "syn-v2-000230",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319196"
+  },
+  {
+    "id": "syn-v2-000231",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319197"
+  },
+  {
+    "id": "syn-v2-000232",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319198"
+  },
+  {
+    "id": "syn-v2-000233",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319199"
+  },
+  {
+    "id": "syn-v2-000234",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319200"
+  },
+  {
+    "id": "syn-v2-000235",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319201"
+  },
+  {
+    "id": "syn-v2-000236",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319174"
+  },
+  {
+    "id": "syn-v2-000237",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319202"
+  },
+  {
+    "id": "syn-v2-000238",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319203"
+  },
+  {
+    "id": "syn-v2-000239",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319204"
+  },
+  {
+    "id": "syn-v2-000240",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319205"
+  },
+  {
+    "id": "syn-v2-000241",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319206"
+  },
+  {
+    "id": "syn-v2-000242",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319207"
+  },
+  {
+    "id": "syn-v2-000243",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319208"
+  },
+  {
+    "id": "syn-v2-000244",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319209"
+  },
+  {
+    "id": "syn-v2-000245",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319210"
+  },
+  {
+    "id": "syn-v2-000246",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319211"
+  },
+  {
+    "id": "syn-v2-000247",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319175"
+  },
+  {
+    "id": "syn-v2-000248",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319212"
+  },
+  {
+    "id": "syn-v2-000249",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319213"
+  },
+  {
+    "id": "syn-v2-000250",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319214"
+  },
+  {
+    "id": "syn-v2-000251",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319215"
+  },
+  {
+    "id": "syn-v2-000252",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319216"
+  },
+  {
+    "id": "syn-v2-000253",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319217"
+  },
+  {
+    "id": "syn-v2-000254",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319176"
+  },
+  {
+    "id": "syn-v2-000255",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319177"
+  },
+  {
+    "id": "syn-v2-000256",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319178"
+  },
+  {
+    "id": "syn-v2-000257",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319179"
+  },
+  {
+    "id": "syn-v2-000258",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319180"
+  },
+  {
+    "id": "syn-v2-000259",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count, gas_used\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE block_number = 25319181"
+  },
+  {
+    "id": "syn-v2-000260",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x9307c81fbf9d1ef41717e0bd9f944834f97063734e8cce9552055f0e04b6368d'"
+  },
+  {
+    "id": "syn-v2-000261",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x504d1012d835eb23c6b0e4363c4f5ef7d891177769b12dd7da99b2bf981f7a67'"
+  },
+  {
+    "id": "syn-v2-000262",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xfd3f4f5ba99790e5d60b3be8941d1166f29d213f0e030a8fc0d30ed62f1ffd58'"
+  },
+  {
+    "id": "syn-v2-000263",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x22df5e17ad3193e8a9dc4dd7e5612182b0978bfa90b30658730c75a46f3523f9'"
+  },
+  {
+    "id": "syn-v2-000264",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x03e2a8e3f35dc37912b8757381b7f6945ddf8644274a29ea27a7188c866387fe'"
+  },
+  {
+    "id": "syn-v2-000265",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x1278cb54625a8d3384f3cbab77357c6da161f4c74d36979da826c3bfddb74095'"
+  },
+  {
+    "id": "syn-v2-000266",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x3b4c4d04d629393255653a375b05d1b43d6bebaf6d0c42f12a7ab64327f45955'"
+  },
+  {
+    "id": "syn-v2-000267",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xaac03b38c08b4e2f2c2a785672e998a5a1d3deb7fb515fd571e29117f80713e2'"
+  },
+  {
+    "id": "syn-v2-000268",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xa8782045bc266655c304539af0ae4e53ac494504cb808058e1121801d8bb8ee2'"
+  },
+  {
+    "id": "syn-v2-000269",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x479675d1f539ffcb5bf4e54b7b452db8d7d103438ae850e8255666f813895730'"
+  },
+  {
+    "id": "syn-v2-000270",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x928d2863cef030ca75335f369841a031d9d6e97d5526d570f96cdc339eb9e142'"
+  },
+  {
+    "id": "syn-v2-000271",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xc0bc7b067594ed1db478fa02e34f5f7b97c99f29f8e424dd901e655d8923e8fd'"
+  },
+  {
+    "id": "syn-v2-000272",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x91bb735cf61b786eaed512e5c3542d7ebb77db51ec44c8636612124e85788517'"
+  },
+  {
+    "id": "syn-v2-000273",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x5a18025626f9b5d5185e87a0bbbfb916f7b64d3e71d53f446069ebad2601e798'"
+  },
+  {
+    "id": "syn-v2-000274",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xbafde268c84a4e6eeb0c95c4ed0e1313c4cdec3bcfd9030996982f2f0a91c067'"
+  },
+  {
+    "id": "syn-v2-000275",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x9fef3157f64978daec087cd407d436b4fc417108cdf82012131b36f75e2fc92c'"
+  },
+  {
+    "id": "syn-v2-000276",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x565bf26ef03ff59443982bc86ac779c33e405b5a9eb261a507d00cb1be85aca4'"
+  },
+  {
+    "id": "syn-v2-000277",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x23d082ffe6b326165f735e18f9060fe7c82764e730fe86dbecef1113fe6ee7d3'"
+  },
+  {
+    "id": "syn-v2-000278",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x078d8296238860b3ae4f40f064bcaf222e9ccbfd1d0c07e3d36da1a1f347132c'"
+  },
+  {
+    "id": "syn-v2-000279",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xacd0002758cd49bb4fb495437a40a1396a3844a161a70b16b798b5f143b3a53b'"
+  },
+  {
+    "id": "syn-v2-000280",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x62376b3c6bd5d27c99fc85270eccd205ddf76709928b0d7f3d06a4364648a88b'"
+  },
+  {
+    "id": "syn-v2-000281",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x7dd97d2b44925e11a4e0d1df19d876943fcd8f08f28a7caecedac00bd0dd3bec'"
+  },
+  {
+    "id": "syn-v2-000282",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x6577ec61fddbbb756e50e4211c6f55a549d05bd69915f599d5fc708202648d81'"
+  },
+  {
+    "id": "syn-v2-000283",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x7e32a1a8f32cd21d30c8da2d382ff2e03b623c5f2fa77bd6149c6b4a4c8a5184'"
+  },
+  {
+    "id": "syn-v2-000284",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xeffd312c175600801e20e2b588425226e93c021ffc490d80baadfdf6e22c7675'"
+  },
+  {
+    "id": "syn-v2-000285",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xbec80f53ccc15210e851c18be261c90bd3f23d8bc6ab1af3f4d91da4d0ee69c1'"
+  },
+  {
+    "id": "syn-v2-000286",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x34a1eeed5247ab52babee7220af9cf4b4a625868a99bfcfe6e48a110e5cffe30'"
+  },
+  {
+    "id": "syn-v2-000287",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x0ddd8b016ea63bbde87b4fb1d0ae1b8eab748e4104d811729bfc3c55886506f8'"
+  },
+  {
+    "id": "syn-v2-000288",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x18f4d07d3daafd4e3a8b7d877f61f5628d5c6462062875b4a13351e03088ea5b'"
+  },
+  {
+    "id": "syn-v2-000289",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xbc5a7c9d8c6e091d68350e69f53e4021a656758c04b56300d67ec36dc0d2eadf'"
+  },
+  {
+    "id": "syn-v2-000290",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x5c394533150bf85cc04032a6deb4c2704e66772fa6bcd926f8fb9aedad7c76bd'"
+  },
+  {
+    "id": "syn-v2-000291",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xa4972f5e59dd0f4b673a786abf3bc6f25159a19a5f57b6e383e60cbca0509c42'"
+  },
+  {
+    "id": "syn-v2-000292",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x5fe2742423e8467b01f758fd83e8ecebb8d637b5dbfff2097bd7db24a6822fb7'"
+  },
+  {
+    "id": "syn-v2-000293",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x499767a52b20144f6dadbf57a095a6996fca5f4d83e9c90ddc8742a31f5d9488'"
+  },
+  {
+    "id": "syn-v2-000294",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x63abf5e083cb6bd2201c4e48550f58401f7606a63fa85a896c5262cfc91523d1'"
+  },
+  {
+    "id": "syn-v2-000295",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xc5a4b61d4654ebf4dd140fbe9f93d36241e6a47e7d12357a7389430698c0c669'"
+  },
+  {
+    "id": "syn-v2-000296",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xf992f7ef9c77d3e9ccd34b88219b4c73ecf17dcba9732ebe65dcdfd8423f89ff'"
+  },
+  {
+    "id": "syn-v2-000297",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x3dbd16163ce22553413b7ded5dafd9f246f1800cc0f20aa4316321cf0755d7e3'"
+  },
+  {
+    "id": "syn-v2-000298",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xd6d3b6938572a43faf5fedd6312a37b3c2bb8fbe9905f5ea1ab5146409584ab7'"
+  },
+  {
+    "id": "syn-v2-000299",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x3a43f63f91905ce8cf10bb8495e12078c6737fca25f978378633740f4bf6bb34'"
+  },
+  {
+    "id": "syn-v2-000300",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x723fdf35b72c61f10d2548084fc7b2d5ea3cef0b98bdbb6a7448e21c94868551'"
+  },
+  {
+    "id": "syn-v2-000301",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x01e1707cdd2dca99a53a2a942a79673b5362356a02361607eb1cc2bedb441d30'"
+  },
+  {
+    "id": "syn-v2-000302",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x2d0700b219b3b609ea47b53fc1ee3a124f618347af8d690ab0ea0793b1eeda02'"
+  },
+  {
+    "id": "syn-v2-000303",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0xe94bdd2d7db9744c029f78e3461aa9224719e22bd5512ca8c1f83284cc44889f'"
+  },
+  {
+    "id": "syn-v2-000304",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei, is_success\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE transaction_hash = '0x80f1311ffb72f3fc0461c1c3307fe78582ff60a8f224d06328ad5cc680a180b7'"
+  },
+  {
+    "id": "syn-v2-000305",
+    "row_count": 1,
+    "sql": "SELECT address, primary_label, owner, confidence\nFROM `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1`\nWHERE address_role = 'treasury' AND category = 'exchange'\nORDER BY owner, address\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000350",
+    "row_count": 1,
+    "sql": "SELECT from_address AS sender_address, SUM(value_wei) AS total_value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nGROUP BY sender_address\nORDER BY total_value_wei DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000392",
+    "row_count": 1,
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_address IS NOT NULL\nGROUP BY recipient_address\nORDER BY transaction_count DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000433",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x0000000aa232009084bd71a5797d089aa4edfad4' AND to_address = '0x5875db54cd9ae2b2a875e09bb731772297ae9d92')\n   OR (from_address = '0x5875db54cd9ae2b2a875e09bb731772297ae9d92' AND to_address = '0x0000000aa232009084bd71a5797d089aa4edfad4')\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000434",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x00fe78205f5f0e63b8ad2b2ae5337f538a610e04' AND to_address = '0x59aab1bd0d26290274398c07b55955c15425e16b')\n   OR (from_address = '0x59aab1bd0d26290274398c07b55955c15425e16b' AND to_address = '0x00fe78205f5f0e63b8ad2b2ae5337f538a610e04')\nORDER BY block_timestamp DESC\nLIMIT 2"
+  },
+  {
+    "id": "syn-v2-000435",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x05ff6964d21e5dae3b1010d5ae0465b3c450f381' AND to_address = '0x2744dfd9898f0babbc570cc594bbbc84b487a22b')\n   OR (from_address = '0x2744dfd9898f0babbc570cc594bbbc84b487a22b' AND to_address = '0x05ff6964d21e5dae3b1010d5ae0465b3c450f381')\nORDER BY block_timestamp DESC\nLIMIT 3"
+  },
+  {
+    "id": "syn-v2-000436",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x07ae8551be970cb1cca11dd7a11f47ae82e70e67' AND to_address = '0x5c7bcd6e7de5423a257d81b442095a1a6ced35c5')\n   OR (from_address = '0x5c7bcd6e7de5423a257d81b442095a1a6ced35c5' AND to_address = '0x07ae8551be970cb1cca11dd7a11f47ae82e70e67')\nORDER BY block_timestamp DESC\nLIMIT 4"
+  },
+  {
+    "id": "syn-v2-000437",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x0b50a01d41ef221265b3d7043634de5d900a65ae' AND to_address = '0xe73d53e3a982ab2750a0b76f9012e18b256cc243')\n   OR (from_address = '0xe73d53e3a982ab2750a0b76f9012e18b256cc243' AND to_address = '0x0b50a01d41ef221265b3d7043634de5d900a65ae')\nORDER BY block_timestamp DESC\nLIMIT 5"
+  },
+  {
+    "id": "syn-v2-000438",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x111111125421ca6dc452d289314280a0f8842a65' AND to_address = '0x790f117af8169487725a1c3e92828176042cfc88')\n   OR (from_address = '0x790f117af8169487725a1c3e92828176042cfc88' AND to_address = '0x111111125421ca6dc452d289314280a0f8842a65')\nORDER BY block_timestamp DESC\nLIMIT 6"
+  },
+  {
+    "id": "syn-v2-000439",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x12d2b8ac38c59758a062a9f757f2740461779439' AND to_address = '0x7a250d5630b4cf539739df2c5dacb4c659f2488d')\n   OR (from_address = '0x7a250d5630b4cf539739df2c5dacb4c659f2488d' AND to_address = '0x12d2b8ac38c59758a062a9f757f2740461779439')\nORDER BY block_timestamp DESC\nLIMIT 7"
+  },
+  {
+    "id": "syn-v2-000440",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x1584a8ee67789d1fe161065388657ad2f2a3c7dd' AND to_address = '0x77eb52e44db06777bce478159f25c0d55a295314')\n   OR (from_address = '0x77eb52e44db06777bce478159f25c0d55a295314' AND to_address = '0x1584a8ee67789d1fe161065388657ad2f2a3c7dd')\nORDER BY block_timestamp DESC\nLIMIT 8"
+  },
+  {
+    "id": "syn-v2-000441",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x19701d5bed99ce43adfe1a6902e353ecbced64cd' AND to_address = '0x5565f17657cef60a02295eedaa52d0041ceb52d6')\n   OR (from_address = '0x5565f17657cef60a02295eedaa52d0041ceb52d6' AND to_address = '0x19701d5bed99ce43adfe1a6902e353ecbced64cd')\nORDER BY block_timestamp DESC\nLIMIT 9"
+  },
+  {
+    "id": "syn-v2-000442",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x19917386eeae67b6ff7ddf07de4019fca40aa4ec' AND to_address = '0xa154b98e53fc35e1bad1ff758acbc8c629bdcd2b')\n   OR (from_address = '0xa154b98e53fc35e1bad1ff758acbc8c629bdcd2b' AND to_address = '0x19917386eeae67b6ff7ddf07de4019fca40aa4ec')\nORDER BY block_timestamp DESC\nLIMIT 10"
+  },
+  {
+    "id": "syn-v2-000443",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x1b92388f41ae9080a790a8ca6e31c5027d0e7f6e' AND to_address = '0xb96f8b307544645ddb31ceef8affac2366dbef39')\n   OR (from_address = '0xb96f8b307544645ddb31ceef8affac2366dbef39' AND to_address = '0x1b92388f41ae9080a790a8ca6e31c5027d0e7f6e')\nORDER BY block_timestamp DESC\nLIMIT 11"
+  },
+  {
+    "id": "syn-v2-000444",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x1f2f10d1c40777ae1da742455c65828ff36df387' AND to_address = '0xae2fc483527b8ef99eb5d9b44875f005ba1fae13')\n   OR (from_address = '0xae2fc483527b8ef99eb5d9b44875f005ba1fae13' AND to_address = '0x1f2f10d1c40777ae1da742455c65828ff36df387')\nORDER BY block_timestamp DESC\nLIMIT 12"
+  },
+  {
+    "id": "syn-v2-000445",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x20011fa1a83bba9c8357f852ec667d8439a7da4a' AND to_address = '0xd862cdcfeb856c32b3c4f7563f4811d8ddfd42e2')\n   OR (from_address = '0xd862cdcfeb856c32b3c4f7563f4811d8ddfd42e2' AND to_address = '0x20011fa1a83bba9c8357f852ec667d8439a7da4a')\nORDER BY block_timestamp DESC\nLIMIT 13"
+  },
+  {
+    "id": "syn-v2-000446",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x2133b08238b8dd0d752f071a1b796a80dff85198' AND to_address = '0xb442b0b79ee370547205be9ce0f61d8438c2673a')\n   OR (from_address = '0xb442b0b79ee370547205be9ce0f61d8438c2673a' AND to_address = '0x2133b08238b8dd0d752f071a1b796a80dff85198')\nORDER BY block_timestamp DESC\nLIMIT 14"
+  },
+  {
+    "id": "syn-v2-000447",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x264bd8291fae1d75db2c5f573b07faa6715997b5' AND to_address = '0x6c3ea9036406852006290770bedfcaba0e23a0e8')\n   OR (from_address = '0x6c3ea9036406852006290770bedfcaba0e23a0e8' AND to_address = '0x264bd8291fae1d75db2c5f573b07faa6715997b5')\nORDER BY block_timestamp DESC\nLIMIT 15"
+  },
+  {
+    "id": "syn-v2-000448",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x278d858f05b94576c1e6f73285886876ff6ef8d2' AND to_address = '0x974b3afc51c46096aa3e220f25a1184f6872eb53')\n   OR (from_address = '0x974b3afc51c46096aa3e220f25a1184f6872eb53' AND to_address = '0x278d858f05b94576c1e6f73285886876ff6ef8d2')\nORDER BY block_timestamp DESC\nLIMIT 16"
+  },
+  {
+    "id": "syn-v2-000449",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x28c6c06298d514db089934071355e5743bf21d60' AND to_address = '0xee7ae85f2fe2239e27d9c1e23fffe168d63b4055')\n   OR (from_address = '0xee7ae85f2fe2239e27d9c1e23fffe168d63b4055' AND to_address = '0x28c6c06298d514db089934071355e5743bf21d60')\nORDER BY block_timestamp DESC\nLIMIT 17"
+  },
+  {
+    "id": "syn-v2-000450",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x2971e3586d13257d3092f22fdcf565f320413a47' AND to_address = '0x328033558512e95c5e0831799e636e16825b5f7a')\n   OR (from_address = '0x328033558512e95c5e0831799e636e16825b5f7a' AND to_address = '0x2971e3586d13257d3092f22fdcf565f320413a47')\nORDER BY block_timestamp DESC\nLIMIT 18"
+  },
+  {
+    "id": "syn-v2-000451",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x339d413ccefd986b1b3647a9cfa9cbbe70a30749' AND to_address = '0xc03f31fd86a9077785b7bcf6598ce3598fa91113')\n   OR (from_address = '0xc03f31fd86a9077785b7bcf6598ce3598fa91113' AND to_address = '0x339d413ccefd986b1b3647a9cfa9cbbe70a30749')\nORDER BY block_timestamp DESC\nLIMIT 19"
+  },
+  {
+    "id": "syn-v2-000452",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x396343362be2a4da1ce0c1c210945346fb82aa49' AND to_address = '0xbef7b36845ca31045e86d0b46dbcac4e6752a9ce')\n   OR (from_address = '0xbef7b36845ca31045e86d0b46dbcac4e6752a9ce' AND to_address = '0x396343362be2a4da1ce0c1c210945346fb82aa49')\nORDER BY block_timestamp DESC\nLIMIT 20"
+  },
+  {
+    "id": "syn-v2-000453",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x3a5cc8689d1b0cef2c317bc5c0ad6ce88b27d597' AND to_address = '0xb02c6c40a798184d5e012fbb1dc698977671f8fc')\n   OR (from_address = '0xb02c6c40a798184d5e012fbb1dc698977671f8fc' AND to_address = '0x3a5cc8689d1b0cef2c317bc5c0ad6ce88b27d597')\nORDER BY block_timestamp DESC\nLIMIT 21"
+  },
+  {
+    "id": "syn-v2-000454",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x4cd00e387622c35bddb9b4c962c136462338bc31' AND to_address = '0xf70da97812cb96acdf810712aa562db8dfa3dbef')\n   OR (from_address = '0xf70da97812cb96acdf810712aa562db8dfa3dbef' AND to_address = '0x4cd00e387622c35bddb9b4c962c136462338bc31')\nORDER BY block_timestamp DESC\nLIMIT 22"
+  },
+  {
+    "id": "syn-v2-000455",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x5050f69a9786f081509234f1a7f4684b5e5b76c9' AND to_address = '0xff00000000000000000000000000000000008453')\n   OR (from_address = '0xff00000000000000000000000000000000008453' AND to_address = '0x5050f69a9786f081509234f1a7f4684b5e5b76c9')\nORDER BY block_timestamp DESC\nLIMIT 23"
+  },
+  {
+    "id": "syn-v2-000456",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x53b8a0e639c70b1d8d394d8f0b98ae01ca492de3' AND to_address = '0xd30ec1312d03bb2b72101f8766e4180cd58c0e75')\n   OR (from_address = '0xd30ec1312d03bb2b72101f8766e4180cd58c0e75' AND to_address = '0x53b8a0e639c70b1d8d394d8f0b98ae01ca492de3')\nORDER BY block_timestamp DESC\nLIMIT 24"
+  },
+  {
+    "id": "syn-v2-000457",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x559432e18b281731c054cd703d4b49872be4ed53' AND to_address = '0xdac17f958d2ee523a2206206994597c13d831ec7')\n   OR (from_address = '0xdac17f958d2ee523a2206206994597c13d831ec7' AND to_address = '0x559432e18b281731c054cd703d4b49872be4ed53')\nORDER BY block_timestamp DESC\nLIMIT 25"
+  },
+  {
+    "id": "syn-v2-000458",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x5597278e3baa59d53e256db5cbabc9b491499ce5' AND to_address = '0xabba7bef6dffba87d66e6c3d2d612b1a57df2303')\n   OR (from_address = '0xabba7bef6dffba87d66e6c3d2d612b1a57df2303' AND to_address = '0x5597278e3baa59d53e256db5cbabc9b491499ce5')\nORDER BY block_timestamp DESC\nLIMIT 26"
+  },
+  {
+    "id": "syn-v2-000459",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x5b43453fce04b92e190f391a83136bfbecedefd1' AND to_address = '0xbdb3ba9ffe392549e1f8658dd2630c141fdf47b6')\n   OR (from_address = '0xbdb3ba9ffe392549e1f8658dd2630c141fdf47b6' AND to_address = '0x5b43453fce04b92e190f391a83136bfbecedefd1')\nORDER BY block_timestamp DESC\nLIMIT 27"
+  },
+  {
+    "id": "syn-v2-000460",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789' AND to_address = '0xe19635704ae3b77bc993358ff515d10cceae0ce1')\n   OR (from_address = '0xe19635704ae3b77bc993358ff515d10cceae0ce1' AND to_address = '0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789')\nORDER BY block_timestamp DESC\nLIMIT 28"
+  },
+  {
+    "id": "syn-v2-000461",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x63259a528b9186992e55b265b2bd05eee8df64e1' AND to_address = '0xca11bde05977b3631167028862be2a173976ca11')\n   OR (from_address = '0xca11bde05977b3631167028862be2a173976ca11' AND to_address = '0x63259a528b9186992e55b265b2bd05eee8df64e1')\nORDER BY block_timestamp DESC\nLIMIT 29"
+  },
+  {
+    "id": "syn-v2-000462",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x6809b95622b2dcc53d2f3fb2301b36f6a8c5b584' AND to_address = '0xd72a6ba4a87ddb33e801b3f1c7750b2d0911fc6c')\n   OR (from_address = '0xd72a6ba4a87ddb33e801b3f1c7750b2d0911fc6c' AND to_address = '0x6809b95622b2dcc53d2f3fb2301b36f6a8c5b584')\nORDER BY block_timestamp DESC\nLIMIT 30"
+  },
+  {
+    "id": "syn-v2-000463",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x74b0275a268958ac4eed54df34ed7fefef28e434' AND to_address = '0xb02016102e7ab27bce2c3087392098a09c2f0f2a')\n   OR (from_address = '0xb02016102e7ab27bce2c3087392098a09c2f0f2a' AND to_address = '0x74b0275a268958ac4eed54df34ed7fefef28e434')\nORDER BY block_timestamp DESC\nLIMIT 31"
+  },
+  {
+    "id": "syn-v2-000464",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x754dcfb2861547015b221e963b4133a71dbdc024' AND to_address = '0xbb1532f8209cb561a2fa064616c29448ed18ea4c')\n   OR (from_address = '0xbb1532f8209cb561a2fa064616c29448ed18ea4c' AND to_address = '0x754dcfb2861547015b221e963b4133a71dbdc024')\nORDER BY block_timestamp DESC\nLIMIT 32"
+  },
+  {
+    "id": "syn-v2-000465",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x7830c87c02e56aff27fa8ab1241711331fa86f43' AND to_address = '0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43')\n   OR (from_address = '0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43' AND to_address = '0x7830c87c02e56aff27fa8ab1241711331fa86f43')\nORDER BY block_timestamp DESC\nLIMIT 33"
+  },
+  {
+    "id": "syn-v2-000466",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x7ec8a30a34b86927dc77b302603d1d53e640bef7' AND to_address = '0xe91bcae4a2d7b951304695f93cf1b9a1837cfe43')\n   OR (from_address = '0xe91bcae4a2d7b951304695f93cf1b9a1837cfe43' AND to_address = '0x7ec8a30a34b86927dc77b302603d1d53e640bef7')\nORDER BY block_timestamp DESC\nLIMIT 34"
+  },
+  {
+    "id": "syn-v2-000467",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x8b5606469e21c75edd7c74d1c7a65824675d9aff' AND to_address = '0x9ccc2f3ecde026230e11a5c8799ac7524f2bb294')\n   OR (from_address = '0x9ccc2f3ecde026230e11a5c8799ac7524f2bb294' AND to_address = '0x8b5606469e21c75edd7c74d1c7a65824675d9aff')\nORDER BY block_timestamp DESC\nLIMIT 35"
+  },
+  {
+    "id": "syn-v2-000468",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x8d8210a0252a706cb5de0c6f8e46b6d3692afc19' AND to_address = '0xdda3b51e29f9d6fad865c5dd7070d5f7eb57663e')\n   OR (from_address = '0xdda3b51e29f9d6fad865c5dd7070d5f7eb57663e' AND to_address = '0x8d8210a0252a706cb5de0c6f8e46b6d3692afc19')\nORDER BY block_timestamp DESC\nLIMIT 36"
+  },
+  {
+    "id": "syn-v2-000469",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0x974caa59e49682cda0ad2bbe82983419a2ecc400' AND to_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48')\n   OR (from_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' AND to_address = '0x974caa59e49682cda0ad2bbe82983419a2ecc400')\nORDER BY block_timestamp DESC\nLIMIT 37"
+  },
+  {
+    "id": "syn-v2-000470",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0xa377aa6822603cc52e4e9ed6eaa045c46ef6b3e2' AND to_address = '0xb685760ebd368a891f27ae547391f4e2a289895b')\n   OR (from_address = '0xb685760ebd368a891f27ae547391f4e2a289895b' AND to_address = '0xa377aa6822603cc52e4e9ed6eaa045c46ef6b3e2')\nORDER BY block_timestamp DESC\nLIMIT 38"
+  },
+  {
+    "id": "syn-v2-000471",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0xbad000006db10503589262b55d09bb7b3c5e1472' AND to_address = '0xbbbbb048b1a85ca221058c45525095b6a68bbbbb')\n   OR (from_address = '0xbbbbb048b1a85ca221058c45525095b6a68bbbbb' AND to_address = '0xbad000006db10503589262b55d09bb7b3c5e1472')\nORDER BY block_timestamp DESC\nLIMIT 39"
+  },
+  {
+    "id": "syn-v2-000472",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, from_address, to_address, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE (from_address = '0xea7f2d6e29772a610212e6731fa5d2265c3a8437' AND to_address = '0xf9b6a1eb0190bf76274b0876957ee9f4f508af41')\n   OR (from_address = '0xf9b6a1eb0190bf76274b0876957ee9f4f508af41' AND to_address = '0xea7f2d6e29772a610212e6731fa5d2265c3a8437')\nORDER BY block_timestamp DESC\nLIMIT 40"
+  },
+  {
+    "id": "syn-v2-000473",
+    "row_count": 1,
+    "sql": "SELECT from_owner AS owner, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE from_owner IS NOT NULL\nGROUP BY owner\nORDER BY transaction_count DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000514",
+    "row_count": 1,
+    "sql": "SELECT token_symbol, SUM(normalized_amount) AS total_amount\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE normalized_amount IS NOT NULL AND token_symbol IS NOT NULL\nGROUP BY token_symbol\nORDER BY total_amount DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000555",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, log_index, block_timestamp, token_address, from_address, to_address, normalized_amount\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE UPPER(token_symbol) = UPPER('USDT')\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000556",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, log_index, block_timestamp, token_address, from_address, to_address, normalized_amount\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE UPPER(token_symbol) = UPPER('USDC')\nORDER BY block_timestamp DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000596",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, receipt_gas_used, gas_price_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE is_success IS FALSE AND receipt_gas_used >= 500000\nORDER BY receipt_gas_used DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000637",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE beneficiary_address = '0x396343362be2a4da1ce0c1c210945346fb82aa49'\nORDER BY block_number DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000638",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE beneficiary_address = '0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97'\nORDER BY block_number DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000639",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE beneficiary_address = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5'\nORDER BY block_number DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000640",
+    "row_count": 1,
+    "sql": "SELECT block_number, block_hash, block_timestamp, beneficiary_address, transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE beneficiary_address = '0xdadb0d80178819f2319190d340ce9a924f783711'\nORDER BY block_number DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000677",
+    "row_count": 1,
+    "sql": "SELECT category, address_role, COUNT(*) AS account_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1`\nGROUP BY category, address_role\nORDER BY account_count DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000718",
+    "row_count": 1,
+    "sql": "SELECT TIMESTAMP_TRUNC(block_timestamp, HOUR) AS hour, COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nGROUP BY hour\nORDER BY transaction_count DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000759",
+    "row_count": 1,
+    "sql": "SELECT transaction_hash, block_timestamp, to_address, to_owner, to_concept_class, value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_concept_class = 'BridgeProtocol' AND value_wei >= NUMERIC '1000000000000000000'\nORDER BY value_wei DESC\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000800",
+    "row_count": 1,
+    "sql": "WITH movements AS (\n  SELECT from_owner AS owner, 'outgoing' AS direction, value_wei\n  FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\n  WHERE from_address_role = 'treasury' AND from_owner IS NOT NULL\n    AND receipt_status = 1 AND value_wei > 0\n  UNION ALL\n  SELECT to_owner AS owner, 'incoming' AS direction, value_wei\n  FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\n  WHERE to_address_role = 'treasury' AND to_owner IS NOT NULL\n    AND receipt_status = 1 AND value_wei > 0\n), owner_stats AS (\n  SELECT owner,\n    SUM(IF(direction = 'incoming', value_wei, NUMERIC '0')) AS incoming_value_wei,\n    SUM(IF(direction = 'outgoing', value_wei, NUMERIC '0')) AS outgoing_value_wei,\n    COUNTIF(direction = 'incoming') AS incoming_transaction_count,\n    COUNTIF(direction = 'outgoing') AS outgoing_transaction_count\n  FROM movements\n  GROUP BY owner\n)\nSELECT owner, incoming_value_wei, outgoing_value_wei,\n  incoming_value_wei - outgoing_value_wei AS net_value_wei,\n  incoming_transaction_count, outgoing_transaction_count,\n  DENSE_RANK() OVER (ORDER BY ABS(incoming_value_wei - outgoing_value_wei) DESC) AS net_flow_rank\nFROM owner_stats\nORDER BY net_flow_rank, owner\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000834",
+    "row_count": 1,
+    "sql": "WITH category_stats AS (\n  SELECT\n    category,\n    COUNT(DISTINCT owner) AS owner_count,\n    COUNT(DISTINCT address) AS account_count\n  FROM `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1`\n  GROUP BY category\n)\nSELECT\n  category,\n  owner_count,\n  account_count,\n  SAFE_DIVIDE(account_count, owner_count) AS accounts_per_owner,\n  DENSE_RANK() OVER (\n    ORDER BY owner_count DESC, account_count DESC\n  ) AS owner_rank\nFROM category_stats\nORDER BY owner_rank, category\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000868",
+    "row_count": 1,
+    "sql": "WITH funding AS (\n  SELECT transaction_hash, block_timestamp, from_address, to_address\n  FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\n  WHERE to_address IS NOT NULL AND from_address_role = 'treasury'\n    AND value_wei > 0 AND receipt_status = 1\n), transfers AS (\n  SELECT transaction_hash, log_index, block_timestamp, from_address, to_address, token_symbol, normalized_amount\n  FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-15', DATE '2026-06-16')\n)\nSELECT funding.transaction_hash AS funding_hash, transfers.transaction_hash AS transfer_hash, transfers.log_index, funding.to_address AS funded_address, transfers.token_symbol, transfers.normalized_amount\nFROM funding\nJOIN transfers ON transfers.from_address = funding.to_address\n  AND transfers.block_timestamp >= funding.block_timestamp\n  AND transfers.block_timestamp < TIMESTAMP_ADD(funding.block_timestamp, INTERVAL 60 MINUTE)\nORDER BY transfers.block_timestamp\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000901",
+    "row_count": 1,
+    "sql": "WITH pair_counts AS (\n  SELECT from_owner AS owner, to_address, COUNT(*) AS pair_transaction_count\n  FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`(DATE '2026-06-15', DATE '2026-06-16')\n  WHERE from_address_role = 'treasury' AND from_owner IS NOT NULL\n    AND to_address IS NOT NULL AND receipt_status = 1 AND value_wei > 0\n  GROUP BY owner, to_address\n), pair_shares AS (\n  SELECT owner, to_address, pair_transaction_count,\n    SAFE_DIVIDE(pair_transaction_count, SUM(pair_transaction_count) OVER (PARTITION BY owner)) AS recipient_share\n  FROM pair_counts\n), owner_stats AS (\n  SELECT owner, SUM(pair_transaction_count) AS transaction_count,\n    COUNT(*) AS distinct_recipient_count,\n    SUM(recipient_share * recipient_share) AS concentration_index,\n    MAX(recipient_share) AS largest_recipient_share\n  FROM pair_shares\n  GROUP BY owner\n  HAVING SUM(pair_transaction_count) >= 10\n)\nSELECT owner, transaction_count, distinct_recipient_count, concentration_index,\n  largest_recipient_share,\n  DENSE_RANK() OVER (ORDER BY concentration_index DESC) AS concentration_rank\nFROM owner_stats\nORDER BY concentration_rank, owner\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000934",
+    "row_count": 1,
+    "sql": "WITH owner_stats AS (\n  SELECT from_owner AS owner,\n    COUNT(*) AS token_transfer_count,\n    COUNT(DISTINCT token_address) AS distinct_token_count,\n    COUNT(DISTINCT to_address) AS distinct_recipient_count\n  FROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-15', DATE '2026-06-16')\n  WHERE from_address_role = 'treasury' AND from_owner IS NOT NULL AND to_address IS NOT NULL\n  GROUP BY owner\n)\nSELECT owner, token_transfer_count, distinct_token_count, distinct_recipient_count,\n  DENSE_RANK() OVER (ORDER BY distinct_recipient_count DESC, distinct_token_count DESC) AS diversity_rank\nFROM owner_stats\nORDER BY diversity_rank, owner\nLIMIT 1"
+  },
+  {
+    "id": "syn-v2-000967",
+    "row_count": 1,
+    "sql": "SELECT from_address, to_address, COUNT(*) AS transaction_count, SUM(value_wei) AS total_value_wei\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-16')\nWHERE to_address IS NOT NULL\nGROUP BY from_address, to_address\nHAVING transaction_count > 1\nORDER BY transaction_count DESC, total_value_wei DESC\nLIMIT 1"
+  }
+]

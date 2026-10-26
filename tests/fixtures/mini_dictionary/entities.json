@@ -1,0 +1,206 @@
+[
+  {
+    "address": "0x00000000000000000000000000000000000000b1",
+    "address_lower": "0x00000000000000000000000000000000000000b1",
+    "primary_label": "Binance: hot wallet 1",
+    "owner": "Binance",
+    "category": "exchange",
+    "concept_class": "ExchangeAccount",
+    "aliases": [
+      "binance"
+    ],
+    "chain_id": 1,
+    "address_role": "treasury",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x00000000000000000000000000000000000000b2",
+    "address_lower": "0x00000000000000000000000000000000000000b2",
+    "primary_label": "Binance: hot wallet 2",
+    "owner": "Binance",
+    "category": "exchange",
+    "concept_class": "ExchangeAccount",
+    "aliases": [
+      "binance"
+    ],
+    "chain_id": 1,
+    "address_role": "treasury",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x00000000000000000000000000000000000000b3",
+    "address_lower": "0x00000000000000000000000000000000000000b3",
+    "primary_label": "Binance: cold wallet",
+    "owner": "Binance",
+    "category": "exchange",
+    "concept_class": "ExchangeAccount",
+    "aliases": [
+      "binance"
+    ],
+    "chain_id": 1,
+    "address_role": "treasury",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x00000000000000000000000000000000000007c1",
+    "address_lower": "0x00000000000000000000000000000000000007c1",
+    "primary_label": "Tornado Cash: 1 ETH pool",
+    "owner": "Tornado Cash",
+    "category": "mixer",
+    "concept_class": "Mixer",
+    "aliases": [
+      "tornado cash",
+      "tornado"
+    ],
+    "chain_id": 1,
+    "address_role": "operational",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x00000000000000000000000000000000000007c2",
+    "address_lower": "0x00000000000000000000000000000000000007c2",
+    "primary_label": "Tornado Cash: 10 ETH pool",
+    "owner": "Tornado Cash",
+    "category": "mixer",
+    "concept_class": "Mixer",
+    "aliases": [
+      "tornado cash",
+      "tornado"
+    ],
+    "chain_id": 1,
+    "address_role": "operational",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x00000000000000000000000000000000000000d1",
+    "address_lower": "0x00000000000000000000000000000000000000d1",
+    "primary_label": "Uniswap V3: router",
+    "owner": "Uniswap V3",
+    "category": "dex",
+    "concept_class": "DEXProtocol",
+    "aliases": [
+      "uniswap v3",
+      "uniswap"
+    ],
+    "chain_id": 1,
+    "address_role": "operational",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x00000000000000000000000000000000000007e7",
+    "address_lower": "0x00000000000000000000000000000000000007e7",
+    "primary_label": "Tether USD (USDT)",
+    "owner": "Tether",
+    "category": "token_contract",
+    "concept_class": "TokenContract",
+    "aliases": [
+      "usdt",
+      "tether"
+    ],
+    "chain_id": 1,
+    "address_role": "token",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  },
+  {
+    "address": "0x0000000000000000000000000000000000000b0b",
+    "address_lower": "0x0000000000000000000000000000000000000b0b",
+    "primary_label": "BOB token",
+    "owner": "BOB",
+    "category": "token_contract",
+    "concept_class": "TokenContract",
+    "aliases": [
+      "bob"
+    ],
+    "chain_id": 1,
+    "address_role": "token",
+    "sources": [
+      {
+        "name": "fixture",
+        "url": "https://example.org/fixture",
+        "revision": "0000000000000000000000000000000000000000",
+        "locator": "L1",
+        "retrieved_date": "2026-10-26",
+        "note": "test fixture"
+      }
+    ],
+    "confidence": "high",
+    "verified_date": "2026-10-26"
+  }
+]

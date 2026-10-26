@@ -1,0 +1,39 @@
+{
+  "bytes_billed": {
+    "blocks.csv": 11318329344,
+    "contracts.csv": 5484052480,
+    "token_transfers.csv": 39431700480,
+    "transactions.csv": 14434697216
+  },
+  "bytes_processed": {
+    "blocks.csv": 11317628172,
+    "contracts.csv": 5483255956,
+    "token_transfers.csv": 39430730824,
+    "transactions.csv": 14433666940
+  },
+  "data_period": {
+    "end": "2026-06-30",
+    "start": "2026-05-31"
+  },
+  "dictionary": {
+    "address_count": 4520,
+    "path": "src/nl2sparql/linking/dictionary/entities.json"
+  },
+  "estimated_cost_usd": 0.3213644027709961,
+  "extraction_date": "2026-07-02",
+  "generated_at": "2026-07-02T16:09:25.153152+00:00",
+  "mode": "live",
+  "rows": {
+    "blocks.csv": 221548,
+    "contracts.csv": 3513,
+    "token_transfers.csv": 4001230,
+    "transactions.csv": 4431329
+  },
+  "source_tables": {
+    "blocks": "bigquery-public-data.crypto_ethereum.blocks",
+    "contracts": "bigquery-public-data.crypto_ethereum.contracts",
+    "token_transfers": "bigquery-public-data.crypto_ethereum.token_transfers",
+    "transactions": "bigquery-public-data.crypto_ethereum.transactions"
+  },
+  "total_bytes_billed": 70668779520
+}

@@ -1,0 +1,2286 @@
+[
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 122076040,
+    "row_count": 7,
+    "row_digests": [
+      "677cfca72fea7bf54c0c79c0b537a270f4a3849315edee5c921ba985b3833d1a",
+      "b133d0ffc91a7a020d1e78dd7732e9ab6bbfcc947b9e5aac10a5ee19c106efe7",
+      "bd543bef5e1d37a908e8d54b3204fba45b6f53764e616a51d9464fdc89b8b67d",
+      "586ddb06674b1213db3b54e99ed0f031e225c782ab61a57d276cb450d3374e57",
+      "fad630645f5258f29fe0f2c30fdf60062f41d7d058c35dfe15152f5a853a143d",
+      "9ce6bec1d86beb8935f506a9e77f3ae55c7909cc370f5ab6e7abe6d0e20ca143",
+      "f4dbcd5d4aab3c0b6d113374c4e536aaeea0214ed0a66d8efd5c1755577d7f83"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "00e706b22a7142c0b46352384c43390cf67a93b8c2432bada3dd07f4341c2f97"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_gas_price_wei",
+        "type_name": "FLOAT"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_receipt_gas_used",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 381665712,
+    "row_count": 7,
+    "row_digests": [
+      "55c034892eb39988ce2ce65a52ac815647025b06d55a4a211cdc0d4845c49ea7",
+      "2d56f30f7b1f4fc8479a6c7309091bc91476a4cd3f093590611cac9cc2431a4a",
+      "c0e93ffdb33cb17f8f7ade3aecb1ac0a72c76c39a2e36de1e0c297ac6b24232e",
+      "d29821e3f1e3f0c9e1da3182c2449d95836c8fe2068fbe8b4ddcc1001c4fea3b",
+      "5e0c837860ede8a6a414a1806db08a7d2ddfe0abbc73a7710ee739b523ce3685",
+      "f0217a68164bb6d41f904ed54a4032851f8c697bdf6bd2b8fe64315132559fda",
+      "c1903ee240f9aea7f95241b4a589df310807754eb799967e3102b2aa926c3699"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, AVG(gas_price_wei) AS average_gas_price_wei, AVG(receipt_gas_used) AS average_receipt_gas_used FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "029b447acfb1c17527c43dd7105ed5b99f1d7794828807e1f0a644668dac8d28"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 1336133027,
+    "row_count": 1,
+    "row_digests": [
+      "47556bb7207154feb563624347a805fd123791a85ef584628ca22625bb8fed33"
+    ],
+    "sql": "SELECT labels.concept_class AS sender_concept_class, COUNT(*) AS transaction_count, COALESCE(SUM(tx.value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.from_address = labels.address GROUP BY sender_concept_class ORDER BY total_value_wei DESC, sender_concept_class ASC LIMIT 10",
+    "sql_sha256": "05aa881b79dc613bd8f6546b98dff067a5c217938a40afd03dda086816f74df3"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 826559847,
+    "row_count": 6,
+    "row_digests": [
+      "0a8d23fc197896e392a4f87120a9d74a43f0df5a37cdc8a4c997fc7d38372e6a",
+      "4d6696f9629a635301fb70bc3ccfb65e6f3112c741bd16568de39f088bf5da8e",
+      "ceea4547dde239151c646f357e4ee25407c873f402e016d62782b2ad94cbee62",
+      "46e419558b75cf9cc67ddbcff55fb0bc4ef3aa5ef77d4a55d7e8fcc18483bb1b",
+      "5c9902f25dd479fc5ab457903d66abacd5195ebae693e32b5747ddbd1ed8dbab",
+      "381cd5830f746ef30d8453b4956e9195a6f8323c8d212c5885c5047475375830"
+    ],
+    "sql": "SELECT labels.concept_class AS recipient_concept_class, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.to_address = labels.address GROUP BY recipient_concept_class ORDER BY transaction_count DESC, recipient_concept_class ASC LIMIT 10",
+    "sql_sha256": "06e75ab7863ef1dcf0b0699cf9ee30711a8d80be395cd4f5f1406bc89355628d"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "beneficiary_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 2740868,
+    "row_count": 10,
+    "row_digests": [
+      "b824d0d918408f95808c8b7e642c1587e03c573a77c102085d79ec2e7993b3f8",
+      "011f5c4904034fc51f0539eccf588fa382c907792dc459ee7a048e670ae9253c",
+      "2cb4b47d5b51fe797117eec3f1b2e53e11394de5a13e7c2f03c181f9b958c96c",
+      "344e0872b203dcf9a16a9373d6363e72c1cdbd4675e36fddee2b13240cf1a5fd",
+      "8cf59a874447a78fef9e91fa92669e7ed1a60ab9d8e5c25036832138e72ca2ad",
+      "c5e65283e095d7a143bbce516b268b8cacbb31e9b9c5abcd9de2c9d2418d7b5a",
+      "4714fa5ed9aa380a049caa06e516f7d17dd576c9da916c7a1a508cfeb91e9492",
+      "20e5c76d12741553f4cf6f36efbadb3c62427981078ce9f6176d1fdd3d222089",
+      "690f03139516ebd2b1e0ef70202dc8fd46fa1e8d6b5518f66147edd87ce5491f",
+      "75191d84c4d0d2856a3b39d79a6e4cdf8ac27c1668f28dfe7e7566336cdc481a"
+    ],
+    "sql": "SELECT beneficiary_address AS beneficiary_address, COUNT(*) AS block_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-08') WHERE beneficiary_address IS NOT NULL GROUP BY beneficiary_address ORDER BY block_count DESC, beneficiary_address ASC LIMIT 10",
+    "sql_sha256": "077302bf1e3bf2f6bb182eca32c8ada306855e09c6344cfbcd7d251ee90537a2"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "successful_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 333722576,
+    "row_count": 1,
+    "row_digests": [
+      "87ebacc5bc59b7efc659498991dbec6e009f5e956d93a8369f18a1690ac58c67"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS TRUE) AS successful_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "0918479c5d332161dbb50160c6e96b484aefcd356641daf1117e26499fa948f8"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_gas_price_wei",
+        "type_name": "FLOAT"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_receipt_gas_used",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 500583864,
+    "row_count": 9,
+    "row_digests": [
+      "d6b77ad4147397d94e2425944d0e2c344284cd64dc9bcf849697c93eaca335ef",
+      "2f93ffe4f2b9c2957f39f89d0c284bd377f3e5f34aa752afb39e32f9d1505c1e",
+      "116cceee70e7908f8928badf4064d7b8fe4703675d1b632b75b15dd7201ceb7b",
+      "b5fc32d41c8feb08cec8f22c96e6f098c7443c1f482f83fed792f71ad975aa7d",
+      "39718016d12a7fa3cd37ed16bec1ea6e968513b561e18db32e83a8088aff9f2d",
+      "e0c9d293c2b174172a572eb49ce27cbbbb00556b09deac30b9b8496e5dc3e111",
+      "204a8b4b55d8dac3b8e027f798161cb0ff95a1a174df5eb828ff76f32d961b91",
+      "c8e4b4b3b93852f7a98f349586c4fe76f8776d35c00127facb0e5f7556df0685",
+      "11f98f7f59902ebc40a7a41120dc6903a120f00a69375b451f1de7b7f1f6fe4e"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, AVG(gas_price_wei) AS average_gas_price_wei, AVG(receipt_gas_used) AS average_receipt_gas_used FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "091ccc48fa48be24b882ebb452efb07229e9fcb74e33ba871ee159b599edcbe8"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 792668512,
+    "row_count": 10,
+    "row_digests": [
+      "1f44d401acbdae31570ca0f3b83611161601bf339b1ff44721da06ddae4341a3",
+      "b86e45cfee3b63fd8164b8cd8f177df43aa3b824079f8d6a0c23c9ed6e922dbd",
+      "a43f987e583fcb61022ef63dc079ba05472b21893eb51a5d4b31f95a23a85a29",
+      "b5ceaef651554e7bc3af0d81594c229572b89c9142f6ffbc112d761b7384ce75",
+      "e6cdfe88af5376278bdfcad0d871fd508f623427fcc95068120f66674c65a511",
+      "51be6873634a6d595688fcb774eef9b472df127773a522bc6251e81194693472",
+      "25e37d7f1a48b63b60baf8ba3d3ceeb7e97776e07cecb79ee7d760376b91c181",
+      "dfb18bf4ec5b859167cd42e79a259ffa373ec053a46453e7f29441d79f435a6c",
+      "b6f1d764b9ac2a6e1ee4fa1940982312ba6e80d6a706b12478cb23cc553b6f22",
+      "80dba901f0d475cbb646a239749d3010ede1d4ae0035b8893adb6cedde0178cd"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transaction_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "0bd278302f86aef0c5bd9d6293c988b33c1eb85990a9c402bfa9a55e9773ebb1"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1083685423,
+    "row_count": 6,
+    "row_digests": [
+      "27a14f00bdaee29e0a1f7e4a73783fc940ba9ec41728988ea2053702b166684e",
+      "da46736b63d01481107ea129751bc56ed7f835ea4592cdd9398380dde5485107",
+      "7b5bc71977ec303d220bef16effc5a9e2e0440a96f239c2b1759af8bf2321085",
+      "66b370573b604277e2a48f1444a45b9a9f8e5f781e33d0d4c319a6eee518f045",
+      "9f412eb3c20c95db8f153bda2f3c2efc76b7cbdd65cc61dac82cfddbe01ca9d2",
+      "ce6db41126426d1d1f5e9e166588a0a0c28d28407949653de098cb24da85ea17"
+    ],
+    "sql": "SELECT labels.concept_class AS recipient_concept_class, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.to_address = labels.address GROUP BY recipient_concept_class ORDER BY transaction_count DESC, recipient_concept_class ASC LIMIT 10",
+    "sql_sha256": "0e268dbe5f2af4c368336629864ba71ab8611487727be693f60975ee813497cc"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 631240,
+    "row_count": 1,
+    "row_digests": [
+      "e7676de910f888945a94b5fb33bd52ccc56969f9ed8435eb620bc1a29effe0ba"
+    ],
+    "sql": "SELECT COUNT(*) AS block_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "118d33480bfefbbda2cb5f58a02a7bcf65273d8e9fe2b506cc1aabcb9218c56d"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_type",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 244152080,
+    "row_count": 5,
+    "row_digests": [
+      "23dba0444a395c2d9e39693be7e03f570ebd593bcb802b3665892a69de2f9d27",
+      "c616498866a3e1d3a111beb71167c41c234faffd5ec9c4ed2a4bf07718ac6225",
+      "176bc57c1ff846594501d2477624f13e1388e421ecde17230060e6e0d53ea09e",
+      "07468a58c07522a5dba6f2f7cbf8a4754fd73bb5df78322959238e40d687bcfa",
+      "8355b5f3629539219c865f3e1a88b0bf8563fa249bc3ad3866451ddf2b608791"
+    ],
+    "sql": "SELECT transaction_type AS transaction_type, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY transaction_type ORDER BY transaction_count DESC, transaction_type ASC",
+    "sql_sha256": "13d4b690244209dad42c7cd041922634b5f0abfe72a9445da5ebd1e0618916ce"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15118460523,
+    "row_count": 1,
+    "row_digests": [
+      "cb86700393979ea2492d6eb794ac292454ac17daed577d741b70786e7f74daea"
+    ],
+    "sql": "SELECT COUNT(*) AS token_transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "19679cef9152f2d0aa1ba530e5091e71c744e4cdb370d30aa7eaa1592956d80f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_gas_used",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1893720,
+    "row_count": 9,
+    "row_digests": [
+      "b090787fd844075073af40e1284a365d7cf5a71185b427bd976e7a3d38c8f878",
+      "5b50d25465e0ddaef65da093f4dd9e7e829e014dd26b4dcf2a14e8acd6e4fa8b",
+      "4781557c32bb0ea479ff8c7917404ee69369f948588c2ed1abbeaa0eaedf79a2",
+      "d7a3da1b44116caa77b37eb225ec1ae0d6b43cdb820e252388b58904bc199bbe",
+      "3ad17bfefe786e3473aafcf168df4f6c67221c2736e56901eefdb6e4e60332a0",
+      "00653edf4b30880956473b585bd76af9cb586ba96a41ca171b6e03aa785d50db",
+      "922d5c35c5bb18dd4a86559cbd36cb62f8abe6ede1e447ad472da12285465674",
+      "127edf80c144fe230bbaa2b8c83a23f45a01480f1ea7f2ece3daa49df53d453b",
+      "dccf1c377e7d560567c7bdba4c4ce42d8ffa5283aa623dc7b996ac180cd6d897"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS block_count, SUM(gas_used) AS total_gas_used, SUM(transaction_count) AS total_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "1ae5ea9322e094df0a6ff1d305f8aee047ec8af1204630182015b7821f45acc1"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "average_transactions_per_block",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 1262480,
+    "row_count": 1,
+    "row_digests": [
+      "97e230a0173f717d0dbe00206347630a728bc25428de062ce3bcecac1be3d422"
+    ],
+    "sql": "SELECT AVG(transaction_count) AS average_transactions_per_block FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "1ba61d0d04921324ce8b7058eb1a0ea0c35d8828478b7ecf21815d5c319a62c6"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 1752346559,
+    "row_count": 1,
+    "row_digests": [
+      "e9d2d14580cb87a2ac09e5d6a4aae96c1343f1ebd03f25a1ae2f08f7d3d59e13"
+    ],
+    "sql": "SELECT labels.concept_class AS sender_concept_class, COUNT(*) AS transaction_count, COALESCE(SUM(tx.value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.from_address = labels.address GROUP BY sender_concept_class ORDER BY total_value_wei DESC, sender_concept_class ASC LIMIT 10",
+    "sql_sha256": "21d2316c2117fd8cb13b207c7d3122619a863055834cacafca912b8a7e749f17"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 480000,
+    "row_count": 1,
+    "row_digests": [
+      "dfb18c87a58a6aed794899983c5c512e6cef04454ad6337d20379320809cedc7"
+    ],
+    "sql": "SELECT COUNT(*) AS block_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-08', DATE '2026-06-15')",
+    "sql_sha256": "22a8a1edd3c42d72dfb0548e657a7f290cb3cb25d52c4c29801834f49ab06c0f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "observed_transaction_rows",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "joined_block_transaction_total",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 103393104,
+    "row_count": 7,
+    "row_digests": [
+      "3e529f2c7e6c24e2f97e837dc3aaaec9b7cf1b9d312dcd031cd9f76389f5216e",
+      "197bbf3abcc4f70364db88c72e77f1982077a94781ae2084d3477e5984637e9f",
+      "7a7491a0f31478f536d8d659a7590df2518f8a111e233a079f4f599c476c003c",
+      "47c2f83bd84c14324c2f8bfce62b830d660fe5dfa8377e8967015650f1012caf",
+      "077eb0f4f04a85d96eb85b27f119fdf22e633a8aa7f02d585d7669b44fdcb185",
+      "c23e592f5c15d54d790717a5fb0ee1d8cb32827707aabef0c735a24cc2c8b658",
+      "500d386ad5162d61fd18e2abcc4168a316caa18306219d80f87a7e5b4d885a69"
+    ],
+    "sql": "WITH tx_daily AS (SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS observed_transaction_rows FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY activity_date), block_daily AS (SELECT DATE(block_timestamp) AS activity_date, SUM(transaction_count) AS joined_block_transaction_total FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY activity_date) SELECT tx_daily.activity_date AS activity_date, tx_daily.observed_transaction_rows AS observed_transaction_rows, block_daily.joined_block_transaction_total AS joined_block_transaction_total FROM tx_daily JOIN block_daily USING (activity_date) ORDER BY activity_date ASC",
+    "sql_sha256": "24237fa76f1dd06d766bcfbf63e7363f71f00d3053f984fa5049ea17dfcfbd5c"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 512748800,
+    "row_count": 1,
+    "row_digests": [
+      "c3f7d051a81ecfed014b2a76a792e4451444e3884f107b7c68bb53e01c7a134b"
+    ],
+    "sql": "SELECT COALESCE(SUM(value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "2820694149f40871b36273c6dd8a358e8a047e2aa829d1c6263fd6700819f7c4"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_hash",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "native_value_wei",
+        "type_name": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 22306018195,
+    "row_count": 10,
+    "row_digests": [
+      "398a07b1daed4f24b77170b11734f1ae94cc4bf03b7b1c098d836a022056f572",
+      "094c313424ae470a99afea0f7c7895e4f85e8cb6b015e7ad538b061d99fc038b",
+      "da4042babfc22728cb49a3336a94c3478f0712d02946da251669a36539ac5cbd",
+      "e8cc724e154cedc585ecef8ed3b503d48ebdf57ae29b2ab16607f8e051e8bc8b",
+      "1b67d17b1d1e8eda46a4b630389b7a4002a2000734eec39ad93a54d9447c5b37",
+      "c0ab7676dbe26660133091a0f1ae39d10eff39217710e3ad703430a6a82a5c71",
+      "8ed714547bf985a5a9a9a5e9039d2ac96dcd1b7bdb51f3d390ca390ffac54fdf",
+      "523b149bca473169d9dc828e575c9746766c121dc2f123cbb5a8f4c1c2b793f8",
+      "d5e387f0b7159455c611a9ac107f094b983936a65f3d65fe0615226a6df87459",
+      "35f90452da4e70af8f1d51d8ffc55d248dbf70a6f1174c74fcd78200bd5d738f"
+    ],
+    "sql": "WITH transfer_counts AS (SELECT transaction_hash AS transaction_hash, block_number AS block_number, block_hash AS block_hash, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY transaction_hash, block_number, block_hash) SELECT tx.transaction_hash AS transaction_hash, tx.value_wei AS native_value_wei, transfer_counts.transfer_count AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') AS tx JOIN transfer_counts ON tx.transaction_hash = transfer_counts.transaction_hash AND tx.block_number = transfer_counts.block_number AND tx.block_hash = transfer_counts.block_hash ORDER BY transfer_count DESC, native_value_wei DESC, transaction_hash ASC LIMIT 10",
+    "sql_sha256": "284e3f3b0375ef245875acbc90be33955afd8e839f82c8547f1c9fa3def20e38"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_owner",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "token_symbol",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_normalized_amount",
+        "type_name": "BIGNUMERIC"
+      }
+    ],
+    "processed_bytes": 16910724040,
+    "row_count": 20,
+    "row_digests": [
+      "2ddf4370b2afa58ab50063820c689975ca329b54d8c4ae9a7ffc335ba95c4b41",
+      "fce1233b2f41e1ae3af0a066dddd6759a2bd3e26bfb87d75487da60697c6185b",
+      "eb8642ec77dccafee8763e612c58c1d2b02bada96e53ca8633263d6af77d846a",
+      "704d29068180ff67fc283e064f41e86eadbee4588adb82dbcc8538c179b1042e",
+      "ee48c559f1a1dfbb6e63734f39ab4b0f5b0ac2705c23401dd52df92251f27be5",
+      "9bfef514005d4153f039cb91bcd8117caaf4c0f5912ca343c546555209b075cd",
+      "542d85ea227ad9119c14481e3950de5aa88258c7d83153f10f219f0a1031185d",
+      "76f31c7a0ae6fefb2a44995a65185240c993b37f5a2a356346430ce7bb9d45c2",
+      "f03d08a7108f4909d0204109e42c575a2ae94fe729d092d6fa42182e89eea13c",
+      "d04765474520bb8da4446b76352e19a7e4699f442e8b17b48147637a9a75daa3",
+      "818e42f1f50906d4acbe6f47d951298d7ffa331d93daf82efa87b277102bad02",
+      "c27d60244527c56f3c39e401f17d7bac18dba60e1b83111bdda2dde1c9e40514",
+      "2da11b5506dbb9d307da8fdc0294f603e49ffceac7708544a641099e248e202c",
+      "7ee0d3abcf1dd3e6ff21b639d19ab86af3d8256cbe71330ec4510fd53f6d6e5e",
+      "4affa6d733c64fa7f799ab6ca9638e7f2b48d90316e6b498f75cc0414d5582d1",
+      "3f26c88a522f8e8f29f53ee4d6fff5c3fd040cd9e20463d78e88de18c52d44e6",
+      "51f6d1b5410c50367851cb762033076467a7c01621c096dd0543b9a9851cdbc5",
+      "efd4407c5a8e69e8fbbcebcaccafaf46c13b3ce85ed5aafd1cea12445ec49790",
+      "338624d60c574398c9ec47f8cffcfc3f58af09b75a5db8032d1cb98787f85182",
+      "048ff9b39047450809789444c82fa4ce8eee9ceaae05fc44ed31ecc0c3dd6643"
+    ],
+    "sql": "SELECT labels.owner AS recipient_owner, transfers.token_symbol AS token_symbol, SUM(transfers.normalized_amount) AS total_normalized_amount FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-08', DATE '2026-06-15') AS transfers JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON transfers.to_address = labels.address WHERE transfers.normalized_amount IS NOT NULL AND transfers.token_symbol IS NOT NULL GROUP BY recipient_owner, token_symbol ORDER BY total_normalized_amount DESC, recipient_owner ASC, token_symbol ASC LIMIT 20",
+    "sql_sha256": "2fda0ebfe8afed2fe083dbd038d907bc8e68fbeb509611f5c9ba5c649872c233"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "normalized_transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15315111486,
+    "row_count": 1,
+    "row_digests": [
+      "06af62e06a6ceda15c5993563b3a28835c024cdf2d3d1b8e918b6ba845bf2edd"
+    ],
+    "sql": "SELECT COUNTIF(normalized_amount IS NOT NULL) AS normalized_transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "313bfbd09c173abf206cdb0694e302c35ed50c110ea70ddcca5ea2a8961e7819"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_gas_price_wei",
+        "type_name": "FLOAT"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_receipt_gas_used",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 307649280,
+    "row_count": 7,
+    "row_digests": [
+      "5b5d9a0644eff45f2c1713e8fcd93153560ef9b7551ca4642324dd860aa9f165",
+      "84ad952fbd44e5d88a06fc937bff891cbe71fc90f7339f22b8fb8405f4221903",
+      "fc7fc3d7ea5b296308fa28676f82a18b42293b71f8902f79f30b2302c110d948",
+      "cd7a9a223176481f5707a40cf9dbc92cf98ab34acb147f6f55d6f7ec9b4e40ed",
+      "a0ca56c40818699f718974f09d2b9e5f57732ec2910edfa4f7afc407486550ab",
+      "92842cc24c7c934d61b63403e0365cd4118252af507eccf86b9a6a7529ac54f0",
+      "776a6b99c124ee8221153d4dac45aa056c9bd9d9e026385ea046d9bbb58cc007"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, AVG(gas_price_wei) AS average_gas_price_wei, AVG(receipt_gas_used) AS average_receipt_gas_used FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "31c835d4cddb32477f2a2377c794501100be6ff2971d528d7e44456e1366d1cf"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_owner",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "token_symbol",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_normalized_amount",
+        "type_name": "BIGNUMERIC"
+      }
+    ],
+    "processed_bytes": 16582610136,
+    "row_count": 20,
+    "row_digests": [
+      "45e5d47ba316600887979efbec42fe11879b00aba183502ed021e0e2cf9f86ec",
+      "3b9d6e5dc1e71be3bc47e135bf0081f47ac6d6acd4b7cb1dd8ec243b54077dd3",
+      "826c79de29995494c778395588ebe05d5e6667541a17b33e11a592f2455e275c",
+      "f3e5bc24faa750aa76b239763f5a873f62b0f7e05a3505e472fe0bad0cd78213",
+      "93f308dcf40583a9b96474b0caaa209d60f8188218afc84c2f96ad0a71e994bd",
+      "134fe1490f2323d2e294db83afce3b58143e13a8fc9e08ff9c5b6c29d6e001a4",
+      "2de14a6d2512b704b8b4507914b97a44f4d925d94719cddcd6d91b469e0216b3",
+      "7b7ab897b5140a81516c34bb7422550af92912ba346d9f9be943b2fd97e759e9",
+      "e42501851b4b9ba54872375ef9bbd67fe82cbbfb4e8bca2a0e913b4bc55904e0",
+      "1b6c49a41da203cfeb5264e78663666b2c267d9eb1daa7cd7379ac06d55aba11",
+      "268cc1e70d689c54511da3880d28d5dcdbfe5f829142386bd12fa1175e541b83",
+      "72268a02e8980ee1f59260951186a2c75c5d8aa11b4b6e7dd73ad69a6d7fea94",
+      "7cf1d6a7506f5dcdc0a3653a9f4d4a766b28bf392e7f8771c95feb9ed6b6b59c",
+      "59b9320c539085f5b1d25a09d56921aeee48430dbf4ffb245029e1c75ed71699",
+      "90db2db7549d400bdbb636f2012d87f46ac553774e5b4b3d213a7efcb38b5c9f",
+      "41ef3a852b50cd8c399dea193b62ef334339af0c844b1389fef7e598680caf09",
+      "ccdf82da9159b890cb54716268359648981f4423d576da314a0af154f244b5bf",
+      "0c6fe80d906547b243f3c691eb17283f4a27e96b4f2e3f7ef571b006d2f06f29",
+      "4c0921e18da39ce1b3d3acea2bb17595ada00db32444048b5fe9b0b1f656b3ee",
+      "9300987470cbcfc63f50a41fbb633e626c69cab8209635dccb7412a5c5569d5b"
+    ],
+    "sql": "SELECT labels.owner AS recipient_owner, transfers.token_symbol AS token_symbol, SUM(transfers.normalized_amount) AS total_normalized_amount FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08') AS transfers JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON transfers.to_address = labels.address WHERE transfers.normalized_amount IS NOT NULL AND transfers.token_symbol IS NOT NULL GROUP BY recipient_owner, token_symbol ORDER BY total_normalized_amount DESC, recipient_owner ASC, token_symbol ASC LIMIT 20",
+    "sql_sha256": "39de8b30ea8c4b8788f976c89d16825d8850767b5bc5be68e6ff0f45d6b05841"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_type",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 205099520,
+    "row_count": 5,
+    "row_digests": [
+      "d175a25be5343376e306d04d92dfac68876315eb29d1c08bc64237a9035820d1",
+      "bb95fdd99a7d1970e9afba29d63055a7190ed61003c4b6b4f356272260822582",
+      "510f0c6ed7516ebae4d986599afd0747dfda86275c1d9eb3ee82e4b9b8ea6523",
+      "0568beabb8199770befbb10e098867060da59ccad4db71d924910097be2735e1",
+      "8e5b983dadd862533cf7b0fe480eedfb96f9ee2ea2d34314cfb4d17ff8820b91"
+    ],
+    "sql": "SELECT transaction_type AS transaction_type, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY transaction_type ORDER BY transaction_count DESC, transaction_type ASC",
+    "sql_sha256": "3c9909769282b1c07be2f66bf4c0bf27c548b4f0556b6b327e44217b16f4a0bf"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_hash",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "native_value_wei",
+        "type_name": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 21184493584,
+    "row_count": 10,
+    "row_digests": [
+      "f2e98e275bd8374bba99ab4741fe0401b1e90e280b2d0bd9489dc1452d690c24",
+      "6225cd967bc20f47a14f919828bf52dea9090faa4c67182126ca210cc9a8b95b",
+      "b01a670b9d1c71bd2ebd1cc82e33665885f5ebf0adc839e4793bececdedcabf0",
+      "71268aa13c4c466fe329a2ea103731f101c043d55aece9aecf84cdcb634c8cf5",
+      "19e2d7a2a199ce1c85d4cc57666b4b25fc8579e4af253e02357a1eba01a2bd2b",
+      "1b84253a79cb5e3e332339f8e35a740ce02d6596c480f3e38d69339d62def8e6",
+      "e62b1ca70d5d4cb7b02b896c2da44bb84b0b1ac098a8e8cb3ae1006f68a00ed3",
+      "2fdcb127be057cb64a6549e3f58fbb6304fac8b9ce8446812126b4558c2a8aee",
+      "0a2080554f11f8dea8446ea7c453b6a16cc29dea4699f34f2be82ded5db2127d",
+      "5ecb6cc3a344aac7124b13fa6045452d4f7b732dde0a3665453d9f832844bd40"
+    ],
+    "sql": "WITH transfer_counts AS (SELECT transaction_hash AS transaction_hash, block_number AS block_number, block_hash AS block_hash, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY transaction_hash, block_number, block_hash) SELECT tx.transaction_hash AS transaction_hash, tx.value_wei AS native_value_wei, transfer_counts.transfer_count AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') AS tx JOIN transfer_counts ON tx.transaction_hash = transfer_counts.transaction_hash AND tx.block_number = transfer_counts.block_number AND tx.block_hash = transfer_counts.block_hash ORDER BY transfer_count DESC, native_value_wei DESC, transaction_hash ASC LIMIT 10",
+    "sql_sha256": "3f2b60cd5c2d0bed835ee9359f34c56e4a106f5f2b85be8adf9b9d6d4ae6914d"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "period_name",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 636109520,
+    "row_count": 2,
+    "row_digests": [
+      "310c1c4f192044ac3f66118e269ba00a4accee64ec8170eadf145ccf9daf05e8",
+      "af36519912a74600c885b24d149e7d72a53debdb7d5d65cb4dd4328a69ca2bb9"
+    ],
+    "sql": "WITH period_totals AS (SELECT CASE WHEN block_timestamp < TIMESTAMP(DATE '2026-06-11') THEN 'early' ELSE 'late' END AS period_name, COUNT(*) AS transaction_count, COALESCE(SUM(value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY period_name) SELECT period_name AS period_name, transaction_count AS transaction_count, total_value_wei AS total_value_wei FROM period_totals ORDER BY period_name ASC",
+    "sql_sha256": "4274d36951caf25db8254d904eff0511f53b08c5648e203999d2661893477edf"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_symbol",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_normalized_amount",
+        "type_name": "BIGNUMERIC"
+      }
+    ],
+    "processed_bytes": 15333584140,
+    "row_count": 10,
+    "row_digests": [
+      "65f426a980ef50007ff4f27be97d56a29583062e7887a2626a8a2d5e6953584e",
+      "8f1a850ac2cc938df8d54311ed76e1da2a5e6d56904f5a58ee2e95919e19bf71",
+      "ce9de2ac7bd3e9723c111d178c48ae645ff423d791eb5e3160117d57f6166cdb",
+      "197c7b5d247b13013407f907a7380436fd4c02db1e78409f8a2c96c01ee3242d",
+      "5421965fa5d0124412db3730f29d7a0c0410d34bb5455e931625de727ecbe72c",
+      "c1fd0adab8dadfb971d6d6ca9fb9caef65a5e45d1a8967ac361a7d83720c06a1",
+      "ae833524b8c87aea555ccdf7999e2c8132156705687bc8bbffbc8250af3c510a",
+      "1d86cc043b862ea823a63d13fe70f2a99e9276d9a59ee0211d207cc107df27c2",
+      "31a5660118c1fbb81b420e70a98d68ef735fc46c675bfac4c50a93707f8c650d",
+      "e99e93d6fda36fc8051344a2786bc04f7c4fb0b97c39cb8f0c1659653147dc13"
+    ],
+    "sql": "SELECT token_symbol AS token_symbol, SUM(normalized_amount) AS total_normalized_amount FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08') WHERE normalized_amount IS NOT NULL AND token_symbol IS NOT NULL GROUP BY token_symbol ORDER BY total_normalized_amount DESC, token_symbol ASC LIMIT 10",
+    "sql_sha256": "43b5a6fc3eeaed2cc84a1799487e7b807922c34d63123e1580f3a56478607201"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 421672,
+    "row_count": 1,
+    "row_digests": [
+      "6265219e387817186b97882f1347319d3f89caa3d87a1a1ac7314189754c113d"
+    ],
+    "sql": "SELECT COUNT(*) AS block_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "44698b1935ddb321aa63f347d9a5e3ffe69bec5fc01b80dfd0a34f197c2bc306"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 792971547,
+    "row_count": 6,
+    "row_digests": [
+      "bd7b5717cdbc154652f9b33e5aef6f23231e2f8bf0ded9b1d0b48df86957244e",
+      "8f95d148b6590b85ddaedeade8a0604bba05774ca9053ed8960872759d49cb77",
+      "807c7ccf1a3632ae90f30fa15acec79fe2086756aa1aa5dd99fb6cf043dddf5b",
+      "1cd52022171df41248a855d26cda583e1dc1da4677a4cf3c1aad8228d3d2a5da",
+      "f910a4011687bdd3149db2c0f22256e5dad4de962652e3de0154bdf88f27e902",
+      "752f09782dd1f14ac25240e3f377f8f56a5113939abe2566e55d5d988fee3f74"
+    ],
+    "sql": "SELECT labels.concept_class AS recipient_concept_class, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.to_address = labels.address GROUP BY recipient_concept_class ORDER BY transaction_count DESC, recipient_concept_class ASC LIMIT 10",
+    "sql_sha256": "46380832d188dfd2ec54e8d807e02d2e803744a01d6361a2503094837a772c45"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15987865504,
+    "row_count": 10,
+    "row_digests": [
+      "f60b078254e13c67ee2b46d8b198627a69d4c939efddcc6702aa549036cb8e93",
+      "5e408ac51285364c1294edf23456871a292b61b57dd5e9645aec7493a425b00a",
+      "8aff1309e4d043a22264437719ff0c3afd6a41d4a54ad38a617daa87f5b538bb",
+      "11a0dc88d098ee65612a43dcf53d883e6f0ffe4c81471d8416512d483162f432",
+      "4dc3feb74d8a00727fa961c3b1315439b2d9f6fd561d157f7fd34fee959ed817",
+      "b0510b96803b928420394951ebb86f9827d9e25515458c30cf698be6e5b030a5",
+      "84a793a4d04ea51544a007b0067a52eb425fa83614b900b010e699bdd87e81e2",
+      "2c1e74e79e6b23c2522164e4396dd4cf7625f0893889ddef2df9c14c82b87d73",
+      "8a51b0030a6401743378a8d95d1bdf6e85d37779df585f4245b124689ea7b9d0",
+      "5c0b287d3bb5178eeef01e76b3134885138a046088137d3e0c0dc43d4e9775b8"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transfer_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "49b4f028a56d962522b1944b424006549db6c31d780c2733d504a4663cb32ecb"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 16301822708,
+    "row_count": 10,
+    "row_digests": [
+      "159ced090c89bc04e7714ece1576536e20b57aa85a5c3ba3903cd8b513efe478",
+      "ab5332cd3c4005593e3ecad752ca554d2a019e494dd5e363b0989005ef153916",
+      "ebfb9ba2510d08bfe9fd11f2cafa73813e46a7ccba43d05b0747446344a005a3",
+      "0ee029727306b70db0295d0ada449921391c10e43ae509c1b3b0c6460b35b28a",
+      "929d2ca5464d02391797960bec6980ccdaccabc89a55fab8e01ec7605ac2414a",
+      "f9429bd8f14fc21f37ce351e9b8f28927c518d6a42536ac0361c4081ae0974c7",
+      "62223107d07c245ff9966482808ab0a5239a6493fa145fe8c010845c10ee05a6",
+      "12d752040fdfa7e057aa9c52091741b9a56f8ed72df0c1354484eaa3288ca695",
+      "9ea76000bfc5efeab0c5ce7d4c795fa12875fbdf8fea9def52cb831a755d20dc",
+      "f4d8f7e4090a5c14078422659dc90c4409cf4fe1434cd5a9020ae1d8f681910d"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transfer_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "4bb502c0b228ebe6e4fe6bc1a7f8cc15dc77014fd887aaf394380493fdc8c2b7"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 14739152720,
+    "row_count": 1,
+    "row_digests": [
+      "bf2e6aae8158fcf2b4b36d4c30b012f449783473d1a4c822f9bcf45441c2c534"
+    ],
+    "sql": "SELECT COUNT(*) AS token_transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "4bedb7994abd3fc6bc6889c8aeb2b461eaa876be0c5c5c60066343b0abcac51f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "failed_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 333722576,
+    "row_count": 1,
+    "row_digests": [
+      "eb4fef7c6539cd422517f46d08466fc9bebc80f246281a296661afc8af65aeef"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS FALSE) AS failed_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "4c3af9a912864ef35dccb7333d0c3f30baac95d676b382d65bb6c964fe781cbe"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 826942376,
+    "row_count": 10,
+    "row_digests": [
+      "80f0cb4d497b2112490f71ac4be8291eac526a911c2a9dc469f5af64f2df5d7b",
+      "3a7db88153946fc26000d7cced99565919fdee852df643770aa3deb2287663c0",
+      "99b371006febe2256a850fc38214219c5a4a3fec125c66233468c9acb47ffdac",
+      "2cf87400c4abf2201c1b498b58e841a959054ee447ec05a1474191ca798932bd",
+      "638a87393b1ba4efe87b49a7e9018f9f2d4ccda3dce5044d474fb75252110ec1",
+      "8e49d887a17fa31e1778a7b0d8b55dac275e68d958a23285b891b214095172fc",
+      "c1baf79042aaf65a68cd4f0a1af8120759a8582d1993008c2625da94ea49d229",
+      "f38d2233485cf444a17b9bdd3be2869948bc499315add1e66d31e678cf709e5d",
+      "05c66d32c6ed5026ac29f558c8b7ddae7f5be20992a311351fb473d79ad48efc",
+      "85887aefa68ea3fa40f2d46ae1139a01f9ffc513b420b57961bd0d6adf168400"
+    ],
+    "sql": "SELECT from_address AS sender_address, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY from_address ORDER BY transaction_count DESC, sender_address ASC LIMIT 10",
+    "sql_sha256": "4cc7c9ca8d485cefce2bb1e0d360cabec6851e86fe00e5b943bbc61029d4d531"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "average_transactions_per_block",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 960000,
+    "row_count": 1,
+    "row_digests": [
+      "5272f92ffd6e929c61a2cdc8d64ae60bd6795def9ef5858211d9a77da93d8c3a"
+    ],
+    "sql": "SELECT AVG(transaction_count) AS average_transactions_per_block FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-08', DATE '2026-06-15')",
+    "sql_sha256": "4e271d57bf7e1f137b18763a39219828ee6c463708c1201f956ed39609b4cd8b"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 122076040,
+    "row_count": 1,
+    "row_digests": [
+      "5f4c6857abb76d64f0e450021b075e42ab3e144d2ca33fc6ff459d5d83d7d9d6"
+    ],
+    "sql": "SELECT COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "4f15cb4b579926941267bebc457d45e117d24d4f2f33f16ca74ffdc94dac406f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "observed_transaction_rows",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "joined_block_transaction_total",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 123036040,
+    "row_count": 7,
+    "row_digests": [
+      "139048fb15f8b244c91ebd8a1d340972065ce7298d6940d92cd924b50d339693",
+      "d156b8caed0fb7dd4c60393bc49b3d6f359c89dac3f7131ebc0e123735a89ac5",
+      "b2d722387b6018a2857a6900ee756c52a32aedf704a9fe2d74b06599a3101f3b",
+      "4cd82a0781e91897e17140b15a17eb3f7d4d006503ff43a18af874af26b2cfaf",
+      "7bdcdb06721153c65573bcce8d5176d471f33e79e5dc91f3dcfeb10e9c8c8096",
+      "8888fee996971b684e960aaab7fcc215d258060dd438666e560159ccae0ce347",
+      "a85be345ad0ee6f61766ec35d7f9a94372aeed48800108872d837971db6a1f4f"
+    ],
+    "sql": "WITH tx_daily AS (SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS observed_transaction_rows FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY activity_date), block_daily AS (SELECT DATE(block_timestamp) AS activity_date, SUM(transaction_count) AS joined_block_transaction_total FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY activity_date) SELECT tx_daily.activity_date AS activity_date, tx_daily.observed_transaction_rows AS observed_transaction_rows, block_daily.joined_block_transaction_total AS joined_block_transaction_total FROM tx_daily JOIN block_daily USING (activity_date) ORDER BY activity_date ASC",
+    "sql_sha256": "4fa8b70f012dde05b0ec303f8b6cfe72d257df92b0458aa2cec5ffbd7d0741a5"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 102549760,
+    "row_count": 7,
+    "row_digests": [
+      "8563000d1f757558e87b31a579c5cc9c07c4640fd718811a5172f29dddf63267",
+      "af6a9978a66883eee26b819b2ae54cbb999f73649ad450fdd0860a2851706bea",
+      "808a120455ce9624dd985bcfc57e17fd0589b2c96be33410d6385284b5b08e1a",
+      "5620629dba5b3777fd8d3236fa5df7ff215e56d0adedf48f40c6ecede3021d2d",
+      "e14aeecac6148e5890664293f9b27d965bdfe6df0dac1ced75f09b750d515f92",
+      "d559255f35130da2d38f6b168e2ad52d0cb0535862621e487803c1beee6e67ee",
+      "271859311ebb301afafea00986c093c57ca11eaa8177a9ea748713127b95dc2d"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "51528df881e4f5b1beb8818671cdd7543ddad6c35ea254ccf3772fa7aef71efc"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "period_name",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 610380200,
+    "row_count": 2,
+    "row_digests": [
+      "7e91ad9130acb601c4bbdb9d884e916299dab46924f5ebaed4bf1939ce2ab252",
+      "151fdda638d03e7dc07068d41d80ea529c81664a2efc900c6005c81ec4129036"
+    ],
+    "sql": "WITH period_totals AS (SELECT CASE WHEN block_timestamp < TIMESTAMP(DATE '2026-06-18') THEN 'early' ELSE 'late' END AS period_name, COUNT(*) AS transaction_count, COALESCE(SUM(value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY period_name) SELECT period_name AS period_name, transaction_count AS transaction_count, total_value_wei AS total_value_wei FROM period_totals ORDER BY period_name ASC",
+    "sql_sha256": "575b24cab76a788f82d11a8b0ee0fbd49a503161e9efdf0f092a53a55c4fee68"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 826256812,
+    "row_count": 10,
+    "row_digests": [
+      "70387eceb54c1b6339b1669348e38f3da93d62d26a68937b399e4838cefb0b04",
+      "49b44465400b0ebfcb5f9aea0a1a78b69a0dcf8b5fd6bf48fd90498b40b3f20d",
+      "79a6da9fd70a4f854297e7cb41840d27290a8f4c793d599b7460d0bc48ade853",
+      "aa16b962008190d78b74cd15bc61874e1bbb5d75600b00c0e1b665c62566a72f",
+      "45f14fd3631c32bbd88fc89812723fd0fd37a62ab8d2b5824a6367fd99cad6c0",
+      "cba256cb092fabd482e57d011007decdb454fd12e0a6306d14ecd6369e519cd0",
+      "f01eb502fbd88e8880fc53838e4844ca87ac8799627c30db3cb284e5c09ef2f7",
+      "518758b89a6cc3c7264b5f90c604d74c450a573ae779e192f1ea40a5ab0eeaf1",
+      "89c86f154b2f9615d4d8a4749f9851aa101e8944703681cc970a021ce6b60b26",
+      "b836804597b623ce4d044d8bf3d29dd2e8565b7d5b177a5aefc9e1d46fbe9f5c"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transaction_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "57de7d730bccdd07db4894b5e41ec5a69f2a6bc8e53e57b682387563161380c3"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_gas_used",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1440000,
+    "row_count": 7,
+    "row_digests": [
+      "a628e82f75d050aa46136ddc4c975a8913cb66509943f2cf0159c164dfb734d0",
+      "f5bdbc2285c6bc643afb5ab62ebf39ad9187cb1733a643c346e832e88066ce0f",
+      "a886cce8fb305fb015e2c8a31a7896f3b8d653dd712af465f8acb7137cf154a8",
+      "c2dbbc31210f5d1aa4d4399ef527b833e573fb74bb06276cf46167b79bcdeae2",
+      "4e91c35a7ee26459c60df41aae14602d4f7a296241a334f7fbfa47d6b653f152",
+      "d747b77e3201b0fad428b2d0ca74da386479457d5855b31e23d1e1715cec7861",
+      "3ca5b0d2106442644fd181d91c92322f3cd3dafe4d2e30da46150506decfb7ff"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS block_count, SUM(gas_used) AS total_gas_used, SUM(transaction_count) AS total_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "65f163bf74373503335cd9ac472efda4257b596c28732465e21147cf09a4f8e1"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_owner",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "token_symbol",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_normalized_amount",
+        "type_name": "BIGNUMERIC"
+      }
+    ],
+    "processed_bytes": 16925158574,
+    "row_count": 20,
+    "row_digests": [
+      "bb29b22b89288fc65f3e73bcbe2ba5477c1d4304652250126fb1ba23a97ea9d9",
+      "b4ca2c18611a9aea09c24edadcb39e9ed1d670023c8c36cbe67908326a9859c1",
+      "2ec451b044f89d20f86478c43a8e86abd71eb18e8c8f80bd500e3983b027af18",
+      "4b046b5d022b019349fd4d6b832579a02d95f5c03843ae6050cba5e0925d4577",
+      "2e5d8da9295f5ddead29c8fd0bf9497cf1996387fae12388ad46f170f8d96832",
+      "66ac4d24f8262715c3740f02c8d51c4e261fc69046256964f8ea5803c0eb44dd",
+      "dca2cd59ce510100023dab9dcc9a9c3ea91853b1e646fee08d6a1c3f64987c7d",
+      "26122224c5a5e3805ce8b6965aafc874a5bdf52cc2fc772ea1292d4e85441b2e",
+      "9f1958d563e0c7b48cc041116b4b73a988a2d5128c560929c842f4dcc41f8ea6",
+      "ae958dfe7b507fe213f709ec533b1a4df200f7256ec3dc3349ecafa3cb48f843",
+      "95d51b4e1c61d9c1cfa8a175b2bbb734ff7a400da57e686408c95eb9967acbb1",
+      "79f6ff0aa70f09c67d4692d7e59265f3c62d503b98539d095776f660887b376b",
+      "3c261800c21d86e465fc594bf777beb1d64ce7802c1e0f0afb748542b26a3aed",
+      "20c7412fabf3141c75d8a1b39b890b022d061f1e873582f22dd7530c4d1602b1",
+      "be661e6718ed7aa16c6f3bddfc829859791e617e2967f84dfd03c3ba93571646",
+      "f7d28efa2b4e2d5b6f514a2ee1f54e82573abc6ddff921e24c193146b5df8b78",
+      "266ad6f03693d014120abeae59a63eb3bdbd6ea09493b18f0ba094a11cba90ac",
+      "223d329eea57f98092d393be22fb3f5da2eb759c63614adffdc1d64a0ac7b61e",
+      "075b379463664d12260194a549102c553994186506b51c095dae3bb021cb053c",
+      "603b409734ac10df8563d06c56ee8490228b6d6f6ce7c8a0ec6ce9576e472c26"
+    ],
+    "sql": "SELECT labels.owner AS recipient_owner, transfers.token_symbol AS token_symbol, SUM(transfers.normalized_amount) AS total_normalized_amount FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22') AS transfers JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON transfers.to_address = labels.address WHERE transfers.normalized_amount IS NOT NULL AND transfers.token_symbol IS NOT NULL GROUP BY recipient_owner, token_symbol ORDER BY total_normalized_amount DESC, recipient_owner ASC, token_symbol ASC LIMIT 20",
+    "sql_sha256": "6757ae6a0d4ec3247309f0e4598d4c658e1135c70874c7dfe189dc0832bfe408"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 636109520,
+    "row_count": 1,
+    "row_digests": [
+      "46b1d8a8890252d8dc92e5e9351dbd627d906029dfad8a3cccb3bcd067de29e2"
+    ],
+    "sql": "SELECT COALESCE(SUM(value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15')",
+    "sql_sha256": "6e522ddf7779c5743c5eeb69a6491bbbaf0415b849ce4d71b53e8ba2a9420187"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 480000,
+    "row_count": 1,
+    "row_digests": [
+      "004a34870424142e7ed1d1e4f568cc5fe70b208ae3e8bd445448b070dd9753ca"
+    ],
+    "sql": "SELECT COUNT(*) AS block_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "6f7e3102a5937fba645f6099f826de4617b06e391c3cdf15ad7b766a49a878ce"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 793494260,
+    "row_count": 10,
+    "row_digests": [
+      "7925d552cd3476288e790eeb68df0821eccf15ac4485445868fd67aea581e6cd",
+      "4e3adb5c3884011605a66f09e62ebc706a0185849b65757c488ca084b8561206",
+      "856406ca72e8d0edac90a40bd64fbe046445e82af358f900d2584db75117d769",
+      "faf6fb3f5de1ace0c418eb62be0548d9b8378552f12715145397f6885243f378",
+      "9c71f0f66ee8320cbf2174eac383d47f92e6b6de1c9a2cae17618e0d2bc5c20d",
+      "0ca7a002b97957b93e725a52dc055704b261cb0bc659cd054b1237887bfbbbdb",
+      "c140892d24c74a702d70387835d49ce9975e661f4db3e7a690f21abcdc8e6c39",
+      "f42491439b1a800c7b1df42fcbc8e99f4d667fbe2c886fdb6ad4b38731b74fb1",
+      "63ff2e1ed0285b81c2937e6d90c586752e84d13569326a1ff4db413b60eb6def",
+      "6a06bbd7d4d224ebce7e183fc1160bef614d548ff0b9670b280427390dcfd762"
+    ],
+    "sql": "SELECT from_address AS sender_address, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY from_address ORDER BY transaction_count DESC, sender_address ASC LIMIT 10",
+    "sql_sha256": "768ce535d24b858df41f4f155f7494487e983169348e682117b255b00ee6a0ca"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "successful_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 205099520,
+    "row_count": 1,
+    "row_digests": [
+      "6612dbd0046b5acc01dbfb26361a761b86b63822af942cd868834831a83bfd4a"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS TRUE) AS successful_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "7d2778809c4c465cd7d2bd0ce27b63173989861e8c618597df357b26693bfef3"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "created_contract_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 513254448,
+    "row_count": 10,
+    "row_digests": [
+      "4bbc7cbcce26d2d67dc339ef03bff81e39ad66bb193bf976424e4cef1d2a4c22",
+      "204dad444cdb937456f1b6c500690514b1ed43cefb5fd38a1d816b8b5c30bb55",
+      "8ec18e7b34b1384f09e53f12f33c120726f154331ba8d4bdcd0f6a5430a037c2",
+      "080bbd17c51bdf5d0fddb62cf0d85e3ba1cede8685ffec451aba0416e050e506",
+      "286c4eea47fb118792a975df0c23c7338650a7f1a9a5f2bb9e876ca6899b174b",
+      "522f2f34e180371ad4f6a85d94fcbde1dfb4e4fece0c8cd718f4527484e6db46",
+      "bbfc4b1834da38cf90aaeb1e6f1394b7dc6799cf14c02dbb5fac8c8331c13b12",
+      "e443b12ef2c43ae0fbf193cd3d10755fdd9388c5f0878cebc3e0030240223bfe",
+      "3dd137eca91da27c8f3ba94ce17ef3a06ef7fb73f3949b7cd631c01b14748744",
+      "975aee59d702fdb23dc61482c4c9e21b4ece9a79c045cb301eef7b7225875c52"
+    ],
+    "sql": "SELECT receipt_contract_address AS created_contract_address, value_wei AS transaction_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') WHERE receipt_contract_address IS NOT NULL ORDER BY transaction_value_wei DESC, created_contract_address ASC LIMIT 10",
+    "sql_sha256": "7e2dd391940e6399c75cc1e6d19954c150b6ace4950eb8a2b2e9242eb9601a5f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 166861288,
+    "row_count": 9,
+    "row_digests": [
+      "92abc0434c31a47ec83e882f5d3d92f8a01e94d7287af2d09c3993fb763c144a",
+      "c0c7f9661f28308aeb780036297712705c0b0c0906ba5854b337f0db60ad2eaa",
+      "5a266fd7375d201483cb7bc79466db6f52177849d154312e38e852364bb914dc",
+      "c713d93338cd05dda1b1dbb61a831bba83198ec63d7022c8dcc358448aef824d",
+      "597cee965a5b4c258207515df243a845ad870f4de0931768019b4cba865bf483",
+      "822f33d76575ae5faca4678c4e1e3dce98d58ed9aeb23562ac134fbd5c9e1fd7",
+      "c75d0b01360dbf1d998183828bc3a213f69e502d7c5b04d5a9942c4f9039d886",
+      "41912d1d7b132a49f68fbd261f6c8f97ba98cd4c97d18e294501a8b12833f2e6",
+      "377cfb06ccebaf8725aebd7bcd57c7489de2d5b0b9b40cd5aa9b694d17d6f484"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "7f118c7d46528bd22dad7f23ceb6ea7c2faccc3f61af925c1454b64dbde4a590"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 127221904,
+    "row_count": 1,
+    "row_digests": [
+      "fc9be528b56a5dac6cb0210461511c28fe9b193bf0c3287e58f8c2f95beffb45"
+    ],
+    "sql": "SELECT COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15')",
+    "sql_sha256": "80e6480c3c8df1980eef2be5d9061d06ef88a810322f0929654566c70e328433"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 16281769503,
+    "row_count": 10,
+    "row_digests": [
+      "edad2a44e548c0ca63d033b4adc02469cd53d58fe2d070f3b689808078967a7f",
+      "1563cee4c7f24e5e9cde3e923e31ee0ddcd9126c6ac37ec28226fdd63ea9c5a6",
+      "cf39a65c8217bce9c8ec07d0efed6c993bc6a010ad431617157514ac91ec7a4b",
+      "315d7fa4a8f73d4de0f234507b2d5b026043dcdf37e723d089a7681ecca941fa",
+      "bfa4a27c97330b5a8f69b7e96d4ce26ce063cacb2d8c7a431edf9156a5f4bd14",
+      "71119a3c935be7e4637e784963270856d6788654763c03e2afb0c2a799b37606",
+      "29e3456816b3f21c2d4cf90395f10680d65fa4560422c592fcebe9e56856a306",
+      "ff3c72d736633dd81bbc026cfc771c870b784a3049c23fd61bd9d96c0954aa20",
+      "abdd6a7732aba0fc1b750d6e138bd956fde45a35d27f6ed8beef0db596b00fcb",
+      "22063ee43e891ed5f0ac70c5f1a901a78aa767705ae9f033f2e424381516f08a"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-08', DATE '2026-06-15') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transfer_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "8146a6c844fb3c010ad35358550bc5c520cdb05e16029cf2679b7c489b15e7a9"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_standard",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 14940792662,
+    "row_count": 3,
+    "row_digests": [
+      "b99b8e67a7dffa50e88ec86a5687ad76e3e227a5a6ce0ba8cd7cfc59b481c7c3",
+      "8d1f5df8b34d5def67250fffda62bb63e6c2dab215ee55b35a309417665ca5a1",
+      "b161a0b2d277233f0d2319885a052ab66d04048d39edaa34c8e176473438c5fd"
+    ],
+    "sql": "SELECT CASE WHEN is_erc721 IS TRUE THEN 'erc721' WHEN is_erc20 IS TRUE THEN 'erc20' ELSE 'other_or_unknown' END AS token_standard, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY token_standard ORDER BY token_standard ASC",
+    "sql_sha256": "85749ea38ed8eecb56dd0c01ab62c19b4fdeebd2a6ed8c6398e0c3438e774663"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "failed_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 205099520,
+    "row_count": 1,
+    "row_digests": [
+      "750dfb1b3fe8c5406825f0ba2af6ad821f8c0251d332ed6f0ac08c825f3e011e"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS FALSE) AS failed_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "88a2aa361f16ba830446d8904b98433c0a7b2e046cec7371b3166756dbc51856"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 834306440,
+    "row_count": 1,
+    "row_digests": [
+      "599700e780249e600f5ffad6b93739c2388eb7f8b761bf07017f28a0d24afb0a"
+    ],
+    "sql": "SELECT COALESCE(SUM(value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "89fc2ee89cebd7c154ae666f95a37bfe5e650b76a1d6a8772a645094cf4f1d19"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 102549760,
+    "row_count": 1,
+    "row_digests": [
+      "41af35e60976a3b31471b65ab29b500d0c13ee70ac1201606fbb678cb99594d7"
+    ],
+    "sql": "SELECT COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "8ddeb06da9858649264f8c5ae58661a7ba2bb4e99fe7d664aa7304f3eb3db9cc"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "normalized_transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15549653080,
+    "row_count": 1,
+    "row_digests": [
+      "bf9c85cb8665a54058083d23a820bf9cec3d159c3b569b1e721c0c3802745e85"
+    ],
+    "sql": "SELECT COUNTIF(normalized_amount IS NOT NULL) AS normalized_transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "8f3d3a6fa633854480ae447e7d7dd0567ba81f7ed88b83f1a5f73d2f3ba2eeef"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "average_transactions_per_block",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 843344,
+    "row_count": 1,
+    "row_digests": [
+      "eca2ec67558bd3e7e3608c228c30ec17455eff2a8ef9276a2b32560a3549b2a4"
+    ],
+    "sql": "SELECT AVG(transaction_count) AS average_transactions_per_block FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-08')",
+    "sql_sha256": "97b12c98bc8cb247a2cc6dd5a7f24f6eeb91d62efbd8168a5d513121d4851348"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 166861288,
+    "row_count": 1,
+    "row_digests": [
+      "626f68b29580990677c1af96fa33afba82ce478b11b771344e31da630fc224c4"
+    ],
+    "sql": "SELECT COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01')",
+    "sql_sha256": "9861b8d672cbe6a0e5838ce1704d7e900cac6b3a945f61c411e1bbabfea37197"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 16301822708,
+    "row_count": 10,
+    "row_digests": [
+      "0f439e401217c7e8ebfe80b003cfd45503b412a1a118d693d8db7e8f56db84af",
+      "5436fabd134b41c1d12eb6edd3a13eb2cae0ce8a3ca114fe7a562e2abe66654e",
+      "11289fc6ef410bf7620f1f1a30d8b6fd7f3c6a745c1dfdcee286563800f8b597",
+      "76d1a8f45cefb28329b9ad8511038bc2405432f7111f5796079fdbdab44f1239",
+      "5079c0d7eb57684a1e80d1593490b87e01908488175f950df26c3729ffb49f5e",
+      "ecb0fba58f353773c3ba48db12a796f75eb3a5c4bcf4ce9653d539bd0f9fa523",
+      "314e78f885e3ccc76ed51df1163f4df45db207f916eec92d4613d5800608c8ba",
+      "c10c7472019d396b5f45b698695e3c25a19545058a8867d02db03e09a1dfc324",
+      "a34d097355ae68d1f0c8e9c4071ad8d1c35ba0afecfb73f0aa799050dffb94a2",
+      "e982e5e1ed3455249eb3c87acc8a883af5958ac9b5574ddbe174aa2a6c18f96d"
+    ],
+    "sql": "SELECT from_address AS sender_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22') WHERE from_address IS NOT NULL GROUP BY from_address ORDER BY transfer_count DESC, sender_address ASC LIMIT 10",
+    "sql_sha256": "98b3f4663b81ddc7961a8c8defec5b13a3ae7dcf74ecaf166de4c6f4220494c5"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_standard",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15120586191,
+    "row_count": 3,
+    "row_digests": [
+      "dd5ef39878eb61f3840cab9cbb861f8a27f97760156bbd2909e714b4029fb54a",
+      "9f9b43a127366dc14faafc5a231d7e31af57ef84f5c3d71034995151d6791c5c",
+      "508c6afa85a710565020d30e1ec55f29aa421490f4ef04d1339629c02f4b5fe1"
+    ],
+    "sql": "SELECT CASE WHEN is_erc721 IS TRUE THEN 'erc721' WHEN is_erc20 IS TRUE THEN 'erc20' ELSE 'other_or_unknown' END AS token_standard, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY token_standard ORDER BY token_standard ASC",
+    "sql_sha256": "9e76bac2a474139df9ad318d3c2675d6b9b716885a2225b14828b63776ec935e"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 16530446263,
+    "row_count": 10,
+    "row_digests": [
+      "842bd870c0b01ec8e6af8c0a078d67a68b879f51161dc8841cc0c27d849c5e92",
+      "25bec259518c0f91ef0590237b72c51b1d0b47ea98c1d4e410273254b36d26a2",
+      "b0e5e96498c0c38d81b5a4ec2f5e465c1caf37222314d62fc6d21fc391ad1fb3",
+      "51fe1b6a827bc00d8fa402258f0712d8b2c6868ab9b388738425ea3c3aeb7a06",
+      "0e34218099b8143b42cd35a75fddcf96929971c60ce806c7c076ee201965a14a",
+      "b2b59c7725c4543814a08a9d903465605fdd24ee438f3178876167934cc1c01a",
+      "e95b22ee5fcec36f2c09f2e171e5bf423834b7117d3f9548ace981f01f744cd4",
+      "ed0ff798393aae7b80fcb6cf0c4a952755ec52f811f5430b46df465ad2fb70c0",
+      "1563607d88c6cbe683ad6eac39b1eedaaa22571bb96badd653fd8e7b26976d60",
+      "c125d94dd1dec0b926ad619b64554a1aab3a4722e51ea5fe75522f7185fd7980"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-22', DATE '2026-07-01') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transfer_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "a00f4ec1dbffc83db20fdc0f3593119e1737d8194ccc20d098daa30574d2c511"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_standard",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15322543885,
+    "row_count": 3,
+    "row_digests": [
+      "0ef08e1f66cdd8f383054d25a16ebd26c9ad592edb281d9f643489d494caef96",
+      "360709671ab44028d4b21066cdfa936884180c65c5c579ba32cca1dbc4bd6c6a",
+      "495fd1088a5fd740d19e7f300ba65fe8c86aa00bcb54989f567c90e4516fc4f6"
+    ],
+    "sql": "SELECT CASE WHEN is_erc721 IS TRUE THEN 'erc721' WHEN is_erc20 IS TRUE THEN 'erc20' ELSE 'other_or_unknown' END AS token_standard, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY token_standard ORDER BY token_standard ASC",
+    "sql_sha256": "a4e69b49dfc81412bf5b1ab7ae66ee468695376c54c7c965add13a248e8a752b"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_gas_used",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1440000,
+    "row_count": 7,
+    "row_digests": [
+      "b0faa2b0f0fefe8c30b04d9eaf56a704bf9e01f4a35b7e176935e69ca5d4883f",
+      "1662efb0d0ff4f756c399cc9b0f87e263a3c8edd959fb33a3e279addfbd0cb69",
+      "548e2659cb5b863c624a2a9a29eacd4cb22eb0f31e7b65ce992615014daaf7f1",
+      "24bd8b7bf848f68c16b6531602a6c5fd7b7c7eb376728938762e0fd02cc68a8b",
+      "97e48f1900694b99e7aec1beb34b09792efcc725ef4dddb01c444b56525509bb",
+      "1b41ceb5819ca080a699b2d4a94fa5fa7eda8a1a3888016a221d7d890822ba03",
+      "a04a5497810d31be611a4fb008ef470d16bf54356ed844100b601f3857611737"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS block_count, SUM(gas_used) AS total_gas_used, SUM(transaction_count) AS total_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "a64ac2e14c06b71e3ce0ef9bc86bb657f62aa745bab3842b2f53afb2958fbe91"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_contract_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 14465173288,
+    "row_count": 3,
+    "row_digests": [
+      "227b4cd872cf5b2159516a0208bd276732258bae7dafbf321168dff335012019",
+      "6449a82cf7300b822f129254dffff8717b6505802d0aa2813b8923f6d7ad5004",
+      "b598eb464522ac6ce667d2b2f09a604ccc7b4736d8dfec3e85e8a23021cf2b8b"
+    ],
+    "sql": "SELECT CASE WHEN contracts.is_erc721 IS TRUE THEN 'erc721' WHEN contracts.is_erc20 IS TRUE THEN 'erc20' ELSE 'other_or_unknown' END AS recipient_contract_class, COUNT(*) AS transaction_count, COALESCE(SUM(tx.value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.contract_dimension`(DATE '2026-06-15') AS contracts ON tx.to_address = contracts.address GROUP BY recipient_contract_class ORDER BY recipient_contract_class ASC",
+    "sql_sha256": "a96744da698a39b11bd7159ad6ee50fbf0314a6953b3146995d48196b61a0ea1"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_type",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 333722576,
+    "row_count": 5,
+    "row_digests": [
+      "e6037a9493c7c50da918fe75f078b4fd950db36bca8ac9070b76718532b6cef9",
+      "932dd70c69f6e9d52463ede62d1558cce00a0b7a0f29d5ad2dc9cc7be27f037e",
+      "a2872c6ba3ee883d309bb6d79c4b869c8875f0498663f3c8cb4e68204f78a491",
+      "ea4b1e4ba12e7684ac604d437ef3f7827e1fb1ee4aaefbaf1e62bf3de487751e",
+      "292fcf7d57b80fb3b5a613c5dc658fdb4051bf99d8198feedc97f7fcc8b03ad4"
+    ],
+    "sql": "SELECT transaction_type AS transaction_type, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY transaction_type ORDER BY transaction_count DESC, transaction_type ASC",
+    "sql_sha256": "b53e69cc7912651075000f406f6cfc65c7d2e4203fc69e8f2b5f6969ffb448ce"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "successful_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "failed_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 254443808,
+    "row_count": 7,
+    "row_digests": [
+      "e7f1a0a48e213c58fa7b716a929fd65e334769767c175777aa00ebef9b6bd79a",
+      "c43889f5d6190dca442442531a268b2f626c88b6212513ff74d6ede57bdd1146",
+      "b3489affe2f0af8a24a43a0f8bcbc086db32dc9ae4ce67f0320a78916873caf6",
+      "9ac90b524c45f6345cf75ec1d7162380cd56a767c64f55550daa0a1570b926e4",
+      "3c49486bbace7c8b2d0d6d5072f48154469bda71756b75ab3f36a490077c1967",
+      "69f1651f4f0bf00db8703c37203089d70bc8f04a005a7ac73011a2b2e89cac1d",
+      "207c8ac28b0574ecebf00f509799f1d5b473170dd7e2dee4d686f480f79ef13c"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNTIF(is_success IS TRUE) AS successful_count, COUNTIF(is_success IS FALSE) AS failed_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "b5ec01a385a07a99767ef9ae4e315bc6615e957e4b51619eb244737c122f115f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "beneficiary_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 4103060,
+    "row_count": 10,
+    "row_digests": [
+      "abdffa3faff759a8658b73bb4b2540ad029eff76a920c2887b4ca4ee5aa63879",
+      "69ecf01e7ec52933da9407248a59d2f46c0c2c32981dcdbb13a524a70dc2c6d0",
+      "b5c84e0b22655c5ee3e90431cd72c5c0eeeb0f8b2feb387d18995e2100c9462f",
+      "8cb1aadf1c8315c7a0bd0995d9176793d3d27a85d2771da2f1039c3722431811",
+      "69117c7e6f168ef41e0a286a4271c52b82f4d07b94e6cfa439cfd19ac0de3b88",
+      "cc92250bf1e03b77baee6d718557fbb2d3030a072a8bc4657523ed8908e640ed",
+      "99db2812c83895eb4d306421de066bdeeed4422afd3e036e9858d0b372ca5051",
+      "c90a90215863e8064ae2946cb375b3c26e65ebe1e7b6accffc427f5b0d2f8835",
+      "c1cced833c1f9670b4f397766584435304bfdb055b159e002380afb2ebd3226c",
+      "e438fe41134e424efaa915659c0367de15d4d3683cd4896047cc1e5e682d2013"
+    ],
+    "sql": "SELECT beneficiary_address AS beneficiary_address, COUNT(*) AS block_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-22', DATE '2026-07-01') WHERE beneficiary_address IS NOT NULL GROUP BY beneficiary_address ORDER BY block_count DESC, beneficiary_address ASC LIMIT 10",
+    "sql_sha256": "b6da0332ba85e7f04f70d23bbf81144ac8b5a451879cd8db6db257c3f7cbf80a"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1083382388,
+    "row_count": 10,
+    "row_digests": [
+      "1ff243b0468704dc9221db9198d1a75bc25e8e7c3760b2e50bcd57f6a623226e",
+      "a13eca02bce82734aaa82e196acfb109a09961cb9f01904b099fcd72da0f81fa",
+      "08fb1b32fede57c29cd3fbef9f9e95cb258d8e0b01174a242b1e5cd28a1d1010",
+      "352ec27f7ce785ac545dd323122d1b4f94e6d17a6397245026ba42cbd10237d1",
+      "8c1099fbe6d382d0d8e489e0b7608d6108b719c9cb09d8388fa720d9bc4bcfc0",
+      "282afbe699a474c79d277359d5390da79cbe931a0fc781cd76e3938ab215f689",
+      "5094b3886715246a28800e527c50c2c779b6f163fbe430cfddb5b0f5121df768",
+      "dfb9faf43a0df737e3d5c8f50e3591cca14e33e5940afe4a4a4c938e39e2e8e4",
+      "9818e13a00f429af1c0b332bf0bad66b34ac444420f9b7abf696d8c2b6cff7d1",
+      "6fd2a3bb74babd2c7b58a499d475a3494c32cfdf4c535e8d29da3aac559442fa"
+    ],
+    "sql": "SELECT to_address AS recipient_address, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') WHERE to_address IS NOT NULL GROUP BY to_address ORDER BY transaction_count DESC, recipient_address ASC LIMIT 10",
+    "sql_sha256": "b6f798c8a94dfaab6a424fd798d2d65987153d7935639a8cc685dc05de5dcb89"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "created_contract_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 611205948,
+    "row_count": 10,
+    "row_digests": [
+      "0aa0288cada38ee2409d8dd111940f49ced093b52ac4c6ef60a5dfac748cf325",
+      "0ed9c8827e8453ff6d066adb0caf9190a6dc978d46941291682065821b528971",
+      "fd8c70827e6f9343d50486c67326c3a50d4e1d7e36ab969484ade401bfff26fc",
+      "213d5853fd994593443b74c7097a15d0d0bfe2d29d594ab1eac17b3dbaa0d15c",
+      "5c79bdc307bd18e5743aebcda38d4c0946707b1d9391f3bd9260dd5f84973cec",
+      "960fae1aeac94ae6a85ec1db5055a4f32fb1a25f18c83858890e025be87f7096",
+      "19ea888596f03e3cb1228aa619865b98d26898a78180686b296f331ecc9bbf61",
+      "34d022b2286905c963736e3fbf0fdc3edeb66ef77e82d9ef2927d37d4c1b1672",
+      "98c5cc1239588c989a5c79cae1a271d756c5f96686774b4873b6eaf3962af4ac",
+      "7240b1a7e21eaa59dae189b93ae064d380540d4814f2d35ff862e57fd849b153"
+    ],
+    "sql": "SELECT receipt_contract_address AS created_contract_address, value_wei AS transaction_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') WHERE receipt_contract_address IS NOT NULL ORDER BY transaction_value_wei DESC, created_contract_address ASC LIMIT 10",
+    "sql_sha256": "b7e21c483120d0f2ef9712b30758b179b5863f4c1709937181d31329d9fe748c"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_gas_used",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1265016,
+    "row_count": 7,
+    "row_digests": [
+      "85d6941275bd022da305b9853007ab2c5fc8fb72eeded0b88464fbf638b358ee",
+      "e739307e566fcc0aefbbc82039f38e1830ffb6e2e4900ea12b8e91182bcc5f04",
+      "26d55770588c0f32a756b51778440d062c754861214764361482f72fb8dce6bd",
+      "454f70a5b6933045ee67b5d74dda22dd1222c708abf905297c414ed0acad7c94",
+      "e4d36f05096bd351daf62531ab47d32f5ee4d736c0ce51b0726410af76654fa8",
+      "81c08d66a99e77957901ce752e98bcc07cc2e4a90956f8b5182dfd856d9a2637",
+      "f0c51a9d634331543ae7761a824753385017caa51798bc8bbcf9f752229cadb0"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS block_count, SUM(gas_used) AS total_gas_used, SUM(transaction_count) AS total_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "b83867041188c3233a62be2fdf35d0bfde0956bbc86d54955f4c0c0ae4200c34"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 14918585747,
+    "row_count": 10,
+    "row_digests": [
+      "cffa995ffaa2ff6a692318a43f0a0fb463f245e18d5b044b467814811360174f",
+      "69fd87c265595e4eb6f929687912c294d1c6ffb9d432dc865da33a4148b86710",
+      "bade56996275f4dcbb39476a05ec8e70119212a958eb114f2675a1f6d979cd28",
+      "1cf394738bb627f692a5a34b0b07646fffdc52e7f608efd7bbc7ccdaaf5a5329",
+      "e14b5983fabf1ff52ee3168d3d1fca4e9a3ab81d2e485979687a6793a06770de",
+      "0bb701a93d996791e90a1d5ab719ed8d40f46470e3a5ad84f638bc07bf2d9f2e",
+      "024599e96c8755812360d017ec7d49ff386a0b7ffb1bdafedb2196c5f19200e1",
+      "ba1003eda01671034afbaa534c6dc810b44e7978fc61edd09454b5bf31f07bfa",
+      "1385e8f00638f00e2f07e87126c4e4cc4fde5b0b46b8b2f545e06f730c7cb250",
+      "f4b7e7486e665bc0a5055b3c5117e3f39b6e4515e117bbf177c3cbcf7e8392e1"
+    ],
+    "sql": "SELECT token_address AS token_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY token_address ORDER BY transfer_count DESC, token_address ASC LIMIT 10",
+    "sql_sha256": "ba0f675045fa86f2de379a37071811154eb26a79789a1ae43d75ba263dd9fb13"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "failed_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 244152080,
+    "row_count": 1,
+    "row_digests": [
+      "7b8e280ee96487d7d35360d40d2b2cf7bde61dfa5699eb4fdb04992f5dfa0caa"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS FALSE) AS failed_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "ba8ff9cc00e5837e1c0f2ca74f07d9101f293a5a3d5951a551763802259bfc52"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_owner",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "token_symbol",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_normalized_amount",
+        "type_name": "BIGNUMERIC"
+      }
+    ],
+    "processed_bytes": 17187053667,
+    "row_count": 20,
+    "row_digests": [
+      "21fcd4cc3404e9d3b8160e64ba08c1f1d0d7dd8f4a63eea99340660d1e421da8",
+      "e6f85f0f462aaaf435e8cc41f085625bb451253c02e49d6bec352a21e5034d30",
+      "50745c63917af884735cfdb832085d114490363a18e3817c210eedc982737ab2",
+      "ef026d6ea1a8e8da2394bd6b097e233e81425d41c27c4bd92be56c2d396241d0",
+      "1809f2893bc9b9e5de76734d7c7218b62eb1b562036a994490853fb7a2127ce9",
+      "c6fb7a59ab567be685317e2f9550735cf14ad060e1c9ca36a542869e21e28101",
+      "200c8f5685b380a10f8e5fb3c6a5f9ae68e885be07506d543fedfc57e8b543be",
+      "e9d06b89afe1949bc875f016ab8b595ae314d7a0a1a27f77a542838284231307",
+      "8a68500ef6d7019a3007f6a724ad557923f2308916b9e3ab0ec0ad430e392488",
+      "eae247d00b57e02a34587b56688c1bbc258ada6d0d85467086fc0b75016ee91e",
+      "c3ebd12bfd7a9d8a87eb191079cfe150014523e59f3e05ff685cc813e3483c01",
+      "f40623e9d925e5d5eef91e4ab225739bc0097eb20af87b62260f5ab64fd79c38",
+      "e7515105e66c1b124f5480a962914ab62f6de09da311ed8800dd711e48fcd796",
+      "7143c3b9dbb0e286b48a2b1d4965662ac3c845fa2709d9dc68de6d7f6fd7d702",
+      "afecb3a4398beaaac3f7d94f46359e4092e0637fa20bfa84afaadd4cebe76065",
+      "5e731a4a9f02beae3e08890b090edd7af2cd0c069e39edcf76e71ce7b64fc806",
+      "094f831885a50f6b35c36412736cfbbcb3283568e6d26d444b2f0b6fec594d5f",
+      "02db357c60fa6b4f2fd789cd307d18a29a781e0e9bc28b6ae32a948806003d52",
+      "b7203342b2d52f855aef46ecbf896666943dce336ad4ba576e66ebecf627d01c",
+      "53ba2531c0cc45834cdf40259d6c2ebf896a3341e5a4684568a8b500a4e16673"
+    ],
+    "sql": "SELECT labels.owner AS recipient_owner, transfers.token_symbol AS token_symbol, SUM(transfers.normalized_amount) AS total_normalized_amount FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-22', DATE '2026-07-01') AS transfers JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON transfers.to_address = labels.address WHERE transfers.normalized_amount IS NOT NULL AND transfers.token_symbol IS NOT NULL GROUP BY recipient_owner, token_symbol ORDER BY total_normalized_amount DESC, recipient_owner ASC, token_symbol ASC LIMIT 20",
+    "sql_sha256": "bb164d010bbd428031cedf907632f03cf5d28b4c791e8c5398abeb25637b6087"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 610380200,
+    "row_count": 1,
+    "row_digests": [
+      "ab57d0978d5f5922b216223fde5844a6258b603a9af399a23bbe82ec97994cdb"
+    ],
+    "sql": "SELECT COALESCE(SUM(value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "bd9fe245f650a5569b75d3ee54c0df3142ae706cd9146950b0fc46b5597df6e9"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15987865504,
+    "row_count": 10,
+    "row_digests": [
+      "4d4921b87186fbc45495bbe866d90bab069e691d335f90ab9ecb6628b83d4394",
+      "aa72af63ba67c4966d9ab1ad7ffbb8bf182223a289eac3d580fffede6559b411",
+      "4a3def6780e85a5a2af77de6c0e0781528594fe16562e9f3223ef50d5e3c9b2f",
+      "b783189a44b3cf748e8140a1ae4d9556032645989896cd1e83ccc78e7b2c492a",
+      "7561848a337a93d13e6b118381bfe638f2c7c38f3ac4589aedb289e862b3c3ad",
+      "8b625098e19b6762420c5fcba0c9e47372605162e9b58ae47a0c2201d1f393f1",
+      "a7f402f4cec4fb62059606e45a99bfcb7540cc54b9679881d4f7e0fc5f3dc5d1",
+      "353ca00788bcbd4f5809bdcd56e2c1d9a2a5f0fe53c851a22b7f9150e7d5884e",
+      "c91bbfa366af193556c1344103e62191af42d2bdf0ce365199d039e56619c1f4",
+      "54723b53ca710f576b54ba9b172f1cf3f970450e7b1f6afb24a2251b1a302989"
+    ],
+    "sql": "SELECT from_address AS sender_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-01', DATE '2026-06-08') WHERE from_address IS NOT NULL GROUP BY from_address ORDER BY transfer_count DESC, sender_address ASC LIMIT 10",
+    "sql_sha256": "be751814f1653c08d3249fb498c63ded9f967856f5b3e03ead182e1945b900e2"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_hash",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "native_value_wei",
+        "type_name": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 22193025328,
+    "row_count": 10,
+    "row_digests": [
+      "2c220d4acbb99f1a8769708b89d188d0de90f9ffcca60b15dcacd9b53a0c9a14",
+      "2da16014cfcdc416dcd9adcf35858fdee34c5d4d6a6d098e62740e50b09a65e1",
+      "08ec19943d1f0992ca788d4ca1e96846946dcaa9ec3faf84483ec1b379cb69b2",
+      "c7b1de9be5a9cfd3d59ec6d2e5b8b8f5f6b93c97f1a2da134a2764c5219f0854",
+      "b10fcd80b9198b11fc272e5412cd811ecf92c767bbd61bb2c1d70526eed2dd8e",
+      "be4595e763136d521a986fd32b6a4bf06287c3ee99fc3cacfaa74858e46384db",
+      "76e61cd97824f383f362d49b6b5066eb9a043d68ae8cb890c018ba08f995cd70",
+      "ecfd224e54b2d0cb12759351e9797c10be7d97f0aced1cb59f4047fe527753c9",
+      "f0dc3da7c248b1c0be51a3bddd480b84944af4ac2ff11695939c075ba30af713",
+      "ece007dad0f98c71d5b8ff2c10ccfdd23c8fd255fef80c5090bce677e8776c57"
+    ],
+    "sql": "WITH transfer_counts AS (SELECT transaction_hash AS transaction_hash, block_number AS block_number, block_hash AS block_hash, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY transaction_hash, block_number, block_hash) SELECT tx.transaction_hash AS transaction_hash, tx.value_wei AS native_value_wei, transfer_counts.transfer_count AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') AS tx JOIN transfer_counts ON tx.transaction_hash = transfer_counts.transaction_hash AND tx.block_number = transfer_counts.block_number AND tx.block_hash = transfer_counts.block_hash ORDER BY transfer_count DESC, native_value_wei DESC, transaction_hash ASC LIMIT 10",
+    "sql_sha256": "c0b68efc789863b708ca51a6c38a9ef5810a0bb0dde809aaaeae2ee2486ff90f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "observed_transaction_rows",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "joined_block_transaction_total",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 168123768,
+    "row_count": 9,
+    "row_digests": [
+      "54865756e587f49aaea3fd2484e5c1315adb6cb8cc866f58e1038993ed30e79b",
+      "fd35f46c969e5d602ec99eb6250a8034b9e05ca5d515524145fccf2d0d6f96d4",
+      "6b0aed43f32f20b711ff190bce84c21250b5ae229f04c6cf29e23fd9511c57d3",
+      "c24416d2255157343c64dbfb4454960d83d5c5f9e073196f065b4a0654d5ba8b",
+      "cc3f499fd436fc0f07d2fbb965f6508405bbf8b2b0644a6b0d92711a59e7fc0a",
+      "b6edb310a04e365a5e9ebaaab67dc8299fab684b754141f345fb7880002009bb",
+      "f46862aaa26db12fa95dbaa0597f42902aaebbaded6f06b2f1d4145510850c66",
+      "c120b8d4af1e8d60edee8d9f0ffe2856228ead9c15cffab2d49d17222b9261ae",
+      "eb333f206a92643cbd536b293c20390173fe64a260217749537266ada94fd5c0"
+    ],
+    "sql": "WITH tx_daily AS (SELECT DATE(block_timestamp) AS activity_date, COUNT(*) AS observed_transaction_rows FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY activity_date), block_daily AS (SELECT DATE(block_timestamp) AS activity_date, SUM(transaction_count) AS joined_block_transaction_total FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY activity_date) SELECT tx_daily.activity_date AS activity_date, tx_daily.observed_transaction_rows AS observed_transaction_rows, block_daily.joined_block_transaction_total AS joined_block_transaction_total FROM tx_daily JOIN block_daily USING (activity_date) ORDER BY activity_date ASC",
+    "sql_sha256": "c103d2596b8013d1c641263e20eeb555707e3717f2be28c268a2b5f83b879e71"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_standard",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15147664022,
+    "row_count": 3,
+    "row_digests": [
+      "e222e348e6a9444d5fc670ffcbffc257479b4571a2702e646e041bde559e2a57",
+      "763efed786568d4aa5458dfba6ea969f2c551f2541c2e55c91f4fcf6aeba8946",
+      "14a4440df363c2fe15684629d57c88b17e7f4a62930a88849cbd854ae6fcd69c"
+    ],
+    "sql": "SELECT CASE WHEN is_erc721 IS TRUE THEN 'erc721' WHEN is_erc20 IS TRUE THEN 'erc20' ELSE 'other_or_unknown' END AS token_standard, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY token_standard ORDER BY token_standard ASC",
+    "sql_sha256": "c485aaf82fe1eedd20883d4598b5a3c767585ae267d8b92c42239859ef996a74"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 15118460523,
+    "row_count": 10,
+    "row_digests": [
+      "a8f64131411504288b1c64b66d601ad1f8dead554d67c84e16cd07e8dece4da2",
+      "1bd69ea67f44eb02d33f8dfc3e27116036566cdaf78a74846698db7651d1d121",
+      "7db56126f9125aba53d73f25a9a65cfcc7a3099a98ee0f99f4b5e265ddb9ed96",
+      "3970a6df777719d4ec95458f99a4d51b1a7c9892f620dc3b11529ae1c6ad0d8a",
+      "0e1428b15bd289f3a4824963dbd01fe90727fe2ef4c910e06e7132a1424dcd36",
+      "001b6e43413c720108f6b7460d9398d2ba78ab35f85058e0c7ddbeeb2e366dcf",
+      "572e1f8b00cf6d6d7fe1cd017a43bc24f374970b18f0903f70fd771ad5aee56b",
+      "549330057aa0b1072c27e1ec5f59ef40ab27ab1d323d4d54aefd09da983cd457",
+      "c6e3c26e4dc8acc6d974f6ea98c061dc3c1d49194ac0c994e9ebd39f1b20eaaf",
+      "354e115ce8feff682a650925bc0451326f582e64226b612a58b7548a6d0d4303"
+    ],
+    "sql": "SELECT token_address AS token_address, COUNT(*) AS transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY token_address ORDER BY transfer_count DESC, token_address ASC LIMIT 10",
+    "sql_sha256": "c8214b03c8c2a0470d7c0227879a87e5a190ef669b5c6ee2ef5c6e749ab7fc84"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "recipient_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 666370827,
+    "row_count": 6,
+    "row_digests": [
+      "cf02f92ff9c11d115e1fd9956b1c1947cf4c6da42083c854dcf55ffab4c80f9e",
+      "6c83d8ea8d4334459bd88ada94b5e3be3c13df377065151774b7a435ec24ab7a",
+      "529d797e7886215349a13d6c727eb5308fdbec94b68449184360e42ebe5cb213",
+      "390076d36daecedead77985195174136c373ff3508e28eacea6cf77a10066b78",
+      "c29a83f2ab08bd4bd92070ef0e923c01dfff46c52a2319a2c19ca73b6593ab03",
+      "2314f6a418c840d27f953afe97f5fbc655b763e491213f4e04eb4279db83b6f8"
+    ],
+    "sql": "SELECT labels.concept_class AS recipient_concept_class, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.to_address = labels.address GROUP BY recipient_concept_class ORDER BY transaction_count DESC, recipient_concept_class ASC LIMIT 10",
+    "sql_sha256": "c9339af76f2a39ea14962c67439d91b8f5ce525b62d24be3c70ef74d770844ce"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "successful_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 254443808,
+    "row_count": 1,
+    "row_digests": [
+      "2d2510e93a152559bfb16a3687d74d310f30ddb173d52fe74f7334e81f56b698"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS TRUE) AS successful_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15')",
+    "sql_sha256": "ca0018f11d89176674f581460e733520c59a64517522952ae64d58cbb4b1529b"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "successful_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "failed_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 205099520,
+    "row_count": 7,
+    "row_digests": [
+      "f45bd5872b96d4f9044870ee9f2c856e7c091f58210096f34a52ac0f386d863f",
+      "cb4329c2b9cb536f1222dfe875194d82f28f57145950e796d238b4202c41f776",
+      "26aae00b527e88f40a32ac6a1e280aae25ccc626d71111544799f4ce0eec30c9",
+      "9e3e5476711c3d6b2ca9b931ffe4d2bf1e2bf248bfad43af2ca505f412877568",
+      "a5217d501fff66ec74ccfaec457b06bf0b0f9be25bee3992e9e316d77a91c921",
+      "d33fec302fdb0ccf90db6bc40679ecf73600199e5d26941394920a9bba696547",
+      "1a34892ba0ef4afaa991506f748e7ddff9969fc697ea84baa45fbc910b59f073"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNTIF(is_success IS TRUE) AS successful_count, COUNTIF(is_success IS FALSE) AS failed_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "cac598aaf6de45e476c1cd61f69302974c75321347705b6dc6d36df2483e4d00"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_type",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 254443808,
+    "row_count": 5,
+    "row_digests": [
+      "385857ce0116df9b1e1b4d788890f9ec09adf7f812624097576aed040f512c4a",
+      "db6a25f7554b787394768e6397160e9d5fb9cc31fad194ba4a396175815a8d7f",
+      "e1671a88109ea3d999fd1a1c149aca44cfc3ec72e9fbaa4fdef23c3ae88ef29f",
+      "08653be0574ef3a4d7566d2c014d68e4519e0504b4d17331e1d76e64306eb2cf",
+      "dca028422adc115f87030b30154eeae04c1861574f147b126e7b59c65a132495"
+    ],
+    "sql": "SELECT transaction_type AS transaction_type, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-08', DATE '2026-06-15') GROUP BY transaction_type ORDER BY transaction_count DESC, transaction_type ASC",
+    "sql_sha256": "cd408b4d8790c11cb12df93690b417c5316ebfae0ea2a5c3fda20b95ae78bf9d"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "activity_date",
+        "type_name": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "successful_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "failed_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 244152080,
+    "row_count": 7,
+    "row_digests": [
+      "4cec29165bf6b5475ab5767d07de0da7cce12b1bdc318ab26383718ba39817f2",
+      "4c93dd9f51574c52449216aba94accf25cc69700439c2c5c21badd0db51d3a4c",
+      "f197906429a72c49fdce8d23614bcab74bca9b6b290ad07da17ef58d219c4f0d",
+      "00fb8a6385356952562c5a8d71c3eb4dc0f05f31565272993ec19ec67efdaba0",
+      "068201bcdddf3ec35ee52fb271ac76db17879b9ee111fcdbcb0e9c2e9d52e513",
+      "64a9d12f99488402d514a0d6a998e36c9fadecb9d28c4dfe10fca419808b2c1e",
+      "38cac4d5bfc6634957ad1a78ce17c3e989adc3de5bbe817ed72f4c9374443dc5"
+    ],
+    "sql": "SELECT DATE(block_timestamp) AS activity_date, COUNTIF(is_success IS TRUE) AS successful_count, COUNTIF(is_success IS FALSE) AS failed_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') GROUP BY activity_date ORDER BY activity_date ASC",
+    "sql_sha256": "cf4a04ba6fd1a6307657e66e47e49fc6d7d0e5d9dbf3136819a37914f1cf8ece"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "successful_transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 244152080,
+    "row_count": 1,
+    "row_digests": [
+      "2237cc04ccb00223b990fac38accc425639c66c11f924806e66e9f97918a4746"
+    ],
+    "sql": "SELECT COUNTIF(is_success IS TRUE) AS successful_transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "cfd07066a5fe496eac0e332b5cb1bcc06888f90c1a5845ac3a43e6305cc1ce17"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "token_transfer_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 14945103080,
+    "row_count": 1,
+    "row_digests": [
+      "8d2f5f9bdc9795d4d891124f933ee8e4863c4bbdf077149ceb0e750985beece3"
+    ],
+    "sql": "SELECT COUNT(*) AS token_transfer_count FROM `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "d6ae7b6b499fe8f47d2fe7ce0734743b566e95994e082859aa9d70a61e93c13f"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "average_transactions_per_block",
+        "type_name": "FLOAT"
+      }
+    ],
+    "processed_bytes": 960000,
+    "row_count": 1,
+    "row_digests": [
+      "0f2afabd8d8ec3b3af607de443f91fc4e60fc27f6890c03a93d6b828f3adfe38"
+    ],
+    "sql": "SELECT AVG(transaction_count) AS average_transactions_per_block FROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-15', DATE '2026-06-22')",
+    "sql_sha256": "d7c8eefe38ea61315f2be521b21b347a46d16a142fa9f9d63c86b81d26613ef5"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_concept_class",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "total_value_wei",
+        "type_name": "NUMERIC"
+      }
+    ],
+    "processed_bytes": 1282101455,
+    "row_count": 1,
+    "row_digests": [
+      "1bc00cdfdfd53d22883279b6390fc7f2448dfca1bb2ea9e968fb90d5dc47d2f1"
+    ],
+    "sql": "SELECT labels.concept_class AS sender_concept_class, COUNT(*) AS transaction_count, COALESCE(SUM(tx.value_wei), 0) AS total_value_wei FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-15', DATE '2026-06-22') AS tx JOIN `nl2sparql-thesis.nl2sparql_analytics.entity_labels_v1` AS labels ON tx.from_address = labels.address GROUP BY sender_concept_class ORDER BY total_value_wei DESC, sender_concept_class ASC LIMIT 10",
+    "sql_sha256": "dc25cf366a347792d7f610ea7a5042cd7bcf9bc080c45621428fbc1d645bc87b"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sender_address",
+        "type_name": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transaction_count",
+        "type_name": "INTEGER"
+      }
+    ],
+    "processed_bytes": 1084598372,
+    "row_count": 10,
+    "row_digests": [
+      "0b051989cd6cfda548375b6ece1d092ea182f4cbe4a796d69426aac518f6be3e",
+      "b2f750c1700ed9ff9f0c54bba6f56d3089b9f8a1780f68b131747115e61e742e",
+      "5c20220c99250cc1c15e03dd93dce1ce454a4319f3bfca3523273712ed7bbf2b",
+      "aca46b45d4fc62ade261646c552d239c49f14e8a41bbe9827fdf53aeefde304c",
+      "af4c97b81f3681f5472b2bef103a83dd32b4a38a7f570262a490e1dd59ced260",
+      "4f271dd9ceeb9e48f139b2fc40a722cc9dc9ac24763fba6e0bee035684727961",
+      "5d8e2322fe20b77b0ecf481344f731f5a6da9f9aa35a140ed6f08c5b6f9f7ffe",
+      "bf529ea40a59f69803e793bef9f04672c52a9b013f77b68dc22b2d7239b2c9c4",
+      "823a450bb93bd16e6a99ef526b88554706330ce55f0cf48801b5d324758e9474",
+      "81dc32a286ed213e2c616fdbb0314b4e3f34ae4d194b04c27719c2fc0b0df7d4"
+    ],
+    "sql": "SELECT from_address AS sender_address, COUNT(*) AS transaction_count FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-07-01') GROUP BY from_address ORDER BY transaction_count DESC, sender_address ASC LIMIT 10",
+    "sql_sha256": "dd62a89cfdbd2746035baac2af011073d2357732096e1bef53e5c559517dd2bc"
+  }
+]

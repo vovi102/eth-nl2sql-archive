@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+
+# Local data store built from BigQuery (large, reproducible with `eth-nl2sql snapshot`).
+data/store/
+
+# Large CSV subset copied from LuanVan; keep its manifests and documentation.
+data/raw/luanvan/*.csv
+data/raw/luanvan/*.partial
+
+# Run outputs that are regenerated; commit only the final ones you cite.
+runs/*/scratch/
+.cache/

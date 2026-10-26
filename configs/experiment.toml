@@ -1,0 +1,39 @@
+# Single source of truth for model pins, generation and fine-tuning settings.
+# Read with `eth_nl2sql.config.load()`; every run records this file's SHA-256.
+
+[models.generator]
+repo_id = "meta-llama/Meta-Llama-3-8B-Instruct"
+revision = "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+load_in_4bit = true
+
+[models.encoder]
+repo_id = "sentence-transformers/all-MiniLM-L6-v2"
+revision = "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+
+[generation]
+max_new_tokens = 512
+do_sample = false
+seed = 42
+
+[retrieval]
+examples = 5
+
+[evaluation]
+timeout_s = 120
+float_digits = 12
+bootstrap_samples = 10000
+bootstrap_seed = 42
+
+# QLoRA defaults from luanvan docs/memory/02-TECH_STACK.md; only epochs is lowered.
+[qlora]
+r = 16
+alpha = 32
+dropout = 0.05
+target_modules = ["q_proj", "k_proj", "v_proj", "o_proj"]
+learning_rate = 2e-4
+lr_scheduler = "cosine"
+per_device_batch_size = 4
+gradient_accumulation_steps = 4
+max_epochs = 2
+early_stopping_patience = 2
+max_length = 1024

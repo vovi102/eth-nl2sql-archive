@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "import_date": "2026-10-26",
+  "source_directory": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full",
+  "destination_directory": "data/raw/luanvan",
+  "method": "copy_with_sha256_verification",
+  "data_period_from_source_manifest": {
+    "end": "2026-06-30",
+    "start": "2026-05-31"
+  },
+  "source_extraction_date": "2026-07-02",
+  "purpose": "offline_development_on_existing_luanvan_subset",
+  "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+  "scope_reference": "/home/khoavd/WORKSPACE/thesis/LuanVan/src/nl2sparql/kg/extraction/full_extract.py",
+  "complete_snapshot_for_current_store": false,
+  "missing_tables_for_current_store": [
+    "amended_tokens"
+  ],
+  "row_counts_independently_verified": false,
+  "notes": [
+    "The original source files are unchanged; destination files are independent copies.",
+    "manifest.json is an unchanged copy of the source extraction manifest.",
+    "Row counts and data period are taken from the source manifest, not independently recomputed.",
+    "The extraction code selects labeled-address transactions and a hash-based 1% sample of other transactions; blocks and token transfers follow those selected transactions.",
+    "This subset is not a complete Ethereum snapshot and cannot establish the existing BigQuery parity target.",
+    "No missing columns have been synthesized and no DuckDB store has been built.",
+    "entities.csv belongs to the historical export and does not replace data/entities/v1."
+  ],
+  "files": [
+    {
+      "path": "data/raw/luanvan/blocks.csv",
+      "source_path": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full/blocks.csv",
+      "bytes": 37203055,
+      "sha256": "85467aaba92e371187b8542f3fddf7077e44e79acb204526bdd9b9dd40cfee95",
+      "source_sha256": "85467aaba92e371187b8542f3fddf7077e44e79acb204526bdd9b9dd40cfee95",
+      "checksum_verified": true,
+      "columns": [
+        "number",
+        "hash",
+        "timestamp",
+        "miner",
+        "gas_used",
+        "gas_limit",
+        "transaction_count"
+      ],
+      "rows_from_source_manifest": 221548,
+      "missing_columns_for_current_store": [
+        "base_fee_per_gas"
+      ]
+    },
+    {
+      "path": "data/raw/luanvan/contracts.csv",
+      "source_path": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full/contracts.csv",
+      "bytes": 287870,
+      "sha256": "e111a53f1f91782ca1efb010d5f074d2299c5e5e2bf9861ef897bb1212479d1c",
+      "source_sha256": "e111a53f1f91782ca1efb010d5f074d2299c5e5e2bf9861ef897bb1212479d1c",
+      "checksum_verified": true,
+      "columns": [
+        "address",
+        "is_erc20",
+        "is_erc721",
+        "block_timestamp"
+      ],
+      "rows_from_source_manifest": 3513,
+      "missing_columns_for_current_store": [
+        "block_hash",
+        "block_number"
+      ]
+    },
+    {
+      "path": "data/raw/luanvan/entities.csv",
+      "source_path": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full/entities.csv",
+      "bytes": 960178,
+      "sha256": "e1c45803cf408226212c91e4fe69b41fe5d2ba9f90ce2ae2af2c0edbad6e41c5",
+      "source_sha256": "e1c45803cf408226212c91e4fe69b41fe5d2ba9f90ce2ae2af2c0edbad6e41c5",
+      "checksum_verified": true,
+      "columns": [
+        "address",
+        "primary_label",
+        "owner",
+        "category",
+        "concept_class",
+        "aliases"
+      ],
+      "rows_from_source_manifest": null
+    },
+    {
+      "path": "data/raw/luanvan/token_transfers.csv",
+      "source_path": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full/token_transfers.csv",
+      "bytes": 974736705,
+      "sha256": "c4dc6772672b6dece0f0e5de3fbdf11c193f8038e530b29c28314a48dd38d97d",
+      "source_sha256": "c4dc6772672b6dece0f0e5de3fbdf11c193f8038e530b29c28314a48dd38d97d",
+      "checksum_verified": true,
+      "columns": [
+        "transaction_hash",
+        "from_address",
+        "to_address",
+        "value",
+        "token_address",
+        "block_timestamp",
+        "log_index"
+      ],
+      "rows_from_source_manifest": 4001230,
+      "missing_columns_for_current_store": [
+        "block_hash",
+        "block_number"
+      ]
+    },
+    {
+      "path": "data/raw/luanvan/transactions.csv",
+      "source_path": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full/transactions.csv",
+      "bytes": 979057090,
+      "sha256": "d7c324112c6d5f80b462e46d959f4282a4a9881c0ac07ba70b80ffec9cb4e597",
+      "source_sha256": "d7c324112c6d5f80b462e46d959f4282a4a9881c0ac07ba70b80ffec9cb4e597",
+      "checksum_verified": true,
+      "columns": [
+        "hash",
+        "from_address",
+        "to_address",
+        "value",
+        "gas",
+        "gas_price",
+        "block_number",
+        "block_timestamp",
+        "transaction_type",
+        "receipt_status",
+        "tier"
+      ],
+      "rows_from_source_manifest": 4431329,
+      "missing_columns_for_current_store": [
+        "block_hash",
+        "receipt_contract_address",
+        "receipt_gas_used",
+        "transaction_index"
+      ]
+    },
+    {
+      "path": "data/raw/luanvan/manifest.json",
+      "source_path": "/home/khoavd/WORKSPACE/thesis/LuanVan/data/raw/full/manifest.json",
+      "bytes": 1152,
+      "sha256": "32059f6de2bfacd7c2136a078b723be13579226fa0f36aeb5aa8a5064696e8c3",
+      "source_sha256": "32059f6de2bfacd7c2136a078b723be13579226fa0f36aeb5aa8a5064696e8c3",
+      "checksum_verified": true
+    }
+  ],
+  "total_bytes": 1992246050
+}
