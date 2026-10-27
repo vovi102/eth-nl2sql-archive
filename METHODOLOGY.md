@@ -87,6 +87,15 @@ số dòng, mapping và provenance job bổ sung; DuckDB lưu scope và hash man
 `amended_tokens` lấy toàn bộ. Việc trích dữ liệu dùng quota BigQuery; thực thi trên bản sao
 local giúp giảm truy vấn BigQuery lặp lại trong ma trận thí nghiệm.
 
+T06 đã chuẩn bị streaming/resume theo job ID, provenance và cap bytes tích lũy. Lần kiểm tra
+27/10/2026 dùng chính sách chỉ miễn phí, không gắn billing: dry-run đủ 95 partition nhưng
+preflight chặn thực thi do allowance miễn phí không còn. Chưa có kết quả parity đầy đủ hoặc
+gold/coverage v2 trên full snapshot. Xem [báo cáo T06](reports/snapshot-t06/README.md).
+
+Theo yêu cầu ngày 27/10/2026, phần kiểm nghiệm T06 trên snapshot đầy đủ được ghi lại và hoãn
+để thực hiện sau. Parity, kiểm chứng manifest/resume thực tế và gold/coverage v2 vẫn chưa đạt
+kiểm chứng; không tự chạy lại khi quota được cấp lại.
+
 **Managed layer hiện có:** hai view `entity_labels_v1`, `token_dimension` và sáu table function
 `transaction_facts`, `block_facts`, `contract_dimension`, `token_transfer_facts`,
 `labeled_transactions`, `labeled_token_transfers`. DuckDB biểu diễn bằng view/table macro

@@ -136,7 +136,7 @@ reports/   data-quality/ · local-store/ · dictionary-v2/ · entity-dataset/
 |---|---|---|
 | Pipeline lõi | Đã có validator, store, linking, prompt và bộ đánh giá | [Kiểm tra lõi](VALIDATION.md) |
 | Dữ liệu blockchain local | CSV đã kiểm chất lượng; Parquet/DuckDB phát triển đã dựng, vẫn là sample | [Chất lượng CSV](reports/data-quality/luanvan.md), [store local](reports/local-store/README.md) |
-| Snapshot và parity | Chưa hoàn tất snapshot đầy đủ và đối chiếu BigQuery | [Phạm vi và cách chạy parity](reports/local-store/README.md) |
+| Snapshot và parity | T06: chuẩn bị/dry-run xong; kiểm nghiệm hoãn theo yêu cầu | [Ghi chú T06 và cách thực hiện sau](reports/snapshot-t06/README.md) |
 | Dictionary v2 | Đã có nhiều địa chỉ, alias, lớp và báo cáo hiện diện | [Dictionary](data/entities/v2/README.md), [kiểm chứng](reports/dictionary-v2/README.md) |
 | Dataset hiện tại | Đã kiểm gold và review agent; human review còn chờ | [Dataset và hồ sơ kiểm](reports/entity-dataset/README.md) |
 | Benchmark v2 | Mới là thiết kế; chưa tạo 100 câu test mới hoặc chuyển đổi artifact cũ | [Phương pháp](METHODOLOGY.md) |

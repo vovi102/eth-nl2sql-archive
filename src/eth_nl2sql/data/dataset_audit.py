@@ -317,7 +317,9 @@ def render_audit(report: dict) -> str:
         "Mỗi câu test có ghi chú và hash câu hỏi/SQL trong `data/test-review.json`. "
         "Đổi câu hoặc SQL làm review hết hiệu lực.",
         "",
-        "Đây là kiểm tra trên dữ liệu local lấy mẫu, chưa phải parity với BigQuery.",
+        ("Đây là kiểm gold trên snapshot đầy đủ local; parity BigQuery được kiểm riêng bằng v1."
+         if report["store"].get("complete_snapshot") else
+         "Đây là kiểm tra trên dữ liệu local lấy mẫu, chưa phải parity với BigQuery."),
         "",
     ]
     return "\n".join(lines)

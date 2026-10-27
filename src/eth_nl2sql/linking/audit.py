@@ -227,3 +227,37 @@ def render_coverage(report: dict) -> str:
                 f"| {entry['transactions_any']:,} | {entry['token_transfers_any']:,} |"
             )
     return "\n".join(lines) + "\n"
+
+
+def coverage_gate(report: dict, baseline: dict) -> dict:
+    """Require a full v2 store with no activity loss against the sampled baseline.
+
+    Zero-activity owners remain in the report. This gate does not invent a
+    network-wide ownership coverage percentage or require every owner to be active.
+    """
+    checks = {
+        "complete_snapshot": report["store"].get("complete_snapshot") is True,
+        "loaded_labels_match": report["loaded_labels_match"],
+        "same_dictionary": report["dictionary"]["files"] == baseline["dictionary"]["files"],
+        "same_window": report["window"] == baseline["window"],
+    }
+    regressions = []
+    for level, key in (("addresses", "address"), ("owners", "owner"), ("categories", "category")):
+        current = {r[key]: r for r in report[level]}
+        previous = {r[key]: r for r in baseline[level]}
+        checks[f"same_{level}"] = set(current) == set(previous)
+        for identity, old in previous.items():
+            for metric in ("transactions_any", "token_transfers_any"):
+                actual = current.get(identity, {}).get(metric, 0)
+                if actual < old[metric]:
+                    regressions.append(
+                        {
+                            "level": level,
+                            "key": identity,
+                            "metric": metric,
+                            "minimum": old[metric],
+                            "actual": actual,
+                        }
+                    )
+    checks["no_activity_regressions"] = not regressions
+    return {"passed": all(checks.values()), "checks": checks, "regressions": regressions}

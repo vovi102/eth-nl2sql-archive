@@ -1,0 +1,7 @@
+{
+  "error": "ValueError: snapshot budget exceeds remaining free monthly quota",
+  "parquet": "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/data/store/full-parquet",
+  "passed": false,
+  "project": "nl2sparql-thesis",
+  "status": "stopped"
+}

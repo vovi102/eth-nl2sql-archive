@@ -232,3 +232,30 @@ def test_cli_defaults_to_v2(capsys):
 def test_coverage_cli_protects_input_paths():
     with pytest.raises(SystemExit, match="must not overwrite"):
         main(["dictionary-coverage", "--out", str(DICTIONARY_DIR / "entities.json")])
+
+
+@pytest.mark.parametrize("damage", [None, "scope", "labels", "dictionary", "window",
+                                    "activity", "membership"])
+def test_full_snapshot_coverage_gate_preserves_the_sample_baseline(store, damage):
+    from eth_nl2sql.linking.audit import coverage_gate
+
+    baseline = dictionary_coverage(store, MINI_DICTIONARY)
+    report = copy.deepcopy(baseline)
+    report["store"]["complete_snapshot"] = True
+    report["loaded_labels_match"] = True
+    if damage == "scope":
+        report["store"]["complete_snapshot"] = False
+    elif damage == "labels":
+        report["loaded_labels_match"] = False
+    elif damage == "dictionary":
+        report["dictionary"]["files"]["entities.json"] = "different labels"
+    elif damage == "window":
+        report["window"] = ["2026-06-01", "2026-06-08"]
+    elif damage == "activity":
+        next(a for a in report["addresses"] if a["transactions_any"])["transactions_any"] = 0
+    elif damage == "membership":
+        report["owners"].pop()
+    gate = coverage_gate(report, baseline)
+    assert gate["passed"] is (damage is None)
+    # Inactive owners in the sampled baseline need not gain invented activity.
+    assert any(o["active_addresses"] == 0 for o in baseline["owners"])

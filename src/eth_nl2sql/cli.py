@@ -45,13 +45,47 @@ def _print(value: object) -> None:
 def cmd_snapshot_plan(args: argparse.Namespace) -> None:
     from eth_nl2sql.store import snapshot
 
-    _print(snapshot.plan(args.project))
+    report = snapshot.plan(args.project, location=args.location, budget_bytes=args.budget_bytes)
+    cfg.write_json(args.out, report)
+    _print({k: v for k, v in report.items() if k != "partitions"})
+    if not report["passed"]:
+        raise SystemExit(1)
 
 
 def cmd_snapshot_run(args: argparse.Namespace) -> None:
     from eth_nl2sql.store import snapshot
 
-    _print(snapshot.run(args.project, args.parquet))
+    try:
+        report = snapshot.run(
+            args.project,
+            args.parquet,
+            location=args.location,
+            budget_bytes=args.budget_bytes,
+            storage_api=args.storage_api,
+        )
+    except Exception as exc:
+        report = {
+            "passed": False,
+            "status": "stopped",
+            "project": args.project,
+            "parquet": str(args.parquet),
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+        cfg.write_json(args.out, report)
+        _print(report)
+        raise SystemExit(1) from exc
+    cfg.write_json(args.out, report)
+    _print(report)
+
+
+def cmd_snapshot_validate(args: argparse.Namespace) -> None:
+    from eth_nl2sql.store.quality import validate_snapshot
+
+    report = validate_snapshot(args.parquet)
+    cfg.write_json(args.out, report)
+    _print(report)
+    if not report["passed"]:
+        raise SystemExit(1)
 
 
 def cmd_build_store(args: argparse.Namespace) -> None:
@@ -69,23 +103,33 @@ def cmd_check_dictionary(args: argparse.Namespace) -> None:
 
 
 def cmd_dictionary_coverage(args: argparse.Namespace) -> None:
-    from eth_nl2sql.linking.audit import dictionary_coverage, render_coverage
+    from eth_nl2sql.linking.audit import coverage_gate, dictionary_coverage, render_coverage
     from eth_nl2sql.store.build import connect
 
     protected = {
         args.store.resolve(),
         *(p.resolve() for p in args.dictionary.rglob("*") if p.is_file()),
     }
+    if args.baseline:
+        protected.add(args.baseline.resolve())
     if args.out.resolve() in protected or args.report.resolve() in protected:
         raise SystemExit("Coverage output must not overwrite the dictionary or store")
     if args.out.resolve() == args.report.resolve():
         raise SystemExit("JSON and Markdown report paths must be different")
     with connect(args.store) as con:
         report = dictionary_coverage(con, args.dictionary)
+    if args.baseline:
+        report["coverage_gate"] = coverage_gate(report, json.loads(args.baseline.read_text()))
+        report["coverage_gate"]["baseline_sha256"] = cfg.sha256_file(args.baseline)
     cfg.write_json(args.out, report)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(render_coverage(report))
-    _print({**report["summary"], "out": str(args.out), "report": str(args.report)})
+    summary = {**report["summary"], "out": str(args.out), "report": str(args.report)}
+    if args.baseline:
+        summary["coverage_gate_passed"] = report["coverage_gate"]["passed"]
+    _print(summary)
+    if args.baseline and not report["coverage_gate"]["passed"]:
+        raise SystemExit(1)
 
 
 def cmd_parity(args: argparse.Namespace) -> None:
@@ -93,10 +137,15 @@ def cmd_parity(args: argparse.Namespace) -> None:
     from eth_nl2sql.store.parity import check
 
     fixtures = cfg.ROOT / "tests" / "fixtures"
-    report = check(
-        connect(args.store), fixtures / "bq_gold_results.json", fixtures / "stage_a_witnesses.json"
-    )
-    cfg.write_json(RUNS_DIR / "parity.json", report)
+    explanations = json.loads(args.explanations.read_text()) if args.explanations else None
+    with connect(args.store) as con:
+        report = check(
+            con,
+            fixtures / "bq_gold_results.json",
+            fixtures / "stage_a_witnesses.json",
+            explanations=explanations,
+        )
+    cfg.write_json(args.out, report)
     _print({key: report[key] for key in ("gold_exact", "witness_row_counts", "passed")})
     if not report["passed"]:
         if report.get("reason"):
@@ -180,14 +229,22 @@ def cmd_check_dataset(args: argparse.Namespace) -> None:
         raise SystemExit("JSON and Markdown report paths must be different")
     with connect(args.store) as con:
         report = audit_dataset(
-            con, args.data, args.dictionary,
+            con,
+            args.data,
+            args.dictionary,
             progress=lambda message: print(message, file=sys.stderr),
         )
     cfg.write_json(args.out, report)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(render_audit(report))
-    _print({"passed": report["passed"], "test_subsets": report["test_subsets"],
-            "specifics": report["specifics"], "out": str(args.out)})
+    _print(
+        {
+            "passed": report["passed"],
+            "test_subsets": report["test_subsets"],
+            "specifics": report["specifics"],
+            "out": str(args.out),
+        }
+    )
     if not report["passed"]:
         sys.exit(1)
 
@@ -414,7 +471,39 @@ def main(argv: list[str] | None = None) -> None:
     ):
         command = add(name, handler, text)
         command.add_argument("--project", required=True)
-        command.add_argument("--parquet", type=Path, default=cfg.PARQUET_DIR)
+        command.add_argument(
+            "--parquet", type=Path, default=cfg.DATA_DIR / "store" / "full-parquet"
+        )
+        command.add_argument("--location", default="US")
+        command.add_argument(
+            "--budget-bytes",
+            type=int,
+            help="cumulative cap; defaults to remaining free monthly quota",
+        )
+        command.add_argument(
+            "--out",
+            type=Path,
+            default=cfg.ROOT
+            / "reports"
+            / "snapshot-t06"
+            / ("dry-run.json" if name == "snapshot-plan" else "extraction.json"),
+        )
+        if name == "snapshot-run":
+            command.add_argument(
+                "--storage-api",
+                action="store_true",
+                help="use bounded Storage API streams instead of REST",
+            )
+
+    command = add(
+        "snapshot-validate",
+        cmd_snapshot_validate,
+        "verify the full manifest, keys, date bounds and raw-table joins",
+    )
+    command.add_argument("--parquet", type=Path, default=cfg.DATA_DIR / "store" / "full-parquet")
+    command.add_argument(
+        "--out", type=Path, default=cfg.ROOT / "reports" / "snapshot-t06" / "data-quality.json"
+    )
 
     command = add("build-store", cmd_build_store, "build the DuckDB store from parquet")
     command.add_argument("--parquet", type=Path, default=cfg.PARQUET_DIR)
@@ -432,10 +521,12 @@ def main(argv: list[str] | None = None) -> None:
     command.add_argument("--data", type=Path, default=cfg.DATA_DIR)
     command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
     command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
-    command.add_argument("--out", type=Path,
-                         default=cfg.ROOT / "reports" / "entity-dataset" / "validation.json")
-    command.add_argument("--report", type=Path,
-                         default=cfg.ROOT / "reports" / "entity-dataset" / "validation.md")
+    command.add_argument(
+        "--out", type=Path, default=cfg.ROOT / "reports" / "entity-dataset" / "validation.json"
+    )
+    command.add_argument(
+        "--report", type=Path, default=cfg.ROOT / "reports" / "entity-dataset" / "validation.md"
+    )
 
     command = add(
         "dictionary-coverage", cmd_dictionary_coverage, "measure dictionary presence in local data"
@@ -447,6 +538,11 @@ def main(argv: list[str] | None = None) -> None:
     )
     command.add_argument(
         "--report", type=Path, default=cfg.ROOT / "reports" / "dictionary-v2" / "coverage.md"
+    )
+    command.add_argument(
+        "--baseline",
+        type=Path,
+        help="require full scope, matching labels and no activity coverage loss",
     )
 
     command = add("local-plan", cmd_local_plan, "audit CSV joins and plan local enrichment")
@@ -480,6 +576,12 @@ def main(argv: list[str] | None = None) -> None:
 
     command = add("parity", cmd_parity, "compare local results with BigQuery observations")
     command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
+    command.add_argument("--out", type=Path, default=RUNS_DIR / "parity.json")
+    command.add_argument(
+        "--explanations",
+        type=Path,
+        help="JSON mapping of gold:<sql_sha256>/witness:<id> to evidence",
+    )
 
     add("check-sql", cmd_check_sql, "compile all dataset SQL against an empty store")
 
