@@ -1,0 +1,11 @@
+{
+  "final_rows": 100,
+  "first_ten_unchanged": true,
+  "passed": true,
+  "repeated_smoke_noop": true,
+  "session_generated_rows": [
+    10,
+    90
+  ],
+  "smoke_rows": 10
+}

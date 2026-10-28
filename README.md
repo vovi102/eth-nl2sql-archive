@@ -71,7 +71,11 @@ Truy vấn theo lớp chỉ bao phủ các thực thể đã gán nhãn, ví d�
 token contract/endpoint; thiếu bằng chứng thì giữ `null` khi xuất JSON. Baseline, bốn
 ablation và bộ chấm linking trực tiếp đã có; kết quả lexical/fuzzy dùng annotation nháp
 chỉ là [đánh giá phát triển](reports/linking-development/README.md). T10 đã bổ sung đối chứng
-prompt compact và hạ tầng ba seed; chưa chạy LLM. Xem [hướng dẫn T10](reports/experiments-t10/README.md)
+prompt compact và hạ tầng ba seed. T11A đã chạy thật hai đối chứng compact trên Kaggle,
+resume 10 → 100 câu/config và chấm local: EX đều 0/100 do SQL không qua validator/compiler.
+Đây là kiểm chứng hạ tầng trên dữ liệu phát triển, không dùng ngưỡng accuracy để xác nhận.
+Xem [báo cáo T11A và tài nguyên](reports/gpu-development-t11a/README.md),
+[hướng dẫn T10](reports/experiments-t10/README.md)
 và [thiết kế phương pháp](METHODOLOGY.md).
 
 ## Cài đặt
@@ -120,6 +124,7 @@ Sau cài đặt, chạy lệnh CLI bằng `uv run --locked eth-nl2sql ...`.
 | Dựng bộ prompt đối chứng | `eth-nl2sql link-experiments --split dev_eval` | `b2`, `b2l`, `b2l-baseline`, `b2l-no-multi-address`, `b2l-no-alias`, `b2l-no-class`, `b2l-no-property`; retrieval dùng chung |
 | Dựng prompt | `eth-nl2sql prompts --config b2l` | thêm `b3-base`/`b3l-base` có prompt giống hệt QLoRA; `--training` dành cho `b3`/`b3l` |
 | Preflight | `eth-nl2sql preflight --config b3 --training --seed all` | kiểm input/token, giữ/bỏ dòng; chỉ tải tokenizer, không tải model |
+| Kiểm chứng GPU phát triển T11A | `scripts/t11a_prepare.py`, `scripts/t11a.py`, `scripts/t11a_notebook.py` | quy trình đã chạy thật, input/ZIP có hash; [lệnh và kết quả T11A](reports/gpu-development-t11a/README.md) |
 | Train ba seed | `eth-nl2sql train --config all --seed all` | sáu lượt `b3`/`b3l` × 42/43/44; `--resume` kiểm provenance |
 | Sinh SQL / train | `notebooks/kaggle_predict.ipynb`, `notebooks/kaggle_train.ipynb` | GPU Kaggle T4 |
 | Đánh giá | `eth-nl2sql evaluate --config b3l --seed all` | artifact riêng `runs/<config>/seed-<seed>/`; thực thi trên DuckDB local |
@@ -147,7 +152,7 @@ src/eth_nl2sql/
   validation.py · results.py · evaluate.py · report.py · experiments.py · train_qlora.py · cli.py
 notebooks/ kaggle_predict.ipynb · kaggle_train.ipynb
 reports/   data-quality/ · local-store/ · dictionary-v2/ · entity-dataset/ · benchmark-t07/ · benchmark-t09a/
-           linking-development/ · experiments-t10/
+           linking-development/ · experiments-t10/ · gpu-development-t11a/
 ```
 
 ## Trạng thái và bằng chứng
@@ -165,4 +170,5 @@ reports/   data-quality/ · local-store/ · dictionary-v2/ · entity-dataset/ ·
 | Dataset hiện tại | Đã kiểm gold và review agent; human review còn chờ | [Dataset và hồ sơ kiểm](reports/entity-dataset/README.md) |
 | Benchmark v2 | T09A: 100 câu/SQL, annotation và hồ sơ review; draft, chờ full snapshot và human review ở T09B | [Báo cáo T09A](reports/benchmark-t09a/README.md), [giao thức annotation](data/benchmark/README.md) |
 | Linking và ablation | Resolver ba property, baseline, bốn ablation, runner dùng chung retrieval và bộ chấm trực tiếp đã có | [Đánh giá phát triển với annotation nháp](reports/linking-development/README.md) |
-| Thực nghiệm nghiên cứu | T10: đối chứng compact, runner ba seed, provenance/preflight và tổng hợp seed đã kiểm bằng backend giả; chưa có lượt LLM | [Hướng dẫn T10](reports/experiments-t10/README.md), [trạng thái kết quả](RESULTS.md) |
+| Kiểm chứng GPU | T11A hoàn tất: hai base control không adapter, 100 câu/config, resume thật, provenance và tài nguyên; EX phát triển đều 0/100, mọi SQL dừng ở validator/compiler | [Báo cáo T11A](reports/gpu-development-t11a/README.md), [kết quả](RESULTS.md) |
+| Thực nghiệm nghiên cứu | Runner ba seed và ablation đã có; chưa huấn luyện QLoRA hoặc chạy ma trận test frozen | [Hướng dẫn T10](reports/experiments-t10/README.md), [phương pháp](METHODOLOGY.md) |

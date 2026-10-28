@@ -1,0 +1,25 @@
+{
+  "id": "aohkvd/eth-nl2sql-t11a-20261028",
+  "id_no": 141338993,
+  "title": "eth-nl2sql-t11a-20261028",
+  "code_file": "eth-nl2sql-t11a-20261028.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [
+    "aohkvd/nl2sql-environment-cache"
+  ],
+  "competition_sources": [],
+  "model_sources": [],
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:9a6bcfda6d03b2cd9aa347ee8c1bae62043328ed0f4afe9bda014e4f8bbf9435",
+  "machine_shape": "NvidiaTeslaT4",
+  "submitted_source_matches": true,
+  "submitted_notebook_sha256": "144c0c7c3638e7fb3947c5be23237731db39ebd8ce9bb816585e64f4cf2bd8f2",
+  "kernel_version": 1,
+  "url": "https://www.kaggle.com/code/aohkvd/eth-nl2sql-t11a-20261028"
+}

@@ -1,0 +1,7 @@
+{
+  "quota_refresh_time": "2026-10-31 00:00:00",
+  "gpu_time_used": "0:14:32.216000",
+  "gpu_time_reserved": "0:00:00",
+  "gpu_total_time_allowed": "1 day, 6:00:00",
+  "is_pay_to_scale_enabled": false
+}

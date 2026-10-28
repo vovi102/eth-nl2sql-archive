@@ -1,0 +1,29 @@
+{
+  "symptom": "3/100 dev_eval prompts exceeded 8192 context tokens (maximum 53278 input tokens)",
+  "ranked_hypotheses": [
+    "Unbounded rendering of 5055 TokenContract owners per class mention",
+    "Repeated class mentions multiply the list",
+    "Incorrect tokenizer context metadata"
+  ],
+  "root_cause": "Renderer enumerated full class membership, although the class predicate already defines the same filter. One list alone exceeds 26000 tokens.",
+  "regression": "pytest -q tests/test_prompts.py::test_large_class_uses_predicate_without_enumerating_owners",
+  "before": "large-class-regression-red.log; preflight-overflow-before.json",
+  "after": {
+    "context_limit": 8192,
+    "dropped_rows": 0,
+    "input_rows": 100,
+    "input_tokens": 38579,
+    "kept_rows": 100,
+    "max_input_tokens": 550,
+    "max_new_tokens": 512,
+    "min_input_tokens": 323,
+    "over_context": [],
+    "passed": true,
+    "runtime_s": 0.07064266299994415,
+    "truncation": false
+  },
+  "fix_commit": "8b8ed78",
+  "linking_membership_unchanged": true,
+  "sql_targets_truncated": false,
+  "prompt_or_sql_truncation": false
+}

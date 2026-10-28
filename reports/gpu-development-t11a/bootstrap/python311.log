@@ -1,0 +1,6 @@
+warning: The `--system` flag has no effect, `uv venv` always ignores virtual environments when finding a Python interpreter; did you mean `--no-managed-python`?
+Downloading cpython-3.11.15-linux-x86_64-gnu (download) (29.4MiB)
+ Downloaded cpython-3.11.15-linux-x86_64-gnu (download)
+Using CPython 3.11.15
+Creating virtual environment at: /tmp/t11a-runtime-9ualsf7i/runtime
+Activate with: source /tmp/t11a-runtime-9ualsf7i/runtime/bin/activate

@@ -1,0 +1,238 @@
+{
+  "completion_uses_accuracy_threshold": false,
+  "controls": {
+    "b3-base": {
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "latency_ms": {
+        "n": 100,
+        "p50": 13268.567135000012,
+        "p95": 19782.952541750103
+      },
+      "length_limited_rows": 0,
+      "n": 100,
+      "peak_gpu_allocated_gib": 3.661194324493408,
+      "peak_gpu_reserved_gib": 3.7421875,
+      "predictions_sha256": "279f508e9b42fc856c6f5890e13b080ee4bfc68970d9beb31fc8397e8ebfafb5",
+      "resume": {
+        "final_rows": 100,
+        "first_ten_unchanged": true,
+        "passed": true,
+        "repeated_smoke_noop": true,
+        "session_generated_rows": [
+          10,
+          90
+        ],
+        "smoke_rows": 10
+      },
+      "session_runtime_s": 1387.7645967689998,
+      "sessions": [
+        {
+          "generated_rows": 10,
+          "hardware": {
+            "cuda": "12.4",
+            "gpus": [
+              "Tesla T4",
+              "Tesla T4"
+            ],
+            "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+            "python": "3.11.15",
+            "torch": "2.5.1+cu124"
+          },
+          "peak_gpu_memory_gib": 3.6548123359680176,
+          "peak_gpu_reserved_gib": 3.740234375,
+          "per_gpu_peak_allocated_gib": [
+            1.9636049270629883,
+            3.6548123359680176
+          ],
+          "runtime_s": 122.08433057899998
+        },
+        {
+          "generated_rows": 90,
+          "hardware": {
+            "cuda": "12.4",
+            "gpus": [
+              "Tesla T4",
+              "Tesla T4"
+            ],
+            "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+            "python": "3.11.15",
+            "torch": "2.5.1+cu124"
+          },
+          "peak_gpu_memory_gib": 3.661194324493408,
+          "peak_gpu_reserved_gib": 3.7421875,
+          "per_gpu_peak_allocated_gib": [
+            1.9679741859436035,
+            3.661194324493408
+          ],
+          "runtime_s": 1265.6802661899999
+        }
+      ],
+      "sql_error_rows": 100,
+      "status_counts": {
+        "compile_error": 84,
+        "unsafe": 16
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      }
+    },
+    "b3l-base": {
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "latency_ms": {
+        "n": 100,
+        "p50": 16177.169137500186,
+        "p95": 24867.901637049978
+      },
+      "length_limited_rows": 1,
+      "n": 100,
+      "peak_gpu_allocated_gib": 3.7070202827453613,
+      "peak_gpu_reserved_gib": 3.87109375,
+      "predictions_sha256": "413e4f67f6419a126df0280217ba81566ade7713b0f38946b0397ce0db66bea0",
+      "resume": {
+        "final_rows": 100,
+        "first_ten_unchanged": true,
+        "passed": true,
+        "repeated_smoke_noop": true,
+        "session_generated_rows": [
+          10,
+          90
+        ],
+        "smoke_rows": 10
+      },
+      "session_runtime_s": 1642.678485707,
+      "sessions": [
+        {
+          "generated_rows": 10,
+          "hardware": {
+            "cuda": "12.4",
+            "gpus": [
+              "Tesla T4",
+              "Tesla T4"
+            ],
+            "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+            "python": "3.11.15",
+            "torch": "2.5.1+cu124"
+          },
+          "peak_gpu_memory_gib": 3.6680960655212402,
+          "peak_gpu_reserved_gib": 3.7421875,
+          "per_gpu_peak_allocated_gib": [
+            1.9726877212524414,
+            3.6680960655212402
+          ],
+          "runtime_s": 138.85986746499998
+        },
+        {
+          "generated_rows": 90,
+          "hardware": {
+            "cuda": "12.4",
+            "gpus": [
+              "Tesla T4",
+              "Tesla T4"
+            ],
+            "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+            "python": "3.11.15",
+            "torch": "2.5.1+cu124"
+          },
+          "peak_gpu_memory_gib": 3.7070202827453613,
+          "peak_gpu_reserved_gib": 3.87109375,
+          "per_gpu_peak_allocated_gib": [
+            1.9984402656555176,
+            3.7070202827453613
+          ],
+          "runtime_s": 1503.818618242
+        }
+      ],
+      "sql_error_rows": 100,
+      "status_counts": {
+        "compile_error": 89,
+        "unsafe": 11
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      }
+    }
+  },
+  "evaluation_role": "development",
+  "preflight": {
+    "b3": {
+      "context_limit": 8192,
+      "dev": {
+        "dropped_fraction": 0.0,
+        "dropped_over_max_length": 0,
+        "input_rows": 516,
+        "kept_rows": 516,
+        "max_tokens": 649,
+        "min_tokens": 297
+      },
+      "max_length": 1024,
+      "train": {
+        "dropped_fraction": 0.0,
+        "dropped_over_max_length": 0,
+        "input_rows": 4872,
+        "kept_rows": 4872,
+        "max_tokens": 649,
+        "min_tokens": 297
+      }
+    },
+    "b3l": {
+      "context_limit": 8192,
+      "dev": {
+        "dropped_fraction": 0.0,
+        "dropped_over_max_length": 0,
+        "input_rows": 516,
+        "kept_rows": 516,
+        "max_tokens": 757,
+        "min_tokens": 369
+      },
+      "max_length": 1024,
+      "train": {
+        "dropped_fraction": 0.0,
+        "dropped_over_max_length": 0,
+        "input_rows": 4872,
+        "kept_rows": 4872,
+        "max_tokens": 786,
+        "min_tokens": 369
+      }
+    }
+  },
+  "status": "complete",
+  "task": "T11A"
+}

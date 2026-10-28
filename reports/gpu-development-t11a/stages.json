@@ -1,0 +1,52 @@
+[
+  {
+    "returncode": 0,
+    "runtime_s": 13.393834485000014,
+    "stage": "preflight-b3"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 10.60886343300001,
+    "stage": "preflight-b3l"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 4.016019383000014,
+    "stage": "preflight-b3-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 4.020868646999986,
+    "stage": "preflight-b3l-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 124.92274848899996,
+    "stage": "smoke-b3-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 0.24913341699993907,
+    "stage": "smoke-noop-b3-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 1268.490201988,
+    "stage": "resume-b3-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 141.65803717199992,
+    "stage": "smoke-b3l-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 0.25072698600001786,
+    "stage": "smoke-noop-b3l-base"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 1506.7155837010002,
+    "stage": "resume-b3l-base"
+  }
+]

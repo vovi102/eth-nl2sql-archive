@@ -1,0 +1,14 @@
+{
+  "generator_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "tokenizer_model_max_length_raw": 1000000000000000019884624838656,
+  "model_max_position_embeddings": 8192,
+  "effective_context_limit": 8192,
+  "sft_limit": 1024,
+  "generation_max_new_tokens": 512,
+  "files": {
+    "config.json": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+    "tokenizer_config.json": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+    "tokenizer.json": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+    "special_tokens_map.json": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"
+  }
+}

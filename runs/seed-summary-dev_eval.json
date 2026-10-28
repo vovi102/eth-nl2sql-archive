@@ -1,0 +1,376 @@
+{
+  "b3-base": {
+    "by_group": {
+      "difficulty:easy": {
+        "mean": 0.0,
+        "n_questions": 15,
+        "std": null
+      },
+      "difficulty:hard": {
+        "mean": 0.0,
+        "n_questions": 36,
+        "std": null
+      },
+      "difficulty:medium": {
+        "mean": 0.0,
+        "n_questions": 49,
+        "std": null
+      },
+      "specific:alias": {
+        "mean": 0.0,
+        "n_questions": 18,
+        "std": null
+      },
+      "specific:ambiguous_property": {
+        "mean": 0.0,
+        "n_questions": 23,
+        "std": null
+      },
+      "specific:class_level": {
+        "mean": 0.0,
+        "n_questions": 6,
+        "std": null
+      },
+      "specific:multi_address": {
+        "mean": 0.0,
+        "n_questions": 34,
+        "std": null
+      },
+      "subset:entity": {
+        "mean": 0.0,
+        "n_questions": 50,
+        "std": null
+      },
+      "subset:generic": {
+        "mean": 0.0,
+        "n_questions": 50,
+        "std": null
+      }
+    },
+    "complete": true,
+    "config": "b3-base",
+    "expected_seeds": [
+      42
+    ],
+    "metrics": {
+      "answer_f1": {
+        "mean": 0.0,
+        "std": null
+      },
+      "exact_match": {
+        "mean": 0.0,
+        "std": null
+      },
+      "execution_accuracy": {
+        "mean": 0.0,
+        "std": null
+      },
+      "format_ok_rate": {
+        "mean": 0.0,
+        "std": null
+      },
+      "structural_match": {
+        "mean": 0.0,
+        "std": null
+      },
+      "valid_sql_rate": {
+        "mean": 0.0,
+        "std": null
+      }
+    },
+    "missing_seeds": [],
+    "n_questions": 100,
+    "n_seeds": 1,
+    "per_seed": {
+      "42": {
+        "adapter_sha256": null,
+        "answer_f1": 0.0,
+        "by_group": {
+          "difficulty:easy": {
+            "execution_accuracy": 0.0,
+            "n": 15
+          },
+          "difficulty:hard": {
+            "execution_accuracy": 0.0,
+            "n": 36
+          },
+          "difficulty:medium": {
+            "execution_accuracy": 0.0,
+            "n": 49
+          },
+          "specific:alias": {
+            "execution_accuracy": 0.0,
+            "n": 18
+          },
+          "specific:ambiguous_property": {
+            "execution_accuracy": 0.0,
+            "n": 23
+          },
+          "specific:class_level": {
+            "execution_accuracy": 0.0,
+            "n": 6
+          },
+          "specific:multi_address": {
+            "execution_accuracy": 0.0,
+            "n": 34
+          },
+          "subset:entity": {
+            "execution_accuracy": 0.0,
+            "n": 50
+          },
+          "subset:generic": {
+            "execution_accuracy": 0.0,
+            "n": 50
+          }
+        },
+        "case_ids_sha256": "55caac88f80606a0be04b73e6e6da3b953eaafa79482e3456bb06a7353730d57",
+        "config": "b3-base",
+        "dataset_sha256": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+        "evaluation_role": "development",
+        "evaluation_settings_sha256": "e7b651bbbc44245b1736dcbe446dbde79debbb5c72af073887e5201d50c1fc5e",
+        "exact_match": 0.0,
+        "execution_accuracy": 0.0,
+        "execution_accuracy_ci95": [
+          0.0,
+          0.0
+        ],
+        "execution_ms": {
+          "n": 0,
+          "p50": null,
+          "p95": null
+        },
+        "format_ok_rate": 0.0,
+        "generation_ms": {
+          "n": 100,
+          "p50": 13268.567135000012,
+          "p95": 19782.952541750103
+        },
+        "generation_sha256": "fa1b32511febffcb7cd1f90ae08175befffd498f262cb24c464ade0fd2788c86",
+        "missing_predictions": [],
+        "model_sha256": "f5117ab436baaf692839bb73ffe75c9611d6f50596f7ce3580ad50a3ceeda219",
+        "n": 100,
+        "prediction_manifest_sha256": "42446d02d16c9b1d57bdd44b70a065ef809289851c2285a926ea26f52fa38b8c",
+        "predictions_sha256": "279f508e9b42fc856c6f5890e13b080ee4bfc68970d9beb31fc8397e8ebfafb5",
+        "prompts_sha256": "b2037b2105744291af7004dac775315e79c670ac51cb3154e2511f0913ad26a2",
+        "seed": 42,
+        "split": "dev_eval",
+        "status_counts": {
+          "compile_error": 84,
+          "unsafe": 16
+        },
+        "store": {
+          "complete_snapshot": false,
+          "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+          "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+          "rows": {
+            "amended_tokens": 2489651,
+            "blocks": 221548,
+            "contracts": 16386,
+            "entity_labels_snapshot": 6647,
+            "token_transfers": 4001230,
+            "transactions": 4431329
+          },
+          "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+          "window": [
+            "2026-05-31",
+            "2026-07-01"
+          ]
+        },
+        "structural_match": 0.0,
+        "valid_sql_rate": 0.0
+      }
+    },
+    "seeds": [
+      42
+    ],
+    "split": "dev_eval",
+    "std_definition": "sample standard deviation across training seeds (ddof=1)"
+  },
+  "b3l-base": {
+    "by_group": {
+      "difficulty:easy": {
+        "mean": 0.0,
+        "n_questions": 15,
+        "std": null
+      },
+      "difficulty:hard": {
+        "mean": 0.0,
+        "n_questions": 36,
+        "std": null
+      },
+      "difficulty:medium": {
+        "mean": 0.0,
+        "n_questions": 49,
+        "std": null
+      },
+      "specific:alias": {
+        "mean": 0.0,
+        "n_questions": 18,
+        "std": null
+      },
+      "specific:ambiguous_property": {
+        "mean": 0.0,
+        "n_questions": 23,
+        "std": null
+      },
+      "specific:class_level": {
+        "mean": 0.0,
+        "n_questions": 6,
+        "std": null
+      },
+      "specific:multi_address": {
+        "mean": 0.0,
+        "n_questions": 34,
+        "std": null
+      },
+      "subset:entity": {
+        "mean": 0.0,
+        "n_questions": 50,
+        "std": null
+      },
+      "subset:generic": {
+        "mean": 0.0,
+        "n_questions": 50,
+        "std": null
+      }
+    },
+    "complete": true,
+    "config": "b3l-base",
+    "expected_seeds": [
+      42
+    ],
+    "metrics": {
+      "answer_f1": {
+        "mean": 0.0,
+        "std": null
+      },
+      "exact_match": {
+        "mean": 0.0,
+        "std": null
+      },
+      "execution_accuracy": {
+        "mean": 0.0,
+        "std": null
+      },
+      "format_ok_rate": {
+        "mean": 0.01,
+        "std": null
+      },
+      "structural_match": {
+        "mean": 0.0,
+        "std": null
+      },
+      "valid_sql_rate": {
+        "mean": 0.0,
+        "std": null
+      }
+    },
+    "missing_seeds": [],
+    "n_questions": 100,
+    "n_seeds": 1,
+    "per_seed": {
+      "42": {
+        "adapter_sha256": null,
+        "answer_f1": 0.0,
+        "by_group": {
+          "difficulty:easy": {
+            "execution_accuracy": 0.0,
+            "n": 15
+          },
+          "difficulty:hard": {
+            "execution_accuracy": 0.0,
+            "n": 36
+          },
+          "difficulty:medium": {
+            "execution_accuracy": 0.0,
+            "n": 49
+          },
+          "specific:alias": {
+            "execution_accuracy": 0.0,
+            "n": 18
+          },
+          "specific:ambiguous_property": {
+            "execution_accuracy": 0.0,
+            "n": 23
+          },
+          "specific:class_level": {
+            "execution_accuracy": 0.0,
+            "n": 6
+          },
+          "specific:multi_address": {
+            "execution_accuracy": 0.0,
+            "n": 34
+          },
+          "subset:entity": {
+            "execution_accuracy": 0.0,
+            "n": 50
+          },
+          "subset:generic": {
+            "execution_accuracy": 0.0,
+            "n": 50
+          }
+        },
+        "case_ids_sha256": "55caac88f80606a0be04b73e6e6da3b953eaafa79482e3456bb06a7353730d57",
+        "config": "b3l-base",
+        "dataset_sha256": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+        "evaluation_role": "development",
+        "evaluation_settings_sha256": "e7b651bbbc44245b1736dcbe446dbde79debbb5c72af073887e5201d50c1fc5e",
+        "exact_match": 0.0,
+        "execution_accuracy": 0.0,
+        "execution_accuracy_ci95": [
+          0.0,
+          0.0
+        ],
+        "execution_ms": {
+          "n": 0,
+          "p50": null,
+          "p95": null
+        },
+        "format_ok_rate": 0.01,
+        "generation_ms": {
+          "n": 100,
+          "p50": 16177.169137500186,
+          "p95": 24867.901637049978
+        },
+        "generation_sha256": "fa1b32511febffcb7cd1f90ae08175befffd498f262cb24c464ade0fd2788c86",
+        "missing_predictions": [],
+        "model_sha256": "f5117ab436baaf692839bb73ffe75c9611d6f50596f7ce3580ad50a3ceeda219",
+        "n": 100,
+        "prediction_manifest_sha256": "0118a744a58f515db1fc7bd67dba14b736b74815fc52ae90d929161a098cc004",
+        "predictions_sha256": "413e4f67f6419a126df0280217ba81566ade7713b0f38946b0397ce0db66bea0",
+        "prompts_sha256": "ab35ba6ceb4539fa72ee26458ceaeda4cec8bae36a37b2a3d6a902eee014787a",
+        "seed": 42,
+        "split": "dev_eval",
+        "status_counts": {
+          "compile_error": 89,
+          "unsafe": 11
+        },
+        "store": {
+          "complete_snapshot": false,
+          "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+          "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+          "rows": {
+            "amended_tokens": 2489651,
+            "blocks": 221548,
+            "contracts": 16386,
+            "entity_labels_snapshot": 6647,
+            "token_transfers": 4001230,
+            "transactions": 4431329
+          },
+          "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+          "window": [
+            "2026-05-31",
+            "2026-07-01"
+          ]
+        },
+        "structural_match": 0.0,
+        "valid_sql_rate": 0.0
+      }
+    },
+    "seeds": [
+      42
+    ],
+    "split": "dev_eval",
+    "std_definition": "sample standard deviation across training seeds (ddof=1)"
+  }
+}

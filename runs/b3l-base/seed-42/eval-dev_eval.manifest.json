@@ -1,0 +1,102 @@
+{
+  "cases_sha256": "b9589c34f35b1cf0b4f526ae5206cc8841b18a7bb48f6e42ec4cc373d0c80874",
+  "evaluation_sha256": "1e1f2ae0bcc9b434f222bd7bfdc74ad2929f1979f0ebabdb546ff799a3957972",
+  "provenance": {
+    "adapter_sha256": null,
+    "answer_f1": 0.0,
+    "by_group": {
+      "difficulty:easy": {
+        "execution_accuracy": 0.0,
+        "n": 15
+      },
+      "difficulty:hard": {
+        "execution_accuracy": 0.0,
+        "n": 36
+      },
+      "difficulty:medium": {
+        "execution_accuracy": 0.0,
+        "n": 49
+      },
+      "specific:alias": {
+        "execution_accuracy": 0.0,
+        "n": 18
+      },
+      "specific:ambiguous_property": {
+        "execution_accuracy": 0.0,
+        "n": 23
+      },
+      "specific:class_level": {
+        "execution_accuracy": 0.0,
+        "n": 6
+      },
+      "specific:multi_address": {
+        "execution_accuracy": 0.0,
+        "n": 34
+      },
+      "subset:entity": {
+        "execution_accuracy": 0.0,
+        "n": 50
+      },
+      "subset:generic": {
+        "execution_accuracy": 0.0,
+        "n": 50
+      }
+    },
+    "case_ids_sha256": "55caac88f80606a0be04b73e6e6da3b953eaafa79482e3456bb06a7353730d57",
+    "config": "b3l-base",
+    "dataset_sha256": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+    "evaluation_role": "development",
+    "evaluation_settings_sha256": "e7b651bbbc44245b1736dcbe446dbde79debbb5c72af073887e5201d50c1fc5e",
+    "exact_match": 0.0,
+    "execution_accuracy": 0.0,
+    "execution_accuracy_ci95": [
+      0.0,
+      0.0
+    ],
+    "execution_ms": {
+      "n": 0,
+      "p50": null,
+      "p95": null
+    },
+    "format_ok_rate": 0.01,
+    "generation_ms": {
+      "n": 100,
+      "p50": 16177.169137500186,
+      "p95": 24867.901637049978
+    },
+    "generation_sha256": "fa1b32511febffcb7cd1f90ae08175befffd498f262cb24c464ade0fd2788c86",
+    "missing_predictions": [],
+    "model_sha256": "f5117ab436baaf692839bb73ffe75c9611d6f50596f7ce3580ad50a3ceeda219",
+    "n": 100,
+    "prediction_manifest_sha256": "0118a744a58f515db1fc7bd67dba14b736b74815fc52ae90d929161a098cc004",
+    "predictions_sha256": "413e4f67f6419a126df0280217ba81566ade7713b0f38946b0397ce0db66bea0",
+    "prompts_sha256": "ab35ba6ceb4539fa72ee26458ceaeda4cec8bae36a37b2a3d6a902eee014787a",
+    "seed": 42,
+    "split": "dev_eval",
+    "status_counts": {
+      "compile_error": 89,
+      "unsafe": 11
+    },
+    "store": {
+      "complete_snapshot": false,
+      "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+      "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+      "rows": {
+        "amended_tokens": 2489651,
+        "blocks": 221548,
+        "contracts": 16386,
+        "entity_labels_snapshot": 6647,
+        "token_transfers": 4001230,
+        "transactions": 4431329
+      },
+      "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+      "window": [
+        "2026-05-31",
+        "2026-07-01"
+      ]
+    },
+    "structural_match": 0.0,
+    "valid_sql_rate": 0.0
+  },
+  "version": 1
+}

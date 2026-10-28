@@ -1,0 +1,6 @@
+Collecting uv==0.11.14
+  Downloading uv-0.11.14-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Downloading uv-0.11.14-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (24.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.7/24.7 MB 31.3 MB/s  0:00:00
+Installing collected packages: uv
+Successfully installed uv-0.11.14

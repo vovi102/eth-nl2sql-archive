@@ -9,6 +9,6 @@
   "min_input_tokens": 252,
   "over_context": [],
   "passed": true,
-  "runtime_s": 0.046788110000306915,
+  "runtime_s": 0.0628509910000048,
   "truncation": false
 }

@@ -1,0 +1,93 @@
+{
+  "expected_rows": 100,
+  "generated_rows": 100,
+  "input_tokens": 38579,
+  "length_limited_rows": 1,
+  "output_tokens": 24215,
+  "predictions_sha256": "413e4f67f6419a126df0280217ba81566ade7713b0f38946b0397ce0db66bea0",
+  "preflight": {
+    "context_limit": 8192,
+    "dropped_rows": 0,
+    "input_rows": 100,
+    "input_tokens": 38579,
+    "kept_rows": 100,
+    "max_input_tokens": 550,
+    "max_new_tokens": 512,
+    "min_input_tokens": 323,
+    "over_context": [],
+    "passed": true,
+    "runtime_s": 0.08851294100009,
+    "truncation": false
+  },
+  "provenance": {
+    "adapter_sha256": null,
+    "code_sha256": "fe967361581739764370f23ef6ec2ac20280749c8cdf60b62f00c47f49134001",
+    "config": "b3l-base",
+    "generation": {
+      "do_sample": false,
+      "max_new_tokens": 512,
+      "seed": 42
+    },
+    "generation_sha256": "fa1b32511febffcb7cd1f90ae08175befffd498f262cb24c464ade0fd2788c86",
+    "generator": {
+      "load_in_4bit": true,
+      "repo_id": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+    },
+    "model_sha256": "f5117ab436baaf692839bb73ffe75c9611d6f50596f7ce3580ad50a3ceeda219",
+    "prompts_sha256": "ab35ba6ceb4539fa72ee26458ceaeda4cec8bae36a37b2a3d6a902eee014787a",
+    "run_config": {
+      "examples": false,
+      "fine_tuned": false,
+      "linking": true,
+      "linking_variant": "full",
+      "name": "b3l-base",
+      "prompt_style": "compact"
+    },
+    "seed": 42
+  },
+  "sessions": [
+    {
+      "generated_rows": 10,
+      "hardware": {
+        "cuda": "12.4",
+        "gpus": [
+          "Tesla T4",
+          "Tesla T4"
+        ],
+        "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+        "python": "3.11.15",
+        "torch": "2.5.1+cu124"
+      },
+      "peak_gpu_memory_gib": 3.6680960655212402,
+      "peak_gpu_reserved_gib": 3.7421875,
+      "per_gpu_peak_allocated_gib": [
+        1.9726877212524414,
+        3.6680960655212402
+      ],
+      "runtime_s": 138.85986746499998
+    },
+    {
+      "generated_rows": 90,
+      "hardware": {
+        "cuda": "12.4",
+        "gpus": [
+          "Tesla T4",
+          "Tesla T4"
+        ],
+        "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+        "python": "3.11.15",
+        "torch": "2.5.1+cu124"
+      },
+      "peak_gpu_memory_gib": 3.7070202827453613,
+      "peak_gpu_reserved_gib": 3.87109375,
+      "per_gpu_peak_allocated_gib": [
+        1.9984402656555176,
+        3.7070202827453613
+      ],
+      "runtime_s": 1503.818618242
+    }
+  ],
+  "status": "complete",
+  "version": 1
+}

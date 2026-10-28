@@ -1,0 +1,37 @@
+{
+  "archive_sha256": "1b6e206f147efc92e54217d5e10d2dfa29239a068afaa12988e2d2e85414c451",
+  "controls": {
+    "b3-base": {
+      "evaluation_role": "development",
+      "rows": 100,
+      "sessions_generated_rows": [
+        10,
+        90
+      ],
+      "smoke_prefix_byte_identical": true,
+      "unique_ids": 100
+    },
+    "b3l-base": {
+      "evaluation_role": "development",
+      "rows": 100,
+      "sessions_generated_rows": [
+        10,
+        90
+      ],
+      "smoke_prefix_byte_identical": true,
+      "unique_ids": 100
+    }
+  },
+  "gpu_files_verified": 38,
+  "sft_targets_unchanged": {
+    "b3": {
+      "dev": true,
+      "train": true
+    },
+    "b3l": {
+      "dev": true,
+      "train": true
+    }
+  },
+  "test_v2_unchanged": true
+}

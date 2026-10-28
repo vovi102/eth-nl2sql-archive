@@ -260,7 +260,7 @@ bộ test hiện tại chỉ phục vụ phát triển. Dùng ba seed QLoRA **42
 không đổi split theo seed huấn luyện. Mỗi seed chọn checkpoint theo dev loss. Báo cáo từng
 seed, trung bình và độ lệch chuẩn; không chọn seed tốt nhất trên test. Greedy decoding không
 loại bỏ biến thiên từ huấn luyện. T10 đã có runner/tổng hợp ba seed, kiểm thử bằng fixture
-và backend giả; chưa chạy LLM.
+và backend giả. T11A đã chạy hai compact base control trên `dev_eval`; chưa huấn luyện QLoRA.
 
 **Cấu hình hiện có làm nền:** `meta-llama/Meta-Llama-3-8B-Instruct` và encoder pin revision
 trong `configs/experiment.toml`; generator NF4 4-bit, compute float16 trên T4, greedy, tối đa
@@ -269,7 +269,9 @@ batch hiệu dụng 16, tối đa 2 epoch, early stopping theo dev loss. Loss ch
 dòng dài hơn 1.024 token bị bỏ và có đếm. Config huấn luyện có ba seed 42/43/44; seed
 generation và bootstrap vẫn là 42. Preflight ghi
 ID/số dòng giữ/bỏ và token; dừng nếu train hoặc dev rỗng sau lọc. Không cắt target SQL.
-Chưa có kết quả LLM được báo cáo.
+T11A đã báo cáo hai base control, mỗi cấu hình 100 câu phát triển: EX đều 0/100 do SQL
+không qua validator/compiler. Kết quả này xác nhận đường ống GPU/resume/evaluator hoạt động,
+không xác nhận chất lượng SQL hoặc hiệu quả fine-tuning. Xem [T11A](reports/gpu-development-t11a/README.md).
 
 ### 5.2. Các cấu hình và đối chứng compact
 
@@ -288,7 +290,8 @@ mỗi adapter phải dùng cùng kiểu prompt, có/không hints theo cấu hìn
 prompt của `b3` và `b3l`, tương ứng không/có linking, cùng giới hạn sinh và validator.
 `prompt_style` được chọn độc lập với cờ `fine_tuned`. So với QLoRA cùng prompt để đo tác động thích nghi trọng số. So QLoRA với B1/B2 có prompt khác
 chỉ phản ánh khác biệt giữa các cấu hình triển khai, không quy toàn bộ chênh lệch cho
-fine-tuning. Hai đối chứng đã có config/CLI, chưa có kết quả model.
+fine-tuning. T11A đã chạy cả hai đối chứng không adapter, seed generation 42, đủ 100 câu
+`dev_eval` mỗi cấu hình; không suy diễn lượt smoke 10 câu thành accuracy trên 100 câu.
 
 ### 5.3. Baseline linking và ablation
 
@@ -315,7 +318,8 @@ trong embedding để fallback không khôi phục cơ chế đã bỏ.
 Có thể dùng lại `--examples runs/linking-examples-dev_eval.jsonl`; cache chỉ chứa ID train,
 được kiểm số lượng, trùng ID, câu giống hệt và family leakage. Manifest ghi hash prompt,
 cache, dictionary, catalog, code và config generator/decoding. Store không bị sửa.
-Các lệnh `generate`, `evaluate`, `report` dùng được cho từng config mới; chưa chạy LLM.
+Các lệnh `generate`, `evaluate`, `report` dùng được cho từng config five-shot mới;
+chưa chạy LLM cho baseline/ablation five-shot.
 
 ### 5.4. Đánh giá SQL hiện có
 
@@ -366,9 +370,12 @@ không được diễn giải thành tác vụ độc lập mới.
 ### 5.6. Latency, chi phí và privacy
 
 **Hiện trạng:** evaluator có thời gian generation và execution, p50/p95 khi có dữ liệu;
-linking chạy CPU. T10 ghi runtime từng phiên train/generate, số dòng giữ/bỏ, token và peak
+linking mặc định chạy CPU; lượt T11A dựng cả ba split bằng encoder pin trên GPU local.
+T10 ghi runtime từng phiên train/generate, số dòng giữ/bỏ, token và peak
 GPU memory theo seed, gồm tải model, reset peak giữa các lượt và lưu phần cứng. Chưa có
-báo cáo chi phí hay latency đầu cuối hoàn chỉnh cho thí nghiệm nghiên cứu.
+báo cáo chi phí hay latency đầu cuối hoàn chỉnh cho thí nghiệm nghiên cứu. T11A đã ghi
+latency generation, runtime phiên và allocated/reserved memory thật trên 2×T4; SQL model
+đều dừng trước execution nên không có mẫu execution latency hợp lệ của prediction.
 
 **Thiết kế đích, cần bổ sung đo/tổng hợp:**
 
@@ -403,8 +410,9 @@ trong repo tinh gọn. Kết quả không so trực tiếp với campaign c03 v�
 Mỗi lượt nghiên cứu cần lưu phiên bản code/model/config, seed, hash dataset/review/dictionary/
 store, prompt và ID ví dụ retrieval, checkpoint, output thô và lỗi. Hiện đã có pin model,
 hash prompt/config/store và artifact kiểm dữ liệu; test v2 và annotation trực tiếp ở trạng thái
-draft T09A. T10 đã có đối chứng compact và tổng hợp đa seed; baseline/ablation đã có runner,
-chưa có lượt LLM. Các báo cáo cũ mô tả trạng
+draft T09A. T10 đã có đối chứng compact và tổng hợp đa seed; T11A đã chạy hai compact base
+control trên dữ liệu phát triển. Ma trận QLoRA/five-shot/ablation vẫn chưa chạy LLM.
+Các báo cáo cũ mô tả trạng
 thái tại thời điểm tạo; không tự động trở thành bằng chứng cho thiết kế v2.
 
 T10 lưu artifact trong `runs/<config>/seed-<seed>/`, dùng chung SFT/prompt ở thư mục config.
@@ -413,6 +421,12 @@ Resume train/generate kiểm hash prompt/model/adapter, config, siêu tham số 
 sinh. Báo cáo giữ kết quả từng seed, mean/SD mẫu (ddof=1), số seed còn thiếu và N câu dùng
 chung; không gộp prediction thành 3N câu độc lập. Chi tiết lệnh, artifact và giới hạn đo
 tài nguyên khi phiên bị ngắt ở [T10](reports/experiments-t10/README.md). Gate test draft giữ nguyên.
+
+T11A lưu [ZIP GPU nguyên vẹn](reports/gpu-development-t11a/artifacts.zip), manifest hash
+từng file, snapshot 10 câu và bằng chứng resume giữ nguyên từng byte của 10 dòng đầu.
+Preflight thật dùng context 8.192 token từ model config; hint lớp dùng predicate và số owner,
+không liệt kê hàng nghìn tên. Full membership linking và SQL target giữ nguyên. Sau sửa,
+cả b3/b3l giữ đủ 4.872 train và 516 dev ở giới hạn 1.024 token. Test v2 không thay đổi.
 
 ### 6.2. Giới hạn cần giữ khi diễn giải
 
@@ -432,8 +446,9 @@ tài nguyên khi phiên bị ngắt ở [T10](reports/experiments-t10/README.md)
 - **Ngữ nghĩa:** resolver ba property dùng cue, có thể sai hoặc chưa phân giải; chưa có hỏi lại. Không
   diễn giải token-event count thành transaction count, dòng tiền ghi trong transaction
   thành thay đổi số dư hoặc số token normalized thành giá trị tiền.
-- **Thực nghiệm:** chưa có kết quả LLM được báo cáo; ba seed và các chỉ số mới chưa được
-  tổng hợp. Accuracy, tốc độ, chi phí hay privacy tốt hơn vẫn là câu hỏi cần kiểm chứng.
+- **Thực nghiệm:** T11A chỉ kiểm chứng hạ tầng trên 100 câu phát triển/config; hai base
+  control đều EX=0 do lỗi validator/compiler. Chưa có QLoRA ba seed hoặc kết quả test frozen.
+  Accuracy, tốc độ, chi phí hay privacy tốt hơn vẫn là câu hỏi cần kiểm chứng.
 
 ### 6.3. Khoảng cách triển khai
 
@@ -443,10 +458,11 @@ tài nguyên khi phiên bị ngắt ở [T10](reports/experiments-t10/README.md)
 | Dictionary | [V2 và coverage đã có](reports/dictionary-v2/README.md) | Đóng băng phiên bản cho benchmark, giữ giới hạn lịch sử/độ phủ |
 | Dataset | [Train/dev và 100 câu phát triển đã kiểm](reports/entity-dataset/README.md); [100 câu v2 draft T09A](reports/benchmark-t09a/README.md) | T09B: kiểm gold/witness/ca rỗng trên full snapshot sau T06, hoàn tất human review và gate đóng băng |
 | Linking | Resolver ba property, output T07 và bộ chấm trực tiếp đã có; [đánh giá nháp](reports/linking-development/README.md) | Human review, kiểm trên test frozen và cơ chế làm rõ ngoài test SQL chính |
-| Cấu hình thí nghiệm | Các cấu hình gốc, baseline/bốn ablation, đối chứng compact và runner ba seed có provenance đã có | Chạy LLM trên dữ liệu phát triển; thí nghiệm test sau đóng băng |
-| Báo cáo | [Evaluator hiện có](src/eth_nl2sql/evaluate.py), [RESULTS chưa có lượt chạy](RESULTS.md) | Chạy ma trận sau đóng băng; CI theo nhóm, latency đầu cuối và chi phí/privacy; tổng hợp seed đã có ở T10 |
+| Cấu hình thí nghiệm | T11A đã chạy hai compact base control trên dữ liệu phát triển; runner QLoRA ba seed và baseline/bốn ablation đã có | Huấn luyện/đánh giá ma trận còn lại; thí nghiệm test sau đóng băng |
+| Báo cáo | [Evaluator](src/eth_nl2sql/evaluate.py), [RESULTS phát triển](RESULTS.md), [artifact/tài nguyên T11A](reports/gpu-development-t11a/README.md) | Chạy ma trận sau đóng băng; CI theo nhóm, latency đầu cuối và chi phí/privacy; tổng hợp seed đã có ở T10 |
 
-Các lượt LLM và phần kiểm nghiệm còn chờ trong bảng chưa được thực hiện. README mặc định vận hành trên `dev_eval`;
+Ngoài hai compact base control T11A, các lượt LLM và phần kiểm nghiệm còn chờ trong bảng
+chưa được thực hiện. README mặc định vận hành trên `dev_eval`;
 T07 đã có lệnh kiểm/đóng băng; T09A đã soạn nội dung test v2 draft. Linking baseline
-và ablation đã được chấm phát triển ở chế độ lexical/fuzzy; chưa chạy generator cho các
-đối chứng/ablation mới.
+và ablation đã được chấm phát triển ở chế độ lexical/fuzzy; chưa chạy generator five-shot
+cho các baseline/ablation đó.

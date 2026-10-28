@@ -575,7 +575,7 @@
     "seed": 42,
     "train_sha256": "1c5d8dc9970aebd2f7e000ca3298a81757420ced322c1ae1473ac699bfe700b3"
   },
-  "runtime_s": 5.769680119999975,
+  "runtime_s": 6.311574227999984,
   "train": {
     "dropped": [],
     "dropped_fraction": 0.0,

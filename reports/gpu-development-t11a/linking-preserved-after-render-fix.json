@@ -1,0 +1,9 @@
+{
+  "change": "Render class predicate and labeled owner count; full membership JSON unchanged",
+  "linking_sha256": {
+    "dev": "0bb075107c5ce7b47ad47427635bdd21d9d5ef0809bedfda53492d53f152df51",
+    "dev_eval": "7b4cb88b9de9cc365266443bc0ba160fe2ec57434143aad68f7016296655d35c",
+    "train": "a1ec9ed598fe8ff9860c47ead77b777a13456945120b728c37d04e9b6419adc3"
+  },
+  "passed": true
+}

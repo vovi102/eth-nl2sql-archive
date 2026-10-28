@@ -1,0 +1,1 @@
+aohkvd/eth-nl2sql-t11a-20261028 has status "KernelWorkerStatus.COMPLETE"
