@@ -55,7 +55,9 @@ def package(output: Path) -> None:
         if manifest["predictions_sha256"] != cfg.sha256_file(path):
             raise ValueError(f"Stale linking cache: {split}")
         links[split] = manifest
-    identity_keys = ("encoder", "code", "catalog_sha256", "synonyms_sha256", "dictionary")
+    identity_keys = (
+        "encoder", "code", "catalog_sha256", "synonyms_sha256", "dictionary", "runtime",
+    )
     if any(any(links[s][k] != links["train"][k] for k in identity_keys) for s in links):
         raise ValueError("Linking pipeline differs across splits")
     for base, trained in zip(CONTROLS, ("b3", "b3l"), strict=True):
