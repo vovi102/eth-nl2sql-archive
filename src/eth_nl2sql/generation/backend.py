@@ -20,10 +20,17 @@ from eth_nl2sql.experiments import (
 
 
 def load_tokenizer(config: Mapping):
-    from transformers import AutoTokenizer
+    from transformers import AutoConfig, AutoTokenizer
 
     spec = config["models"]["generator"]
-    return AutoTokenizer.from_pretrained(spec["repo_id"], revision=spec["revision"])
+    tokenizer = AutoTokenizer.from_pretrained(spec["repo_id"], revision=spec["revision"])
+    model_config = AutoConfig.from_pretrained(spec["repo_id"], revision=spec["revision"])
+    # Llama-3's tokenizer advertises a sentinel (~1e30), not its 8192-token context.
+    # Read the architecture config at the same immutable revision without loading weights.
+    tokenizer.model_max_length = min(
+        tokenizer.model_max_length, model_config.max_position_embeddings
+    )
+    return tokenizer
 
 
 def load_generator(config: Mapping, *, adapter: Path | None = None, tokenizer=None):

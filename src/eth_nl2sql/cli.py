@@ -806,11 +806,15 @@ def cmd_evaluate(args: argparse.Namespace) -> None:
             provenance = generation_provenance(
                 prompts_path, experiment, args.config, seed, _adapter_path(args.config, out_dir)
             )
-            verify_predictions(predictions_path, prompts, provenance)
+            prediction_info = verify_predictions(predictions_path, prompts, provenance)
+            if prediction_info.get("status") != "complete":
+                raise ValueError("Complete generation for the entire split before evaluation")
         rows = cfg.read_jsonl(predictions_path)
         predictions = {row["id"]: row for row in rows}
         if len(predictions) != len(rows) or set(predictions) - {c["id"] for c in cases}:
             raise ValueError("Duplicate or unknown prediction IDs")
+        if seed is not None and set(predictions) != {c["id"] for c in cases}:
+            raise ValueError("Complete generation for the entire split before evaluation")
         with connect(args.store) as con:
             profile = store_profile(con)
             if args.split == "test":

@@ -1,0 +1,6 @@
+# Python 3.11 / CUDA 12.4 runtime for Kaggle T4 (the model revisions stay in experiment.toml).
+torch==2.5.1
+transformers==4.49.0
+accelerate==0.34.2
+bitsandbytes==0.45.5
+peft==0.19.1

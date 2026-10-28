@@ -545,6 +545,16 @@ def test_end_to_end_six_runs_evaluation_and_seed_report(experiment, monkeypatch,
         write_report(runs, "dev_eval", tmp_path / "RESULTS.md")
 
 
+def test_partial_predictions_cannot_be_scored_as_a_complete_split(experiment, monkeypatch):
+    runs, settings = experiment
+    backend = FakeGenerationBackend()
+    monkeypatch.setattr(generation, "HuggingFaceGenerationBackend", lambda: backend)
+    cli.main(["generate", "--config", "b3-base", "--limit", "1"])
+    with pytest.raises(SystemExit, match="entire split"):
+        cli.main(["evaluate", "--config", "b3-base"])
+    assert not (runs / "b3-base/seed-42/eval-dev_eval.json").exists()
+
+
 def test_seed_statistics_and_mismatched_protocol_rejection():
     def evaluation(seed, value):
         return {

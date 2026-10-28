@@ -53,6 +53,7 @@ def encode_split(tokenizer, rows: list[dict], max_length: int) -> tuple[list[dic
         "input_rows": len(rows),
         "kept_rows": len(encoded),
         "dropped_over_max_length": len(dropped),
+        "dropped_fraction": len(dropped) / len(rows),
         "kept_ids": [
             row["id"] for row, length in zip(rows, lengths, strict=True) if length <= max_length
         ],
@@ -114,6 +115,7 @@ def preflight_training(
         "passed": not errors,
         "errors": errors,
         "max_length": max_length,
+        "context_limit": tokenizer.model_max_length,
         "train": train_stats,
         "dev": dev_stats,
         "runtime_s": time.perf_counter() - started,
