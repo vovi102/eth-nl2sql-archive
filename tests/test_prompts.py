@@ -57,6 +57,25 @@ def test_linking_config_requires_linking_results():
         prompt_rows(CONFIGS["b1l"], CASES, catalog=CATALOG)
 
 
+def test_large_class_uses_predicate_without_enumerating_owners():
+    owners = tuple(f"Collection with a long owner name {i}" for i in range(5055))
+    entity = Resolution(
+        "tokens", "class", "to", "tokens", "TokenContract", (), (), owners=owners
+    )
+    linking = Linking((), (), (entity,), "token_transfer")
+    links = {"q1": linking}
+    base = prompt_rows(CONFIGS["b3l-base"], CASES, catalog=CATALOG, linkings=links)[0]
+    supervised = training_rows(CONFIGS["b3l"], CASES, catalog=CATALOG, linkings=links)[0]
+    user = base["messages"][1]["content"]
+    assert len(user) < 2000
+    assert "concept_class = 'TokenContract'" in user
+    assert "5055 labeled owners" in user
+    assert "as recipient" in user
+    assert base["messages"] == supervised["messages"]
+    assert supervised["target"] == CASES[0]["sql"]
+    assert linking.to_json()["classes"][0]["owners"] == list(owners)
+
+
 def test_few_shot_needs_exactly_five_examples():
     with pytest.raises(ValueError):
         prompt_rows(CONFIGS["b2"], CASES, catalog=CATALOG, retrieve=lambda case: [])

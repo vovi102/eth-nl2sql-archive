@@ -199,7 +199,7 @@ def _entity_line(entity: Resolution, *, properties: bool = True) -> str:
     if entity.kind == "class":
         return (
             f"- {mention}: entity class, filter entity_labels_v1.concept_class = "
-            f"'{entity.concept_class}', known members: {', '.join(entity.owners)}{direction}"
+            f"'{entity.concept_class}', {len(entity.owners)} labeled owners{direction}"
         )
     if entity.address_scope in {"explicit_address", "representative_address"}:
         field = "token_address" if entity.address_role == "token_contract" else "address"
