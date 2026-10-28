@@ -1,4 +1,4 @@
-"""Deterministic entity training data; held-out questions are authored in test.jsonl.
+"""Deterministic entity training data; evaluation questions are authored separately.
 
 The checked-in templates are the generator's input. A family groups every alias
 and phrasing of the same filled SQL, and is assigned before rendering text.
@@ -12,8 +12,11 @@ from collections import defaultdict
 from functools import cache
 from pathlib import Path
 
+from sqlglot import exp
+
 from eth_nl2sql.config import read_jsonl, sha256_file, write_json, write_jsonl
 from eth_nl2sql.data.leakage import family_split, leaked_ids
+from eth_nl2sql.data.splits import split_paths
 from eth_nl2sql.generation.retrieval import normalize_question
 from eth_nl2sql.linking.validation import read_dictionary
 from eth_nl2sql.validation import parse_query
@@ -31,6 +34,24 @@ WINDOWS = (
 @cache
 def canonical_sql(sql: str) -> str:
     return parse_query(sql).sql(dialect="bigquery", normalize_functions="upper", normalize=True)
+
+
+@cache
+def _sql_owners(sql: str) -> frozenset[str]:
+    owners = set()
+    for predicate in parse_query(sql).find_all(exp.EQ, exp.In):
+        column = predicate.this
+        if isinstance(column, exp.Column) and column.name.casefold() in {
+            "owner",
+            "from_owner",
+            "to_owner",
+            "token_owner",
+        }:
+            values = (
+                predicate.expressions if isinstance(predicate, exp.In) else [predicate.expression]
+            )
+            owners.update(v.this for v in values if isinstance(v, exp.Literal) and v.is_string)
+    return frozenset(owners)
 
 
 def _alias(owner: str, aliases: dict) -> str:
@@ -106,7 +127,12 @@ def build_entity_data(data_dir: Path, dictionary: Path) -> dict:
     templates_path = data_dir / "templates" / "entity_templates.json"
     templates = json.loads(templates_path.read_text())
     generated = render_training(templates, dictionary)
-    test = read_jsonl(data_dir / "test.jsonl")
+    test = [
+        row
+        for name, path in split_paths(data_dir).items()
+        if name in {"dev_eval", "test"} and path.is_file()
+        for row in read_jsonl(path)
+    ]
     held_out = [row["question"] for row in test]
     test_sql = {canonical_sql(row["sql"]) for row in test}
     blocked_families = set()
@@ -141,7 +167,9 @@ def build_entity_data(data_dir: Path, dictionary: Path) -> dict:
             for s, rows in generated.items()
         },
         "files": {
-            f"{s}.jsonl": sha256_file(data_dir / f"{s}.jsonl") for s in ("train", "dev", "test")
+            str(path.relative_to(data_dir)): sha256_file(path)
+            for path in split_paths(data_dir).values()
+            if path.is_file()
         },
     }
     write_json(data_dir / "entity-manifest.json", manifest)
@@ -150,8 +178,24 @@ def build_entity_data(data_dir: Path, dictionary: Path) -> dict:
 
 def split_audit(splits: dict[str, list[dict]]) -> dict:
     """Distinguish held-out leakage from shared template boilerplate."""
+    from itertools import combinations
+
+    from eth_nl2sql.data.annotations import structure_errors
+
+    structure = [
+        {"split": name, "row": index, "errors": errors}
+        for name, rows in splits.items()
+        for index, row in enumerate(rows)
+        if (errors := structure_errors(row, "development_case"))
+    ]
+    if structure:
+        return {"passed": False, "structure": structure, "duplicate_ids": {}, "pairs": {}}
     pairs = {}
-    for left, right in (("train", "dev"), ("train", "test"), ("dev", "test")):
+    owners = {
+        name: set().union(*(_sql_owners(r["sql"]) for r in rows)) if rows else set()
+        for name, rows in splits.items()
+    }
+    for left, right in combinations(splits, 2):
         a, b = splits[left], splits[right]
         left_sql = {canonical_sql(r["sql"]) for r in a}
         right_sql = {canonical_sql(r["sql"]) for r in b}
@@ -169,6 +213,13 @@ def split_audit(splits: dict[str, list[dict]]) -> dict:
             ],
             "family_overlap": sorted(left_families & right_families),
             "ngram_12_overlap_ids": leaked_ids(a, [r["question"] for r in b]),
+            "ngram_12_enforced": {left, right} != {"train", "dev"}
+            and bool({left, right} & {"train", "dev"}),
+            "shared_templates": sorted(
+                {r["template_id"] for r in a if r.get("template_id")}
+                & {r["template_id"] for r in b if r.get("template_id")}
+            ),
+            "shared_owners": sorted(owners[left] & owners[right]),
         }
     locations = defaultdict(list)
     for split, rows in splits.items():
@@ -180,14 +231,17 @@ def split_audit(splits: dict[str, list[dict]]) -> dict:
             p["normalized_question_overlap"]
             or p["canonical_sql_overlap_count"]
             or p["family_overlap"]
-            or (name != "train/dev" and p["ngram_12_overlap_ids"])
+            or (p["ngram_12_enforced"] and p["ngram_12_overlap_ids"])
         )
-        for name, p in pairs.items()
+        for p in pairs.values()
     )
     return {
         "passed": passed,
         "duplicate_ids": duplicates,
         "pairs": pairs,
-        "policy": "No exact question/SQL/family overlaps; no 12-token overlaps with test. "
-        "Train/dev share template boilerplate, reported separately.",
+        "policy": "No exact question/SQL/family overlaps across any splits; no 12-token "
+        "overlaps between train/dev and either evaluation set. Shared templates are reported; "
+        "this is not a template or owner holdout.",
+        "overlap_metadata": "Templates use explicit template_id only; owners use literal filters "
+        "on owner/from_owner/to_owner/token_owner. Missing metadata is not evidence of holdout.",
     }

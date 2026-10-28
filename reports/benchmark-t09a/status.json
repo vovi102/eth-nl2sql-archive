@@ -1,0 +1,108 @@
+{
+  "T09B": {
+    "additional_gate_work": "Handle exact-query multi-address witnesses for joined facts and secondary labels; do not waive missing property witnesses.",
+    "pending_empty_case_ids": [
+      "v2-a17",
+      "v2-a20",
+      "v2-c13",
+      "v2-c14",
+      "v2-p04",
+      "v2-p13",
+      "v2-p14"
+    ],
+    "pending_property_witness_ids": [
+      "v2-p04",
+      "v2-p13"
+    ],
+    "required": [
+      "T06 full snapshot and provenance/parity gates",
+      "Rerun every gold and inspect empty/zero/NULL outcomes on full snapshot",
+      "Discriminating raw and exact-query multi-address witnesses on full snapshot",
+      "Property witnesses on full snapshot, including sample-nondiscriminating cases",
+      "Independent human question/SQL/annotation review, content-bound hashes",
+      "Recheck all release gates before any freeze"
+    ],
+    "status": "waiting_for_T06_and_human_review"
+  },
+  "T10": {
+    "authorized_scope": "Compact controls and seeds 42/43/44 may continue on development data.",
+    "status": "not_started_in_this_task"
+  },
+  "artifacts": {
+    "README.md": "09262924179f3e05bca85d9d1723bd3e5de7a2f71d3b659db6928f683712fc67",
+    "benchmark-sample.json": "b7bcd1425945b649f90a89cab029b1c13b3f0184f895da4d65203c7e458ed4af",
+    "gates.json": "9970b1754c7d1281eedf99ee6246adb39bad5efd0ce4ecbf2b419a8f608c07af",
+    "human-gate.json": "30fa681c1a249d047b85e9db90b313c392486a72ec3dcf419f00e79687236ccb",
+    "human-review.md": "c5c172e4e40be253aeb5c33c82262b8876c7ae5e1c6662ebf33125f6ac07e805",
+    "release-gate.json": "b7ecae8d3501bb3ceff6f6736a1d45e0ea5590a1b457d8f11d670f47f8c9331a",
+    "sample.json": "28c54703f845765a62a71a715e5e5ba3e354026030a6aacf75118aad0c8c772f",
+    "standard-audit.log": "263cbdcc878ba1ce06267b2b73326092e02b671f4cf90b62b3ea33814e39e744",
+    "structure.json": "b7ecae8d3501bb3ceff6f6736a1d45e0ea5590a1b457d8f11d670f47f8c9331a",
+    "tests.xml": "97bbe04998ee9e0c5a09264f6421f1c2a00b93e818ea03f90e9b0f852e18be78"
+  },
+  "benchmark_status": "draft",
+  "checked_at": "2026-10-27T16:59:07.979731+00:00",
+  "criteria": {
+    "annotation_hash_structure_passed": true,
+    "cases": 100,
+    "distinct_canonical_gold_sql": 100,
+    "human_reviewed": 0,
+    "leakage_passed": true,
+    "literal_and_alias_masked_sql": 100,
+    "primary_counts": {
+      "alias": 20,
+      "ambiguous_property": 20,
+      "class_level": 20,
+      "generic": 20,
+      "multi_address": 20
+    },
+    "primary_multi_address_witnesses": {
+      "passed": 20,
+      "total": 20
+    },
+    "property_counts": {
+      "address_role": 6,
+      "direction": 7,
+      "fact": 7
+    },
+    "regression_tests": {
+      "errors": 0,
+      "failures": 0,
+      "passed": 282
+    },
+    "review_packet_cases": 100,
+    "ruff_passed": true,
+    "sample_gold_execution": {
+      "passed": 100,
+      "total": 100
+    },
+    "sample_property_contrasts": {
+      "discriminating": 18,
+      "total": 20
+    },
+    "unexplained_empty_cases": 0
+  },
+  "release_ready": false,
+  "standard_auditor": {
+    "passed": false,
+    "release_ready": false,
+    "targeted_resource_retry_ids": [
+      "v2-g16"
+    ],
+    "unmet_secondary_multi_address_witness_ids": [
+      "v2-a03",
+      "v2-a04",
+      "v2-a08",
+      "v2-a17",
+      "v2-a18",
+      "v2-a20",
+      "v2-p08",
+      "v2-p09",
+      "v2-p12",
+      "v2-p13"
+    ],
+    "unresolved_sql_execution_errors": []
+  },
+  "status": "complete",
+  "task": "T09A"
+}

@@ -11,7 +11,7 @@ from eth_nl2sql.store.build import connect, create_schema
 from eth_nl2sql.store.execute import execute
 from eth_nl2sql.store.snapshot import extraction_queries
 
-TRAIN, DEV, TEST = (read_jsonl(SPLITS[name]) for name in ("train", "dev", "test"))
+TRAIN, DEV, TEST = (read_jsonl(SPLITS[name]) for name in ("train", "dev", "dev_eval"))
 
 
 def test_split_sizes_and_unique_ids():

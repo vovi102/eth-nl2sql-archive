@@ -1,0 +1,24 @@
+{
+  "catalog_sha256": "7d437bc882394ec93d6d7cb579bf0b62e9de6c0f3360746c80df80ab6bdb5d00",
+  "comparisons": [
+    {
+      "base": "b3-base",
+      "messages_sha256": "c8f2337a3aa0dcb52d59c56455db490c47bfbd9ec35a0942723792c15dc15b2c",
+      "mismatches": [],
+      "n": 100,
+      "qlora": "b3"
+    },
+    {
+      "base": "b3l-base",
+      "messages_sha256": "680d60575dd169ee0dd367d59e6b1985ae7700bced709f28a6552814617f4bca",
+      "mismatches": [],
+      "n": 100,
+      "qlora": "b3l"
+    }
+  ],
+  "dataset_sha256": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+  "linking_sha256": "999d9b480e69cf7158eca01dde3891d1600593acc794f3862b1a054b10683d3d",
+  "model_loaded": false,
+  "predictions_generated": false,
+  "split": "dev_eval"
+}

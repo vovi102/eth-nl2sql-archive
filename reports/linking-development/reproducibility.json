@@ -1,0 +1,31 @@
+{
+  "byte_identical": true,
+  "encoder": null,
+  "runs": 2,
+  "score_runs": 2,
+  "score_sha256": {
+    "reports/linking-development/baseline.json": "bd4031ac441e262cf3716d9b51da6226641fc79af0cf2a546c7c36bd73758ee7",
+    "reports/linking-development/full.json": "09755b761d5ab4bb8dda4616e195d13d102650fa36d39a6bc450c4a9a1c3f31c",
+    "reports/linking-development/no_alias.json": "7c3d8dee82a70b3e2e6a92f8bad66da3e952e84b92bbc1dcdf9b6f71ba458be5",
+    "reports/linking-development/no_class.json": "1d7396511eccd059991d205599d651e414bb72f9d6188bd6550ec38776df4858",
+    "reports/linking-development/no_multi_address.json": "09cc5557c80d8c12f3dc47d4b22efeb47dff20cbed7960dfad308e3116bc56a3",
+    "reports/linking-development/no_property.json": "297e99f392ea6f0d2c8d772f241f0199a18811a510bddabdc71fcf81a92152f8"
+  },
+  "scorer_sha256": "f5fa8d3b3cbe413ac59d9e74371ef20b103fd5315fb48e24d1626b8fefc09943",
+  "scores_byte_identical": true,
+  "sha256": {
+    "data/linking/baseline/dev_eval.jsonl": "545eded6a3a62135e11e5c90b3a69149bf88cb5eaad4af7a972deb19881dd339",
+    "data/linking/baseline/dev_eval.manifest.json": "a40bad9f3f07dfaf92adc96635a76e4c693be3ab25bf05544df8f04a3e1c11c3",
+    "data/linking/dev_eval.jsonl": "999d9b480e69cf7158eca01dde3891d1600593acc794f3862b1a054b10683d3d",
+    "data/linking/dev_eval.manifest.json": "00a9d83d45292cbb5b9dd156952b6d795476ceb3d842bfa233dd834bfe08be3d",
+    "data/linking/no_alias/dev_eval.jsonl": "5823ac9a97f5ee5df3506bd2179391322b73b54e20e56cfa245d7595c01c5be2",
+    "data/linking/no_alias/dev_eval.manifest.json": "e6c9e76dd0e224b135fb52952d157ef090eabad3096613966250e68eb82cf374",
+    "data/linking/no_class/dev_eval.jsonl": "c4e87e31053ff2490e777094b49b5c5ede5216232d9d413e6c9b475479d430b4",
+    "data/linking/no_class/dev_eval.manifest.json": "ff253f58f0a5dfefbafa179aef29fd609eced1a57fcf8bda9d7349abc7642ad4",
+    "data/linking/no_multi_address/dev_eval.jsonl": "842b8e69e8d90cbae3b49bac61ff0e6fccf25b82f3d56f1b42bb8281f0ea7d54",
+    "data/linking/no_multi_address/dev_eval.manifest.json": "f972dd77c1c5029abce7741890f88ccb97dae93971d226cc75fbf29c0762c708",
+    "data/linking/no_property/dev_eval.jsonl": "f5581778f31097f65c1f93e40077738b0ffb8ce192d2a601c5b842346f17535e",
+    "data/linking/no_property/dev_eval.manifest.json": "bd3e0b055a8b0019a7914239f6cb8c4bb7896db24cf4fc7321622ca0f81f5e05"
+  },
+  "split": "dev_eval"
+}

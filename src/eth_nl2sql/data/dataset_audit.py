@@ -12,7 +12,10 @@ from pathlib import Path
 import duckdb
 
 from eth_nl2sql.config import read_jsonl, sha256_file
+from eth_nl2sql.data.annotations import audit_annotations
 from eth_nl2sql.data.entities import split_audit
+from eth_nl2sql.data.splits import DEVELOPMENT_SPLITS
+from eth_nl2sql.linking.dictionary import load_dictionary
 from eth_nl2sql.linking.validation import read_dictionary
 from eth_nl2sql.results import is_order_sensitive, row_digests
 from eth_nl2sql.store.execute import ExecutionError, execute
@@ -134,12 +137,20 @@ def audit_dataset(
     *,
     progress: Callable[[str], None] | None = None,
 ) -> dict:
-    splits = {s: read_jsonl(data_dir / f"{s}.jsonl") for s in ("train", "dev", "test")}
+    splits = {s: read_jsonl(data_dir / f"{s}.jsonl") for s in DEVELOPMENT_SPLITS}
     _, aliases, _ = read_dictionary(dictionary)
     profile = store_profile(con)
     labels_match = profile.get("labels_sha256") == sha256_file(dictionary / "entities.json")
     leakage = split_audit(splits)
-    review = _review_status(splits["test"], json.loads((data_dir / "test-review.json").read_text()))
+    review = _review_status(
+        splits["dev_eval"], json.loads((data_dir / "dev_eval-review.json").read_text())
+    )
+    linking_annotations = audit_annotations(
+        splits["dev_eval"],
+        read_jsonl(data_dir / "dev_eval-annotations.jsonl"),
+        read_jsonl(data_dir / "dev_eval-annotation-reviews.jsonl"),
+        load_dictionary(dictionary),
+    )
     cache = {}
     checks = []
     for split, rows in splits.items():
@@ -220,12 +231,13 @@ def audit_dataset(
             "empty_result_ids": [c["id"] for c in selected if c.get("empty")],
             "zero_aggregate_ids": [c["id"] for c in selected if c.get("zero_aggregate")],
         }
-    entity = [r for r in splits["test"] if r["subset"] == "entity"]
+    entity = [r for r in splits["dev_eval"] if r["subset"] == "entity"]
     specifics = Counter(s for row in entity for s in row["specifics"])
     passed = (
         labels_match
         and leakage["passed"]
         and review["passed"]
+        and linking_annotations["passed"]
         and all(c["ok"] and not c.get("semantic_issues") for c in checks)
     )
     return {
@@ -235,13 +247,18 @@ def audit_dataset(
         "store": profile,
         "loaded_labels_match": labels_match,
         "files": {f"{s}.jsonl": sha256_file(data_dir / f"{s}.jsonl") for s in splits},
-        "review_sha256": sha256_file(data_dir / "test-review.json"),
+        "review_sha256": sha256_file(data_dir / "dev_eval-review.json"),
         "templates_sha256": sha256_file(data_dir / "templates" / "entity_templates.json"),
         "dictionary_manifest_sha256": sha256_file(dictionary / "manifest.json"),
         "splits": summary,
-        "test_subsets": dict(Counter(r["subset"] for r in splits["test"])),
+        "dev_eval_subsets": dict(Counter(r["subset"] for r in splits["dev_eval"])),
         "specifics": dict(specifics),
         "semantic_review": review,
+        "linking_annotations": linking_annotations,
+        "annotation_files": {
+            name: sha256_file(data_dir / name)
+            for name in ("dev_eval-annotations.jsonl", "dev_eval-annotation-reviews.jsonl")
+        },
         "multi_address_owners": sorted(
             {
                 owner
@@ -276,7 +293,7 @@ def render_audit(report: dict) -> str:
         )
     lines += [
         "",
-        f"Test: {report['test_subsets']}. Nhãn có thể chồng lấn: {report['specifics']}.",
+        f"Dev eval: {report['dev_eval_subsets']}. Nhãn có thể chồng lấn: {report['specifics']}.",
         f"Multi-address: {len(report['multi_address_owners'])} owner; "
         "mỗi ca được kiểm trực tiếp trên raw fact theo đúng chiều và cửa sổ.",
         "",
@@ -298,13 +315,13 @@ def render_audit(report: dict) -> str:
         "Train/dev dùng chung template nên có đoạn văn mẫu trùng; "
         "đây là cảnh báo được giữ trong báo cáo, không phải kiểm tra 12-gram đã sạch.",
         "",
-        "## Kết quả rỗng của test",
+        "## Kết quả rỗng của dev_eval",
         "",
     ]
     for check in report["queries"]:
-        if check["split"] == "test" and check.get("empty"):
+        if check["split"] == "dev_eval" and check.get("empty"):
             lines.append(f"- `{check['id']}`: {check.get('empty_reason', 'Cần review.')}")
-    if not report["splits"]["test"]["empty_result_ids"]:
+    if not report["splits"]["dev_eval"]["empty_result_ids"]:
         lines.append("Không có.")
     lines += [
         "",
@@ -314,12 +331,14 @@ def render_audit(report: dict) -> str:
         "",
         f"Reviewer: {report['semantic_review']['reviewer']}. "
         f"Human review: {report['semantic_review']['human_review']}.",
-        "Mỗi câu test có ghi chú và hash câu hỏi/SQL trong `data/test-review.json`. "
+        "Mỗi câu dev_eval có ghi chú và hash câu hỏi/SQL trong `data/dev_eval-review.json`. "
         "Đổi câu hoặc SQL làm review hết hiệu lực.",
         "",
-        ("Đây là kiểm gold trên snapshot đầy đủ local; parity BigQuery được kiểm riêng bằng v1."
-         if report["store"].get("complete_snapshot") else
-         "Đây là kiểm tra trên dữ liệu local lấy mẫu, chưa phải parity với BigQuery."),
+        (
+            "Đây là kiểm gold trên snapshot đầy đủ local; parity BigQuery được kiểm riêng bằng v1."
+            if report["store"].get("complete_snapshot")
+            else "Đây là kiểm tra trên dữ liệu local lấy mẫu, chưa phải parity với BigQuery."
+        ),
         "",
     ]
     return "\n".join(lines)

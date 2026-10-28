@@ -1,8 +1,9 @@
 {
   "dictionary_manifest_sha256": "c8b268c2f96282d506ed7712bae80bed040c75621b5f7c63e36e6c0d116c3c4d",
+  "evaluation_role": "development",
   "files": {
     "dev.jsonl": "8b7bd4355d8a75d078f4986a735f1c16596eb98156a3a6777bc512eccee42042",
-    "test.jsonl": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+    "dev_eval.jsonl": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
     "train.jsonl": "927848a840b9d5503f147117b17afee5cfbb663092ab87589bd997868eb25e9f"
   },
   "generated": {

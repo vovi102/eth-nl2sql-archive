@@ -1,0 +1,26 @@
+{
+  "catalog_sha256": "7d437bc882394ec93d6d7cb579bf0b62e9de6c0f3360746c80df80ab6bdb5d00",
+  "code": {
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "audit.py": "1a51b290f19f946f53821a592f40499a0e57e396ccffc09919ca50c0c12e40b7",
+    "context.py": "bc44131c28d8b37eb98cc2294844d0c7fa80df0c837ae6bc8361b9549468dc8c",
+    "dictionary.py": "24c188b365d5407fdc11aadd653c0aef2ee2b3e0fcdb3b24101682bcccdca43b",
+    "entity.py": "b63dda34a67ccb41893731e15c828ecc4c736d5cf4eb796e443513b6372d56e9",
+    "evaluate.py": "00f364c9721da21b699ec498c00059bd9e971dee0ccf4a4f21b352c6b0368b19",
+    "resolver.py": "91f2cd2ee7d1d585e84182ab35b32199bf7529e175aa43898057a8556153cc8a",
+    "schema.py": "b8a4dd2f3b79f3169fced14e2b207dc9d258521fc7135fc1b0bd3146da3818f3",
+    "validation.py": "d60de8fc34ffd24ed354d444624a4fe5d76d27fe8b10b6d273c09c2910a079bf",
+    "variants.py": "ae93f94e7927fa2ca5e1ca2bfe89cfc8196da6f1c7c8dbf85d73d6fd9158d963"
+  },
+  "dictionary": {
+    "aliases.json": "689eafe3e8d1734671f3f22abcec313e57462efe3cf8e4991eb44a9d1bb06ac9",
+    "concepts.json": "e24e16f7ad2a5258905b1fb3cec2c22ca98e0069cb7f85a65eb981d6f2d3237d",
+    "entities.json": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+    "manifest.json": "c8b268c2f96282d506ed7712bae80bed040c75621b5f7c63e36e6c0d116c3c4d"
+  },
+  "encoder": null,
+  "predictions_sha256": "999d9b480e69cf7158eca01dde3891d1600593acc794f3862b1a054b10683d3d",
+  "split": "dev_eval",
+  "synonyms_sha256": "d49dc4fb0aa753bbdc0d24e41f28b479e13134c7becd46da7391d618072fdfd6",
+  "variant": "full"
+}

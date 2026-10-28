@@ -3,6 +3,9 @@
 Ngày thực hiện: **26/10/2026**. Bộ test gồm **100 câu: 50 chung + 50 thực thể**.
 Review ngữ nghĩa bằng agent đã có cho toàn bộ 100 cặp; xác nhận của người review còn chờ.
 
+> T07 (27/10/2026): bộ test được mô tả trong báo cáo lịch sử này đã chuyển nguyên vẹn
+> sang `dev_eval`; benchmark cuối v2 có thư mục riêng. Xem [kiểm chứng T07](../benchmark-t07/README.md).
+
 ## Kết quả xác nhận
 
 | Kiểm tra | Kết quả |
@@ -46,7 +49,7 @@ test hay tự ký lại hồ sơ review. Nếu cách diễn đạt/SQL trùng te
 
 ## Test và ngữ nghĩa
 
-50 câu thực thể được soạn riêng trong [test.jsonl](../../data/test.jsonl), không render bằng
+50 câu thực thể được soạn riêng trong [dev_eval.jsonl](../../data/dev_eval.jsonl), không render bằng
 template train. Trường `primary_specific` chia 50 câu thành 34 multi-address, 4 alias, 6 class-level
 và 6 ambiguous-property; `specifics` cho phép gắn nhiều nhãn. Số nhãn thực tế và kết quả từng
 câu nằm trong [validation.md](validation.md) và [validation.json](validation.json).
@@ -73,7 +76,7 @@ SQL của 50 câu chung được giữ nguyên và vẫn phủ 29 intent. Review
 sau đó native wei rồi hash. Các phép tổng hợp token symbol cố ý nhóm theo symbol và đơn vị
 normalized; không diễn giải chúng thành giá trị tiền hoặc định danh token duy nhất.
 
-[test-review.json](../../data/test-review.json) lưu ghi chú, người review là agent, trạng thái
+[dev_eval-review.json](../../data/dev_eval-review.json) lưu ghi chú, người review là agent, trạng thái
 human review và hash câu hỏi/SQL của từng câu. Thay câu/SQL làm review hết hiệu lực.
 Bản đọc dành cho người review, có đủ câu hỏi, SQL và ghi chú cho từng ID, nằm trong
 [test-review.md](test-review.md); header ghi hash của bản dataset được review.

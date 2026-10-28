@@ -1,5 +1,5 @@
 # Single source of truth for model pins, generation and fine-tuning settings.
-# Read with `eth_nl2sql.config.load()`; every run records this file's SHA-256.
+# Read with `eth_nl2sql.config.load()`; manifests hash the effective stage settings.
 
 [models.generator]
 repo_id = "meta-llama/Meta-Llama-3-8B-Instruct"
@@ -14,6 +14,10 @@ revision = "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
 max_new_tokens = 512
 do_sample = false
 seed = 42
+
+# Training seeds never change train/dev splits or greedy decoding settings.
+[training]
+seeds = [42, 43, 44]
 
 [retrieval]
 examples = 5

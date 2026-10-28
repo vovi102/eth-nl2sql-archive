@@ -15,7 +15,7 @@ import numpy as np
 from rapidfuzz import process
 from rapidfuzz.fuzz import ratio
 
-from eth_nl2sql.linking.dictionary import Dictionary
+from eth_nl2sql.linking.dictionary import Dictionary, normalize_phrase
 
 FUZZY_THRESHOLD = 0.85
 EMBEDDING_THRESHOLD = 0.75
@@ -84,23 +84,47 @@ def _overlaps(start: int, end: int, matches: list[EntityMatch]) -> bool:
 
 
 class EntityLinker:
-    def __init__(self, dictionary: Dictionary, encoder: object | None = None) -> None:
+    def __init__(
+        self,
+        dictionary: Dictionary,
+        encoder: object | None = None,
+        *,
+        aliases: bool = True,
+        approximate: bool = True,
+    ) -> None:
         self.dictionary = dictionary
         self.encoder = encoder
-        self._phrases = tuple(dictionary.phrases)
+        self.aliases = aliases
+        self.approximate = approximate
+        self._phrase_targets = {
+            phrase: tuple(
+                t
+                for t in ids
+                if aliases
+                or dictionary.by_id[t].kind == "concept"
+                or normalize_phrase(dictionary.by_id[t].name) == phrase
+            )
+            for phrase, ids in dictionary.phrases.items()
+        }
+        self._phrase_targets = {p: ids for p, ids in self._phrase_targets.items() if ids}
+        self._phrases = tuple(self._phrase_targets)
         self._token_owner_ids = frozenset(
             t.target_id for t in dictionary.targets if t.is_token_owner
         )
         self._target_matrix = None
-        if encoder is not None:
-            documents = [target.document for target in dictionary.targets]
+        if encoder is not None and approximate:
+            documents = [
+                target.document if aliases or target.kind == "concept" else f"Owner: {target.name}"
+                for target in dictionary.targets
+            ]
             matrix = encoder.encode(documents, normalize_embeddings=True)
             self._target_matrix = np.asarray(matrix, dtype=np.float32)
 
     def link(self, question: str) -> list[EntityMatch]:
         text = _lower(question)
         selected = self._select(self._addresses(question) + self._exact(question, text))
-        selected = self._select(selected + self._select(self._fuzzy(question, text, selected)))
+        if self.approximate:
+            selected = self._select(selected + self._select(self._fuzzy(question, text, selected)))
         if self._target_matrix is not None:
             selected = self._select(
                 selected + self._select(self._embedding(question, text, selected))
@@ -132,7 +156,7 @@ class EntityLinker:
 
     def _exact(self, question: str, text: str) -> list[EntityMatch]:
         matches = []
-        for phrase, target_ids in self.dictionary.phrases.items():
+        for phrase, target_ids in self._phrase_targets.items():
             start = text.find(phrase)
             while start >= 0:
                 end = start + len(phrase)
@@ -193,11 +217,18 @@ class EntityLinker:
                     words[-1] in FUNCTION_WORDS and words[-1] != phrase_words[-1]
                 ):
                     continue
-                target_ids = self.dictionary.phrases[phrase]
+                target_ids = self._phrase_targets[phrase]
                 span = question[window.start : window.end]
                 if window.tokens == 1 and self._needs_signal(phrase, target_ids, span):
                     continue
                 for target_id in target_ids:
+                    if (
+                        not self.aliases
+                        and window.text in self.dictionary.phrases
+                        and self.dictionary.by_id[target_id].kind == "owner"
+                        and window.text != normalize_phrase(self.dictionary.by_id[target_id].name)
+                    ):
+                        continue
                     scores[target_id] = max(scores.get(target_id, 0.0), raw / 100.0)
             ranked = self._ranked(scores, FUZZY_THRESHOLD)
             span = question[window.start : window.end]
@@ -222,6 +253,9 @@ class EntityLinker:
                 target.target_id: min(1.0, float(score))
                 for target, score in zip(self.dictionary.targets, row, strict=True)
                 if score >= EMBEDDING_THRESHOLD
+                # Owner paraphrases are alias handling. Do not reintroduce them
+                # through the semantic fallback when alias linking is ablated.
+                and (self.aliases or target.kind == "concept")
             }
             ranked = self._ranked(scores, EMBEDDING_THRESHOLD)
             if not ranked:

@@ -4,9 +4,10 @@ import pytest
 
 from eth_nl2sql.config import CATALOG_PATH
 from eth_nl2sql.generation.prompt import build_messages, catalog_summary, compact_schema
-from eth_nl2sql.generation.runs import CONFIGS, prompt_rows, training_rows
+from eth_nl2sql.generation.runs import CONFIGS, prompt_rows, prompt_suite, training_rows
 from eth_nl2sql.linking.context import Linking
 from eth_nl2sql.linking.resolver import Resolution
+from eth_nl2sql.linking.variants import EXPERIMENTS
 
 CATALOG = json.loads(CATALOG_PATH.read_text())
 P = "nl2sparql-thesis.nl2sparql_analytics"
@@ -70,3 +71,43 @@ def test_training_rows_use_the_compact_prompt_and_gold_target():
     assert "APPROVED JOINS" not in rows[0]["messages"][0]["content"]
     with pytest.raises(ValueError):
         training_rows(CONFIGS["b2"], CASES, catalog=CATALOG)
+
+
+def test_linking_suite_freezes_retrieval_and_schema_across_interventions():
+    from dataclasses import replace
+
+    calls = []
+    shots = [{"id": f"e{i}", "question": f"Q{i}", "sql": f"S{i}"} for i in range(5)]
+
+    def retrieve(case):
+        assert "sql" not in case and "annotation" not in case
+        calls.append(case["id"])
+        return shots
+
+    linkings = {
+        variant: {"q1": replace(LINKING, variant=variant)} for variant in EXPERIMENTS.values()
+    }
+    suite = prompt_suite(CASES, catalog=CATALOG, linkings=linkings, retrieve=retrieve)
+    assert calls == ["q1"]
+    assert set(suite) == {"b2", *EXPERIMENTS}
+    for name, rows in suite.items():
+        assert CONFIGS[name].examples and not CONFIGS[name].fine_tuned
+        assert rows[0]["example_ids"] == [f"e{i}" for i in range(5)]
+        assert rows[0]["messages"][0] == suite["b2"][0]["messages"][0]
+        assert rows[0]["messages"][1]["content"].endswith(
+            "Question: How much ETH did Binance receive?\nSQL:"
+        )
+    assert (
+        prompt_suite(CASES, catalog=CATALOG, linkings=linkings, retrieve=lambda _: shots) == suite
+    )
+
+
+def test_wrong_variant_cannot_silently_be_used_for_an_ablation():
+    with pytest.raises(ValueError, match="variant"):
+        prompt_rows(
+            CONFIGS["b2l-no-alias"],
+            CASES,
+            catalog=CATALOG,
+            linkings={"q1": LINKING},
+            retrieve=lambda _: [{"id": f"e{i}", "question": "Q", "sql": "S"} for i in range(5)],
+        )

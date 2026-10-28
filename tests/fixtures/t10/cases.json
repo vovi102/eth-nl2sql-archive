@@ -1,0 +1,4 @@
+[
+  {"id": "q1", "question": "Count transactions received by Binance.", "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08')", "subset": "entity", "specifics": ["multi_address"]},
+  {"id": "q2", "question": "Count transactions sent by Binance.", "sql": "SELECT COUNT(*) AS n FROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-08')", "subset": "entity", "specifics": ["multi_address"]}
+]

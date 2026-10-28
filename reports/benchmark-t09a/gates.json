@@ -1,0 +1,37 @@
+{
+  "frozen_access": {
+    "blocked_as_expected": true,
+    "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+  },
+  "human": {
+    "blocked_as_expected": true,
+    "command": [
+      "eth-nl2sql",
+      "check-annotations",
+      "--cases",
+      "data/benchmark/v2/test.jsonl",
+      "--annotations",
+      "data/benchmark/v2/annotations.jsonl",
+      "--reviews",
+      "data/benchmark/v2/reviews.jsonl",
+      "--require-human",
+      "--out",
+      "reports/benchmark-t09a/human-gate.json"
+    ],
+    "exit_code": 1
+  },
+  "manifest_status": "draft",
+  "passed": true,
+  "release_offline": {
+    "blocked_as_expected": true,
+    "command": [
+      "eth-nl2sql",
+      "check-benchmark",
+      "--skip-execution",
+      "--require-release",
+      "--out",
+      "reports/benchmark-t09a/release-gate.json"
+    ],
+    "exit_code": 1
+  }
+}

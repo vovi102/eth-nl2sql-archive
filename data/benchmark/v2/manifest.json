@@ -1,0 +1,36 @@
+{
+  "benchmark_version": "v2",
+  "dependencies": {
+    "annotation_schema": "df950ffbd9a8f5e4b29db3791b07a03f802fe3a62b844d034d70f41a22cbcdce",
+    "catalog": "7d437bc882394ec93d6d7cb579bf0b62e9de6c0f3360746c80df80ab6bdb5d00",
+    "dictionary:aliases.json": "689eafe3e8d1734671f3f22abcec313e57462efe3cf8e4991eb44a9d1bb06ac9",
+    "dictionary:concepts.json": "e24e16f7ad2a5258905b1fb3cec2c22ca98e0069cb7f85a65eb981d6f2d3237d",
+    "dictionary:entities.json": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+    "dictionary:manifest.json": "c8b268c2f96282d506ed7712bae80bed040c75621b5f7c63e36e6c0d116c3c4d",
+    "split:dev": "8b7bd4355d8a75d078f4986a735f1c16596eb98156a3a6777bc512eccee42042",
+    "split:dev_eval": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+    "split:train": "927848a840b9d5503f147117b17afee5cfbb663092ab87589bd997868eb25e9f"
+  },
+  "files": {
+    "annotations.jsonl": "66194a4a9c82ef2f37a77d1cd04c0eeb96628429f2bb8f293ea7441a56b626a1",
+    "reviews.jsonl": "d74b24f83038e89d4b54015e2a57d96aaaa152784132752e8c19ee9ae936932c",
+    "test.jsonl": "643855f961e97514356c7e0ab7b95edfbeccc5d6663810907841a06a0ba9dde6"
+  },
+  "frozen_at": null,
+  "primary_counts": {
+    "alias": 20,
+    "ambiguous_property": 20,
+    "class_level": 20,
+    "generic": 20,
+    "multi_address": 20
+  },
+  "property_counts": {
+    "address_role": 6,
+    "direction": 7,
+    "fact": 7
+  },
+  "schema_version": 2,
+  "status": "draft",
+  "store": null,
+  "target_size": 100
+}

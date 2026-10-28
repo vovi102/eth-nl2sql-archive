@@ -122,11 +122,13 @@ family; seed split 42 và tối thiểu một family dev cho mỗi template. Đ�
 đã điền tham số, không giữ template hoặc owner riêng cho một split; hai template chung
 chưa có family trong dev hiện tại.
 
-Bộ `data/test.jsonl` hiện có **100 câu / 100 SQL**, gồm 50 câu chung phủ 29 intent và 50 câu
-thực thể soạn riêng. Nhãn chính của phần thực thể là 34 multi-address, 4 alias, 6 class-level
+Bộ `data/dev_eval.jsonl` (trước T07 là `data/test.jsonl`) hiện có **100 câu / 100 SQL**, gồm
+50 câu chung phủ 29 intent và 50 câu thực thể soạn riêng. Nhãn chính của phần thực thể là 34 multi-address, 4 alias, 6 class-level
 và 6 property; khi tính cả nhãn phụ là 34/18/6/23. Các nhóm nhãn phụ có thể chồng lấn.
 Bộ này đã được xem và dùng trong quá trình thiết kế, nên được xem là **bộ đánh giá phát triển**.
-Tên file và split CLI vẫn là `test`; chưa chuyển đổi artifact sang giao thức v2.
+T07 đã chuyển nguyên vẹn sang file và split `dev_eval`; CLI và notebook mặc định dùng
+bộ này. Tên `test` dành riêng cho `data/benchmark/v2/test.jsonl`, có 100 câu draft T09A
+và bị chặn trước khi đóng băng.
 
 **Kiểm chứng đã có:** 1.447 SQL phân biệt của cả ba split đã chạy trên DuckDB sample không
 lỗi. Các count thực thể có raw-table oracle; 34 ca multi-address cho kết quả hợp nhất lớn
@@ -140,7 +142,7 @@ train/dev vẫn tồn tại và được báo cáo riêng; không suy ra khả n
 hoặc cấu trúc. Review agent có hash cho đủ 100 cặp, nhưng **human review còn chờ**. Xem
 [báo cáo và hồ sơ review](reports/entity-dataset/README.md).
 
-### 3.4. Thiết kế test v2 và quy trình chất lượng — chưa triển khai
+### 3.4. Thiết kế test v2 và quy trình chất lượng — T09A draft, T09B chờ T06
 
 Giữ quy mô train/dev hiện tại làm nền, không ép giảm xuống đúng 1.000 cặp. Test v2 gồm
 **100 câu mới / 100 gold SQL phân biệt**, phân bố theo nhãn chính:
@@ -175,8 +177,22 @@ Quy trình đích:
    Thay test sau khi đã xem kết quả phải tạo phiên bản mới, không ghi đè benchmark đã công bố.
 
 Mỗi câu test SQL chính phải có cách hiểu đủ rõ để xác định gold. Câu thực sự thiếu thông tin
-không được ép một SQL tùy ý; cần cơ chế hỏi lại ngoài phạm vi pipeline hiện tại. Không tạo
-test v2, ký human review hoặc chuyển file dữ liệu trong lần cập nhật tài liệu này.
+không được ép một SQL tùy ý; cần cơ chế hỏi lại ngoài phạm vi pipeline hiện tại.
+
+**T07 đã triển khai hạ tầng:** JSON Schema cho case, annotation, review và manifest; annotation
+relation/cột, mention–owner/address, class/membership và ba property `direction`, `fact`,
+`address_role`. Review gắn hash câu hỏi, SQL và annotation; human review cần người xác nhận
+độc lập, timestamp và ghi chú. Có kiểm mọi cặp split, hash các phụ thuộc, gold trên DuckDB,
+quota 20×5 và property 7/7/6, cùng gate đóng băng yêu cầu full snapshot.
+100 annotation phát triển được bootstrap từ SQL/expectation cũ, đều là draft pending human review.
+T09A đã soạn 100 câu/100 SQL cùng annotation khai báo trực tiếp từ ý hỏi và catalog/dictionary,
+không dùng prediction T08 hoặc bootstrap annotation phát triển. Tác giả là agent; toàn bộ
+review vẫn pending. Kiểm cấu trúc/hash/leakage và thực thi gold, đối chứng property, ablation
+địa chỉ trên sample có [hồ sơ T09A](reports/benchmark-t09a/README.md).
+Benchmark vẫn draft. T09B chờ T06: kiểm lại gold, witness multi-address/property và ca rỗng
+trên snapshot đầy đủ, hoàn tất human review và mọi gate trước khi đóng băng. Không chạy
+generator hoặc chỉnh linker từ test v2 trong T09A. Xem [giao thức](data/benchmark/README.md)
+và [kiểm chứng hạ tầng T07](reports/benchmark-t07/README.md).
 
 ## 4. Schema/entity linking
 
@@ -202,7 +218,7 @@ Ví dụ dưới đây minh họa tác vụ; câu trong benchmark phải có c�
 | Multi-address | “Count transactions sent by Binance.” | Owner chuẩn và hợp của các địa chỉ đã biết; đo target/tập địa chỉ đúng, EX và witness so một địa chỉ | Danh sách tuyển chọn, không phải mọi địa chỉ Binance thực tế |
 | Alias | “Count transactions sent to TC.” | Alias TC → owner dịch vụ Tornado Cash; đo owner đúng và EX; giữ tập ứng viên nếu chưa phân giải được | Alias dịch vụ và token TORN phải tách; nhập nhằng không được coi là đã resolve |
 | Class-level | “Count transactions sent to any DEX.” | Lớp `DEXProtocol` và phạm vi owner thuộc lớp trong dictionary; đo lớp đúng và EX | Chỉ các DEX đã gán nhãn; không có xếp hạng “major” hoặc bao phủ mọi DEX |
-| Property | “Count token-transfer events received by Binance.” | Xác định recipient, fact token event và vai trò endpoint; đo riêng từng loại property và EX | Resolver hiện chủ yếu xử lý from/to; chưa có đầu ra tường minh đầy đủ cho ba loại |
+| Property | “Count token-transfer events received by Binance.” | Xác định recipient, fact token event và vai trò endpoint; đo riêng từng loại property và EX | Resolver dựa trên cue trong câu; thiếu thông tin giữ chưa phân giải, chưa có hỏi lại |
 
 Property được chia thành ba loại: **gửi/nhận**, **outer transaction/token-transfer event** và
 **token contract/địa chỉ endpoint**. Token-event count đếm log; một transaction có thể chứa
@@ -213,7 +229,13 @@ thất bại nếu câu không lọc successful, không được diễn giải t
 “Any/all DEX” là truy vấn lớp đã biết. Từ “major” bị loại khỏi thiết kế benchmark v2 vì chưa
 có tiêu chí xếp hạng. Code/dictionary hiện vẫn có thể khớp cụm này; tài liệu không xem đó là
 khả năng xác định DEX lớn. Trường hợp chưa xác định được owner hoặc property cần cơ chế làm
-rõ; `unspecified` hiện tại không phải bằng chứng hệ thống đã giải quyết nhập nhằng.
+rõ; trạng thái chưa phân giải không phải bằng chứng hệ thống đã giải quyết nhập nhằng.
+Output v2 dùng `mention={text,start,end}` theo offset Unicode của Python, tách `entities`
+(owner, addresses, address_scope), `classes` (category, concept_class, owners) và `properties`
+theo T07. `either` có nghĩa là cả hai endpoint; property chưa xác định là `null`, không suy
+từ thứ hạng schema. Địa chỉ viết trực tiếp chỉ giữ địa chỉ đó, kể cả khi biết owner.
+Alias nhập nhằng giữ danh sách ứng viên, không chọn tùy ý. Pipeline chỉ nhận chuỗi câu hỏi;
+boundary xuất dự đoán chỉ đọc `id` và `question`, không đọc gold SQL hoặc annotation.
 
 ### 4.3. Dictionary và phạm vi nhãn
 
@@ -237,39 +259,42 @@ Xem [quy tắc dictionary](data/entities/v2/README.md) và [coverage](reports/di
 bộ test hiện tại chỉ phục vụ phát triển. Dùng ba seed QLoRA **42, 43, 44** trên cùng split;
 không đổi split theo seed huấn luyện. Mỗi seed chọn checkpoint theo dev loss. Báo cáo từng
 seed, trung bình và độ lệch chuẩn; không chọn seed tốt nhất trên test. Greedy decoding không
-loại bỏ biến thiên từ huấn luyện. Chưa có runner/tổng hợp ba seed trong giao thức này.
+loại bỏ biến thiên từ huấn luyện. T10 đã có runner/tổng hợp ba seed, kiểm thử bằng fixture
+và backend giả; chưa chạy LLM.
 
 **Cấu hình hiện có làm nền:** `meta-llama/Meta-Llama-3-8B-Instruct` và encoder pin revision
 trong `configs/experiment.toml`; generator NF4 4-bit, compute float16 trên T4, greedy, tối đa
 512 token, dừng ở `<|eot_id|>`. QLoRA r=16, α=32, dropout 0,05, module q/k/v/o, lr 2e-4 cosine,
 batch hiệu dụng 16, tối đa 2 epoch, early stopping theo dev loss. Loss chỉ trên token SQL;
-dòng dài hơn 1.024 token bị bỏ và có đếm. Config hiện chỉ có seed 42. Phải công bố số dòng
-bị bỏ và phạm vi dữ liệu thực sự được train cho từng cấu hình; chưa có kết quả LLM được báo cáo.
+dòng dài hơn 1.024 token bị bỏ và có đếm. Config huấn luyện có ba seed 42/43/44; seed
+generation và bootstrap vẫn là 42. Preflight ghi
+ID/số dòng giữ/bỏ và token; dừng nếu train hoặc dev rỗng sau lọc. Không cắt target SQL.
+Chưa có kết quả LLM được báo cáo.
 
-### 5.2. Sáu cấu hình hiện có và đối chứng cần bổ sung
+### 5.2. Các cấu hình và đối chứng compact
 
 | Config đã có | Prompt | Chế độ |
 |---|---|---|
 | `b1` / `b1l` | Catalog đầy đủ, cú pháp gọi và quy tắc [+ linking] | Zero-shot |
 | `b2` / `b2l` | Như B1 + 5 ví dụ retrieval từ train [+ linking] | Five-shot |
-| `b3` / `b3l` | Chữ ký 8 relation (compact) [+ linking] | QLoRA |
+| `b3-base` / `b3l-base` | Chính xác prompt của `b3` / `b3l` | Base model không adapter |
+| `b3` / `b3l` | Chữ ký 8 relation (compact) [+ linking] | QLoRA, ba seed |
 
 Retrieval cosine MiniLM hiện lấy train, loại câu trùng và cùng family khi có ID family;
 ID ví dụ được lưu. Ma trận chính giữ ba chế độ × có/không linking. Train và inference của
 mỗi adapter phải dùng cùng kiểu prompt, có/không hints theo cấu hình tương ứng.
 
-**Đối chứng compact, chưa triển khai:** thêm base model không adapter dùng chính prompt
-compact của `b3` và `b3l`, tương ứng không/có linking, cùng giới hạn sinh và validator. So
-với QLoRA cùng prompt để đo tác động thích nghi trọng số. So QLoRA với B1/B2 có prompt khác
+**Đối chứng compact đã triển khai (T10):** `b3-base` và `b3l-base` dùng chính messages/hash
+prompt của `b3` và `b3l`, tương ứng không/có linking, cùng giới hạn sinh và validator.
+`prompt_style` được chọn độc lập với cờ `fine_tuned`. So với QLoRA cùng prompt để đo tác động thích nghi trọng số. So QLoRA với B1/B2 có prompt khác
 chỉ phản ánh khác biệt giữa các cấu hình triển khai, không quy toàn bộ chênh lệch cho
-fine-tuning. Hai đối chứng này chưa có config/CLI; không dùng tên giả như lệnh đang hỗ trợ.
+fine-tuning. Hai đối chứng đã có config/CLI, chưa có kết quả model.
 
-### 5.3. Baseline linking và ablation — chưa triển khai
+### 5.3. Baseline linking và ablation
 
 Thực hiện trên generator **five-shot không fine-tune**, cùng catalog đầy đủ, store,
 dictionary, câu hỏi, năm ví dụ retrieval, decoding và validator. `b2` là mốc không hints;
-`b2l` là mốc đầy đủ hiện có. Đánh giá phương pháp đầy đủ theo ba loại property đòi hỏi mở
-rộng resolver/hints; kết quả của code hiện tại phải được ghi đúng phạm vi from/to.
+`b2l` là mốc đầy đủ với resolver ba property.
 
 | Thí nghiệm đích | Can thiệp so với linking đầy đủ |
 |---|---|
@@ -281,7 +306,16 @@ rộng resolver/hints; kết quả của code hiện tại phải được ghi �
 
 Mỗi ablation chỉ thay cơ chế tương ứng, không xóa dữ liệu/nhãn trong store hoặc thay generator.
 Báo cáo EX tổng và từng nhóm với số câu; các ca kết hợp nhiều hiện tượng có thể chịu tương
-tác giữa cơ chế. Chưa có config, runner hoặc kết quả cho baseline và bốn ablation này.
+tác giữa cơ chế. Config tương ứng là `b2l-baseline`, `b2l-no-multi-address`,
+`b2l-no-alias`, `b2l-no-class`, `b2l-no-property`. Nhánh bỏ alias giữ tên chuẩn/địa chỉ,
+fuzzy trên tên chuẩn và linking lớp; loại alias trong exact/fuzzy và owner paraphrase
+trong embedding để fallback không khôi phục cơ chế đã bỏ.
+
+`link-experiments` lấy năm ví dụ từ train một lần cho mỗi câu rồi dựng cả bảy bộ prompt.
+Có thể dùng lại `--examples runs/linking-examples-dev_eval.jsonl`; cache chỉ chứa ID train,
+được kiểm số lượng, trùng ID, câu giống hệt và family leakage. Manifest ghi hash prompt,
+cache, dictionary, catalog, code và config generator/decoding. Store không bị sửa.
+Các lệnh `generate`, `evaluate`, `report` dùng được cho từng config mới; chưa chạy LLM.
 
 ### 5.4. Đánh giá SQL hiện có
 
@@ -300,17 +334,25 @@ tác giữa cơ chế. Chưa có config, runner hoặc kết quả cho baseline 
 - **Scope:** mỗi lượt `evaluate` ghi scope, hash manifest Parquet và dictionary. EX trên
   store sample là EX phát triển; `echo-gold` 100% chỉ kiểm tra đường ống.
 
-### 5.5. Chỉ số linking và báo cáo đích — chưa triển khai
+### 5.5. Chỉ số linking trực tiếp
 
 Test v2 cần gold annotation relation/cột, target owner/address/class và ba loại property.
 Dùng cùng dictionary đóng băng để chấm; không lấy SQL model sinh làm gold linking.
+`evaluate-linking` chấm file dự đoán đã lưu sau khi audit annotation/review. Ghép mention
+bằng text và offset, ghép property qua mention thay vì số thứ tự target. Miss và chưa phân
+giải giữ trong mẫu số; mẫu số 0 trả `null`. Schema dùng recall vi mô relation@3 và column@6.
+Class và tập thành viên chấm riêng; địa chỉ explicit phải khớp literal. Address-set so tập
+giá trị, đồng thời có `multi_address_set` chỉ trên mention owner có hơn một địa chỉ gold;
+owner một địa chỉ không bị tính sai chỉ vì baseline gọi nó là địa chỉ đại diện. Dự đoán dư được
+ghi riêng trong từng case. Annotation pending hoặc split phát triển luôn được ghi là
+development evaluation, không phải kết quả benchmark cuối.
 
 | Chỉ số đích | Cách báo cáo |
 |---|---|
 | Schema recall | Recall relation@3 và cột@6 so với tập cần cho gold SQL; báo số mục được chấm |
 | Entity resolution | Tỷ lệ mention được resolve đúng owner/address, và khớp tập địa chỉ đã biết cho multi-address; giữ lỗi/miss trong mẫu số |
 | Class resolution | Tỷ lệ đúng lớp và phạm vi thành viên theo dictionary |
-| Property resolution | Độ đúng riêng từng loại: gửi/nhận, transaction/event, contract/endpoint; kèm số ca áp dụng |
+| Property resolution | Độ đúng riêng từng loại: gửi/nhận/cả hai, transaction/event/join, contract/endpoint; kèm số ca áp dụng |
 | EX theo nhóm | Năm nhóm nhãn chính, các nhãn phụ và độ khó; kèm N và CI 95% cho từng nhóm |
 | Biến thiên QLoRA | Từng seed và trung bình/độ lệch chuẩn trên cùng test; không gộp ba seed thành 300 câu độc lập |
 
@@ -324,7 +366,8 @@ không được diễn giải thành tác vụ độc lập mới.
 ### 5.6. Latency, chi phí và privacy
 
 **Hiện trạng:** evaluator có thời gian generation và execution, p50/p95 khi có dữ liệu;
-linking chạy CPU. QLoRA có thể ghi runtime train, số dòng giữ/bỏ và peak GPU memory. Chưa có
+linking chạy CPU. T10 ghi runtime từng phiên train/generate, số dòng giữ/bỏ, token và peak
+GPU memory theo seed, gồm tải model, reset peak giữa các lượt và lưu phần cứng. Chưa có
 báo cáo chi phí hay latency đầu cuối hoàn chỉnh cho thí nghiệm nghiên cứu.
 
 **Thiết kế đích, cần bổ sung đo/tổng hợp:**
@@ -359,9 +402,17 @@ trong repo tinh gọn. Kết quả không so trực tiếp với campaign c03 v�
 
 Mỗi lượt nghiên cứu cần lưu phiên bản code/model/config, seed, hash dataset/review/dictionary/
 store, prompt và ID ví dụ retrieval, checkpoint, output thô và lỗi. Hiện đã có pin model,
-hash prompt/config/store và artifact kiểm dữ liệu; versioning test v2, annotation trực tiếp,
-đối chứng mới, ablation và tổng hợp đa seed còn phải triển khai. Các báo cáo cũ mô tả trạng
+hash prompt/config/store và artifact kiểm dữ liệu; test v2 và annotation trực tiếp ở trạng thái
+draft T09A. T10 đã có đối chứng compact và tổng hợp đa seed; baseline/ablation đã có runner,
+chưa có lượt LLM. Các báo cáo cũ mô tả trạng
 thái tại thời điểm tạo; không tự động trở thành bằng chứng cho thiết kế v2.
+
+T10 lưu artifact trong `runs/<config>/seed-<seed>/`, dùng chung SFT/prompt ở thư mục config.
+Resume train/generate kiểm hash prompt/model/adapter, config, siêu tham số và seed; checkpoint
+được kiểm cả state/optimizer/RNG. Generation kiểm provenance ngay cả khi không còn câu cần
+sinh. Báo cáo giữ kết quả từng seed, mean/SD mẫu (ddof=1), số seed còn thiếu và N câu dùng
+chung; không gộp prediction thành 3N câu độc lập. Chi tiết lệnh, artifact và giới hạn đo
+tài nguyên khi phiên bị ngắt ở [T10](reports/experiments-t10/README.md). Gate test draft giữ nguyên.
 
 ### 6.2. Giới hạn cần giữ khi diễn giải
 
@@ -372,12 +423,13 @@ thái tại thời điểm tạo; không tự động trở thành bằng chứn
   dùng HUGEINT, `normalized_amount` dùng DOUBLE, tổng có thể lệch chữ số cuối. Chứng minh
   parity từng truy vấn không loại bỏ mọi sai khác dialect/kiểu số.
 - **Nhãn:** dictionary là tập tuyển chọn, chưa có khoảng valid_from/valid_to; xác minh sau
-  tháng 6 không chứng minh sở hữu tháng 6. Tornado Cash local chỉ quan sát router hoạt động,
-  chưa có bằng chứng nhiều pool cùng hoạt động.
+  tháng 6 không chứng minh sở hữu tháng 6. Báo cáo phát triển v1 quan sát router Tornado Cash;
+  các ca token-event trên endpoint/class mixer v2 của T09A còn rỗng trên sample, chưa xác
+  nhận coverage hoặc nhiều pool cùng hoạt động trên snapshot đầy đủ.
 - **Benchmark:** train/dev chủ yếu là câu renderer; dùng chung template/owner giữa các split.
   Test hiện tại đã được xem, human review chưa hoàn tất. Test v2 cân bằng là chẩn đoán trên
   schema/dictionary đã biết, không đại diện phân bố câu hỏi thực tế hoặc toàn bộ nghiệp vụ AML.
-- **Ngữ nghĩa:** resolver hiện chưa phân giải đủ ba loại property; chưa có hỏi lại. Không
+- **Ngữ nghĩa:** resolver ba property dùng cue, có thể sai hoặc chưa phân giải; chưa có hỏi lại. Không
   diễn giải token-event count thành transaction count, dòng tiền ghi trong transaction
   thành thay đổi số dư hoặc số token normalized thành giá trị tiền.
 - **Thực nghiệm:** chưa có kết quả LLM được báo cáo; ba seed và các chỉ số mới chưa được
@@ -389,11 +441,12 @@ thái tại thời điểm tạo; không tự động trở thành bằng chứn
 |---|---|---|
 | Blockchain và DuckDB | [Store sample đã dựng](reports/local-store/README.md) | Hoàn tất snapshot/parity; đóng băng scope và kiểm gold v2 trên store nghiên cứu |
 | Dictionary | [V2 và coverage đã có](reports/dictionary-v2/README.md) | Đóng băng phiên bản cho benchmark, giữ giới hạn lịch sử/độ phủ |
-| Dataset | [Train/dev và 100 câu phát triển đã kiểm](reports/entity-dataset/README.md); human review còn chờ | Soạn 100 câu v2 cân bằng, gold annotation, human review, kiểm leakage và versioning; chuyển đổi artifact phát triển cũ |
-| Linking | Schema/entity linker và resolver from/to đã có | Mở rộng property, bộ chấm linking trực tiếp và cơ chế làm rõ ngoài test SQL chính |
-| Cấu hình thí nghiệm | Sáu cấu hình và seed 42 đã có | Đối chứng compact, baseline thông thường, bốn ablation, ba seed 42/43/44 và artifact từng lượt |
-| Báo cáo | [Evaluator hiện có](src/eth_nl2sql/evaluate.py), [RESULTS chưa có lượt chạy](RESULTS.md) | Chạy ma trận sau đóng băng; CI theo nhóm, tổng hợp seed, latency đầu cuối và chi phí/privacy |
+| Dataset | [Train/dev và 100 câu phát triển đã kiểm](reports/entity-dataset/README.md); [100 câu v2 draft T09A](reports/benchmark-t09a/README.md) | T09B: kiểm gold/witness/ca rỗng trên full snapshot sau T06, hoàn tất human review và gate đóng băng |
+| Linking | Resolver ba property, output T07 và bộ chấm trực tiếp đã có; [đánh giá nháp](reports/linking-development/README.md) | Human review, kiểm trên test frozen và cơ chế làm rõ ngoài test SQL chính |
+| Cấu hình thí nghiệm | Các cấu hình gốc, baseline/bốn ablation, đối chứng compact và runner ba seed có provenance đã có | Chạy LLM trên dữ liệu phát triển; thí nghiệm test sau đóng băng |
+| Báo cáo | [Evaluator hiện có](src/eth_nl2sql/evaluate.py), [RESULTS chưa có lượt chạy](RESULTS.md) | Chạy ma trận sau đóng băng; CI theo nhóm, latency đầu cuối và chi phí/privacy; tổng hợp seed đã có ở T10 |
 
-Các yêu cầu ở cột cuối chưa được triển khai trong lần cập nhật tài liệu này. Các lệnh ở
-README tiếp tục vận hành trên artifact hiện có; chưa có lệnh tạo benchmark v2 hay chạy
-các đối chứng/ablation mới.
+Các lượt LLM và phần kiểm nghiệm còn chờ trong bảng chưa được thực hiện. README mặc định vận hành trên `dev_eval`;
+T07 đã có lệnh kiểm/đóng băng; T09A đã soạn nội dung test v2 draft. Linking baseline
+và ablation đã được chấm phát triển ở chế độ lexical/fuzzy; chưa chạy generator cho các
+đối chứng/ablation mới.

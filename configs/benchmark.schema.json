@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "development_case": {
+      "type": "object", "required": ["id", "question", "sql"],
+      "properties": {
+        "id": {"$ref": "#/$defs/text"}, "question": {"$ref": "#/$defs/text"},
+        "sql": {"$ref": "#/$defs/text"}, "family_id": {"$ref": "#/$defs/text"},
+        "template_id": {"$ref": "#/$defs/text"}
+      }
+    },
+    "manifest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "benchmark_version", "status", "target_size", "primary_counts", "property_counts", "files", "dependencies", "store", "frozen_at"],
+      "properties": {
+        "schema_version": {"const": 2}, "benchmark_version": {"const": "v2"},
+        "status": {"enum": ["draft", "frozen"]}, "target_size": {"const": 100},
+        "primary_counts": {"type": "object", "minProperties": 5, "maxProperties": 5, "additionalProperties": {"const": 20}},
+        "property_counts": {"type": "object", "minProperties": 3, "maxProperties": 3, "additionalProperties": {"type": "integer"}},
+        "files": {"type": "object", "additionalProperties": {"$ref": "#/$defs/digest"}},
+        "dependencies": {"type": "object", "additionalProperties": {"$ref": "#/$defs/digest"}},
+        "store": {"type": ["object", "null"]},
+        "frozen_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "text": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "address": {"type": "string", "pattern": "^0x[0-9a-f]{40}$"},
+    "strings": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true},
+    "group": {"enum": ["generic", "multi_address", "alias", "class_level", "ambiguous_property"]},
+    "mention": {
+      "type": "object", "additionalProperties": false,
+      "required": ["text", "start", "end"],
+      "properties": {
+        "text": {"$ref": "#/$defs/text"},
+        "start": {"type": "integer", "minimum": 0},
+        "end": {"type": "integer", "minimum": 1}
+      }
+    },
+    "annotation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "id", "question_sha256", "sql_sha256", "schema", "entities", "classes", "properties"],
+      "properties": {
+        "schema_version": {"const": 2},
+        "id": {"$ref": "#/$defs/text"},
+        "question_sha256": {"$ref": "#/$defs/digest"},
+        "sql_sha256": {"$ref": "#/$defs/digest"},
+        "schema": {
+          "type": "object", "additionalProperties": false,
+          "required": ["relations", "columns"],
+          "properties": {
+            "relations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+            "columns": {
+              "type": "array", "uniqueItems": true,
+              "items": {
+                "type": "object", "additionalProperties": false,
+                "required": ["relation", "column"],
+                "properties": {"relation": {"$ref": "#/$defs/text"}, "column": {"$ref": "#/$defs/text"}}
+              }
+            }
+          }
+        },
+        "entities": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["mention", "owner", "addresses", "address_scope"],
+            "properties": {
+              "mention": {"$ref": "#/$defs/mention"},
+              "owner": {"type": ["string", "null"]},
+              "addresses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/address"}},
+              "address_scope": {"enum": ["known_owner_addresses", "explicit_address"]}
+            }
+          }
+        },
+        "classes": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["mention", "category", "concept_class", "owners"],
+            "properties": {
+              "mention": {"$ref": "#/$defs/mention"},
+              "category": {"$ref": "#/$defs/text"},
+              "concept_class": {"$ref": "#/$defs/text"},
+              "owners": {"$ref": "#/$defs/strings"}
+            }
+          }
+        },
+        "properties": {
+          "type": "object", "additionalProperties": false,
+          "required": ["direction", "fact", "address_role"],
+          "properties": {
+            "direction": {
+              "type": "array", "uniqueItems": true,
+              "items": {
+                "type": "object", "additionalProperties": false, "required": ["target", "value"],
+                "properties": {"target": {"type": "string", "pattern": "^(entity|class):[0-9]+$"}, "value": {"enum": ["from", "to", "either"]}}
+              }
+            },
+            "fact": {"enum": [null, "transaction", "token_transfer", "transaction_token_transfer_join"]},
+            "address_role": {
+              "type": "array", "uniqueItems": true,
+              "items": {
+                "type": "object", "additionalProperties": false, "required": ["target", "value"],
+                "properties": {"target": {"type": "string", "pattern": "^(entity|class):[0-9]+$"}, "value": {"enum": ["token_contract", "endpoint"]}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "id", "case_sha256", "question_sha256", "sql_sha256", "annotation_sha256", "status", "reviewer", "reviewer_kind", "reviewed_at", "note"],
+      "properties": {
+        "schema_version": {"const": 2},
+        "id": {"$ref": "#/$defs/text"},
+        "question_sha256": {"$ref": "#/$defs/digest"},
+        "sql_sha256": {"$ref": "#/$defs/digest"},
+        "annotation_sha256": {"$ref": "#/$defs/digest"},
+        "case_sha256": {"$ref": "#/$defs/digest"},
+        "status": {"enum": ["pending", "agent_reviewed", "human_reviewed", "rejected"]},
+        "reviewer": {"type": ["string", "null"]},
+        "reviewer_kind": {"enum": [null, "agent", "human"]},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "note": {"type": "string"}
+      }
+    },
+    "case": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "question", "sql", "family_id", "primary_group", "specifics", "subset", "difficulty", "categories", "provenance", "property_focus", "empty_reason", "window"],
+      "properties": {
+        "id": {"$ref": "#/$defs/text"},
+        "question": {"$ref": "#/$defs/text"},
+        "sql": {"$ref": "#/$defs/text"},
+        "family_id": {"$ref": "#/$defs/text"},
+        "primary_group": {"$ref": "#/$defs/group"},
+        "specifics": {"type": "array", "uniqueItems": true, "items": {"enum": ["multi_address", "alias", "class_level", "ambiguous_property"]}},
+        "subset": {"enum": ["generic", "entity"]},
+        "difficulty": {"enum": ["easy", "medium", "hard"]},
+        "categories": {"$ref": "#/$defs/strings"},
+        "template_id": {"$ref": "#/$defs/text"},
+        "empty_reason": {"type": ["string", "null"]},
+        "property_focus": {"enum": [null, "direction", "fact", "address_role"]},
+        "window": {
+          "type": "object", "additionalProperties": false,
+          "required": ["start_date", "end_date"],
+          "properties": {
+            "start_date": {"type": "string", "format": "date"},
+            "end_date": {"type": "string", "format": "date"}
+          }
+        },
+        "provenance": {
+          "type": "object", "additionalProperties": false,
+          "required": ["author", "author_type", "method"],
+          "properties": {
+            "author": {"$ref": "#/$defs/text"},
+            "author_type": {"enum": ["human", "agent"]},
+            "method": {"const": "independent_authoring"}
+          }
+        }
+      }
+    }
+  }
+}

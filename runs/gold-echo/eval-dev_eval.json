@@ -7,11 +7,31 @@
     },
     "difficulty:hard": {
       "execution_accuracy": 1.0,
-      "n": 8
+      "n": 36
     },
     "difficulty:medium": {
       "execution_accuracy": 1.0,
-      "n": 27
+      "n": 49
+    },
+    "specific:alias": {
+      "execution_accuracy": 1.0,
+      "n": 18
+    },
+    "specific:ambiguous_property": {
+      "execution_accuracy": 1.0,
+      "n": 23
+    },
+    "specific:class_level": {
+      "execution_accuracy": 1.0,
+      "n": 6
+    },
+    "specific:multi_address": {
+      "execution_accuracy": 1.0,
+      "n": 34
+    },
+    "subset:entity": {
+      "execution_accuracy": 1.0,
+      "n": 50
     },
     "subset:generic": {
       "execution_accuracy": 1.0,
@@ -19,6 +39,8 @@
     }
   },
   "config": "gold-echo",
+  "dataset_sha256": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+  "evaluation_role": "development",
   "exact_match": 1.0,
   "execution_accuracy": 1.0,
   "execution_accuracy_ci95": [
@@ -26,9 +48,9 @@
     1.0
   ],
   "execution_ms": {
-    "n": 50,
-    "p50": 40.108844499627594,
-    "p95": 430.16938390028355
+    "n": 100,
+    "p50": 338.08616350052034,
+    "p95": 2670.6550476495977
   },
   "format_ok_rate": 1.0,
   "generation_ms": {
@@ -37,21 +59,21 @@
     "p95": null
   },
   "missing_predictions": [],
-  "n": 50,
-  "predictions_sha256": "ffb396d6d4b915ad50fa0306358de7b325b434dd3180850dcce2bcdf336908ca",
-  "split": "test",
+  "n": 100,
+  "predictions_sha256": "59df065a37c154a5c53be16105ae6c9ca4adab1e017ddd4220120cdb06afd581",
+  "split": "dev_eval",
   "status_counts": {
-    "ok": 50
+    "ok": 100
   },
   "store": {
     "complete_snapshot": false,
-    "labels_sha256": "d860391f6175cce5848abd7385ade48999293b3539b6be1df10d04d7eaf75602",
+    "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
     "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
     "rows": {
       "amended_tokens": 2489651,
       "blocks": 221548,
       "contracts": 16386,
-      "entity_labels_snapshot": 5135,
+      "entity_labels_snapshot": 6647,
       "token_transfers": 4001230,
       "transactions": 4431329
     },
@@ -62,6 +84,5 @@
     ]
   },
   "structural_match": 1.0,
-  "test_sha256": "9dc4b0d2378179001fd034962270c4cbdc1edf444523d358a948d42a8fca87ba",
   "valid_sql_rate": 1.0
 }

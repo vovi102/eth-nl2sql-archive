@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "actual_exit_code": 1,
+      "command": "check-annotations --require-human",
+      "expected_exit_code": 1,
+      "passed": true
+    },
+    {
+      "actual_exit_code": 1,
+      "command": "check-benchmark --require-release",
+      "expected_exit_code": 1,
+      "passed": true
+    },
+    {
+      "actual_exit_code": 1,
+      "command": "freeze-benchmark",
+      "expected_exit_code": 1,
+      "passed": true
+    }
+  ],
+  "draft_manifest_unchanged": true,
+  "manifest_sha256": "488e809377c9322e412fb29f3b54fe3613671f2fcb71a4a15337a606e54bfebe",
+  "passed": true
+}

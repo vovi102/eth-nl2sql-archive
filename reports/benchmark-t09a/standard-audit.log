@@ -1,0 +1,4 @@
+Started sequential standard benchmark audit: threads=2 memory=768MB
+{'passed': False, 'release_ready': False, 'failed_witness_ids': ['v2-g16', 'v2-a03', 'v2-a04', 'v2-a08', 'v2-a17', 'v2-a18', 'v2-a20', 'v2-p08', 'v2-p09', 'v2-p12', 'v2-p13']}
+Targeted resource retry v2-g16: threads=1 memory_limit=1536MB; passed=true row_count=20.
+Final standard audit: 10 unmet secondary multi-address witnesses; no unresolved SQL execution error; draft, release_ready=false.

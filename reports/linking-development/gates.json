@@ -1,0 +1,98 @@
+{
+  "commands": [
+    {
+      "args": [
+        "link",
+        "--variant",
+        "all",
+        "--no-encoder",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "link-experiments",
+        "--no-encoder",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "evaluate-linking",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "prompts",
+        "--config",
+        "b2l-baseline",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "prompts",
+        "--config",
+        "b2l-no-property",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "generate",
+        "--config",
+        "b2l-no-alias",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "echo-gold",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "evaluate",
+        "--config",
+        "b2l",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    },
+    {
+      "args": [
+        "report",
+        "--split",
+        "test"
+      ],
+      "blocked": true,
+      "reason": "Final test v2 is not frozen and verified; use --split dev_eval. {\"issues\": [], \"blockers\": [\"requires 100 cases and 100 distinct canonical gold SQL queries\", \"requires 20 cases in each primary group\", \"property focus must be direction=7, fact=7, address_role=6\", \"independent human review is incomplete\", \"full snapshot execution is required before freezing; sample is development only\", \"gold execution has not been checked\"]}"
+    }
+  ],
+  "passed": true
+}

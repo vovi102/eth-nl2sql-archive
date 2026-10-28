@@ -19,7 +19,7 @@ def test_all_entity_templates_present_on_both_sides_of_family_split():
 
 
 def test_entity_test_coverage_and_unambiguous_aliases():
-    rows = [r for r in read_jsonl(DATA_DIR / "test.jsonl") if r["subset"] == "entity"]
+    rows = [r for r in read_jsonl(DATA_DIR / "dev_eval.jsonl") if r["subset"] == "entity"]
     assert len(rows) == 50
     assert {s for r in rows for s in r["specifics"]} == {
         "multi_address",
@@ -39,8 +39,8 @@ def test_entity_test_coverage_and_unambiguous_aliases():
 
 
 def test_semantic_review_covers_current_question_and_sql_and_expires_on_edit():
-    rows = read_jsonl(DATA_DIR / "test.jsonl")
-    review = json.loads((DATA_DIR / "test-review.json").read_text())
+    rows = read_jsonl(DATA_DIR / "dev_eval.jsonl")
+    review = json.loads((DATA_DIR / "dev_eval-review.json").read_text())
     assert _review_status(rows, review)["passed"]
     modified = [{**rows[0], "question": "A different intent"}, *rows[1:]]
     result = _review_status(modified, review)
