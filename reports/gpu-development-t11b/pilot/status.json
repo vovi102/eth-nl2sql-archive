@@ -1,0 +1,7 @@
+{
+  "evaluation_role": "development",
+  "job": "pilot",
+  "rows": 10,
+  "smoke_passed": false,
+  "status": "complete_pending_local_evaluation"
+}

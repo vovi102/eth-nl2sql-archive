@@ -1,0 +1,14 @@
+{
+  "context_limit": 8192,
+  "dropped_rows": 0,
+  "input_rows": 100,
+  "input_tokens": 152190,
+  "kept_rows": 100,
+  "max_input_tokens": 1549,
+  "max_new_tokens": 512,
+  "min_input_tokens": 1508,
+  "over_context": [],
+  "passed": true,
+  "runtime_s": 0.32859860299993215,
+  "truncation": false
+}

@@ -78,6 +78,9 @@ Xem [báo cáo T11A và tài nguyên](reports/gpu-development-t11a/README.md),
 [hướng dẫn T10](reports/experiments-t10/README.md)
 và [thiết kế phương pháp](METHODOLOGY.md).
 
+T11B bổ sung smoke kiểm chữ ký TVF và compile trên schema rỗng, pilot B1 catalog đầy đủ,
+rồi train `b3` seed 42 trước khi mở rộng. Xem [trạng thái và artifact T11B](reports/gpu-development-t11b/README.md).
+
 ## Cài đặt
 
 ```bash
@@ -124,6 +127,7 @@ Sau cài đặt, chạy lệnh CLI bằng `uv run --locked eth-nl2sql ...`.
 | Dựng bộ prompt đối chứng | `eth-nl2sql link-experiments --split dev_eval` | `b2`, `b2l`, `b2l-baseline`, `b2l-no-multi-address`, `b2l-no-alias`, `b2l-no-class`, `b2l-no-property`; retrieval dùng chung |
 | Dựng prompt | `eth-nl2sql prompts --config b2l` | thêm `b3-base`/`b3l-base` có prompt giống hệt QLoRA; `--training` dành cho `b3`/`b3l` |
 | Preflight | `eth-nl2sql preflight --config b3 --training --seed all` | kiểm input/token, giữ/bỏ dòng; chỉ tải tokenizer, không tải model |
+| Smoke SQL | `eth-nl2sql smoke --predictions <jsonl> --out <json>` | kiểm TVF/ngày và compile trên schema rỗng; exit 1 nếu lỗi; không tính EX |
 | Kiểm chứng GPU phát triển T11A | `scripts/t11a_prepare.py`, `scripts/t11a.py`, `scripts/t11a_notebook.py` | quy trình đã chạy thật, input/ZIP có hash; [lệnh và kết quả T11A](reports/gpu-development-t11a/README.md) |
 | Train ba seed | `eth-nl2sql train --config all --seed all` | sáu lượt `b3`/`b3l` × 42/43/44; `--resume` kiểm provenance |
 | Sinh SQL / train | `notebooks/kaggle_predict.ipynb`, `notebooks/kaggle_train.ipynb` | GPU Kaggle T4 |

@@ -1,0 +1,140 @@
+{
+  "code_commit": "683c9972c6645af2443a070158d27c1fc7d14fa5",
+  "dev_eval_sha256": "2e2f63071718e045d4ca24cea8aecbdaf37c7749d4f33ce3e2d687cd1173c8ee",
+  "evaluation_role": "development",
+  "files": {
+    "README.md": "2b7a20632076d077c2181bbfc879dd8e48cd44608761e15588a2b1a339c2b62a",
+    "configs/benchmark.schema.json": "df950ffbd9a8f5e4b29db3791b07a03f802fe3a62b844d034d70f41a22cbcdce",
+    "configs/catalog.json": "7d437bc882394ec93d6d7cb579bf0b62e9de6c0f3360746c80df80ab6bdb5d00",
+    "configs/experiment.toml": "120a56698b180e15a4034dbd41ae452bf4e27bc080743a8480bd036e7695fee5",
+    "configs/schema_synonyms.json": "d49dc4fb0aa753bbdc0d24e41f28b479e13134c7becd46da7391d618072fdfd6",
+    "configs/t11-gpu-constraints.txt": "5bf8ced2fc82507681b5b246bb08d0f748de5d20a67219ab39215cc42dc7badc",
+    "configs/t11-gpu-requirements.txt": "8c1fde3a474bf7b09a41bb0996396ae1a0c4ce217f8549c8faf1c1dbddedff98",
+    "configs/t11-model-files.json": "6f72c03fe03c379b1ed0844192ef17c94cb60e908c5269f0e49750a32f04998a",
+    "configs/t11b-gpu-constraints.txt": "ed872ab3225940d999bb018cbd20d493c4a10a51f8100fb2705f656a1782856b",
+    "configs/t11b-gpu-requirements.txt": "d7753eec707e066ea4eea405c9d8aefb451f4589bb9a8bd4754f770d6b54a044",
+    "data/dev.jsonl": "8b7bd4355d8a75d078f4986a735f1c16596eb98156a3a6777bc512eccee42042",
+    "data/train.jsonl": "927848a840b9d5503f147117b17afee5cfbb663092ab87589bd997868eb25e9f",
+    "pyproject.toml": "79124ea4e8227b53959666186cb45b3e9188f7140546198aa1829887ee0b7f84",
+    "runs/b1/prompts-dev_eval.jsonl": "55d0d5a3ddca08320da343193e672a99b1e2bc2448192286ee85e07258fe136e",
+    "runs/b3/prompts-dev_eval.jsonl": "06b1cb7fa1a5ed5e7b260208d3b50b680d0890d6232cbadaee37152aae53b7cc",
+    "runs/b3/sft-dev.jsonl": "df1881733927555e3e119e71c5e43552d3b52acf7e638ca963c88e3cafd20835",
+    "runs/b3/sft-train.jsonl": "cb4849052e60ebed80bca8cd9c0fd01ba89bbe4592862cd241fc940fe27b1e1c",
+    "runs/b3l/prompts-dev_eval.jsonl": "6f430f1453ba352e6aba522ec426765d563be1d13e09dfe0aef0bc3b4daa78af",
+    "runs/b3l/sft-dev.jsonl": "47d53673cf1b90e590660b41a202d14f0a8945a36c8d564d19b2fe6c2a7300b9",
+    "runs/b3l/sft-train.jsonl": "1c5d8dc9970aebd2f7e000ca3298a81757420ced322c1ae1473ac699bfe700b3",
+    "scripts/t11a.py": "f90b5bcd17d8485c7d4d4d637368fa7cb35d15d6caab6a3626687f9b557554fd",
+    "scripts/t11a_notebook.py": "0c2a48f67faf3ba5f85812311a2f6e7e17ac925ab7f49b26e83495eff871f788",
+    "scripts/t11a_prepare.py": "0d086571280b94982e65f7937b09dd89a5ab7deda11910472ba1fbd6266d0b5e",
+    "scripts/t11b.py": "26d70d38e25be0fb0a1efe99e18641a0e205f15a16c09734d17f9ec779eaba1b",
+    "scripts/t11b_continue.py": "113a87ea99b3ef0d3835b81e2a5535e4ccb196f40de3fdd1701744a48dd5db35",
+    "scripts/t11b_notebook.py": "b7a5dd966f3c40adb395e811f3787c502eaf7dfc53d55bc60c427b3478b1429b",
+    "src/eth_nl2sql/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/eth_nl2sql/cli.py": "1f4e7dd86df70ba41e59d2b80ad94975b177e15a608bd390f7c18474b5c5feec",
+    "src/eth_nl2sql/config.py": "f9401460e2756d27b7bb7aef1542803666767c97ea8a152c406d7ca8b1d54e4a",
+    "src/eth_nl2sql/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/eth_nl2sql/data/annotations.py": "c6ee8b302a67fc13a756d0b4efcb152bbfb720adea943e6252dd99835f68f1cc",
+    "src/eth_nl2sql/data/audit.py": "cec17303b61488cb5e748c2d00fa098d12a26541174e3d9a27b4d2c7129980ab",
+    "src/eth_nl2sql/data/benchmark.py": "52bc39a105c0b15e56614f654d0a3582612ed4f8ca05524149a12775d20c23e2",
+    "src/eth_nl2sql/data/dataset_audit.py": "c85ebf1f6c7b95ee0cb2dfae803068d823de2679d9145cfc0b2bfb53ad5da1d2",
+    "src/eth_nl2sql/data/entities.py": "13d05193548d6423f6ac6a0ec5973cb50002896917b70bedaec7933ece75028f",
+    "src/eth_nl2sql/data/leakage.py": "ed1d63d5fd9fb70bf3a3e49f27ba909325ec5edfbe50ba48d792dbdd13212585",
+    "src/eth_nl2sql/data/splits.py": "5e5937ac588760ea8882ac81499f7cd92be55a51f92dd248bbaa2a7eb8e7e03b",
+    "src/eth_nl2sql/evaluate.py": "4c7af2efe98d0cc0b7b351a25355d71143b7ad4c602f8bfd411625621557a5fd",
+    "src/eth_nl2sql/experiments.py": "b650117447b9f971d03ac8f28ad3fc22c40f488a7f69baeb356578a82bbc59ce",
+    "src/eth_nl2sql/generation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/eth_nl2sql/generation/backend.py": "14ef60b3386453501137e1f8649270a1b21f6466e857b114422b05faf631f701",
+    "src/eth_nl2sql/generation/extract.py": "75528b676633d161515940f123e0ca60e62136dcbb0590a5da0d662e60e10cfa",
+    "src/eth_nl2sql/generation/prompt.py": "2d9ff5e582fd16f9c8f9b7bb856218e6e30ac9bf7836ad0bed6b41b370a3b9ee",
+    "src/eth_nl2sql/generation/retrieval.py": "fc20a427b6b398a4abed92c63921f738252d55ff1a58417ad0826b55ad1fc4c4",
+    "src/eth_nl2sql/generation/runs.py": "c0d0c56dff7f698dd480e3e6f3c3a9bbd1629a06e43acaa72d5c492e2ba7bdbb",
+    "src/eth_nl2sql/generation/smoke.py": "43ebea2ab0752c35cb663c8a5d5d24b5ede91cfb120432036b9e4036a0d48774",
+    "src/eth_nl2sql/linking/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/eth_nl2sql/linking/audit.py": "1a51b290f19f946f53821a592f40499a0e57e396ccffc09919ca50c0c12e40b7",
+    "src/eth_nl2sql/linking/context.py": "3a0dc42936348d071a6ac1043f8a85668fed98852d7c595a4db10d10a30e0c79",
+    "src/eth_nl2sql/linking/dictionary.py": "24c188b365d5407fdc11aadd653c0aef2ee2b3e0fcdb3b24101682bcccdca43b",
+    "src/eth_nl2sql/linking/entity.py": "b63dda34a67ccb41893731e15c828ecc4c736d5cf4eb796e443513b6372d56e9",
+    "src/eth_nl2sql/linking/evaluate.py": "f5fa8d3b3cbe413ac59d9e74371ef20b103fd5315fb48e24d1626b8fefc09943",
+    "src/eth_nl2sql/linking/resolver.py": "91f2cd2ee7d1d585e84182ab35b32199bf7529e175aa43898057a8556153cc8a",
+    "src/eth_nl2sql/linking/schema.py": "b8a4dd2f3b79f3169fced14e2b207dc9d258521fc7135fc1b0bd3146da3818f3",
+    "src/eth_nl2sql/linking/validation.py": "d60de8fc34ffd24ed354d444624a4fe5d76d27fe8b10b6d273c09c2910a079bf",
+    "src/eth_nl2sql/linking/variants.py": "ae93f94e7927fa2ca5e1ca2bfe89cfc8196da6f1c7c8dbf85d73d6fd9158d963",
+    "src/eth_nl2sql/report.py": "c9296402605b5cbcb755a22e123f70e61b4f1383a2947f65c86bcdc68b4e5a86",
+    "src/eth_nl2sql/results.py": "9f34ed1e04b573186f670635ffc4da0d0653d2b593678d0ec76558a34cda0b3b",
+    "src/eth_nl2sql/store/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/eth_nl2sql/store/build.py": "20c20cbba5093440b315962d250710e0ccfdcd4417df85624954bad699fd56fb",
+    "src/eth_nl2sql/store/execute.py": "308b7207957aeaaacd84f4acafe7a652a01b4b54603e1a9f91bb05e18d31aa8f",
+    "src/eth_nl2sql/store/local.py": "41af4a53ed8b67eeedcf96c3b4e0f36f0f94d4db1e79858049de8db6f53ab3ba",
+    "src/eth_nl2sql/store/manifest.py": "b2ffead71a83492970793245123c394280528a89de3186a5e31138282aacde76",
+    "src/eth_nl2sql/store/parity.py": "9281a264d70a721c06caba76e3c3f62e08c8aeb15f53de30346c0f6cf4c1e0e1",
+    "src/eth_nl2sql/store/quality.py": "5ab7f66e8fe86e50bb46d3d3aa97a52ceb4a126a4c80eb6f382db3919cad837a",
+    "src/eth_nl2sql/store/snapshot.py": "ad8f2f90746ed3f5277e5faf349f77e77785af28b9a8beb9abaa36e492ddc0aa",
+    "src/eth_nl2sql/store/supplements.py": "4d83c35a023df6c25964cac5d014d8cf86ad24cf0f5c9f6f2a2248bb53866050",
+    "src/eth_nl2sql/train_qlora.py": "0705a8da7f4c6f4ce98755edb0d1eb8458bd1928dc5e1b8b0ed3ac72d2fdc014",
+    "src/eth_nl2sql/validation.py": "79ec1143979121d9d7fbc9e94de8a4aa992bf857f4e211298d43f74aebc54216",
+    "uv.lock": "9dca9a05b1340da514d6c5c51362a043aafb64d8e5aa953f80d1e00d7873f8db"
+  },
+  "settings": {
+    "evaluation": {
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 42,
+      "float_digits": 12,
+      "timeout_s": 120
+    },
+    "generation": {
+      "do_sample": false,
+      "max_new_tokens": 512,
+      "seed": 42
+    },
+    "models": {
+      "encoder": {
+        "repo_id": "sentence-transformers/all-MiniLM-L6-v2",
+        "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+      },
+      "generator": {
+        "load_in_4bit": true,
+        "repo_id": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+      }
+    },
+    "qlora": {
+      "alpha": 32,
+      "dropout": 0.05,
+      "early_stopping_patience": 2,
+      "gradient_accumulation_steps": 4,
+      "learning_rate": 0.0002,
+      "lr_scheduler": "cosine",
+      "max_epochs": 2,
+      "max_length": 1024,
+      "per_device_batch_size": 4,
+      "r": 16,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ]
+    },
+    "retrieval": {
+      "examples": 5
+    },
+    "training": {
+      "seeds": [
+        42,
+        43,
+        44
+      ]
+    }
+  },
+  "task": "T11B",
+  "test_v2": {
+    "data/benchmark/v2/annotations.jsonl": "66194a4a9c82ef2f37a77d1cd04c0eeb96628429f2bb8f293ea7441a56b626a1",
+    "data/benchmark/v2/author-notes.jsonl": "bba052116d5c6ace980b4e88393f5f81e9065aee0d6f71948cb292a1403b993f",
+    "data/benchmark/v2/authoring.py": "9fcfa7900f5e310997a272cbffbebae9fb7ae9bbcf8bab73c5d9aa72c201a8d5",
+    "data/benchmark/v2/manifest.json": "419d0d25d8bbb9c06b14191ebceed11c4b183603227d40335076b8929d4bd8eb",
+    "data/benchmark/v2/property-contrasts.jsonl": "35fd92a03dfa8ad2b4e33a00f1794f629a2afff54d278666ce30251130a7cc2d",
+    "data/benchmark/v2/reviews.jsonl": "d74b24f83038e89d4b54015e2a57d96aaaa152784132752e8c19ee9ae936932c",
+    "data/benchmark/v2/test.jsonl": "643855f961e97514356c7e0ab7b95edfbeccc5d6663810907841a06a0ba9dde6"
+  },
+  "working_tree_patch": "diff --git a/scripts/t11a.py b/scripts/t11a.py\nindex 7337ed3..fb78d63 100644\n--- a/scripts/t11a.py\n+++ b/scripts/t11a.py\n@@ -196,25 +196,11 @@ def gpu(home: Path, pins: Path) -> None:\n             smoke = REPORT / f\"{name}-smoke-10.jsonl\"\n             shutil.copy2(path, smoke)\n             cfg.write_json(REPORT / f\"{name}-smoke-manifest.json\", manifest)\n-            from eth_nl2sql.generation.extract import extract_sql\n-            from eth_nl2sql.validation import ValidationError, validate_sql\n+            from eth_nl2sql.generation.smoke import inspect_predictions, require_smoke_pass\n \n-            inspection = []\n-            for row in rows:\n-                sql, format_ok = extract_sql(row[\"raw_output\"])\n-                check = {\"id\": row[\"id\"], \"sql\": sql, \"format_ok\": format_ok,\n-                         \"finish_reason\": row[\"finish_reason\"], \"status\": \"no_sql\"}\n-                if sql:\n-                    try:\n-                        validate_sql(sql)\n-                        check[\"status\"] = \"static_validation_passed\"\n-                    except ValidationError as exc:\n-                        check.update(status=exc.code, error=str(exc))\n-                inspection.append(check)\n-            cfg.write_json(REPORT / f\"{name}-smoke-inspection.json\", {\n-                \"rows\": 10, \"purpose\": \"output/provenance inspection; no EX computed\",\n-                \"cases\": inspection,\n-            })\n+            inspection = inspect_predictions(rows)\n+            cfg.write_json(REPORT / f\"{name}-smoke-inspection.json\", inspection)\n+            require_smoke_pass(inspection)\n             before = cfg.sha256_file(path)\n             cli(f\"smoke-noop-{name}\", \"generate\", \"--config\", name, \"--limit\", \"10\")\n             if cfg.sha256_file(path) != before:\ndiff --git a/src/eth_nl2sql/cli.py b/src/eth_nl2sql/cli.py\nindex ea05d31..396ba99 100644\n--- a/src/eth_nl2sql/cli.py\n+++ b/src/eth_nl2sql/cli.py\n@@ -735,6 +735,15 @@ def cmd_generate(args: argparse.Namespace) -> None:\n         _print({\"config\": args.config, \"seed\": seed, \"generated\": written, \"out\": out_dir})\n \n \n+def cmd_smoke(args: argparse.Namespace) -> None:\n+    from eth_nl2sql.generation.smoke import inspect_predictions, require_smoke_pass\n+\n+    report = inspect_predictions(cfg.read_jsonl(args.predictions))\n+    cfg.write_json(args.out, report)\n+    _print({k: v for k, v in report.items() if k != \"cases\"})\n+    require_smoke_pass(report)\n+\n+\n def cmd_train(args: argparse.Namespace) -> None:\n     from eth_nl2sql.experiments import run_directory, selected_seeds\n     from eth_nl2sql.train_qlora import train, training_inputs\n@@ -1121,6 +1130,10 @@ def main(argv: list[str] | None = None) -> None:\n     command.add_argument(\"--limit\", type=int)\n     command.add_argument(\"--seed\", choices=(\"42\", \"43\", \"44\", \"all\"), default=\"42\")\n \n+    command = add(\"smoke\", cmd_smoke, \"check TVF signatures and compile on empty schema\")\n+    command.add_argument(\"--predictions\", type=Path, required=True)\n+    command.add_argument(\"--out\", type=Path, required=True)\n+\n     command = add(\"train\", cmd_train, \"QLoRA fine-tuning for b3/b3l (GPU)\")\n     command.add_argument(\"--config\", choices=(\"b3\", \"b3l\", \"all\"), required=True)\n     command.add_argument(\"--seed\", choices=(\"42\", \"43\", \"44\", \"all\"), default=\"42\")\n"
+}

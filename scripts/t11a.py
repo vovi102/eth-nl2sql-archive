@@ -196,25 +196,11 @@ def gpu(home: Path, pins: Path) -> None:
             smoke = REPORT / f"{name}-smoke-10.jsonl"
             shutil.copy2(path, smoke)
             cfg.write_json(REPORT / f"{name}-smoke-manifest.json", manifest)
-            from eth_nl2sql.generation.extract import extract_sql
-            from eth_nl2sql.validation import ValidationError, validate_sql
+            from eth_nl2sql.generation.smoke import inspect_predictions, require_smoke_pass
 
-            inspection = []
-            for row in rows:
-                sql, format_ok = extract_sql(row["raw_output"])
-                check = {"id": row["id"], "sql": sql, "format_ok": format_ok,
-                         "finish_reason": row["finish_reason"], "status": "no_sql"}
-                if sql:
-                    try:
-                        validate_sql(sql)
-                        check["status"] = "static_validation_passed"
-                    except ValidationError as exc:
-                        check.update(status=exc.code, error=str(exc))
-                inspection.append(check)
-            cfg.write_json(REPORT / f"{name}-smoke-inspection.json", {
-                "rows": 10, "purpose": "output/provenance inspection; no EX computed",
-                "cases": inspection,
-            })
+            inspection = inspect_predictions(rows)
+            cfg.write_json(REPORT / f"{name}-smoke-inspection.json", inspection)
+            require_smoke_pass(inspection)
             before = cfg.sha256_file(path)
             cli(f"smoke-noop-{name}", "generate", "--config", name, "--limit", "10")
             if cfg.sha256_file(path) != before:

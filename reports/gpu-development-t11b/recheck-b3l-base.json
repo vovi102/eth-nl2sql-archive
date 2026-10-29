@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-001",
+      "sql": "SELECT \n  COUNT(DISTINCT labeled_transactions.transaction_index) AS num_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts\n  JOIN nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\n    ON transaction_facts.block_timestamp = labeled_transactions.block_timestamp\n  JOIN nl2sparql-thesis.nl2sparql_analytics.block_facts\n    ON transaction_facts.start_date = block_facts.start_date\n    AND transaction_facts.end_date = block_facts.end_date\nWHERE \n  transaction_facts.start_date BETWEEN '2026-06-01' AND '2026-06-07'\n  AND transaction_facts.end_date BETWEEN '2026-06-01' AND '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-002",
+      "sql": "SELECT \n  COUNT(DISTINCT transaction_facts.transaction_hash) AS successful_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts\n  JOIN nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\n    ON transaction_facts.transaction_hash = labeled_transactions.transaction_hash\n  JOIN nl2sparql-thesis.nl2sparql_analytics.block_facts\n    ON labeled_transactions.block_timestamp = block_facts.block_timestamp\nWHERE \n  transaction_facts.receipt_status ='success'\n  AND DATE(block_facts.block_timestamp) BETWEEN '2026-06-01' AND '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-003",
+      "sql": "SELECT \n  COUNT(*) AS failed_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`\n  JOIN `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions` ON \n    transaction_facts.transaction_hash = labeled_transactions.transaction_hash\n  JOIN `nl2sparql-thesis.nl2sparql_analytics.block_facts` ON \n    transaction_facts.block_timestamp = block_facts.block_timestamp\nWHERE \n  transaction_facts.is_success = FALSE\n  AND DATE_TRUNC('day', transaction_facts.block_timestamp) BETWEEN '2026-06-01' AND '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-004",
+      "sql": "SELECT \n  SUM(transaction_facts.value_wei) AS total_wei_value\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts\nWHERE \n  transaction_facts.start_date BETWEEN '2026-06-01' AND '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-005",
+      "sql": "SELECT \n  COUNT(DISTINCT block_facts.block_timestamp) AS num_blocks\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.block_facts\nWHERE \n  DATE(block_facts.block_timestamp) BETWEEN DATE('2026-06-01') AND DATE('2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-006",
+      "sql": "SELECT \n  AVG(block_facts.transaction_count) AS avg_transaction_count_per_block\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.block_facts\nWHERE \n  start_date = DATE('2026-06-01') AND end_date = DATE('2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "error": "token_transfer_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-007",
+      "sql": "SELECT \n  COUNT(*) AS num_token_transfers\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts`\nWHERE \n  start_date >= DATE('2026-06-01') AND start_date < DATE('2026-06-08')",
+      "status": "compile_error"
+    },
+    {
+      "error": "token_transfer_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-008",
+      "sql": "SELECT \n  COUNT(DISTINCT token_transfer_facts.token_transfer_id) AS num_token_transfers\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.token_transfer_facts\n  JOIN nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers\n    ON token_transfer_facts.token_transfer_id = labeled_token_transfers.token_transfer_id\nWHERE \n  token_transfer_facts.block_timestamp BETWEEN DATE('2026-06-01') AND DATE('2026-06-07')\n  AND labeled_token_transfers.normalized_amount IS NOT NULL\n  AND labeled_token_transfers.normalized_amount > 0",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-028",
+      "sql": "SELECT \n  COUNT(DISTINCT transaction_facts.transaction_hash) AS transaction_count\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts\n  JOIN nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\n    ON transaction_facts.transaction_hash = labeled_transactions.transaction_hash\n  JOIN nl2sparql-thesis.nl2sparql_analytics.block_facts\n    ON labeled_transactions.block_timestamp = block_facts.block_timestamp\nWHERE \n  block_facts.start_date BETWEEN '2026-06-22' AND '2026-06-30'\n  AND block_facts.end_date BETWEEN '2026-06-22' AND '2026-06-30'",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-029",
+      "sql": "SELECT \n  COUNT(DISTINCT transaction_facts.transaction_hash) AS successful_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts\n  JOIN nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\n    ON transaction_facts.transaction_hash = labeled_transactions.transaction_hash\n  JOIN nl2sparql-thesis.nl2sparql_analytics.block_facts\n    ON labeled_transactions.block_timestamp = block_facts.block_timestamp\nWHERE \n  transaction_facts.receipt_status ='success'\n  AND DATE(block_facts.block_timestamp) BETWEEN '2026-06-22' AND '2026-06-30'",
+      "status": "compile_error"
+    }
+  ],
+  "compile_passed": 0,
+  "passed": false,
+  "purpose": "TVF signatures/windows and compilation on empty schema; no EX computed",
+  "rows": 10,
+  "status_counts": {
+    "compile_error": 10
+  }
+}

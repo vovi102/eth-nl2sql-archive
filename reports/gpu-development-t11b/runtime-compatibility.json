@@ -1,0 +1,16 @@
+{
+  "transformers": "4.49.0",
+  "accelerate_before": "0.34.2",
+  "accelerate_after": "1.4.0",
+  "old_runtime_reproduced": "NotImplementedError: data_seed requires Accelerate version >= 1.1.0",
+  "new_training_arguments_cpu": "passed; data_seed=42",
+  "new_tiny_lora_trainer_cpu": {
+    "optimizer_steps": 2,
+    "eval_losses": [
+      3.4334373474121094,
+      3.433424234390259
+    ],
+    "purpose": "dependency integration only; synthetic tiny model, not a b3 result"
+  },
+  "other_runtime_pins_unchanged": true
+}

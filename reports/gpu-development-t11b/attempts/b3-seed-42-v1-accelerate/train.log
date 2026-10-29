@@ -1,0 +1,27 @@
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:04<00:14,  4.88s/it]
+Loading checkpoint shards:  50%|█████     | 2/4 [00:10<00:10,  5.06s/it]
+Loading checkpoint shards:  75%|███████▌  | 3/4 [00:15<00:05,  5.06s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:16<00:00,  3.67s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:16<00:00,  4.17s/it]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/eth-nl2sql/src/eth_nl2sql/cli.py", line 1163, in <module>
+    main()
+  File "/kaggle/working/eth-nl2sql/src/eth_nl2sql/cli.py", line 1157, in main
+    args.handler(args)
+  File "/kaggle/working/eth-nl2sql/src/eth_nl2sql/cli.py", line 763, in cmd_train
+    summary = train(
+              ^^^^^^
+  File "/kaggle/working/eth-nl2sql/src/eth_nl2sql/train_qlora.py", line 323, in train
+    result = backend.fit(
+             ^^^^^^^^^^^^
+  File "/kaggle/working/eth-nl2sql/src/eth_nl2sql/train_qlora.py", line 189, in fit
+    arguments = TrainingArguments(
+                ^^^^^^^^^^^^^^^^^^
+  File "<string>", line 134, in __init__
+  File "/tmp/t11b-runtime-428fyptj/runtime/lib/python3.11/site-packages/transformers/training_args.py", line 2119, in __post_init__
+    raise NotImplementedError(
+NotImplementedError: data_seed requires Accelerate version `accelerate` >= 1.1.0. This is not supported and we recommend you to update your version.

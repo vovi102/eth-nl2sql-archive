@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-001",
+      "sql": "SELECT \n  COUNT(*) AS num_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\nWHERE \n  start_date BETWEEN '2026-06-01' AND '2026-06-07'\n  AND end_date BETWEEN '2026-06-01' AND '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-002",
+      "sql": "SELECT \n  COUNT(*) AS successful_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`\nWHERE \n  start_date BETWEEN DATE('2026-06-01') AND DATE('2026-06-07')\n  AND end_date BETWEEN DATE('2026-06-01') AND DATE('2026-06-07')\n  AND outcome ='success'",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-003",
+      "sql": "SELECT \n  COUNT(*) AS failed_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions` \nWHERE \n  start_date BETWEEN '2026-06-01' AND '2026-06-07' \n  AND transaction_status = 'Failed'",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-004",
+      "sql": "SELECT \n  SUM(transaction_value) AS total_wei_value\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`\nWHERE \n  start_date >= DATE('2026-06-01') AND start_date < DATE('2026-06-08')\n  AND end_date >= DATE('2026-06-01') AND end_date < DATE('2026-06-08')",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-005",
+      "sql": "SELECT COUNT(*) \nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.block_facts` \nWHERE \n  start_date BETWEEN DATE('2026-06-01') AND DATE('2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-006",
+      "sql": "SELECT \n  AVG(transaction_count) AS avg_transactions_per_block\nFROM (\n  SELECT \n    block_number, \n    COUNT(*) AS transaction_count\n  FROM \n    nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\n  WHERE \n    start_date >= DATE('2026-06-01') AND start_date < DATE('2026-06-08')\n  GROUP BY \n    block_number\n) AS block_transactions",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_token_transfers requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-007",
+      "sql": "SELECT \n  COUNT(*) AS num_token_transfers\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers\nWHERE \n  start_date >= DATE('2026-06-01') AND start_date < DATE('2026-06-08')\n  AND end_date >= DATE('2026-06-01') AND end_date < DATE('2026-06-08')",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_token_transfers requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-008",
+      "sql": "SELECT \n  COUNT(*) AS token_transfer_count\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers\nWHERE \n  start_date BETWEEN '2026-06-01' AND '2026-06-07'\n  AND usable_normalized_amount > 0",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-028",
+      "sql": "SELECT \n  COUNT(*) AS num_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\nWHERE \n  start_date BETWEEN '2026-06-22' AND '2026-06-30'\n  AND end_date BETWEEN '2026-06-22' AND '2026-06-30'",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-029",
+      "sql": "SELECT \n  COUNT(*) AS successful_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.labeled_transactions`\nWHERE \n  start_date BETWEEN '2026-06-22' AND '2026-06-30'\n  AND end_date BETWEEN '2026-06-22' AND '2026-06-30'\n  AND outcome ='success'",
+      "status": "compile_error"
+    }
+  ],
+  "compile_passed": 0,
+  "passed": false,
+  "purpose": "TVF signatures/windows and compilation on empty schema; no EX computed",
+  "rows": 10,
+  "status_counts": {
+    "compile_error": 10
+  }
+}

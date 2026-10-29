@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-001",
+      "sql": "SELECT \n  COUNT(*) AS transaction_count\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`\nWHERE \n  `start_date` = DATE '2026-06-01' AND `end_date` = DATE '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "Binder Error: Referenced table \"entity_labels_v1\" not found!\nCandidate tables: \"unnamed_query1\"\n\nLINE 1: ...), CAST('2026-06-07' AS DATE)) WHERE is_success = TRUE AND NOT entity_labels_v1.owner IS NULL AND NOT entity_labels_v1...\n                                                                          ^",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-002",
+      "sql": "SELECT \n  COUNT(*) AS successful_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(\n    DATE '2026-06-01', DATE '2026-06-07'\n  )\nWHERE \n  is_success = TRUE\n  AND entity_labels_v1.owner IS NOT NULL\n  AND entity_labels_v1.concept_class IS NOT NULL\n  AND entity_labels_v1.address = transaction_facts.from_address\n  AND entity_labels_v1.address = transaction_facts.to_address",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-003",
+      "sql": "SELECT \n  COUNT(*) AS failed_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts` \nWHERE \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`.start_date = DATE '2026-06-01'\n  AND `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`.end_date = DATE '2026-06-07'\n  AND `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`.is_success = FALSE",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-004",
+      "sql": "SELECT \n  SUM(transaction_facts.value_wei) AS total_wei_value\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`\nWHERE \n  `start_date` = DATE '2026-06-01' AND `end_date` = DATE '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-005",
+      "sql": "SELECT COUNT(*) \nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts` \nWHERE start_date = DATE '2026-06-01' AND end_date = DATE '2026-06-07'",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-006",
+      "sql": "SELECT AVG(transaction_count) \nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts` \nWHERE start_date >= DATE '2026-06-01' AND start_date < DATE '2026-06-08'",
+      "status": "compile_error"
+    },
+    {
+      "error": "Binder Error: Referenced table \"entity_labels_v1\" not found!\nCandidate tables: \"unnamed_query42\"\n\nLINE 1: ...('2026-06-01' AS DATE), CAST('2026-06-07' AS DATE)) WHERE NOT entity_labels_v1.owner IS NULL AND NOT entity_labels_v1...\n                                                                         ^",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-007",
+      "sql": "SELECT \n  COUNT(*) \nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-01', DATE '2026-06-07')\nWHERE \n  entity_labels_v1.owner IS NOT NULL\n  AND entity_labels_v1.concept_class IS NOT NULL\n  AND entity_labels_v1.address_role IS NOT NULL\n  AND entity_labels_v1.confidence IS NOT NULL",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_token_transfers requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-008",
+      "sql": "SELECT \n  COUNT(*) AS token_transfers_with_usable_normalized_amount\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers` \nWHERE \n  `start_date` = DATE '2026-06-01' \n  AND `end_date` = DATE '2026-06-07' \n  AND `normalized_amount` IS NOT NULL \n  AND `normalized_amount` > 0",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-028",
+      "sql": "SELECT \n  COUNT(*) AS transaction_count\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`\nWHERE \n  `start_date` = DATE '2026-06-22' AND `end_date` = DATE '2026-06-30'",
+      "status": "compile_error"
+    },
+    {
+      "error": "Binder Error: Referenced table \"entity_labels_v1\" not found!\nCandidate tables: \"unnamed_query1\"\n\nLINE 1: ...), CAST('2026-06-30' AS DATE)) WHERE is_success = TRUE AND NOT entity_labels_v1.owner IS NULL AND NOT entity_labels_v1...\n                                                                          ^",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-029",
+      "sql": "SELECT \n  COUNT(*) AS successful_transactions\nFROM \n  `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(\n    DATE '2026-06-22', DATE '2026-06-30'\n  )\nWHERE \n  is_success = TRUE\n  AND entity_labels_v1.owner IS NOT NULL\n  AND entity_labels_v1.concept_class IS NOT NULL\n  AND entity_labels_v1.address = transaction_facts.from_address\n  OR entity_labels_v1.address = transaction_facts.to_address",
+      "status": "compile_error"
+    }
+  ],
+  "compile_passed": 0,
+  "passed": false,
+  "purpose": "TVF signatures/windows and compilation on empty schema; no EX computed",
+  "rows": 10,
+  "status_counts": {
+    "compile_error": 10
+  }
+}

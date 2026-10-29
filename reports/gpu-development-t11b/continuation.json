@@ -1,0 +1,38 @@
+{
+  "current_job": "b3-seed-42",
+  "jobs": {
+    "b3-seed-42": {
+      "checked_utc": "2026-10-28T14:47:56.571712+00:00",
+      "kernel": "aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028",
+      "remote_status": "aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 has status \"KernelWorkerStatus.RUNNING\"",
+      "submitted": true
+    },
+    "pilot": {
+      "checked_utc": "2026-10-28T13:58:40.312600+00:00",
+      "kernel": "aohkvd/eth-nl2sql-t11b-pilot-20261028",
+      "remote_status": "aohkvd/eth-nl2sql-t11b-pilot-20261028 has status \"KernelWorkerStatus.COMPLETE\"",
+      "review": {
+        "decision": "continue_to_first_training_run",
+        "evaluated_rows": 10,
+        "execution_accuracy": 0.0,
+        "issues": [],
+        "job": "pilot",
+        "scope": "first ten dev_eval cases",
+        "valid_sql_rate": 0.0
+      },
+      "status": "evaluated",
+      "submitted": true
+    }
+  },
+  "order": [
+    "pilot",
+    "b3-seed-42",
+    "b3l-seed-42",
+    "b3-seed-43",
+    "b3l-seed-43",
+    "b3-seed-44",
+    "b3l-seed-44"
+  ],
+  "started_utc": "2026-10-28T13:54:57.363210+00:00",
+  "status": "running"
+}

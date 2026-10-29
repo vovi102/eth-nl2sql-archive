@@ -1,0 +1,123 @@
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-pilot-20261028
+Running: kaggle kernels output aohkvd/eth-nl2sql-t11b-pilot-20261028 -p /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-download-pilot --file-pattern ^t11b-pilot-artifacts[.]zip$ --page-size 200 --quiet
+{"n": 10, "scope": "first ten dev_eval cases", "valid_sql_rate": 0.0, "execution_accuracy": 0.0, "status_counts": {"compile_error": 10}}
+Running: kaggle quota --format json
+Running: kaggle quota --format json
+Running: /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.venv/bin/python scripts/t11b.py package --archive /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42-inputs.zip
+Running: /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.venv/bin/python scripts/t11b_notebook.py --archive /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42-inputs.zip --output /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42 --kernel aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 --job b3-seed-42
+Running: kaggle kernels push -p /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42 --accelerator NvidiaTeslaT4 --timeout 43200
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels output aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 -p /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-download-b3-seed-42 --file-pattern ^t11b-b3-seed-42-artifacts[.]zip$ --page-size 200 --quiet
+Traceback (most recent call last):
+  File "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/scripts/t11b_continue.py", line 227, in <module>
+    main()
+  File "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/scripts/t11b_continue.py", line 209, in main
+    raise RuntimeError(f"{job} failed on Kaggle; artifacts collected for diagnosis")
+RuntimeError: b3-seed-42 failed on Kaggle; artifacts collected for diagnosis
+Running: kaggle quota --format json
+Running: /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.venv/bin/python scripts/t11b.py package --archive /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42-inputs.zip
+Running: /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.venv/bin/python scripts/t11b_notebook.py --archive /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42-inputs.zip --output /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42 --kernel aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 --job b3-seed-42
+Running: kaggle kernels push -p /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42 --accelerator NvidiaTeslaT4 --timeout 43200
+Traceback (most recent call last):
+  File "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/scripts/t11b_continue.py", line 227, in <module>
+    main()
+  File "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/scripts/t11b_continue.py", line 144, in main
+    run(
+  File "/home/khoavd/WORKSPACE/thesis/eth-nl2sql/scripts/t11b_continue.py", line 42, in run
+    raise RuntimeError(f"Command failed; inspect {log}")
+RuntimeError: Command failed; inspect /home/khoavd/WORKSPACE/thesis/eth-nl2sql/reports/gpu-development-t11b/b3-seed-42/push.log
+Running: kaggle quota --format json
+Running: /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.venv/bin/python scripts/t11b.py package --archive /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42-inputs.zip
+Running: /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.venv/bin/python scripts/t11b_notebook.py --archive /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42-inputs.zip --output /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42 --kernel aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 --job b3-seed-42
+Running: kaggle kernels push -p /home/khoavd/WORKSPACE/thesis/eth-nl2sql/.cache/t11b-b3-seed-42 --accelerator NvidiaTeslaT4 --timeout 43200
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028
+Running: kaggle kernels status aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028

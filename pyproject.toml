@@ -31,7 +31,7 @@ bq = [
 ]
 # Generation and QLoRA fine-tuning; installed on Kaggle, not locally.
 gpu = [
-  "accelerate>=0.34,<2",
+  "accelerate>=1.1,<2",
   "bitsandbytes>=0.43",
   "peft>=0.10,<1",
   "torch>=2.3",

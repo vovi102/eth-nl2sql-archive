@@ -1,0 +1,9 @@
+{
+  "decision": "continue_to_first_training_run",
+  "evaluated_rows": 10,
+  "execution_accuracy": 0.0,
+  "issues": [],
+  "job": "pilot",
+  "scope": "first ten dev_eval cases",
+  "valid_sql_rate": 0.0
+}

@@ -735,6 +735,15 @@ def cmd_generate(args: argparse.Namespace) -> None:
         _print({"config": args.config, "seed": seed, "generated": written, "out": out_dir})
 
 
+def cmd_smoke(args: argparse.Namespace) -> None:
+    from eth_nl2sql.generation.smoke import inspect_predictions, require_smoke_pass
+
+    report = inspect_predictions(cfg.read_jsonl(args.predictions))
+    cfg.write_json(args.out, report)
+    _print({k: v for k, v in report.items() if k != "cases"})
+    require_smoke_pass(report)
+
+
 def cmd_train(args: argparse.Namespace) -> None:
     from eth_nl2sql.experiments import run_directory, selected_seeds
     from eth_nl2sql.train_qlora import train, training_inputs
@@ -1120,6 +1129,10 @@ def main(argv: list[str] | None = None) -> None:
     command.add_argument("--adapter", type=Path)
     command.add_argument("--limit", type=int)
     command.add_argument("--seed", choices=("42", "43", "44", "all"), default="42")
+
+    command = add("smoke", cmd_smoke, "check TVF signatures and compile on empty schema")
+    command.add_argument("--predictions", type=Path, required=True)
+    command.add_argument("--out", type=Path, required=True)
 
     command = add("train", cmd_train, "QLoRA fine-tuning for b3/b3l (GPU)")
     command.add_argument("--config", choices=("b3", "b3l", "all"), required=True)
