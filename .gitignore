@@ -16,3 +16,30 @@ data/raw/luanvan/*.partial
 # Run outputs that are regenerated; commit only the final ones you cite.
 runs/*/scratch/
 .cache/
+
+# Generated traces and large training state stay local.
+reports/**/*.log
+reports/**/*.zip
+reports/**/*.ipynb
+reports/**/*.lock
+reports/**/*.pid
+reports/**/attempts/
+runs/**/adapter/
+runs/**/checkpoints/
+runs/**/training-summary.json
+
+# Keep one maintained T11B report and the final results it cites.
+reports/code-maintenance-review.md
+reports/gpu-development-t11b/*-seed-*/*
+!reports/gpu-development-t11b/*-seed-*/cases.jsonl
+!reports/gpu-development-t11b/*-seed-*/eval.json
+!reports/gpu-development-t11b/*-seed-*/review.json
+reports/gpu-development-t11b/diagnosis/*
+!reports/gpu-development-t11b/diagnosis/evaluation/
+!reports/gpu-development-t11b/diagnosis/final-integrity.json
+!reports/gpu-development-t11b/diagnosis/scaling-decision.json
+reports/gpu-development-t11b/diagnosis/evaluation/*
+!reports/gpu-development-t11b/diagnosis/evaluation/dates-columns.json
+!reports/gpu-development-t11b/diagnosis/evaluation/dates-columns-cases.jsonl
+!reports/gpu-development-t11b/diagnosis/evaluation/base-dates-columns.json
+!reports/gpu-development-t11b/diagnosis/evaluation/base-dates-columns-cases.jsonl

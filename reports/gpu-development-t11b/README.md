@@ -4,6 +4,51 @@ Ngày bắt đầu: **28/10/2026**, Asia/Saigon. Trạng thái thực thi cập 
 [`continuation.json`](continuation.json); log điều phối ở
 [`continuation.log`](continuation.log). Chưa coi việc submit notebook là train hoàn tất.
 
+**Cập nhật 29/10/2026:** `b3/42` đã train hoàn tất 608 step, chọn checkpoint
+bằng dev loss 0,0000535721. Smoke gốc đạt **7/10 compile, EX 0/10** trên sample
+local; đã dừng trước khi sinh 90 câu còn lại. Xem [kết quả từng câu](b3-seed-42/cases.jsonl),
+[evaluation](b3-seed-42/eval.json) và [loss/tài nguyên](b3-seed-42/review.json).
+
+Chẩn đoán tiếp theo giữ adapter đóng băng và so hai can thiệp prompt: quy tắc
+ngày và danh sách cột, theo thiết kế 2×2 đã lập trước khi submit
+[notebook riêng](https://www.kaggle.com/code/aohkvd/eth-nl2sql-t11b-diagnosis-20261029).
+Đây là can thiệp lúc suy luận, không phải lượt QLoRA mới; không thay dự đoán gốc.
+
+| Nhánh | Số câu dev_eval | Compile | EX |
+|---|---:|---:|---:|
+| Prompt gốc | 10 | 7 | 0 |
+| Chỉ thêm quy tắc ngày | 10 | 7 | 4 |
+| Chỉ thêm cột | 10 | 10 | 0 |
+| Thêm ngày và cột, smoke trước resume | 10 | 10 | 3 |
+| Thêm ngày và cột, hoàn tất split | 100 | 85 | 19 |
+| `b3-base` nhận cùng messages | 100 | 0 | 0 |
+
+Nhánh kết hợp đạt EX **19%**, CI bootstrap 95% **[12%, 27%]**; generic đúng 3/50,
+entity đúng 16/50. Có 14 lỗi compile, một lỗi validator và 66 câu compile được
+nhưng trả sai kết quả. Kết quả cuối được giữ tại
+[evaluation](diagnosis/evaluation/dates-columns.json),
+[từng câu](diagnosis/evaluation/dates-columns-cases.jsonl) và
+[đối chứng base](diagnosis/evaluation/base-dates-columns.json)
+([từng câu](diagnosis/evaluation/base-dates-columns-cases.jsonl)).
+
+Hai bổ sung chưa ổn định: ở mười câu đầu, chỉ quy tắc ngày khớp literal ngày 7/10,
+còn kết hợp chỉ khớp 4/10. Tám cặp dev đổi riêng cách viết ngày đều sinh SQL khớp
+exact gold 8/8 ở cả hai nhánh. EX thô natural-date 7/8 có một ca gold/prediction
+giống từng byte nhưng kết quả bất định do timestamp hòa trước `LIMIT`; không quy
+ca đó thành lỗi diễn đạt ngày. Loss model và CE dịch một token, chỉ SQL+EOT đều
+bằng 0,00002004289672, sai khác 0; không có bằng chứng lỗi masking/loss trong phép kiểm.
+
+Quyết định sau review là **hold_for_further_development**, chưa mở rộng `b3l/42`
+hoặc seed khác. Xem [quyết định](diagnosis/scaling-decision.json) và
+[kiểm toàn vẹn](diagnosis/final-integrity.json). Mọi EX ở đây dùng DuckDB sample
+phát triển; test v2 không được dùng. Chẩn đoán đo 2×Tesla T4, runtime từ sau kiểm
+cache là 2543,530 giây, peak allocated GPU0/GPU1 là 2,587/4,335 GiB; các số đo này
+thuộc toàn bộ chẩn đoán, không phân bổ thành runtime riêng từng nhánh.
+
+Repo chỉ giữ báo cáo này và các kết quả cuối được trích dẫn. ZIP, checkpoint,
+notebook đã submit, log, attempt và report trung gian giữ cục bộ, được `.gitignore`
+loại khỏi các commit tiếp theo. Artifact gốc không bị xóa hoặc sửa nội dung.
+
 Smoke T11A chỉ kiểm allowlist. Tái hiện tối thiểu: SQL `t35-001` gọi
 `labeled_transactions` như bảng, dùng `start_date`/`end_date` trong `WHERE`.
 Validator cũ chấp nhận nhưng compiler báo `requires date arguments`.
@@ -60,10 +105,10 @@ Xem [evaluation](pilot/eval.json), [smoke](pilot/smoke.json),
 [case](pilot/cases.jsonl), [download](pilot/download.json),
 [manifest generation](../../runs/b1/seed-42/predictions-dev_eval.manifest.json).
 
-`b3` seed 42 đã submit tại
+`b3` seed 42 đã hoàn tất tại
 [notebook riêng](https://www.kaggle.com/code/aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028).
-Loss và EX của job được ghi vào `b3-seed-42/review.json` sau khi artifact trả về
-và chấm local. Trạng thái hiện tại lấy từ `continuation.json`.
+Loss, tài nguyên và EX của job được ghi vào [review](b3-seed-42/review.json) sau
+thu nhận và chấm local. Trạng thái hiện tại lấy từ `continuation.json`.
 
 Phiên bản 1 của `b3` seed 42 đã load model rồi lỗi trước optimizer step:
 `TrainingArguments(data_seed=42)` yêu cầu Accelerate >=1.1.0, trong khi runtime
@@ -92,7 +137,7 @@ test v2 giữ nguyên và không vào bundle GPU.
 
 ## Artifact và thực hiện lại
 
-Mỗi job có thư mục `pilot/`, `b3-seed-42/`, … chứa input manifest, hash bundle,
+Mỗi job có thư mục cục bộ `pilot/`, `b3-seed-42/`, … chứa input manifest, hash bundle,
 trạng thái Kaggle, ZIP nguyên vẹn, hash download, smoke, evaluation, case và review.
 Training summary, adapter, checkpoint và provenance ở `runs/<config>/seed-<seed>/`.
 Input manifest ghi commit gốc, diff working tree và hash từng file, bao gồm file mới;

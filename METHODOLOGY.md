@@ -260,12 +260,29 @@ bộ test hiện tại chỉ phục vụ phát triển. Dùng ba seed QLoRA **42
 không đổi split theo seed huấn luyện. Mỗi seed chọn checkpoint theo dev loss. Báo cáo từng
 seed, trung bình và độ lệch chuẩn; không chọn seed tốt nhất trên test. Greedy decoding không
 loại bỏ biến thiên từ huấn luyện. T10 đã có runner/tổng hợp ba seed, kiểm thử bằng fixture
-và backend giả. T11A đã chạy hai compact base control trên `dev_eval`; chưa huấn luyện QLoRA.
+và backend giả. T11A đã chạy hai compact base control trên `dev_eval`; ở lượt T11A chưa
+huấn luyện QLoRA.
+
+**Cập nhật phát triển T11B, 29/10/2026:** `b3/42` đã train 608 step trên 4.872 train /
+516 dev, checkpoint-608 có dev loss thấp nhất 0,0000535721. Smoke dừng ở 7/10 compile,
+EX 0/10 trên DuckDB sample; không gộp lượt 10 câu này vào bảng kết quả 100 câu. Adapter,
+checkpoint và dự đoán được giữ nguyên để chẩn đoán lệch cách diễn đạt ngày, khả năng học
+cột từ compact prompt và masking/loss. Chưa mở rộng seed và chưa dùng test v2.
+Xem [bằng chứng T11B](reports/gpu-development-t11b/README.md).
+
+Chẩn đoán tiếp theo giữ adapter đóng băng, can thiệp prompt theo thiết kế 2×2
+ngày/cột. Nhánh kết hợp qua smoke 10/10 rồi sinh đủ 100 câu phát triển, đạt
+85/100 compile và EX 19/100; `b3-base` cùng messages đạt 0/100. Đây là can thiệp
+inference khác prompt train gốc, được báo cáo riêng; chưa cập nhật cấu hình chính
+hoặc train adapter mới. Masking/loss đã kiểm trên toàn bộ span local và đối chiếu
+CE trực tiếp trên runtime GPU. Prompt kết hợp còn tương tác bất lợi về ngày;
+quyết định chưa mở rộng seed. Xem [báo cáo chẩn đoán](reports/gpu-development-t11b/README.md).
 
 **Cấu hình hiện có làm nền:** `meta-llama/Meta-Llama-3-8B-Instruct` và encoder pin revision
 trong `configs/experiment.toml`; generator NF4 4-bit, compute float16 trên T4, greedy, tối đa
 512 token, dừng ở `<|eot_id|>`. QLoRA r=16, α=32, dropout 0,05, module q/k/v/o, lr 2e-4 cosine,
-batch hiệu dụng 16, tối đa 2 epoch, early stopping theo dev loss. Loss chỉ trên token SQL;
+batch hiệu dụng 16, tối đa 2 epoch, early stopping theo dev loss. Loss chỉ trên token SQL
+và token EOT kết thúc lượt; prompt và padding được mask bằng -100;
 dòng dài hơn 1.024 token bị bỏ và có đếm. Config huấn luyện có ba seed 42/43/44; seed
 generation và bootstrap vẫn là 42. Preflight ghi
 ID/số dòng giữ/bỏ và token; dừng nếu train hoặc dev rỗng sau lọc. Không cắt target SQL.
@@ -447,7 +464,9 @@ cả b3/b3l giữ đủ 4.872 train và 516 dev ở giới hạn 1.024 token. Te
   diễn giải token-event count thành transaction count, dòng tiền ghi trong transaction
   thành thay đổi số dư hoặc số token normalized thành giá trị tiền.
 - **Thực nghiệm:** T11A chỉ kiểm chứng hạ tầng trên 100 câu phát triển/config; hai base
-  control đều EX=0 do lỗi validator/compiler. Chưa có QLoRA ba seed hoặc kết quả test frozen.
+  control đều EX=0 do lỗi validator/compiler. T11B đã train b3/42; smoke gốc 7/10 compile,
+  EX 0/10. Can thiệp prompt trên adapter đóng băng đạt EX 19/100 phát triển nhưng
+  chưa ổn định, nên vẫn dừng mở rộng. Chưa có QLoRA ba seed hoặc kết quả test frozen.
   Accuracy, tốc độ, chi phí hay privacy tốt hơn vẫn là câu hỏi cần kiểm chứng.
 
 ### 6.3. Khoảng cách triển khai
@@ -458,11 +477,13 @@ cả b3/b3l giữ đủ 4.872 train và 516 dev ở giới hạn 1.024 token. Te
 | Dictionary | [V2 và coverage đã có](reports/dictionary-v2/README.md) | Đóng băng phiên bản cho benchmark, giữ giới hạn lịch sử/độ phủ |
 | Dataset | [Train/dev và 100 câu phát triển đã kiểm](reports/entity-dataset/README.md); [100 câu v2 draft T09A](reports/benchmark-t09a/README.md) | T09B: kiểm gold/witness/ca rỗng trên full snapshot sau T06, hoàn tất human review và gate đóng băng |
 | Linking | Resolver ba property, output T07 và bộ chấm trực tiếp đã có; [đánh giá nháp](reports/linking-development/README.md) | Human review, kiểm trên test frozen và cơ chế làm rõ ngoài test SQL chính |
-| Cấu hình thí nghiệm | T11A đã chạy hai compact base control trên dữ liệu phát triển; runner QLoRA ba seed và baseline/bốn ablation đã có | Huấn luyện/đánh giá ma trận còn lại; thí nghiệm test sau đóng băng |
+| Cấu hình thí nghiệm | T11A đã chạy hai compact base control; T11B đã train b3/42 và chẩn đoán prompt trên adapter đóng băng đủ 100 câu; runner ba seed và baseline/bốn ablation đã có | Tiếp tục sửa lỗi trên phát triển trước khi mở rộng; thí nghiệm test sau đóng băng |
 | Báo cáo | [Evaluator](src/eth_nl2sql/evaluate.py), [RESULTS phát triển](RESULTS.md), [artifact/tài nguyên T11A](reports/gpu-development-t11a/README.md) | Chạy ma trận sau đóng băng; CI theo nhóm, latency đầu cuối và chi phí/privacy; tổng hợp seed đã có ở T10 |
 
-Ngoài hai compact base control T11A, các lượt LLM và phần kiểm nghiệm còn chờ trong bảng
-chưa được thực hiện. README mặc định vận hành trên `dev_eval`;
+T11A đã có hai compact base control; T11B có pilot B1, lượt train b3/42 với output
+smoke gốc 10 câu và chẩn đoán prompt riêng đủ 100 câu. Các lượt còn lại và ma trận
+test frozen chưa thực hiện. README mặc định
+vận hành trên `dev_eval`;
 T07 đã có lệnh kiểm/đóng băng; T09A đã soạn nội dung test v2 draft. Linking baseline
 và ablation đã được chấm phát triển ở chế độ lexical/fuzzy; chưa chạy generator five-shot
 cho các baseline/ablation đó.

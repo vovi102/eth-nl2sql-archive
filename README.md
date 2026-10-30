@@ -79,9 +79,17 @@ Xem [báo cáo T11A và tài nguyên](reports/gpu-development-t11a/README.md),
 và [thiết kế phương pháp](METHODOLOGY.md).
 
 T11B bổ sung smoke kiểm chữ ký TVF và compile trên schema rỗng, pilot B1 catalog đầy đủ,
-rồi train `b3` seed 42 trước khi mở rộng. Xem [trạng thái và artifact T11B](reports/gpu-development-t11b/README.md).
+và đã train `b3` seed 42 xong 608 step. Smoke gốc đạt 7/10 compile, EX 0/10;
+đã lưu adapter/dự đoán nguyên vẹn. Chẩn đoán trên adapter đóng băng với prompt bổ sung
+ngày/cột qua smoke 10/10 rồi đạt 85/100 compile, EX 19/100 trên `dev_eval`;
+đối chứng `b3-base` cùng prompt EX 0/100. Kiểm masking/loss pass, nhưng sửa prompt
+chưa ổn định nên chưa mở rộng `b3l/42` hoặc seed khác. Test v2 chưa được dùng.
+Xem [kết quả T11B và chẩn đoán](reports/gpu-development-t11b/README.md).
 
 ## Cài đặt
+
+Repo giữ code, báo cáo tổng kết và kết quả cuối được trích dẫn. Checkpoint, adapter,
+ZIP, log và report trung gian lưu cục bộ; không cần Git LFS để dùng repo.
 
 ```bash
 uv sync --locked                  # lõi: validator, DuckDB store, đánh giá
@@ -175,4 +183,4 @@ reports/   data-quality/ · local-store/ · dictionary-v2/ · entity-dataset/ ·
 | Benchmark v2 | T09A: 100 câu/SQL, annotation và hồ sơ review; draft, chờ full snapshot và human review ở T09B | [Báo cáo T09A](reports/benchmark-t09a/README.md), [giao thức annotation](data/benchmark/README.md) |
 | Linking và ablation | Resolver ba property, baseline, bốn ablation, runner dùng chung retrieval và bộ chấm trực tiếp đã có | [Đánh giá phát triển với annotation nháp](reports/linking-development/README.md) |
 | Kiểm chứng GPU | T11A hoàn tất: hai base control không adapter, 100 câu/config, resume thật, provenance và tài nguyên; EX phát triển đều 0/100, mọi SQL dừng ở validator/compiler | [Báo cáo T11A](reports/gpu-development-t11a/README.md), [kết quả](RESULTS.md) |
-| Thực nghiệm nghiên cứu | Runner ba seed và ablation đã có; chưa huấn luyện QLoRA hoặc chạy ma trận test frozen | [Hướng dẫn T10](reports/experiments-t10/README.md), [phương pháp](METHODOLOGY.md) |
+| Thực nghiệm nghiên cứu | Đã train QLoRA b3/42 ở T11B; chẩn đoán prompt trên adapter đóng băng đạt EX 19/100; chưa mở rộng seed và chưa chạy ma trận test frozen | [Chẩn đoán T11B](reports/gpu-development-t11b/README.md), [hướng dẫn T10](reports/experiments-t10/README.md), [phương pháp](METHODOLOGY.md) |

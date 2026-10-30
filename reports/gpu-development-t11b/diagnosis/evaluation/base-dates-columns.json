@@ -1,0 +1,86 @@
+{
+  "answer_f1": 0.0,
+  "by_group": {
+    "difficulty:easy": {
+      "execution_accuracy": 0.0,
+      "n": 15
+    },
+    "difficulty:hard": {
+      "execution_accuracy": 0.0,
+      "n": 36
+    },
+    "difficulty:medium": {
+      "execution_accuracy": 0.0,
+      "n": 49
+    },
+    "specific:alias": {
+      "execution_accuracy": 0.0,
+      "n": 18
+    },
+    "specific:ambiguous_property": {
+      "execution_accuracy": 0.0,
+      "n": 23
+    },
+    "specific:class_level": {
+      "execution_accuracy": 0.0,
+      "n": 6
+    },
+    "specific:multi_address": {
+      "execution_accuracy": 0.0,
+      "n": 34
+    },
+    "subset:entity": {
+      "execution_accuracy": 0.0,
+      "n": 50
+    },
+    "subset:generic": {
+      "execution_accuracy": 0.0,
+      "n": 50
+    }
+  },
+  "date_literals_match_gold": 2,
+  "evaluation_role": "development",
+  "exact_match": 0.0,
+  "execution_accuracy": 0.0,
+  "execution_accuracy_ci95": [
+    0.0,
+    0.0
+  ],
+  "execution_ms": {
+    "n": 0,
+    "p50": null,
+    "p95": null
+  },
+  "format_ok_rate": 0.0,
+  "generation_ms": {
+    "n": 100,
+    "p50": 14389.87174749991,
+    "p95": 20960.95351524971
+  },
+  "n": 100,
+  "scope": "100 development cases; frozen-adapter inference intervention",
+  "status_counts": {
+    "compile_error": 90,
+    "unsafe": 10
+  },
+  "store": {
+    "complete_snapshot": false,
+    "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+    "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+    "rows": {
+      "amended_tokens": 2489651,
+      "blocks": 221548,
+      "contracts": 16386,
+      "entity_labels_snapshot": 6647,
+      "token_transfers": 4001230,
+      "transactions": 4431329
+    },
+    "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+    "window": [
+      "2026-05-31",
+      "2026-07-01"
+    ]
+  },
+  "structural_match": 0.0,
+  "valid_sql_rate": 0.0
+}

@@ -1,0 +1,12 @@
+{
+  "adapter_sha256": "4881dd2caa1014ea214e3a68c33cf4224a40b87dd1182c7d0658f58b54f1aed7",
+  "checked_utc": "2026-10-29T14:44:02.550133+00:00",
+  "original_outputs_verified_files": 40,
+  "original_predictions_rows": 10,
+  "original_predictions_status": "partial",
+  "predictions_sha256": "368c3d3a7a2bb867ecf22b9d634351698748a8a4afbb30ae2a4fc7473e37bc44",
+  "test_v2_contents_used_for_diagnosis": false,
+  "test_v2_hashes_unchanged": true,
+  "test_v2_sha256": "e5c415c7882722a9598b52d2227e633294ec5ad2b024f661552f52efeb32550e",
+  "training_identity_unchanged": true
+}

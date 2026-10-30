@@ -535,47 +535,7 @@
   "errors": [],
   "max_length": 1024,
   "passed": true,
-  "provenance": {
-    "code_sha256": "df9d81eeb86785d4495ac08c5d2238183625e1af10c5b7088348193a0995e824",
-    "config": "b3",
-    "dev_sha256": "df1881733927555e3e119e71c5e43552d3b52acf7e638ca963c88e3cafd20835",
-    "generator": {
-      "load_in_4bit": true,
-      "repo_id": "meta-llama/Meta-Llama-3-8B-Instruct",
-      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
-    },
-    "model_sha256": "f5117ab436baaf692839bb73ffe75c9611d6f50596f7ce3580ad50a3ceeda219",
-    "qlora": {
-      "alpha": 32,
-      "dropout": 0.05,
-      "early_stopping_patience": 2,
-      "gradient_accumulation_steps": 4,
-      "learning_rate": 0.0002,
-      "lr_scheduler": "cosine",
-      "max_epochs": 2,
-      "max_length": 1024,
-      "per_device_batch_size": 4,
-      "r": 16,
-      "target_modules": [
-        "q_proj",
-        "k_proj",
-        "v_proj",
-        "o_proj"
-      ]
-    },
-    "qlora_sha256": "7434d695034d2ea6fa329dd341e513aac5e90f7d260638f55b3f7eff80283385",
-    "run_config": {
-      "examples": false,
-      "fine_tuned": true,
-      "linking": false,
-      "linking_variant": "full",
-      "name": "b3",
-      "prompt_style": "compact"
-    },
-    "seed": 42,
-    "train_sha256": "cb4849052e60ebed80bca8cd9c0fd01ba89bbe4592862cd241fc940fe27b1e1c"
-  },
-  "runtime_s": 5.0115892739999595,
+  "runtime_s": 5.230410463000055,
   "train": {
     "dropped": [],
     "dropped_fraction": 0.0,

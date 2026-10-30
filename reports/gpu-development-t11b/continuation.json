@@ -1,10 +1,55 @@
 {
   "current_job": "b3-seed-42",
+  "diagnosis_review": {
+    "decision": "hold_for_further_development",
+    "decision_file": "diagnosis/scaling-decision.json",
+    "evaluated_rows": 100,
+    "execution_accuracy": 0.19,
+    "expanded_seeds": false,
+    "new_training": false,
+    "report": "diagnosis/README.md",
+    "valid_sql_rate": 0.85
+  },
   "jobs": {
     "b3-seed-42": {
       "checked_utc": "2026-10-28T14:47:56.571712+00:00",
       "kernel": "aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028",
-      "remote_status": "aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 has status \"KernelWorkerStatus.RUNNING\"",
+      "remote_status": "KernelWorkerStatus.COMPLETE",
+      "review": {
+        "best_eval_loss": 5.357214467949234e-05,
+        "decision": "stop_for_diagnosis",
+        "eval_loss_history": [
+          0.0013881510822102427,
+          0.00011023138358723372,
+          5.669593519996852e-05,
+          5.357214467949234e-05
+        ],
+        "evaluated_rows": 10,
+        "execution_accuracy": 0.0,
+        "hardware": {
+          "cuda": "12.4",
+          "gpus": [
+            "Tesla T4",
+            "Tesla T4"
+          ],
+          "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+          "python": "3.11.15",
+          "torch": "2.5.1+cu124"
+        },
+        "issues": [
+          "No executable or execution-correct SQL; diagnose before scaling"
+        ],
+        "job": "b3-seed-42",
+        "peak_gpu_reserved_gib": 14.39453125,
+        "per_gpu_peak_allocated_gib": [
+          5.086237907409668,
+          10.292526245117188
+        ],
+        "runtime_s": 20334.974192063,
+        "scope": "first ten dev_eval cases",
+        "valid_sql_rate": 0.7
+      },
+      "status": "evaluated",
       "submitted": true
     },
     "pilot": {
@@ -34,5 +79,5 @@
     "b3l-seed-44"
   ],
   "started_utc": "2026-10-28T13:54:57.363210+00:00",
-  "status": "running"
+  "status": "stopped_for_diagnosis"
 }

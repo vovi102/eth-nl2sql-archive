@@ -1,0 +1,54 @@
+{
+  "basis": "post-run quality review, not a preregistered accuracy acceptance threshold",
+  "decision": "hold_for_further_development",
+  "evaluation_report": "review.json",
+  "evidence": {
+    "candidate_compiles_but_execution_wrong": 66,
+    "candidate_entity_execution_correct": 16,
+    "candidate_entity_n": 50,
+    "candidate_execution_correct": 19,
+    "candidate_generic_execution_correct": 3,
+    "candidate_generic_n": 50,
+    "candidate_n": 100,
+    "candidate_status_counts": {
+      "compile_error": 14,
+      "ok": 85,
+      "unsafe": 1
+    },
+    "candidate_valid_sql": 85,
+    "matching_base_execution_correct": 0,
+    "matching_base_n": 100,
+    "matching_base_valid_sql": 0,
+    "native_loss_absolute_difference": 0.0,
+    "original_replay_sql_byte_identical": true,
+    "paired_dev_exact_sql_matches": {
+      "iso": 8,
+      "n_each": 8,
+      "natural": 8
+    },
+    "paired_dev_raw_ex_caveat": "One byte-identical gold/prediction query has nondeterministic ORDER BY ties before LIMIT; retain recorded scores.",
+    "prefix_date_literal_match_combined": 4,
+    "prefix_date_literal_match_dates_only": 7,
+    "prefix_n": 10
+  },
+  "expanded_seeds": false,
+  "integrity_report": "final-integrity.json",
+  "new_training": false,
+  "next_development_checks": [
+    "Use train/dev to isolate inclusive calendar-end wording and column-to-relation grounding before another small run.",
+    "If training prompt changes, align training/inference and regenerate matching b3-base control.",
+    "Review deterministic ordering for diagnostic dev probes without editing original gold, predictions or recorded scores.",
+    "Repeat smoke then full 100 dev_eval before reviewing expansion again."
+  ],
+  "original_artifacts_unchanged": true,
+  "reasons": [
+    "Smoke compile success did not establish semantic correctness: 19/100 EX and 3/50 generic EX.",
+    "Combining column and date guidance reduced literal-date matches from 7/10 to 4/10; prompt-only repair is not stable.",
+    "Full development generation still has 14 compile errors and one validator rejection."
+  ],
+  "reviewed_utc": "2026-10-29T14:54:28.742587+00:00",
+  "scope": "development-only frozen-adapter prompt intervention; no new QLoRA training",
+  "technical_gate_decision": "ready_for_review_before_scaling",
+  "technical_gate_is_scaling_authorization": false,
+  "test_v2_used": false
+}
