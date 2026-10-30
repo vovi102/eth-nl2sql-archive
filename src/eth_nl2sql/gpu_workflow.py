@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 import zipfile
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Mapping
 from pathlib import Path, PurePosixPath
 
 from eth_nl2sql import config as cfg
@@ -217,10 +217,18 @@ def collect_outputs(
     manifest_name: str,
     *,
     can_replace: Callable[[PurePosixPath], bool],
+    expected_json: Mapping[str, object] | None = None,
 ) -> dict:
     """Validate the entire archive before writing any files into the workspace."""
     with zipfile.ZipFile(archive) as bundle:
-        manifest = json.loads(bundle.read(manifest_name))
+        manifest_bytes = bundle.read(manifest_name)
+        manifest = json.loads(manifest_bytes)
+        manifest_path = root / manifest_name
+        if not manifest_path.resolve().is_relative_to(root.resolve()):
+            raise ValueError(f"Invalid artifact manifest path: {manifest_name}")
+        for name, expected in (expected_json or {}).items():
+            if name not in manifest or json.loads(bundle.read(name)) != expected:
+                raise ValueError(f"Artifact differs from the submitted input: {name}")
         for name, expected in manifest.items():
             relative = PurePosixPath(name)
             destination = root / name
@@ -245,4 +253,6 @@ def collect_outputs(
             destination.parent.mkdir(parents=True, exist_ok=True)
             with bundle.open(name) as source, destination.open("wb") as target:
                 shutil.copyfileobj(source, target)
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_bytes(manifest_bytes)
     return manifest

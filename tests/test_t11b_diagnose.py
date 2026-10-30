@@ -1,13 +1,16 @@
 """Paired diagnostic prompts preserve the control and never change the source."""
 
 import copy
+import hashlib
 import importlib.util
+import json
 import sys
+import zipfile
 from pathlib import Path
 
 import pytest
 
-from eth_nl2sql.config import write_jsonl
+from eth_nl2sql.config import write_json, write_jsonl
 from eth_nl2sql.generation.prompt import build_messages, messages_digest
 
 spec = importlib.util.spec_from_file_location(
@@ -65,3 +68,33 @@ def test_diagnostic_evaluator_rejects_missing_reordered_or_changed_prompts(monke
     prompts[0]["messages"][1]["content"] += " changed"
     with pytest.raises(ValueError, match="Prompt hash"):
         report.checked_predictions(path, prompts)
+
+
+@pytest.mark.parametrize("changed_plan", [False, True])
+def test_diagnostic_collection_binds_plan_and_retains_manifest(monkeypatch, tmp_path, changed_plan):
+    monkeypatch.setitem(sys.modules, "t11b_diagnose", diagnose)
+    report_spec = importlib.util.spec_from_file_location(
+        "t11b_diagnosis_report", Path(__file__).parents[1] / "scripts/t11b_diagnosis_report.py"
+    )
+    report = importlib.util.module_from_spec(report_spec)
+    report_spec.loader.exec_module(report)
+    monkeypatch.setattr(report, "WORK", tmp_path / "diagnosis")
+    expected = {"adapter_kernel": "producer/frozen"}
+    write_json(report.WORK / "plan.json", expected)
+    actual = {"adapter_kernel": "other/model"} if changed_plan else expected
+    members = {"plan.json": json.dumps(actual).encode(), "prediction.jsonl": b"prediction"}
+    manifest = {name: hashlib.sha256(data).hexdigest() for name, data in members.items()}
+    archive = tmp_path / "transport.zip"
+    with zipfile.ZipFile(archive, "w") as bundle:
+        for name, data in members.items():
+            bundle.writestr(name, data)
+        bundle.writestr("manifest.json", json.dumps(manifest))
+    if changed_plan:
+        with pytest.raises(ValueError, match="submitted input"):
+            report.collect(archive)
+        assert not (report.WORK / "output").exists()
+    else:
+        report.collect(archive)
+        assert (report.WORK / "output/prediction.jsonl").read_bytes() == b"prediction"
+        assert json.loads((report.WORK / "output/manifest.json").read_text()) == manifest
+        assert not list(report.WORK.rglob("*.zip"))

@@ -25,11 +25,13 @@ from eth_nl2sql.experiments import ResourceMonitor, tree_digest
 from eth_nl2sql.generation.backend import HuggingFaceGenerationBackend, stop_token_ids
 from eth_nl2sql.generation.prompt import messages_digest
 from eth_nl2sql.generation.smoke import inspect_predictions
+from eth_nl2sql.kaggle import load_settings
 
 ROOT = cfg.ROOT
 REPORT = ROOT / "reports/experiments"
 WORK = REPORT / "diagnosis"
 ORIGINAL = ROOT / "runs/b3/seed-42"
+ADAPTER_JOB = "b3-seed-42"
 DATE_RE = re.compile(r"DATE '([0-9]{4}-[0-9]{2}-[0-9]{2})'")
 VARIANTS = ("original", "dates", "columns", "dates-columns")
 DATE_RULES = (
@@ -229,6 +231,7 @@ def prepare(archive: Path, *, attempt: int = 1) -> None:
         ),
         "adapter_sha256": tree_digest(ORIGINAL / "adapter"),
         "original_output_files": original_manifest,
+        "adapter_kernel": load_settings().kernel(ADAPTER_JOB),
         "generator": cfg.load()["models"]["generator"],
         "generation": cfg.load()["generation"],
         "original_predictions_sha256": cfg.sha256_file(ORIGINAL / "predictions-dev_eval.jsonl"),
@@ -244,6 +247,7 @@ def prepare(archive: Path, *, attempt: int = 1) -> None:
         ROOT / "configs/experiment.toml",
         ROOT / "configs/t11b-gpu-requirements.txt",
         ROOT / "configs/t11-model-files.json",
+        ROOT / "configs/kaggle.toml",
         WORK / "prompts.jsonl",
         WORK / "dev-probes.jsonl",
     ]
@@ -288,9 +292,7 @@ def gpu(home: Path) -> None:
     started = time.monotonic()
     try:
         print("Starting: verify-direct-adapter-files", flush=True)
-        source = Path(
-            "/kaggle/input/notebooks/aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028/eth-nl2sql"
-        )
+        source = Path("/kaggle/input/notebooks") / spec["adapter_kernel"] / "eth-nl2sql"
         for name, expected in spec["original_output_files"].items():
             prefix = "runs/b3/seed-42/adapter/"
             if name.startswith(prefix):

@@ -78,6 +78,7 @@ class NotebookSpec:
     job: str | None = None
     compressed: bool = False
     live_logs: bool = False
+    extra_kernel_sources: tuple[str, ...] = ()
 
 
 def render_bootstrap(spec: NotebookSpec) -> str:
@@ -112,7 +113,6 @@ def build_notebook(
     spec: NotebookSpec,
     *,
     cache_kernel: str | None = None,
-    bootstrap: str | None = None,
 ) -> None:
     data = archive.read_bytes()
     if spec.compressed:
@@ -120,8 +120,7 @@ def build_notebook(
         data = zlib.compress(data, level=9)
     source = (
         f"PAYLOAD = {base64.b64encode(data).decode()!r}\n"
-        f"BUNDLE_SHA256 = {hashlib.sha256(data).hexdigest()!r}\n"
-        + (render_bootstrap(spec) if bootstrap is None else bootstrap)
+        f"BUNDLE_SHA256 = {hashlib.sha256(data).hexdigest()!r}\n" + render_bootstrap(spec)
     )
     if spec.compressed and len(source.encode()) >= 1_000_000:
         raise ValueError("Embedded notebook source exceeds Kaggle's 1 MB limit")
@@ -148,6 +147,11 @@ def build_notebook(
     owner, title = kernel.split("/")
     if not owner or not title:
         raise ValueError("Kernel must be OWNER/SLUG")
+    sources = list(
+        dict.fromkeys((cache_kernel or load_settings().cache_kernel, *spec.extra_kernel_sources))
+    )
+    if kernel in sources:
+        raise ValueError("A notebook must not overwrite one of its source kernels")
     output.mkdir(parents=True, exist_ok=True)
     (output / filename).write_text(json.dumps(notebook))
     cfg.write_json(
@@ -164,7 +168,7 @@ def build_notebook(
             "enable_tpu": False,
             "machine_shape": "NvidiaTeslaT4",
             "dataset_sources": [],
-            "kernel_sources": [cache_kernel or load_settings().cache_kernel],
+            "kernel_sources": sources,
             "competition_sources": [],
             "model_sources": [],
         },

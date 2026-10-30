@@ -44,9 +44,7 @@ def test_evaluate_preserves_the_entire_job_seed(scripts, monkeypatch, seed):
 
 
 def test_notebook_build_is_repeatable_and_does_not_change_t11a(scripts, tmp_path, monkeypatch):
-    # Restore the global after the test so the old implementation cannot pollute other tests.
-    monkeypatch.setattr(scripts.a, "BOOTSTRAP", scripts.a.BOOTSTRAP)
-    original = scripts.a.BOOTSTRAP
+    original = scripts.a.SPEC
     archive = tmp_path / "inputs.zip"
     with zipfile.ZipFile(archive, "w") as bundle:
         bundle.writestr("example.txt", "payload")
@@ -56,7 +54,9 @@ def test_notebook_build_is_repeatable_and_does_not_change_t11a(scripts, tmp_path
         scripts.b.build(archive, output, "tester/experiment", "b3-seed-42")
         snapshots.append({p.name: p.read_bytes() for p in output.iterdir()})
     assert snapshots[0] == snapshots[1]
-    assert scripts.a.BOOTSTRAP == original
+    assert scripts.a.SPEC == original
+    assert not hasattr(scripts.a, "BOOTSTRAP")
+    assert not hasattr(importlib.import_module("t11b_notebook"), "LIVE_PROCESS")
     metadata = json.loads((output / "kernel-metadata.json").read_text())
     assert metadata["code_file"] == "t11b.ipynb"
     source = json.loads((output / metadata["code_file"]).read_text())["cells"][0]["source"]
@@ -190,9 +190,7 @@ def test_t11b_collect_retains_checksums_without_copying_zip(scripts, tmp_path, m
     archive = tmp_path / "transport.zip"
     with zipfile.ZipFile(archive, "w") as bundle:
         bundle.writestr(name, payload)
-        bundle.writestr(
-            "reports/experiments/pilot/outputs-manifest.json", json.dumps(manifest)
-        )
+        bundle.writestr("reports/experiments/pilot/outputs-manifest.json", json.dumps(manifest))
     runner.collect("pilot", archive)
     assert (root / name).read_bytes() == payload
     assert json.loads((runner.REPORT / "pilot/outputs-manifest.json").read_text()) == manifest
@@ -238,15 +236,16 @@ def test_failed_cli_stage_retains_logs_and_measurement(tmp_path, stream):
 def test_kaggle_deployment_identity_is_configurable(tmp_path, monkeypatch):
     settings_file = tmp_path / "kaggle.toml"
     settings_file.write_text(
-        'owner = "original"\nrun_tag = "experiment"\nenvironment_cache = "cache"\n'
+        'owner = "original"\nenvironment_cache = "cache"\ninference_kernel = "shared"\n'
     )
-    for key in ("OWNER", "RUN_TAG", "ENVIRONMENT_CACHE"):
+    for key in ("OWNER", "INFERENCE_KERNEL", "ENVIRONMENT_CACHE"):
         monkeypatch.delenv(f"ETH_NL2SQL_KAGGLE_{key}", raising=False)
     settings = load_settings(settings_file)
-    assert settings.kernel("t11b", "pilot") == "original/eth-nl2sql-t11b-pilot-experiment"
+    assert settings.kernel("pilot") == "original/shared"
+    assert settings.kernel("b3-seed-43") == "original/eth-nl2sql-b3-seed-43"
     monkeypatch.setenv("ETH_NL2SQL_KAGGLE_OWNER", "tester")
-    monkeypatch.setenv("ETH_NL2SQL_KAGGLE_RUN_TAG", "new-run")
+    monkeypatch.setenv("ETH_NL2SQL_KAGGLE_INFERENCE_KERNEL", "inference")
     monkeypatch.setenv("ETH_NL2SQL_KAGGLE_ENVIRONMENT_CACHE", "model-cache")
     settings = load_settings(settings_file)
-    assert settings.kernel("t11a") == "tester/eth-nl2sql-t11a-new-run"
+    assert settings.kernel() == "tester/inference"
     assert settings.cache_kernel == "tester/model-cache"

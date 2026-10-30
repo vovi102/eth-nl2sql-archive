@@ -100,8 +100,9 @@ uv run --locked ruff check src tests
 uv run --locked eth-nl2sql check-sql
 ```
 
-Extra `gpu` dùng trên Kaggle qua [notebook dự đoán](notebooks/kaggle_predict.ipynb) và
-[notebook huấn luyện](notebooks/kaggle_train.ipynb). Kaggle là môi trường cloud; prompt được
+Extra `gpu` dùng trên Kaggle qua [builder thực nghiệm](scripts/t11b_notebook.py) và
+[builder chẩn đoán](scripts/t11b_diagnose_notebook.py), cùng template/spec dùng chung.
+Xem [quy tắc kernel và version](reports/experiments/WORKFLOW.md). Kaggle là môi trường cloud; prompt được
 chuyển lên đó khi sinh SQL. Chạy model trên Kaggle không đồng nghĩa với inference cục bộ.
 
 ## Quy trình hiện có
@@ -138,7 +139,7 @@ Sau cài đặt, chạy lệnh CLI bằng `uv run --locked eth-nl2sql ...`.
 | Smoke SQL | `eth-nl2sql smoke --predictions <jsonl> --out <json>` | kiểm TVF/ngày và compile trên schema rỗng; exit 1 nếu lỗi; không tính EX |
 | Kiểm chứng GPU phát triển T11A | `scripts/t11a_prepare.py`, `scripts/t11a.py`, `scripts/t11a_notebook.py` | quy trình đã chạy thật, input/ZIP có hash; [lệnh và kết quả T11A](reports/experiments/README.md) |
 | Train ba seed | `eth-nl2sql train --config all --seed all` | sáu lượt `b3`/`b3l` × 42/43/44; `--resume` kiểm provenance |
-| Sinh SQL / train | `notebooks/kaggle_predict.ipynb`, `notebooks/kaggle_train.ipynb` | GPU Kaggle T4 |
+| Sinh SQL / train | `scripts/t11b_notebook.py`, `scripts/t11b_diagnose_notebook.py` | GPU Kaggle T4 |
 | Đánh giá | `eth-nl2sql evaluate --config b3l --seed all` | artifact riêng `runs/<config>/seed-<seed>/`; thực thi trên DuckDB local |
 | Báo cáo | `eth-nl2sql report` | từng seed, mean/SD mẫu (ddof=1), N câu dùng chung; thêm `runs/seed-summary-dev_eval.json` |
 
@@ -162,7 +163,8 @@ src/eth_nl2sql/
   generation/  prompt · retrieval · runs · extract · backend
   data/        splits · annotations · benchmark · dataset_audit · entities
   validation.py · results.py · evaluate.py · report.py · experiments.py · train_qlora.py · cli.py
-notebooks/ kaggle_predict.ipynb · kaggle_train.ipynb
+scripts/   t11a_notebook.py · t11b_notebook.py · t11b_diagnose_notebook.py
+           t11b_continue.py · t11b_diagnosis_continue.py
 reports/   README.md · data-quality/ · local-store/ · dictionary-v2/
            dataset/ · benchmark/ · linking/ · experiments/
 ```

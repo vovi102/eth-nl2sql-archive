@@ -186,7 +186,7 @@ def gpu(home: Path, pins: Path) -> None:
         archive_outputs(
             ROOT,
             (ROOT / "runs", REPORT),
-            ROOT / "outputs-manifest.json",
+            REPORT / "outputs-manifest.json",
             ROOT.parent / "t11a-artifacts.zip",
         )
 
@@ -195,7 +195,7 @@ def collect(archive: Path) -> None:
     manifest = collect_outputs(
         ROOT,
         archive,
-        "outputs-manifest.json",
+        (REPORT / "outputs-manifest.json").relative_to(ROOT).as_posix(),
         can_replace=lambda p: (
             any(part.startswith("seed-") for part in p.parts) or p.parts[0] == "reports"
         ),

@@ -136,10 +136,9 @@ def collect(job: str, archive: Path) -> None:
     manifest = collect_outputs(
         ROOT,
         archive,
-        f"reports/experiments/{job}/outputs-manifest.json",
+        (REPORT / job / "outputs-manifest.json").relative_to(ROOT).as_posix(),
         can_replace=lambda p: p.name in ("preflight-training.json", "inputs-manifest.json"),
     )
-    cfg.write_json(REPORT / job / "outputs-manifest.json", manifest)
     cfg.write_json(
         REPORT / job / "download.json",
         {

@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import math
-import zipfile
 from collections import defaultdict
 from pathlib import Path
 
@@ -16,32 +14,19 @@ from eth_nl2sql import config as cfg
 from eth_nl2sql.evaluate import case_rows, evaluate_predictions, summarize
 from eth_nl2sql.experiments import tree_digest
 from eth_nl2sql.generation.prompt import messages_digest
+from eth_nl2sql.gpu_workflow import collect_outputs
 from eth_nl2sql.store.build import connect
 from eth_nl2sql.store.manifest import store_profile
 
 
 def collect(archive: Path) -> None:
-    with zipfile.ZipFile(archive) as z:
-        manifest = json.loads(z.read("manifest.json"))
-        expected_plan = json.loads((WORK / "plan.json").read_text())
-        if json.loads(z.read("plan.json")) != expected_plan:
-            raise ValueError("Diagnostic plan differs from the submitted plan")
-        members = {}
-        for name, expected in manifest.items():
-            if Path(name).name != name:
-                raise ValueError("Invalid artifact name")
-            data = z.read(name)
-            if hashlib.sha256(data).hexdigest() != expected:
-                raise ValueError(f"Output checksum mismatch: {name}")
-            destination = WORK / "output" / name
-            if destination.exists() and cfg.sha256_file(destination) != expected:
-                raise ValueError(f"Refusing to replace diagnostic artifact: {name}")
-            members[name] = data
-        for name, data in members.items():
-            destination = WORK / "output" / name
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            destination.write_bytes(data)
-        (WORK / "output/manifest.json").write_bytes(z.read("manifest.json"))
+    manifest = collect_outputs(
+        WORK / "output",
+        archive,
+        "manifest.json",
+        can_replace=lambda _: False,
+        expected_json={"plan.json": json.loads((WORK / "plan.json").read_text())},
+    )
     cfg.write_json(
         WORK / "download.json",
         {

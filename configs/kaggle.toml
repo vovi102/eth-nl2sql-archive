@@ -1,4 +1,9 @@
-# Deployment identity is separate from experimental/model settings.
+# Names describe output ownership, not execution dates.
 owner = "aohkvd"
-run_tag = "20261028"
 environment_cache = "nl2sql-environment-cache"
+inference_kernel = "eth-nl2sql-inference"
+
+# Existing adapter output stays at its published identity. New training jobs use
+# eth-nl2sql-<config>-seed-<seed>, with no run_tag/date in the name.
+[training_kernels]
+b3-seed-42 = "eth-nl2sql-t11b-b3-seed-42-20261028"

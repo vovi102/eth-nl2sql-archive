@@ -9,9 +9,6 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from eth_nl2sql.generation.runs import Job  # noqa: E402
 from eth_nl2sql.gpu_notebook import (  # noqa: E402
-    LIVE_PROCESS as LIVE_PROCESS,  # Compatibility for the separate diagnostic builder.
-)
-from eth_nl2sql.gpu_notebook import (  # noqa: E402
     NotebookSpec,
     build_notebook,
 )
@@ -42,8 +39,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, default=Path(".cache/t11b-inputs.zip"))
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--kernel", required=True)
+    parser.add_argument("--kernel")
     parser.add_argument("--job", required=True)
     parser.add_argument("--cache-kernel", default=load_settings().cache_kernel)
     args = parser.parse_args()
-    build(args.archive, args.output, args.kernel, args.job, cache_kernel=args.cache_kernel)
+    build(
+        args.archive,
+        args.output,
+        args.kernel or load_settings().kernel(args.job),
+        args.job,
+        cache_kernel=args.cache_kernel,
+    )

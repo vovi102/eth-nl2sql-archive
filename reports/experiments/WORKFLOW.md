@@ -62,6 +62,57 @@ và controller `scripts/t11b_continue.py` dùng thư mục thực nghiệm này 
 truyền GPU. Collector giữ file giải nén và manifest, không chép ZIP vào báo cáo.
 Xóa bundle tạm sau khi thu nhận và kiểm hash thành công.
 
+## Kernel và version Kaggle
+
+Mọi tên mặc định đi qua `load_settings()` và `configs/kaggle.toml`; có thể đổi
+owner, cache hoặc kernel suy luận bằng các biến `ETH_NL2SQL_KAGGLE_*` tương ứng.
+Không dùng `run_tag` hoặc ngày để tạo thêm kernel.
+
+| Loại job | Kernel |
+|---|---|
+| Tạo adapter | Riêng từng config/seed: `OWNER/eth-nl2sql-b3l-seed-42`, v.v. |
+| Pilot, base control, chẩn đoán, chỉ sinh SQL | Dùng chung `OWNER/eth-nl2sql-inference`, mỗi lượt là một version |
+| Model cache | `OWNER/<environment_cache>` |
+
+`training_kernels` ghi ngoại lệ cho adapter đã công bố. `b3/42` hiện tiếp tục
+mount kernel lịch sử được cấu hình ở đó; không đổi tên, xóa hoặc push đè output
+đang làm nguồn. Các job train mới có tên ổn định không kèm ngày. Client từ chối
+push lên producer đã tồn tại; thay protocol/input cần một identity mới được
+cấu hình rõ ràng, không tự cập nhật output đang được mount.
+
+`NotebookSpec.extra_kernel_sources` thêm producer vào notebook chẩn đoán.
+`prepare` ghi `adapter_kernel` vào kế hoạch và pin hash config; builder đọc đúng
+nguồn trong kế hoạch, GPU dùng cùng nguồn đó và kiểm hash adapter. Bundle cũ
+không có trường này phải được dựng lại trong thư mục làm việc của lượt mới;
+không sửa kế hoạch hoặc kết quả đã lưu của lượt gốc.
+
+Hai controller dùng `KaggleClient` cho lock kernel, push, polling và tải output.
+Push xác nhận số version và lưu `submission.json`; state training lưu
+`kernel_ref=OWNER/SLUG/VERSION`. Status và output đều dùng ref đó. Không tự
+retry push khi mất phản hồi; receipt trạng thái chưa rõ yêu cầu xem log trước
+khi tiếp tục. ZIP được tải vào thư mục tạm mới và chỉ nhận sau khi kiểm đủ
+manifest/hash; thu nhận xong thì bỏ bản ZIP tạm.
+
+Controller training dừng ngay nếu quyết định vẫn là
+`hold_for_further_development`. Collector chẩn đoán chỉ submit khi người chạy
+truyền `--notebook`; chế độ chỉ thu nhận cần version cụ thể hoặc receipt đã lưu:
+
+```bash
+# Chỉ thu nhận một version đã submit:
+uv run --locked python scripts/t11b_diagnosis_continue.py \
+  --kernel OWNER/eth-nl2sql-inference/VERSION
+# Submit notebook đã dựng rồi thu nhận; chỉ dùng khi lượt chạy được cho phép:
+uv run --locked python scripts/t11b_diagnosis_continue.py \
+  --notebook .cache/t11b-diagnosis-notebook
+```
+
+Thông tin `kernel_sources` nhận owner/slug theo
+[Kaggle metadata](https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels_metadata.md).
+Quy tắc giữ producer riêng bảo vệ nguồn mount khỏi các version của job khác;
+version ref bảo vệ việc polling/download, không biến nguồn mount thành version pin.
+Xem thêm [Kaggle CLI](https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels.md).
+Notebook chạy tay đã bỏ khỏi repo; chỉ giữ builder và template dùng chung.
+
 ## Chấm và báo cáo
 
 ```bash

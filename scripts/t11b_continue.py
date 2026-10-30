@@ -1,52 +1,26 @@
-"""Collect the B1 pilot, then review b3/42 before running the remaining QLoRA seeds.
-
-Runs sequentially and persists state/logs locally, including when the chat disconnects.
-Each GPU job has its own private notebook and immutable checksummed input bundle.
-"""
+"""Review each development job before continuing the QLoRA matrix."""
 
 from __future__ import annotations
 
 import argparse
-import fcntl
 import json
 import math
-import os
 import shutil
-import subprocess
 import sys
-import time
 from dataclasses import replace
 from datetime import UTC, datetime
-from pathlib import Path
 
 from t11b import REPORT, ROOT, collect, evaluate
 
 from eth_nl2sql import config as cfg
 from eth_nl2sql.experiments import SEEDS
 from eth_nl2sql.generation.runs import CONFIGS, Job, training_configs
-from eth_nl2sql.kaggle import load_settings
+from eth_nl2sql.kaggle import KaggleClient, KaggleSettings, exclusive_lock, load_settings
 
 JOBS = (
     "pilot",
     *(Job(CONFIGS[name], seed).identifier for seed in SEEDS for name in training_configs()),
 )
-
-
-def run(argv: list[str], log: Path) -> str:
-    print("Running:", " ".join(argv), flush=True)
-    attempts = 1 if "push" in argv else 3
-    for attempt in range(attempts):
-        result = subprocess.run(
-            argv, cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-        )
-        if result.returncode == 0 or attempt == attempts - 1:
-            break
-        time.sleep(5)
-    log.parent.mkdir(parents=True, exist_ok=True)
-    log.write_text(result.stdout)
-    if result.returncode:
-        raise RuntimeError(f"Command failed; inspect {log}")
-    return result.stdout
 
 
 def review(job: str) -> dict:
@@ -108,179 +82,145 @@ def required_quota_hours(job: str, jobs: dict) -> float:
     return estimate / 3600 * 1.1 + 0.5
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    settings = load_settings()
-    parser.add_argument("--pilot-kernel")
-    parser.add_argument("--owner", default=settings.owner)
-    parser.add_argument("--run-tag", default=settings.run_tag)
-    parser.add_argument("--cache-kernel")
-    args = parser.parse_args()
-    deployment = replace(settings, owner=args.owner, run_tag=args.run_tag)
-    lock = (REPORT / "continuation.lock").open("a+")
-    try:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except BlockingIOError:
-        raise SystemExit(
-            "A T11B controller is already running; inspect continuation.json"
-        ) from None
-    lock.seek(0)
-    lock.truncate()
-    lock.write(str(os.getpid()) + "\n")
-    lock.flush()
-    state_path = REPORT / "continuation.json"
-    state = (
-        json.loads(state_path.read_text())
-        if state_path.exists()
-        else {
-            "status": "running",
-            "jobs": {},
-            "order": list(JOBS),
-            "started_utc": datetime.now(UTC).isoformat(),
-        }
-    )
-    state.pop("error", None)
-    try:
-        for job in JOBS:
-            directory = REPORT / job
-            directory.mkdir(parents=True, exist_ok=True)
-            record = state["jobs"].setdefault(job, {})
-            if record.get("status") == "evaluated":
-                if record["review"]["decision"] == "stop_for_diagnosis":
-                    state.update(status="stopped_for_diagnosis", current_job=job)
-                    return
-                continue
-            state.update(status="running", current_job=job)
-            cfg.write_json(state_path, state)
-            kernel = record.get("kernel") or (
-                (args.pilot_kernel or deployment.kernel("t11b", "pilot"))
-                if Job.parse(job).is_pilot
-                else deployment.kernel("t11b", job)
-            )
-            record["kernel"] = kernel
-            if job != "pilot" and not record.get("submitted"):
-                while True:
-                    quota = json.loads(
-                        run(
-                            ["kaggle", "quota", "--format", "json"], directory / "quota-before.json"
-                        )
-                    )
-                    gpu = next(row for row in quota if row["resource"] == "GPU")
-                    required = required_quota_hours(job, state["jobs"])
-                    if float(gpu["remaining"].removesuffix("h")) >= required:
-                        state.update(status="running")
-                        break
-                    state.update(status="waiting_for_quota", required_gpu_hours=required, quota=gpu)
-                    cfg.write_json(state_path, state)
-                    # Keep authorized seeds queued until the account quota refreshes.
-                    for _ in range(30):
-                        time.sleep(60)
-                archive = ROOT / f".cache/t11b-{job}-inputs.zip"
-                run(
-                    [sys.executable, "scripts/t11b.py", "package", "--archive", str(archive)],
-                    directory / "package.log",
-                )
-                shutil.copy2(REPORT / "inputs-manifest.json", directory / "inputs-manifest.json")
-                shutil.copy2(REPORT / "bundle.json", directory / "bundle.json")
-                notebook = ROOT / f".cache/t11b-{job}"
-                run(
-                    [
-                        sys.executable,
-                        "scripts/t11b_notebook.py",
-                        "--archive",
-                        str(archive),
-                        "--output",
-                        str(notebook),
-                        "--kernel",
-                        kernel,
-                        "--job",
-                        job,
-                        "--cache-kernel",
-                        args.cache_kernel or deployment.cache_kernel,
-                    ],
-                    directory / "notebook.log",
-                )
-                run(
-                    [
-                        "kaggle",
-                        "kernels",
-                        "push",
-                        "-p",
-                        str(notebook),
-                        "--accelerator",
-                        "NvidiaTeslaT4",
-                        "--timeout",
-                        "43200",
-                    ],
-                    directory / "push.log",
-                )
-            record["submitted"] = True
-            cfg.write_json(state_path, state)
-            while True:
-                status = run(
-                    ["kaggle", "kernels", "status", kernel], directory / "kaggle-status.txt"
-                )
-                record.update(
-                    remote_status=status.strip(), checked_utc=datetime.now(UTC).isoformat()
+def continue_jobs(
+    deployment: KaggleSettings, *, pilot_kernel: str | None = None, cache_kernel: str | None = None
+) -> None:
+    with exclusive_lock(REPORT / "continuation.lock"):
+        decision_path = REPORT / "diagnosis/scaling-decision.json"
+        if decision_path.exists() and json.loads(decision_path.read_text())["decision"] == (
+            "hold_for_further_development"
+        ):
+            print("Development is on hold; review the scaling decision before continuing.")
+            return
+        state_path = REPORT / "continuation.json"
+        state = (
+            json.loads(state_path.read_text())
+            if state_path.exists()
+            else {
+                "status": "running",
+                "jobs": {},
+                "order": list(JOBS),
+                "started_utc": datetime.now(UTC).isoformat(),
+            }
+        )
+        state.pop("error", None)
+        try:
+            for job in JOBS:
+                selected = Job.parse(job)
+                directory = REPORT / job
+                record = state["jobs"].setdefault(job, {})
+                if record.get("status") == "evaluated":
+                    if record["review"]["decision"] == "stop_for_diagnosis":
+                        state.update(status="stopped_for_diagnosis", current_job=job)
+                        return
+                    continue
+                directory.mkdir(parents=True, exist_ok=True)
+                client = KaggleClient(ROOT, directory)
+                state.update(status="running", current_job=job)
+                kernel = record.setdefault(
+                    "kernel",
+                    pilot_kernel
+                    if selected.is_pilot and pilot_kernel
+                    else (deployment.kernel(selected)),
                 )
                 cfg.write_json(state_path, state)
-                if any(s in status for s in ("COMPLETE", "ERROR", "CANCEL")):
-                    break
-                time.sleep(30)
-            download = ROOT / f".cache/t11b-download-{job}"
-            run(
-                [
-                    "kaggle",
-                    "kernels",
-                    "output",
-                    kernel,
-                    "-p",
-                    str(download),
-                    "--file-pattern",
-                    f"^t11b-{job}-artifacts[.]zip$",
-                    "--page-size",
-                    "200",
-                    "--quiet",
-                    "--force",
-                ],
-                directory / "download.log",
-            )
-            archive = download / f"t11b-{job}-artifacts.zip"
-            if not archive.exists():
-                run(
-                    [
-                        "kaggle",
-                        "kernels",
-                        "output",
-                        kernel,
-                        "-p",
-                        str(download),
-                        "--file-pattern",
-                        "[.]log$",
-                        "--page-size",
-                        "200",
-                        "--quiet",
-                    ],
-                    directory / "download-failure.log",
-                )
-                raise RuntimeError(f"No intact artifact archive for {job}; inspect downloaded logs")
-            collect(job, archive)
-            if "COMPLETE" not in status:
-                raise RuntimeError(f"{job} failed on Kaggle; artifacts collected for diagnosis")
-            evaluate(job)
-            record.update(status="evaluated", review=review(job))
-            cfg.write_json(directory / "review.json", record["review"])
+                with client.session(kernel):
+                    if not record.get("submitted"):
+                        notebook = ROOT / f".cache/t11b-{job}"
+                        if not (directory / "submission.json").exists():
+                            while True:
+                                quota = json.loads(
+                                    client.command(
+                                        ["kaggle", "quota", "--format", "json"], "quota-before.json"
+                                    )
+                                )
+                                gpu = next(row for row in quota if row["resource"] == "GPU")
+                                required = required_quota_hours(job, state["jobs"])
+                                if float(gpu["remaining"].removesuffix("h")) >= required:
+                                    state.update(status="running")
+                                    break
+                                state.update(
+                                    status="waiting_for_quota",
+                                    required_gpu_hours=required,
+                                    quota=gpu,
+                                )
+                                cfg.write_json(state_path, state)
+                                client.sleep(60)
+                            archive = ROOT / f".cache/t11b-{job}-inputs.zip"
+                            client.command(
+                                [
+                                    sys.executable,
+                                    "scripts/t11b.py",
+                                    "package",
+                                    "--archive",
+                                    str(archive),
+                                ],
+                                "package.log",
+                            )
+                            for name in ("inputs-manifest.json", "bundle.json"):
+                                shutil.copy2(REPORT / name, directory / name)
+                            client.command(
+                                [
+                                    sys.executable,
+                                    "scripts/t11b_notebook.py",
+                                    "--archive",
+                                    str(archive),
+                                    "--output",
+                                    str(notebook),
+                                    "--kernel",
+                                    kernel,
+                                    "--job",
+                                    job,
+                                    "--cache-kernel",
+                                    cache_kernel or deployment.cache_kernel,
+                                ],
+                                "notebook.log",
+                            )
+                        record["kernel_ref"] = client.push(
+                            notebook, producer=selected.config.fine_tuned
+                        )
+                        record["submitted"] = True
+                        cfg.write_json(state_path, state)
+                    reference = record.get("kernel_ref", kernel)
+                    outcome = client.collect(
+                        reference,
+                        f"t11b-{job}-artifacts.zip",
+                        lambda path, job=job: collect(job, path),
+                        timeout_s=86400,
+                        require_version=(kernel == deployment.kernel()),
+                    )
+                    if outcome != "COMPLETE":
+                        raise RuntimeError(
+                            f"{job} failed on Kaggle; output collected for diagnosis"
+                        )
+                evaluate(job)
+                record.update(status="evaluated", review=review(job))
+                cfg.write_json(directory / "review.json", record["review"])
+                cfg.write_json(state_path, state)
+                client.command(["kaggle", "quota", "--format", "json"], "quota-after.json")
+                if record["review"]["decision"] == "stop_for_diagnosis":
+                    state.update(status="stopped_for_diagnosis")
+                    return
+            state.update(status="complete", completed_utc=datetime.now(UTC).isoformat())
+        except BaseException as exc:
+            state.update(status="failed", error=f"{type(exc).__name__}: {exc}")
+            raise
+        finally:
             cfg.write_json(state_path, state)
-            run(["kaggle", "quota", "--format", "json"], directory / "quota-after.json")
-            if record["review"]["decision"] == "stop_for_diagnosis":
-                state.update(status="stopped_for_diagnosis")
-                return
-        state.update(status="complete", completed_utc=datetime.now(UTC).isoformat())
-    except BaseException as exc:
-        state.update(status="failed", error=f"{type(exc).__name__}: {exc}")
-        raise
-    finally:
-        cfg.write_json(state_path, state)
+
+
+def main() -> None:
+    settings = load_settings()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--pilot-kernel")
+    parser.add_argument("--owner", default=settings.owner)
+    parser.add_argument("--cache-kernel")
+    args = parser.parse_args()
+    continue_jobs(
+        replace(settings, owner=args.owner),
+        pilot_kernel=args.pilot_kernel,
+        cache_kernel=args.cache_kernel,
+    )
 
 
 if __name__ == "__main__":

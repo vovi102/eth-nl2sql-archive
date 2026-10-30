@@ -1,20 +1,22 @@
 # Kiểm chứng hiện hành
 
 Ngày kiểm: **30/10/2026**, Asia/Saigon. Kiểm tra local sau khi dọn `reports/` và
-`runs/`, cập nhật đường dẫn và bỏ phụ thuộc vào ZIP/báo cáo lịch sử.
+`runs/` và refactor Kaggle: builder dùng spec, tên kernel theo vai trò,
+controller ghim version và collector kiểm manifest dùng chung.
 
 | Kiểm tra | Kết quả |
 |---|---|
-| `uv run --locked pytest -q` | 360 passed, 146,27 giây |
-| Ba case regression bổ sung | 3 passed: giữ manifest không chép ZIP; tách chẩn đoán khỏi seed aggregate; từ chối evaluation sai hash |
+| `uv run --locked pytest -q` | 380 passed, 148,76 giây |
+| Nhóm Kaggle/GPU/chẩn đoán | 40 passed: builder lặp lại đúng byte; pin version; không push lại receipt; bảo vệ producer; kiểm plan/hash trước ghi; giữ quyết định hold |
 | `uv run --locked ruff check src tests scripts` | All checks passed |
 | `uv run --locked eth-nl2sql check-sql` | 1.547 SQL, không lỗi |
 | `uv run --locked eth-nl2sql report` | Tạo RESULTS thành công, chẩn đoán prompt có mục riêng |
 | `git diff --check` | Không lỗi whitespace |
 | Liên kết Markdown local | Đều trỏ tới file hiện có |
 
-Các case mới chạy riêng sau suite đầy đủ; không diễn giải bảng trên thành một
-lần chạy đầy đủ 363 case. Kiểm SQL trên schema rỗng không thay kiểm gold trên dữ liệu.
+Suite đầy đủ đã bao gồm các case mới. Kiểm SQL trên schema rỗng không thay
+kiểm gold trên dữ liệu. Kiểm `--help` của các builder/controller và liên kết
+tài liệu đều đạt; không còn tham chiếu tới hai notebook chạy tay đã xóa.
 
 ## Toàn vẹn và giữ artifact
 
