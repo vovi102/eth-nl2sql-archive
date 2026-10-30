@@ -1,0 +1,10 @@
+{
+  "absolute_difference": 0.0,
+  "manual_shifted_sql_eot_loss": 2.0042896721861325e-05,
+  "model_loss": 2.0042896721861325e-05,
+  "padding_labels_all_masked": true,
+  "targets_complete": true,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.49.0",
+  "unmasked_sql_eot_tokens": 88
+}

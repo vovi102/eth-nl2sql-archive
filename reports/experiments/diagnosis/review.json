@@ -1,0 +1,800 @@
+{
+  "all_generated": {
+    "base-dates-columns": {
+      "answer_f1": 0.0,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.0,
+          "n": 15
+        },
+        "difficulty:hard": {
+          "execution_accuracy": 0.0,
+          "n": 36
+        },
+        "difficulty:medium": {
+          "execution_accuracy": 0.0,
+          "n": 49
+        },
+        "specific:alias": {
+          "execution_accuracy": 0.0,
+          "n": 18
+        },
+        "specific:ambiguous_property": {
+          "execution_accuracy": 0.0,
+          "n": 23
+        },
+        "specific:class_level": {
+          "execution_accuracy": 0.0,
+          "n": 6
+        },
+        "specific:multi_address": {
+          "execution_accuracy": 0.0,
+          "n": 34
+        },
+        "subset:entity": {
+          "execution_accuracy": 0.0,
+          "n": 50
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.0,
+          "n": 50
+        }
+      },
+      "date_literals_match_gold": 2,
+      "evaluation_role": "development",
+      "exact_match": 0.0,
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "execution_ms": {
+        "n": 0,
+        "p50": null,
+        "p95": null
+      },
+      "format_ok_rate": 0.0,
+      "generation_ms": {
+        "n": 100,
+        "p50": 14389.87174749991,
+        "p95": 20960.95351524971
+      },
+      "n": 100,
+      "scope": "100 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 90,
+        "unsafe": 10
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.0,
+      "valid_sql_rate": 0.0
+    },
+    "columns": {
+      "answer_f1": 0.0,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 0,
+      "evaluation_role": "development",
+      "exact_match": 0.0,
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "execution_ms": {
+        "n": 10,
+        "p50": 5.058091500359296,
+        "p95": 380.83446809969246
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 5261.07495149995,
+        "p95": 6026.44261074996
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "ok": 10
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.4,
+      "valid_sql_rate": 1.0
+    },
+    "dates": {
+      "answer_f1": 0.4,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.4,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.4,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 7,
+      "evaluation_role": "development",
+      "exact_match": 0.2,
+      "execution_accuracy": 0.4,
+      "execution_accuracy_ci95": [
+        0.1,
+        0.7
+      ],
+      "execution_ms": {
+        "n": 7,
+        "p50": 6.380517001161934,
+        "p95": 447.29709340135736
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 5049.520353999924,
+        "p95": 5680.2235265499
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 3,
+        "ok": 7
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.3,
+      "valid_sql_rate": 0.7
+    },
+    "dates-columns": {
+      "answer_f1": 0.20600000000000002,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.2,
+          "n": 15
+        },
+        "difficulty:hard": {
+          "execution_accuracy": 0.25,
+          "n": 36
+        },
+        "difficulty:medium": {
+          "execution_accuracy": 0.14285714285714285,
+          "n": 49
+        },
+        "specific:alias": {
+          "execution_accuracy": 0.2777777777777778,
+          "n": 18
+        },
+        "specific:ambiguous_property": {
+          "execution_accuracy": 0.391304347826087,
+          "n": 23
+        },
+        "specific:class_level": {
+          "execution_accuracy": 0.5,
+          "n": 6
+        },
+        "specific:multi_address": {
+          "execution_accuracy": 0.2647058823529412,
+          "n": 34
+        },
+        "subset:entity": {
+          "execution_accuracy": 0.32,
+          "n": 50
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.06,
+          "n": 50
+        }
+      },
+      "date_literals_match_gold": 53,
+      "evaluation_role": "development",
+      "exact_match": 0.02,
+      "execution_accuracy": 0.19,
+      "execution_accuracy_ci95": [
+        0.12,
+        0.27
+      ],
+      "execution_ms": {
+        "n": 85,
+        "p50": 135.43971199942462,
+        "p95": 1333.9624023999932
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 100,
+        "p50": 6544.548451999958,
+        "p95": 12925.054445200094
+      },
+      "n": 100,
+      "scope": "100 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 14,
+        "ok": 85,
+        "unsafe": 1
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.19,
+      "valid_sql_rate": 0.85
+    },
+    "original": {
+      "answer_f1": 0.0,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 0,
+      "evaluation_role": "development",
+      "exact_match": 0.0,
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "execution_ms": {
+        "n": 7,
+        "p50": 4.850741001064307,
+        "p95": 542.5826651009628
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 4873.516101999996,
+        "p95": 5482.373578349994
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 3,
+        "ok": 7
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.3,
+      "valid_sql_rate": 0.7
+    }
+  },
+  "decision": "ready_for_review_before_scaling",
+  "expanded_seeds": false,
+  "full_rows": 100,
+  "issues": [],
+  "loss_audit": {
+    "absolute_difference": 0.0,
+    "manual_shifted_sql_eot_loss": 2.0042896721861325e-05,
+    "model_loss": 2.0042896721861325e-05,
+    "padding_labels_all_masked": true,
+    "targets_complete": true,
+    "torch": "2.5.1+cu124",
+    "transformers": "4.49.0",
+    "unmasked_sql_eot_tokens": 88
+  },
+  "mean_teacher_forced_loss": {
+    "dev-iso": 3.2283607311001106e-05,
+    "dev-natural-date": 8.569870806240942e-05
+  },
+  "new_training": false,
+  "original_replay_sql_identical": true,
+  "paired_dev": {
+    "dev-iso": {
+      "answer_f1": 1.0,
+      "by_group": {
+        "difficulty:unknown": {
+          "execution_accuracy": 1.0,
+          "n": 8
+        },
+        "subset:generic": {
+          "execution_accuracy": 1.0,
+          "n": 8
+        }
+      },
+      "date_literals_match_gold": 8,
+      "evaluation_role": "development",
+      "exact_match": 1.0,
+      "execution_accuracy": 1.0,
+      "execution_accuracy_ci95": [
+        1.0,
+        1.0
+      ],
+      "execution_ms": {
+        "n": 8,
+        "p50": 14.707095000630943,
+        "p95": 27.086567099195236
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 8,
+        "p50": 7515.506406999975,
+        "p95": 9785.891937499995
+      },
+      "n": 8,
+      "scope": "8 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "ok": 8
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 1.0,
+      "valid_sql_rate": 1.0
+    },
+    "dev-natural-date": {
+      "answer_f1": 0.9375,
+      "by_group": {
+        "difficulty:unknown": {
+          "execution_accuracy": 0.875,
+          "n": 8
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.875,
+          "n": 8
+        }
+      },
+      "date_literals_match_gold": 8,
+      "evaluation_role": "development",
+      "exact_match": 1.0,
+      "execution_accuracy": 0.875,
+      "execution_accuracy_ci95": [
+        0.625,
+        1.0
+      ],
+      "execution_ms": {
+        "n": 8,
+        "p50": 12.845116000789858,
+        "p95": 21.513181950012946
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 8,
+        "p50": 7480.154943499997,
+        "p95": 9756.176689599946
+      },
+      "n": 8,
+      "scope": "8 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "ok": 8
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 1.0,
+      "valid_sql_rate": 1.0
+    }
+  },
+  "prefix10": {
+    "base-dates-columns": {
+      "answer_f1": 0.0,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 0,
+      "evaluation_role": "development",
+      "exact_match": 0.0,
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "execution_ms": {
+        "n": 0,
+        "p50": null,
+        "p95": null
+      },
+      "format_ok_rate": 0.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 9972.12395100007,
+        "p95": 12080.837506000102
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 10
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.0,
+      "valid_sql_rate": 0.0
+    },
+    "columns": {
+      "answer_f1": 0.0,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 0,
+      "evaluation_role": "development",
+      "exact_match": 0.0,
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "execution_ms": {
+        "n": 10,
+        "p50": 5.500392000612919,
+        "p95": 394.2833960499229
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 5261.07495149995,
+        "p95": 6026.44261074996
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "ok": 10
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.4,
+      "valid_sql_rate": 1.0
+    },
+    "dates": {
+      "answer_f1": 0.4,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.4,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.4,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 7,
+      "evaluation_role": "development",
+      "exact_match": 0.2,
+      "execution_accuracy": 0.4,
+      "execution_accuracy_ci95": [
+        0.1,
+        0.7
+      ],
+      "execution_ms": {
+        "n": 7,
+        "p50": 4.729374999442371,
+        "p95": 430.1506183006495
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 5049.520353999924,
+        "p95": 5680.2235265499
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 3,
+        "ok": 7
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.3,
+      "valid_sql_rate": 0.7
+    },
+    "dates-columns": {
+      "answer_f1": 0.3,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.3,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.3,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 4,
+      "evaluation_role": "development",
+      "exact_match": 0.2,
+      "execution_accuracy": 0.3,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.6
+      ],
+      "execution_ms": {
+        "n": 10,
+        "p50": 8.725314500225068,
+        "p95": 418.7707307494747
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 5247.044121500039,
+        "p95": 6044.701330849943
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "ok": 10
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.4,
+      "valid_sql_rate": 1.0
+    },
+    "original": {
+      "answer_f1": 0.0,
+      "by_group": {
+        "difficulty:easy": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        },
+        "subset:generic": {
+          "execution_accuracy": 0.0,
+          "n": 10
+        }
+      },
+      "date_literals_match_gold": 0,
+      "evaluation_role": "development",
+      "exact_match": 0.0,
+      "execution_accuracy": 0.0,
+      "execution_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "execution_ms": {
+        "n": 7,
+        "p50": 5.927680000240798,
+        "p95": 401.0622732994307
+      },
+      "format_ok_rate": 1.0,
+      "generation_ms": {
+        "n": 10,
+        "p50": 4873.516101999996,
+        "p95": 5482.373578349994
+      },
+      "n": 10,
+      "scope": "10 development cases; frozen-adapter inference intervention",
+      "status_counts": {
+        "compile_error": 3,
+        "ok": 7
+      },
+      "store": {
+        "complete_snapshot": false,
+        "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+        "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+        "rows": {
+          "amended_tokens": 2489651,
+          "blocks": 221548,
+          "contracts": 16386,
+          "entity_labels_snapshot": 6647,
+          "token_transfers": 4001230,
+          "transactions": 4431329
+        },
+        "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+        "window": [
+          "2026-05-31",
+          "2026-07-01"
+        ]
+      },
+      "structural_match": 0.3,
+      "valid_sql_rate": 0.7
+    }
+  },
+  "resources": {
+    "hardware": {
+      "cuda": "12.4",
+      "gpus": [
+        "Tesla T4",
+        "Tesla T4"
+      ],
+      "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+      "python": "3.11.15",
+      "torch": "2.5.1+cu124"
+    },
+    "peak_gpu_memory_gib": 4.335353374481201,
+    "peak_gpu_reserved_gib": 4.62109375,
+    "per_gpu_peak_allocated_gib": [
+      2.5874505043029785,
+      4.335353374481201
+    ],
+    "runtime_s": 2543.530193153
+  },
+  "scaling_review": {
+    "decision": "hold_for_further_development",
+    "expanded_seeds": false,
+    "report": "scaling-decision.json"
+  },
+  "smoke_passed": true
+}

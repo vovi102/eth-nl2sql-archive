@@ -90,7 +90,7 @@ local giúp giảm truy vấn BigQuery lặp lại trong ma trận thí nghiệm
 T06 đã chuẩn bị streaming/resume theo job ID, provenance và cap bytes tích lũy. Lần kiểm tra
 27/10/2026 dùng chính sách chỉ miễn phí, không gắn billing: dry-run đủ 95 partition nhưng
 preflight chặn thực thi do allowance miễn phí không còn. Chưa có kết quả parity đầy đủ hoặc
-gold/coverage v2 trên full snapshot. Xem [báo cáo T06](reports/snapshot-t06/README.md).
+gold/coverage v2 trên full snapshot. Xem [báo cáo T06](reports/local-store/README.md).
 
 Theo yêu cầu ngày 27/10/2026, phần kiểm nghiệm T06 trên snapshot đầy đủ được ghi lại và hoãn
 để thực hiện sau. Parity, kiểm chứng manifest/resume thực tế và gold/coverage v2 vẫn chưa đạt
@@ -140,7 +140,7 @@ Kiểm leakage hiện có không thấy trùng câu chuẩn hóa, SQL chuẩn h�
 split, và không chung n-gram 12 token giữa train/dev với test hiện tại. N-gram văn mẫu chung
 train/dev vẫn tồn tại và được báo cáo riêng; không suy ra khả năng tổng quát hóa từ vựng
 hoặc cấu trúc. Review agent có hash cho đủ 100 cặp, nhưng **human review còn chờ**. Xem
-[báo cáo và hồ sơ review](reports/entity-dataset/README.md).
+[báo cáo và hồ sơ review](reports/dataset/README.md).
 
 ### 3.4. Thiết kế test v2 và quy trình chất lượng — T09A draft, T09B chờ T06
 
@@ -188,11 +188,11 @@ quota 20×5 và property 7/7/6, cùng gate đóng băng yêu cầu full snapshot
 T09A đã soạn 100 câu/100 SQL cùng annotation khai báo trực tiếp từ ý hỏi và catalog/dictionary,
 không dùng prediction T08 hoặc bootstrap annotation phát triển. Tác giả là agent; toàn bộ
 review vẫn pending. Kiểm cấu trúc/hash/leakage và thực thi gold, đối chứng property, ablation
-địa chỉ trên sample có [hồ sơ T09A](reports/benchmark-t09a/README.md).
+địa chỉ trên sample có [hồ sơ T09A](reports/benchmark/README.md).
 Benchmark vẫn draft. T09B chờ T06: kiểm lại gold, witness multi-address/property và ca rỗng
 trên snapshot đầy đủ, hoàn tất human review và mọi gate trước khi đóng băng. Không chạy
 generator hoặc chỉnh linker từ test v2 trong T09A. Xem [giao thức](data/benchmark/README.md)
-và [kiểm chứng hạ tầng T07](reports/benchmark-t07/README.md).
+và [kiểm chứng hạ tầng T07](reports/dataset/README.md).
 
 ## 4. Schema/entity linking
 
@@ -268,7 +268,7 @@ huấn luyện QLoRA.
 EX 0/10 trên DuckDB sample; không gộp lượt 10 câu này vào bảng kết quả 100 câu. Adapter,
 checkpoint và dự đoán được giữ nguyên để chẩn đoán lệch cách diễn đạt ngày, khả năng học
 cột từ compact prompt và masking/loss. Chưa mở rộng seed và chưa dùng test v2.
-Xem [bằng chứng T11B](reports/gpu-development-t11b/README.md).
+Xem [bằng chứng T11B](reports/experiments/README.md).
 
 Chẩn đoán tiếp theo giữ adapter đóng băng, can thiệp prompt theo thiết kế 2×2
 ngày/cột. Nhánh kết hợp qua smoke 10/10 rồi sinh đủ 100 câu phát triển, đạt
@@ -276,7 +276,7 @@ ngày/cột. Nhánh kết hợp qua smoke 10/10 rồi sinh đủ 100 câu phát 
 inference khác prompt train gốc, được báo cáo riêng; chưa cập nhật cấu hình chính
 hoặc train adapter mới. Masking/loss đã kiểm trên toàn bộ span local và đối chiếu
 CE trực tiếp trên runtime GPU. Prompt kết hợp còn tương tác bất lợi về ngày;
-quyết định chưa mở rộng seed. Xem [báo cáo chẩn đoán](reports/gpu-development-t11b/README.md).
+quyết định chưa mở rộng seed. Xem [báo cáo chẩn đoán](reports/experiments/README.md).
 
 **Cấu hình hiện có làm nền:** `meta-llama/Meta-Llama-3-8B-Instruct` và encoder pin revision
 trong `configs/experiment.toml`; generator NF4 4-bit, compute float16 trên T4, greedy, tối đa
@@ -288,7 +288,7 @@ generation và bootstrap vẫn là 42. Preflight ghi
 ID/số dòng giữ/bỏ và token; dừng nếu train hoặc dev rỗng sau lọc. Không cắt target SQL.
 T11A đã báo cáo hai base control, mỗi cấu hình 100 câu phát triển: EX đều 0/100 do SQL
 không qua validator/compiler. Kết quả này xác nhận đường ống GPU/resume/evaluator hoạt động,
-không xác nhận chất lượng SQL hoặc hiệu quả fine-tuning. Xem [T11A](reports/gpu-development-t11a/README.md).
+không xác nhận chất lượng SQL hoặc hiệu quả fine-tuning. Xem [T11A](reports/experiments/README.md).
 
 ### 5.2. Các cấu hình và đối chứng compact
 
@@ -429,18 +429,18 @@ store, prompt và ID ví dụ retrieval, checkpoint, output thô và lỗi. Hi�
 hash prompt/config/store và artifact kiểm dữ liệu; test v2 và annotation trực tiếp ở trạng thái
 draft T09A. T10 đã có đối chứng compact và tổng hợp đa seed; T11A đã chạy hai compact base
 control trên dữ liệu phát triển. Ma trận QLoRA/five-shot/ablation vẫn chưa chạy LLM.
-Các báo cáo cũ mô tả trạng
-thái tại thời điểm tạo; không tự động trở thành bằng chứng cho thiết kế v2.
+Báo cáo hiện hành giữ bằng chứng còn sử dụng theo [quy tắc artifact](reports/README.md);
+thời điểm/hash của lần chạy gốc không tự xác nhận source hiện tại.
 
 T10 lưu artifact trong `runs/<config>/seed-<seed>/`, dùng chung SFT/prompt ở thư mục config.
 Resume train/generate kiểm hash prompt/model/adapter, config, siêu tham số và seed; checkpoint
 được kiểm cả state/optimizer/RNG. Generation kiểm provenance ngay cả khi không còn câu cần
 sinh. Báo cáo giữ kết quả từng seed, mean/SD mẫu (ddof=1), số seed còn thiếu và N câu dùng
 chung; không gộp prediction thành 3N câu độc lập. Chi tiết lệnh, artifact và giới hạn đo
-tài nguyên khi phiên bị ngắt ở [T10](reports/experiments-t10/README.md). Gate test draft giữ nguyên.
+tài nguyên khi phiên bị ngắt ở [T10](reports/experiments/WORKFLOW.md). Gate test draft giữ nguyên.
 
-T11A lưu [ZIP GPU nguyên vẹn](reports/gpu-development-t11a/artifacts.zip), manifest hash
-từng file, snapshot 10 câu và bằng chứng resume giữ nguyên từng byte của 10 dòng đầu.
+Hai base control giữ prediction/evaluation/manifest và [bằng chứng resume](reports/experiments/base-controls/summary.json)
+giữ nguyên từng byte của 10 dòng đầu. ZIP và bản sao trung gian đã xóa sau kiểm hash.
 Preflight thật dùng context 8.192 token từ model config; hint lớp dùng predicate và số owner,
 không liệt kê hàng nghìn tên. Full membership linking và SQL target giữ nguyên. Sau sửa,
 cả b3/b3l giữ đủ 4.872 train và 516 dev ở giới hạn 1.024 token. Test v2 không thay đổi.
@@ -475,10 +475,10 @@ cả b3/b3l giữ đủ 4.872 train và 516 dev ở giới hạn 1.024 token. Te
 |---|---|---|
 | Blockchain và DuckDB | [Store sample đã dựng](reports/local-store/README.md) | Hoàn tất snapshot/parity; đóng băng scope và kiểm gold v2 trên store nghiên cứu |
 | Dictionary | [V2 và coverage đã có](reports/dictionary-v2/README.md) | Đóng băng phiên bản cho benchmark, giữ giới hạn lịch sử/độ phủ |
-| Dataset | [Train/dev và 100 câu phát triển đã kiểm](reports/entity-dataset/README.md); [100 câu v2 draft T09A](reports/benchmark-t09a/README.md) | T09B: kiểm gold/witness/ca rỗng trên full snapshot sau T06, hoàn tất human review và gate đóng băng |
-| Linking | Resolver ba property, output T07 và bộ chấm trực tiếp đã có; [đánh giá nháp](reports/linking-development/README.md) | Human review, kiểm trên test frozen và cơ chế làm rõ ngoài test SQL chính |
+| Dataset | [Train/dev và 100 câu phát triển đã kiểm](reports/dataset/README.md); [100 câu v2 draft T09A](reports/benchmark/README.md) | T09B: kiểm gold/witness/ca rỗng trên full snapshot sau T06, hoàn tất human review và gate đóng băng |
+| Linking | Resolver ba property, output T07 và bộ chấm trực tiếp đã có; [đánh giá nháp](reports/linking/README.md) | Human review, kiểm trên test frozen và cơ chế làm rõ ngoài test SQL chính |
 | Cấu hình thí nghiệm | T11A đã chạy hai compact base control; T11B đã train b3/42 và chẩn đoán prompt trên adapter đóng băng đủ 100 câu; runner ba seed và baseline/bốn ablation đã có | Tiếp tục sửa lỗi trên phát triển trước khi mở rộng; thí nghiệm test sau đóng băng |
-| Báo cáo | [Evaluator](src/eth_nl2sql/evaluate.py), [RESULTS phát triển](RESULTS.md), [artifact/tài nguyên T11A](reports/gpu-development-t11a/README.md) | Chạy ma trận sau đóng băng; CI theo nhóm, latency đầu cuối và chi phí/privacy; tổng hợp seed đã có ở T10 |
+| Báo cáo | [Evaluator](src/eth_nl2sql/evaluate.py), [RESULTS phát triển](RESULTS.md), [artifact/tài nguyên T11A](reports/experiments/README.md) | Chạy ma trận sau đóng băng; CI theo nhóm, latency đầu cuối và chi phí/privacy; tổng hợp seed đã có ở T10 |
 
 T11A đã có hai compact base control; T11B có pilot B1, lượt train b3/42 với output
 smoke gốc 10 câu và chẩn đoán prompt riêng đủ 100 câu. Các lượt còn lại và ma trận

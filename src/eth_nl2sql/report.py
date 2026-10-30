@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import statistics
 from collections.abc import Mapping
 from pathlib import Path
@@ -288,6 +289,33 @@ def write_report(runs_dir: Path, split: str, out: Path) -> Path:
             f"| {aggregate['n_questions']} | {_pct(ex['mean'])} ± {_pct(ex['std'])} "
             f"| {_pct(valid['mean'])} ± {_pct(valid['std'])} |"
         )
+    diagnosis = runs_dir.parent / "reports/experiments/diagnosis"
+    if split == "dev_eval" and (diagnosis / "evaluation/manifest.json").is_file():
+        checksums = json.loads((diagnosis / "evaluation/manifest.json").read_text())
+        for name, expected in checksums.items():
+            if sha256_file(diagnosis / "evaluation" / name) != expected:
+                raise ValueError(f"Diagnostic evaluation hash mismatch: {name}")
+        candidate = json.loads((diagnosis / "evaluation/dates-columns.json").read_text())
+        base = json.loads((diagnosis / "evaluation/base-dates-columns.json").read_text())
+        link = Path(os.path.relpath(diagnosis / "README.md", out.parent)).as_posix()
+        lines += [
+            "",
+            "## Frozen-adapter prompt diagnosis",
+            "",
+            "Separate development inference intervention; no new QLoRA training. "
+            "These results use a different prompt from the original controls above "
+            "and are excluded from the seed aggregates.",
+            "",
+            "| Condition | N | EX % | Valid SQL % |",
+            "|---|---:|---:|---:|",
+            *(
+                f"| {name} | {ev['n']} | {_pct(ev['execution_accuracy'])} "
+                f"| {_pct(ev['valid_sql_rate'])} |"
+                for name, ev in (("b3/42 + dates/columns", candidate), ("Matched base", base))
+            ),
+            "",
+            f"See the [diagnostic report]({link}) for scope, limits and the scaling decision.",
+        ]
     write_json(runs_dir / f"seed-summary-{split}.json", aggregates)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n")

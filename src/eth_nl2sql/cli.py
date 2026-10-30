@@ -701,7 +701,8 @@ def main(argv: list[str] | None = None) -> None:
             type=Path,
             default=cfg.ROOT
             / "reports"
-            / "snapshot-t06"
+            / "local-store"
+            / "snapshot"
             / ("dry-run.json" if name == "snapshot-plan" else "extraction.json"),
         )
         if name == "snapshot-run":
@@ -718,7 +719,7 @@ def main(argv: list[str] | None = None) -> None:
     )
     command.add_argument("--parquet", type=Path, default=cfg.DATA_DIR / "store" / "full-parquet")
     command.add_argument(
-        "--out", type=Path, default=cfg.ROOT / "reports" / "snapshot-t06" / "data-quality.json"
+        "--out", type=Path, default=cfg.ROOT / "reports" / "local-store" / "data-quality.json"
     )
 
     command = add("build-store", cmd_build_store, "build the DuckDB store from parquet")
@@ -738,10 +739,10 @@ def main(argv: list[str] | None = None) -> None:
     command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
     command.add_argument("--store", type=Path, default=cfg.STORE_PATH)
     command.add_argument(
-        "--out", type=Path, default=cfg.ROOT / "reports" / "entity-dataset" / "validation.json"
+        "--out", type=Path, default=cfg.ROOT / "reports" / "dataset" / "validation.json"
     )
     command.add_argument(
-        "--report", type=Path, default=cfg.ROOT / "reports" / "entity-dataset" / "validation.md"
+        "--report", type=Path, default=cfg.ROOT / "reports" / "dataset" / "validation.md"
     )
 
     command = add(
@@ -757,7 +758,7 @@ def main(argv: list[str] | None = None) -> None:
     command.add_argument("--dictionary", type=Path, default=cfg.DICTIONARY_DIR)
     command.add_argument("--require-human", action="store_true")
     command.add_argument(
-        "--out", type=Path, default=cfg.ROOT / "reports" / "benchmark-t07" / "annotations.json"
+        "--out", type=Path, default=cfg.ROOT / "reports" / "dataset" / "annotations.json"
     )
 
     for name, handler in (
@@ -775,7 +776,7 @@ def main(argv: list[str] | None = None) -> None:
             command.add_argument(
                 "--out",
                 type=Path,
-                default=cfg.ROOT / "reports" / "benchmark-t07" / "benchmark.json",
+                default=cfg.ROOT / "reports" / "benchmark" / "benchmark-sample.json",
             )
 
     command = add(

@@ -32,3 +32,14 @@ N is the number of shared questions per seed; seeds are repeated training runs. 
 |---|---|---|---:|---|---|
 | b3-base | 42 | – | 100 | 0.0 ± – | 0.0 ± – |
 | b3l-base | 42 | – | 100 | 0.0 ± – | 0.0 ± – |
+
+## Frozen-adapter prompt diagnosis
+
+Separate development inference intervention; no new QLoRA training. These results use a different prompt from the original controls above and are excluded from the seed aggregates.
+
+| Condition | N | EX % | Valid SQL % |
+|---|---:|---:|---:|
+| b3/42 + dates/columns | 100 | 19.0 | 85.0 |
+| Matched base | 100 | 0.0 | 0.0 |
+
+See the [diagnostic report](reports/experiments/diagnosis/README.md) for scope, limits and the scaling decision.

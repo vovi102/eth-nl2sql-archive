@@ -1,0 +1,19 @@
+{
+  "hardware": {
+    "cuda": "12.4",
+    "gpus": [
+      "Tesla T4",
+      "Tesla T4"
+    ],
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "python": "3.11.15",
+    "torch": "2.5.1+cu124"
+  },
+  "peak_gpu_memory_gib": 4.335353374481201,
+  "peak_gpu_reserved_gib": 4.62109375,
+  "per_gpu_peak_allocated_gib": [
+    2.5874505043029785,
+    4.335353374481201
+  ],
+  "runtime_s": 2543.530193153
+}

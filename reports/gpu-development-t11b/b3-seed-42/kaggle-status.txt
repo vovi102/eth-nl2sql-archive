@@ -1,1 +1,0 @@
-aohkvd/eth-nl2sql-t11b-b3-seed-42-20261028 has status "KernelWorkerStatus.RUNNING"

@@ -1,0 +1,28 @@
+{
+  "note": "Local tokenizer/span audit; pinned GPU loss arithmetic is checked separately.",
+  "padding_labels_masked": true,
+  "scope": "original b3 SFT train/dev, all rows",
+  "splits": {
+    "dev": {
+      "incorrect_label_spans": 0,
+      "masked_prompt_tokens": 143601,
+      "missing_or_truncated_targets": 0,
+      "rows_checked": 516,
+      "source_sha256": "df1881733927555e3e119e71c5e43552d3b52acf7e638ca963c88e3cafd20835",
+      "sql_eot_tokens": 47772
+    },
+    "train": {
+      "incorrect_label_spans": 0,
+      "masked_prompt_tokens": 1357819,
+      "missing_or_truncated_targets": 0,
+      "rows_checked": 4872,
+      "source_sha256": "cb4849052e60ebed80bca8cd9c0fd01ba89bbe4592862cd241fc940fe27b1e1c",
+      "sql_eot_tokens": 490812
+    }
+  },
+  "versions": {
+    "tokenizers": "0.22.2",
+    "torch": "2.14.1",
+    "transformers": "4.57.6"
+  }
+}

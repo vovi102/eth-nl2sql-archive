@@ -13,8 +13,8 @@ không gọi model/linker hoặc đọc câu hỏi/SQL train/dev/dev_eval; manif
 Schema target được khai báo riêng rồi
 validator đối chiếu với SQL, không lấy SQL/prediction để bootstrap nhãn semantic.
 
-[Báo cáo T09A](../../reports/benchmark-t09a/README.md) ghi phạm vi sample, hash/leakage và các
-ca còn chờ. [Hồ sơ human review](../../reports/benchmark-t09a/human-review.md) chứa từng cặp
+[Báo cáo T09A](../../reports/benchmark/README.md) ghi phạm vi sample, hash/leakage và các
+ca còn chờ. [Hồ sơ human review](../../reports/benchmark/human-review.md) chứa từng cặp
 câu hỏi–SQL–annotation, preview sample, lý do tác giả, đối chứng và hash cần người xác nhận.
 T09B chờ T06 để chạy lại trên snapshot đầy đủ, kiểm witness/ca rỗng và hoàn tất human review
 trước khi đóng băng. Không chạy generator hoặc chỉnh linker từ test v2.

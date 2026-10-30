@@ -1,0 +1,57 @@
+{
+  "answer_f1": 1.0,
+  "by_group": {
+    "difficulty:unknown": {
+      "execution_accuracy": 1.0,
+      "n": 8
+    },
+    "subset:generic": {
+      "execution_accuracy": 1.0,
+      "n": 8
+    }
+  },
+  "date_literals_match_gold": 8,
+  "evaluation_role": "development",
+  "exact_match": 1.0,
+  "execution_accuracy": 1.0,
+  "execution_accuracy_ci95": [
+    1.0,
+    1.0
+  ],
+  "execution_ms": {
+    "n": 8,
+    "p50": 14.707095000630943,
+    "p95": 27.086567099195236
+  },
+  "format_ok_rate": 1.0,
+  "generation_ms": {
+    "n": 8,
+    "p50": 7515.506406999975,
+    "p95": 9785.891937499995
+  },
+  "n": 8,
+  "scope": "8 development cases; frozen-adapter inference intervention",
+  "status_counts": {
+    "ok": 8
+  },
+  "store": {
+    "complete_snapshot": false,
+    "labels_sha256": "18d730c00052fd1ed9810529681893a1bebbcbf1679d42195eb14e7133795549",
+    "parquet_manifest_sha256": "7831ce3fbea53c841f0fca8bca29f4f6bc50f30aa2353af3d3df33493df78cce",
+    "rows": {
+      "amended_tokens": 2489651,
+      "blocks": 221548,
+      "contracts": 16386,
+      "entity_labels_snapshot": 6647,
+      "token_transfers": 4001230,
+      "transactions": 4431329
+    },
+    "scope": "labeled_address_transactions_plus_approximately_one_percent_of_other_transactions",
+    "window": [
+      "2026-05-31",
+      "2026-07-01"
+    ]
+  },
+  "structural_match": 1.0,
+  "valid_sql_rate": 1.0
+}

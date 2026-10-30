@@ -1,0 +1,133 @@
+{
+  "adapter_sha256": "4881dd2caa1014ea214e3a68c33cf4224a40b87dd1182c7d0658f58b54f1aed7",
+  "archive_sha256": "c58de632616159dd15b6020e3f7cb253913e56030c23ed91d846b908a6763705",
+  "datasets": {
+    "dev": {
+      "bad_column_targets": {
+        "block_transaction_count": 0,
+        "is_successfull": 0
+      },
+      "questions_with_iso_date": 448,
+      "questions_with_natural_month": 0,
+      "rows": 516,
+      "template_ids": [
+        "E_ACTIVE_ADDRESSES",
+        "E_CLASS_FROM",
+        "E_CLASS_PAIR",
+        "E_CLASS_TO",
+        "E_TOKEN_FROM",
+        "E_TOKEN_TO",
+        "E_TX_EITHER",
+        "E_TX_FROM",
+        "E_TX_PAIR",
+        "E_TX_TO",
+        "T_ACCOUNTS_BY_CATEGORY",
+        "T_BLOCKS_BY_VALIDATOR",
+        "T_BLOCK_BY_NUMBER",
+        "T_CATEGORY_OWNER_DISTRIBUTION",
+        "T_COUNT_TX_IN_RANGE",
+        "T_FAILED_HIGH_GAS_TX",
+        "T_FILTER_TX_BY_VALUE",
+        "T_LARGE_TX_TO_CLASS",
+        "T_LIST_FAILED_TX",
+        "T_LIST_KNOWN_EXCHANGES",
+        "T_LIST_TX_FROM_ACCOUNT",
+        "T_LIST_TX_TO_ACCOUNT",
+        "T_OWNER_NET_NATIVE_FLOW",
+        "T_TOKEN_AFTER_NATIVE_FUNDING",
+        "T_TOKEN_TRANSFERS_OF_TOKEN",
+        "T_TOKEN_VOLUME_BY_SYMBOL",
+        "T_TOP_RECIPIENTS_BY_COUNT",
+        "T_TOP_SENDERS_BY_VALUE",
+        "T_TREASURY_NATIVE_COUNTERPARTY_CONCENTRATION",
+        "T_TX_BETWEEN_ACCOUNTS",
+        "T_TX_BY_HASH",
+        "T_TX_BY_HOUR",
+        "T_TX_GROUPED_BY_OWNER"
+      ]
+    },
+    "dev_eval": {
+      "bad_column_targets": {
+        "block_transaction_count": 0,
+        "is_successfull": 0
+      },
+      "questions_with_iso_date": 50,
+      "questions_with_natural_month": 50,
+      "rows": 100,
+      "template_ids": []
+    },
+    "train": {
+      "bad_column_targets": {
+        "block_transaction_count": 0,
+        "is_successfull": 0
+      },
+      "questions_with_iso_date": 4460,
+      "questions_with_natural_month": 0,
+      "rows": 4872,
+      "template_ids": [
+        "E_ACTIVE_ADDRESSES",
+        "E_CLASS_FROM",
+        "E_CLASS_PAIR",
+        "E_CLASS_TO",
+        "E_TOKEN_FROM",
+        "E_TOKEN_TO",
+        "E_TX_EITHER",
+        "E_TX_FROM",
+        "E_TX_PAIR",
+        "E_TX_TO",
+        "T_ACCOUNTS_BY_CATEGORY",
+        "T_BLOCKS_BY_VALIDATOR",
+        "T_BLOCK_BY_NUMBER",
+        "T_CATEGORY_OWNER_DISTRIBUTION",
+        "T_COUNT_TX_IN_RANGE",
+        "T_FAILED_HIGH_GAS_TX",
+        "T_FILTER_TX_BY_VALUE",
+        "T_LARGE_TX_TO_CLASS",
+        "T_LIST_FAILED_TX",
+        "T_LIST_KNOWN_EXCHANGES",
+        "T_LIST_TX_FROM_ACCOUNT",
+        "T_LIST_TX_TO_ACCOUNT",
+        "T_OWNER_NET_NATIVE_FLOW",
+        "T_REPEATED_PAIR_FLOW",
+        "T_TOKEN_AFTER_NATIVE_FUNDING",
+        "T_TOKEN_TRANSFERS_OF_TOKEN",
+        "T_TOKEN_VOLUME_BY_SYMBOL",
+        "T_TOP_RECIPIENTS_BY_COUNT",
+        "T_TOP_SENDERS_BY_VALUE",
+        "T_TREASURY_NATIVE_COUNTERPARTY_CONCENTRATION",
+        "T_TREASURY_TOKEN_COUNTERPARTY_DIVERSITY",
+        "T_TX_BETWEEN_ACCOUNTS",
+        "T_TX_BY_HASH",
+        "T_TX_BY_HOUR",
+        "T_TX_GROUPED_BY_OWNER"
+      ]
+    }
+  },
+  "error_counts_nonexclusive": {
+    "date_window": 10,
+    "different_relation": 2,
+    "extra_positive_amount_filter": 1,
+    "missing_coalesce_and_alias": 1,
+    "unknown_column": 3
+  },
+  "evaluation_role": "development",
+  "predictions_sha256": "368c3d3a7a2bb867ecf22b9d634351698748a8a4afbb30ae2a4fc7473e37bc44",
+  "scope": "first ten dev_eval cases",
+  "test_v2_hashes_only": {
+    "data/benchmark/v2/annotations.jsonl": "66194a4a9c82ef2f37a77d1cd04c0eeb96628429f2bb8f293ea7441a56b626a1",
+    "data/benchmark/v2/author-notes.jsonl": "bba052116d5c6ace980b4e88393f5f81e9065aee0d6f71948cb292a1403b993f",
+    "data/benchmark/v2/authoring.py": "9fcfa7900f5e310997a272cbffbebae9fb7ae9bbcf8bab73c5d9aa72c201a8d5",
+    "data/benchmark/v2/manifest.json": "419d0d25d8bbb9c06b14191ebceed11c4b183603227d40335076b8929d4bd8eb",
+    "data/benchmark/v2/property-contrasts.jsonl": "35fd92a03dfa8ad2b4e33a00f1794f629a2afff54d278666ce30251130a7cc2d",
+    "data/benchmark/v2/reviews.jsonl": "d74b24f83038e89d4b54015e2a57d96aaaa152784132752e8c19ee9ae936932c",
+    "data/benchmark/v2/test.jsonl": "643855f961e97514356c7e0ab7b95edfbeccc5d6663810907841a06a0ba9dde6"
+  },
+  "train_dev_overlaps": {
+    "family_id": 0,
+    "id": 0,
+    "question": 0,
+    "sql": 0,
+    "template_id": 33
+  },
+  "verified_original_files": 40
+}

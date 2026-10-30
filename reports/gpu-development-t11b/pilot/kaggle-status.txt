@@ -1,1 +1,0 @@
-aohkvd/eth-nl2sql-t11b-pilot-20261028 has status "KernelWorkerStatus.COMPLETE"

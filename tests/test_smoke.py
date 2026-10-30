@@ -84,7 +84,7 @@ def test_smoke_accepts_all_real_signatures_without_data():
 
 
 def test_original_smoke_is_now_rejected():
-    rows = cfg.read_jsonl(cfg.ROOT / "reports/gpu-development-t11a/b3-base-smoke-10.jsonl")
+    rows = cfg.read_jsonl(cfg.ROOT / "tests/fixtures/smoke-tvf-as-table.jsonl")
     report = inspect_predictions(rows)
     assert not report["passed"]
     assert report["cases"][0]["status"] == "compile_error"

@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-001",
+      "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-07')",
+      "status": "ok"
+    },
+    {
+      "error": "Binder Error: Referenced column \"is_successfull\" not found in FROM clause!\nCandidate bindings: \"is_success\", \"from_address\", \"receipt_status\", \"gas_price_wei\", \"receipt_gas_used\"\n\nLINE 1: ...(CAST('2026-06-01' AS DATE), CAST('2026-06-07' AS DATE)) WHERE is_successfull IS TRUE\n                                                                          ^",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-002",
+      "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-07')\nWHERE is_successfull IS TRUE",
+      "status": "compile_error"
+    },
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-003",
+      "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-07')\nWHERE is_success IS FALSE",
+      "status": "ok"
+    },
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-004",
+      "sql": "SELECT SUM(value_wei)\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-01', DATE '2026-06-07')",
+      "status": "ok"
+    },
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-005",
+      "sql": "SELECT COUNT(*) AS block_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-07')",
+      "status": "ok"
+    },
+    {
+      "error": "Binder Error: Referenced column \"block_transaction_count\" not found in FROM clause!\nCandidate bindings: \"block_hash\", \"block_timestamp\", \"transaction_count\", \"block_number\", \"beneficiary_address\"\n\nLINE 1: SELECT AVG(block_transaction_count) AS avg_transactions_per_block FROM...\n                   ^",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-006",
+      "sql": "SELECT AVG(block_transaction_count) AS avg_transactions_per_block\nFROM `nl2sparql-thesis.nl2sparql_analytics.block_facts`(DATE '2026-06-01', DATE '2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-007",
+      "sql": "SELECT COUNT(*) AS token_transfer_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-01', DATE '2026-06-07')",
+      "status": "ok"
+    },
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-008",
+      "sql": "SELECT COUNT(*) AS token_transfer_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers`(DATE '2026-06-01', DATE '2026-06-07')\nWHERE normalized_amount IS NOT NULL AND normalized_amount > 0",
+      "status": "ok"
+    },
+    {
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-028",
+      "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-06-30')",
+      "status": "ok"
+    },
+    {
+      "error": "Binder Error: Referenced column \"is_successfull\" not found in FROM clause!\nCandidate bindings: \"is_success\", \"from_address\", \"receipt_status\", \"gas_price_wei\", \"receipt_gas_used\"\n\nLINE 1: ...(CAST('2026-06-22' AS DATE), CAST('2026-06-30' AS DATE)) WHERE is_successfull IS TRUE\n                                                                          ^",
+      "finish_reason": "stop",
+      "format_ok": true,
+      "id": "t35-029",
+      "sql": "SELECT COUNT(*) AS transaction_count\nFROM `nl2sparql-thesis.nl2sparql_analytics.transaction_facts`(DATE '2026-06-22', DATE '2026-06-30')\nWHERE is_successfull IS TRUE",
+      "status": "compile_error"
+    }
+  ],
+  "compile_passed": 7,
+  "passed": false,
+  "purpose": "TVF signatures/windows and compilation on empty schema; no EX computed",
+  "rows": 10,
+  "status_counts": {
+    "compile_error": 3,
+    "ok": 7
+  }
+}

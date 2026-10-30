@@ -1,0 +1,16 @@
+{
+  "base-dates-columns-cases.jsonl": "54530a730aed61f37365f4fdbc874c863e8b35a2414b7e942d64d3099b642b80",
+  "base-dates-columns.json": "83e6c4c8b90841dc52107d064f23f9df5fd5a4180469f8870cbde2518f25c1f4",
+  "columns-cases.jsonl": "9e4da00f0ed8c497de3063b6eb3858a4c619f145f3db1e58c66a6572183a7786",
+  "columns.json": "4ab4f1aa1d5ab47e9629846895c8bcf2122dcbc6f2a386c56e67e3ba21b7a88e",
+  "dates-cases.jsonl": "199ccbe59156dd9408e35fc32cc3831526734a3cd35f8a1fc091fd7e1c2e6629",
+  "dates-columns-cases.jsonl": "170382544586753db29d159b1267e3e8c8170a658ea7d1c526ad7bb6d52575cb",
+  "dates-columns.json": "e9becd2ded285439e4b76eadf1c19ac380c9173542bc75cef8523c6214028f92",
+  "dates.json": "e3cc9518a1c70a96895d86c5afcc7e37232530890f64eaf8ac9dc230f9cb3f9f",
+  "dev-iso-cases.jsonl": "dd5a5dfb69e84bc018bcdc96cae2f3b1a1c51253470e4576eb4471a2511f9502",
+  "dev-iso.json": "352ae8a9841a33fa0291bdedce9413565551b3353ebab33a15a8e990dcce3a68",
+  "dev-natural-date-cases.jsonl": "1fd686d651f3628f57b0d8859971879d293804f4e38bff775c9bc6296ca247c8",
+  "dev-natural-date.json": "89c9efc4885e9fd1cb2f1aa41916ac30784904d9890e3a701938735d634db2ec",
+  "original-cases.jsonl": "87a011b56f92741989a846b96b4a372db8b18dbe4f2ebd6dc37e62563a95b67a",
+  "original.json": "d4091c06fd27a7de632075f85918db571149f23289eaaf38e5eb206dce236089"
+}

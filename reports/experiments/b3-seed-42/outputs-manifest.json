@@ -1,0 +1,19 @@
+{
+  "reports/experiments/b3-seed-42/inputs-manifest.json": "7822a8ee4cd3515761d9fa59f13827b5d04612864aadac788c98f74bfd578aad",
+  "reports/experiments/b3-seed-42/runtime.json": "6c94485b2c79c7091b2dafe0ce92947f7dff1b510316ca5ce6ed7f4d08e06446",
+  "reports/experiments/b3-seed-42/smoke.json": "d4b24d41260e0d0f940740d5d257ecd6f0f02b394c783d6884e0b0cb85b6960b",
+  "reports/experiments/b3-seed-42/stages.json": "4d1e38f409d8381942e8ddb9adc531ddc039256dc3b7ceac07a633361a69dc60",
+  "reports/experiments/b3-seed-42/status.json": "2c08f991343bea90218f4797253b7be73b63d7a8b766bfeae999a759a61e737f",
+  "runs/b3/seed-42/adapter/README.md": "8535b279ab3514f9131d36adae899ee0a2939ffa9955c5f374b87edf91ab2d5c",
+  "runs/b3/seed-42/adapter/adapter_config.json": "054f53ebe8f2411ab135e46160a000648063e69a771846ddab179b7b75bc909b",
+  "runs/b3/seed-42/adapter/adapter_model.safetensors": "d55f3c47578e13f0359b25d6923a6f0ddd14319eaa79bcbf6b0b932da11916a5",
+  "runs/b3/seed-42/adapter/special_tokens_map.json": "1b1835caa5b4d70acaa210fa222b0036f1882f9525c4660fd4810fb3e1e40ff8",
+  "runs/b3/seed-42/adapter/tokenizer.json": "3c5cf44023714fb39b05e71e425f8d7b92805ff73f7988b083b8c87f0bf87393",
+  "runs/b3/seed-42/adapter/tokenizer_config.json": "09de422b0cb003c5d83413ba734c71d6e8369f3a1e7b1fa00d3932aceef70e88",
+  "runs/b3/seed-42/predictions-dev_eval.jsonl": "368c3d3a7a2bb867ecf22b9d634351698748a8a4afbb30ae2a4fc7473e37bc44",
+  "runs/b3/seed-42/predictions-dev_eval.manifest.json": "e0b29565ee33508c3046bac65c2f60092625ce689b5510ab006aad90699a8fdc",
+  "runs/b3/seed-42/preflight-predictions-dev_eval.json": "70adaf8a4838b12eec1d33578a461036e55dfcbf147c0f34b63ffc47880d3c82",
+  "runs/b3/seed-42/preflight-training.json": "b804523023774fd5a1a6e964fcc11ed713b10d6e40226b0e545f89fa216edb35",
+  "runs/b3/seed-42/training-manifest.json": "b40a70a655d91aa0ab33f931fe64407554105a13c7863f6ecbdcae43380fa0fa",
+  "runs/b3/seed-42/training-summary.json": "6f59192ceddd4afff47f38e8c30429d8e24f4e4151f5e9c77181039b1502b37b"
+}

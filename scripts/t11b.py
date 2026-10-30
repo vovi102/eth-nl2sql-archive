@@ -35,7 +35,7 @@ from eth_nl2sql.gpu_workflow import (  # noqa: E402
     write_runtime,
 )
 
-REPORT = ROOT / "reports/gpu-development-t11b"
+REPORT = ROOT / "reports/experiments"
 NAMES = ("b1", *training_configs())
 
 
@@ -136,10 +136,10 @@ def collect(job: str, archive: Path) -> None:
     manifest = collect_outputs(
         ROOT,
         archive,
-        f"reports/gpu-development-t11b/{job}/outputs-manifest.json",
+        f"reports/experiments/{job}/outputs-manifest.json",
         can_replace=lambda p: p.name in ("preflight-training.json", "inputs-manifest.json"),
     )
-    shutil.copy2(archive, REPORT / job / "artifacts.zip")
+    cfg.write_json(REPORT / job / "outputs-manifest.json", manifest)
     cfg.write_json(
         REPORT / job / "download.json",
         {

@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-001",
+      "sql": "SELECT COUNT(*) \nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts \nWHERE \n  start_date = DATE('2026-06-01') \n  AND end_date = DATE('2026-06-08')",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-002",
+      "sql": "SELECT \n  COUNT(*) AS successful_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\nWHERE \n  start_date = DATE('2026-06-01') AND \n  end_date = DATE('2026-06-07') AND \n  is_success = TRUE",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-003",
+      "sql": "SELECT COUNT(*) \nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_transactions \nWHERE \n  start_date = DATE('2026-06-01') \n  AND end_date = DATE('2026-06-08') \n  AND is_success = FALSE",
+      "status": "compile_error"
+    },
+    {
+      "error": "transaction_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-004",
+      "sql": "SELECT \n  SUM(value_wei) AS total_wei_value\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.transaction_facts\nWHERE \n  start_date = DATE('2026-06-01') AND end_date = DATE('2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-005",
+      "sql": "SELECT COUNT(*) \nFROM nl2sparql-thesis.nl2sparql_analytics.block_facts \nWHERE start_date = DATE('2026-06-01') AND end_date = DATE('2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "error": "block_facts requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-006",
+      "sql": "SELECT AVG(transaction_count) AS avg_transaction_count\nFROM nl2sparql-thesis.nl2sparql_analytics.block_facts\nWHERE start_date = DATE('2026-06-01') AND end_date = DATE('2026-06-07')",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_token_transfers requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-007",
+      "sql": "SELECT COUNT(*) \nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers \nWHERE \n  start_date = DATE('2026-06-01') \n  AND end_date = DATE('2026-06-08')",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_token_transfers requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-008",
+      "sql": "SELECT \n  COUNT(*) AS token_transfer_count\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_token_transfers\nWHERE \n  start_date = DATE('2026-06-01') AND end_date = DATE('2026-06-08')\n  AND value_cast_valid = TRUE\n  AND normalized_amount > 0",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-028",
+      "sql": "SELECT \n  COUNT(*) AS transaction_count\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\nWHERE \n  start_date = '2026-06-22' \n  AND end_date = '2026-06-30'",
+      "status": "compile_error"
+    },
+    {
+      "error": "labeled_transactions requires date arguments",
+      "finish_reason": "stop",
+      "format_ok": false,
+      "id": "t35-029",
+      "sql": "SELECT \n  COUNT(*) AS successful_transactions\nFROM \n  nl2sparql-thesis.nl2sparql_analytics.labeled_transactions\nWHERE \n  start_date = DATE('2026-06-22') \n  AND end_date = DATE('2026-06-30') \n  AND is_success = TRUE",
+      "status": "compile_error"
+    }
+  ],
+  "compile_passed": 0,
+  "passed": false,
+  "purpose": "TVF signatures/windows and compilation on empty schema; no EX computed",
+  "rows": 10,
+  "status_counts": {
+    "compile_error": 10
+  }
+}

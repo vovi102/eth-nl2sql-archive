@@ -62,7 +62,7 @@ annotation trực tiếp và hồ sơ human review pending. Phân bố gồm
 20 câu chung và 20 câu chính cho mỗi hiện tượng `multi_address`, `alias`, `class_level`, `ambiguous_property`;
 cho phép nhãn phụ chồng lấn. Dùng holdout train/dev/test và ba seed QLoRA, không yêu cầu
 cross-validation. Train/dev giữ nguyên; kiểm hash/leakage với train/dev/dev_eval và thực thi
-gold trên sample được ghi trong [báo cáo T09A](reports/benchmark-t09a/README.md).
+gold trên sample được ghi trong [báo cáo T09A](reports/benchmark/README.md).
 T09B chờ T06 để kiểm lại gold/witness/ca rỗng trên snapshot đầy đủ và hoàn tất human review
 trước khi đóng băng; sample không đáp ứng gate phát hành.
 
@@ -70,12 +70,12 @@ Truy vấn theo lớp chỉ bao phủ các thực thể đã gán nhãn, ví d�
 “major”. Resolver đã có ba property: gửi/nhận/cả hai, transaction/token event/join và
 token contract/endpoint; thiếu bằng chứng thì giữ `null` khi xuất JSON. Baseline, bốn
 ablation và bộ chấm linking trực tiếp đã có; kết quả lexical/fuzzy dùng annotation nháp
-chỉ là [đánh giá phát triển](reports/linking-development/README.md). T10 đã bổ sung đối chứng
+chỉ là [đánh giá phát triển](reports/linking/README.md). T10 đã bổ sung đối chứng
 prompt compact và hạ tầng ba seed. T11A đã chạy thật hai đối chứng compact trên Kaggle,
 resume 10 → 100 câu/config và chấm local: EX đều 0/100 do SQL không qua validator/compiler.
 Đây là kiểm chứng hạ tầng trên dữ liệu phát triển, không dùng ngưỡng accuracy để xác nhận.
-Xem [báo cáo T11A và tài nguyên](reports/gpu-development-t11a/README.md),
-[hướng dẫn T10](reports/experiments-t10/README.md)
+Xem [báo cáo T11A và tài nguyên](reports/experiments/README.md),
+[hướng dẫn T10](reports/experiments/WORKFLOW.md)
 và [thiết kế phương pháp](METHODOLOGY.md).
 
 T11B bổ sung smoke kiểm chữ ký TVF và compile trên schema rỗng, pilot B1 catalog đầy đủ,
@@ -84,12 +84,12 @@ và đã train `b3` seed 42 xong 608 step. Smoke gốc đạt 7/10 compile, EX 0
 ngày/cột qua smoke 10/10 rồi đạt 85/100 compile, EX 19/100 trên `dev_eval`;
 đối chứng `b3-base` cùng prompt EX 0/100. Kiểm masking/loss pass, nhưng sửa prompt
 chưa ổn định nên chưa mở rộng `b3l/42` hoặc seed khác. Test v2 chưa được dùng.
-Xem [kết quả T11B và chẩn đoán](reports/gpu-development-t11b/README.md).
+Xem [kết quả T11B và chẩn đoán](reports/experiments/README.md).
 
 ## Cài đặt
 
-Repo giữ code, báo cáo tổng kết và kết quả cuối được trích dẫn. Checkpoint, adapter,
-ZIP, log và report trung gian lưu cục bộ; không cần Git LFS để dùng repo.
+Repo giữ code, báo cáo tổng kết và kết quả cuối được trích dẫn. Adapter cuối còn dùng được giữ local; checkpoint đã hoàn tất, ZIP, log và report
+trung gian được xóa sau kiểm tra. Không tạo archive. Xem [quy tắc giữ artifact](reports/README.md).
 
 ```bash
 uv sync --locked                  # lõi: validator, DuckDB store, đánh giá
@@ -136,7 +136,7 @@ Sau cài đặt, chạy lệnh CLI bằng `uv run --locked eth-nl2sql ...`.
 | Dựng prompt | `eth-nl2sql prompts --config b2l` | thêm `b3-base`/`b3l-base` có prompt giống hệt QLoRA; `--training` dành cho `b3`/`b3l` |
 | Preflight | `eth-nl2sql preflight --config b3 --training --seed all` | kiểm input/token, giữ/bỏ dòng; chỉ tải tokenizer, không tải model |
 | Smoke SQL | `eth-nl2sql smoke --predictions <jsonl> --out <json>` | kiểm TVF/ngày và compile trên schema rỗng; exit 1 nếu lỗi; không tính EX |
-| Kiểm chứng GPU phát triển T11A | `scripts/t11a_prepare.py`, `scripts/t11a.py`, `scripts/t11a_notebook.py` | quy trình đã chạy thật, input/ZIP có hash; [lệnh và kết quả T11A](reports/gpu-development-t11a/README.md) |
+| Kiểm chứng GPU phát triển T11A | `scripts/t11a_prepare.py`, `scripts/t11a.py`, `scripts/t11a_notebook.py` | quy trình đã chạy thật, input/ZIP có hash; [lệnh và kết quả T11A](reports/experiments/README.md) |
 | Train ba seed | `eth-nl2sql train --config all --seed all` | sáu lượt `b3`/`b3l` × 42/43/44; `--resume` kiểm provenance |
 | Sinh SQL / train | `notebooks/kaggle_predict.ipynb`, `notebooks/kaggle_train.ipynb` | GPU Kaggle T4 |
 | Đánh giá | `eth-nl2sql evaluate --config b3l --seed all` | artifact riêng `runs/<config>/seed-<seed>/`; thực thi trên DuckDB local |
@@ -146,7 +146,7 @@ Sau cài đặt, chạy lệnh CLI bằng `uv run --locked eth-nl2sql ...`.
 EX phải bằng 100%. Đây là kiểm tra đường ống, không phải accuracy của model.
 
 Chi tiết chuẩn bị input, lệnh chạy hai đối chứng và ma trận sáu lượt, layout artifact,
-resume và báo cáo tài nguyên nằm trong [báo cáo T10](reports/experiments-t10/README.md).
+resume và báo cáo tài nguyên nằm trong [báo cáo T10](reports/experiments/WORKFLOW.md).
 Seed generation/bootstrap vẫn là 42, độc lập với seed huấn luyện. File prediction cũ không
 có manifest sẽ không được tự động tái sử dụng. `--split test` vẫn bị chặn khi benchmark draft.
 
@@ -163,24 +163,24 @@ src/eth_nl2sql/
   data/        splits · annotations · benchmark · dataset_audit · entities
   validation.py · results.py · evaluate.py · report.py · experiments.py · train_qlora.py · cli.py
 notebooks/ kaggle_predict.ipynb · kaggle_train.ipynb
-reports/   data-quality/ · local-store/ · dictionary-v2/ · entity-dataset/ · benchmark-t07/ · benchmark-t09a/
-           linking-development/ · experiments-t10/ · gpu-development-t11a/
+reports/   README.md · data-quality/ · local-store/ · dictionary-v2/
+           dataset/ · benchmark/ · linking/ · experiments/
 ```
 
 ## Trạng thái và bằng chứng
 
-Đối chiếu tài liệu/artifact ngày **28/10/2026**; các báo cáo T02–T06 ghi ngày
-26/10/2026; T07 ghi ngày 27/10/2026. Chi tiết nguồn và quan hệ với `luanvan` nằm trong phần provenance của
+Tài liệu hiện hành được sắp xếp lại ngày **30/10/2026**; thời điểm và hash trong
+artifact vẫn mô tả lần kiểm/chạy gốc. Chi tiết nguồn và quan hệ với `luanvan` nằm trong phần provenance của
 [METHODOLOGY.md](METHODOLOGY.md).
 
 | Hạng mục | Hiện trạng | Bằng chứng / việc còn thiếu |
 |---|---|---|
 | Pipeline lõi | Đã có validator, store, linking, prompt và bộ đánh giá | [Kiểm tra lõi](VALIDATION.md) |
 | Dữ liệu blockchain local | CSV đã kiểm chất lượng; Parquet/DuckDB phát triển đã dựng, vẫn là sample | [Chất lượng CSV](reports/data-quality/luanvan.md), [store local](reports/local-store/README.md) |
-| Snapshot và parity | T06: chuẩn bị/dry-run xong; kiểm nghiệm hoãn theo yêu cầu | [Ghi chú T06 và cách thực hiện sau](reports/snapshot-t06/README.md) |
+| Snapshot và parity | T06: chuẩn bị/dry-run xong; kiểm nghiệm hoãn theo yêu cầu | [Ghi chú T06 và cách thực hiện sau](reports/local-store/README.md) |
 | Dictionary v2 | Đã có nhiều địa chỉ, alias, lớp và báo cáo hiện diện | [Dictionary](data/entities/v2/README.md), [kiểm chứng](reports/dictionary-v2/README.md) |
-| Dataset hiện tại | Đã kiểm gold và review agent; human review còn chờ | [Dataset và hồ sơ kiểm](reports/entity-dataset/README.md) |
-| Benchmark v2 | T09A: 100 câu/SQL, annotation và hồ sơ review; draft, chờ full snapshot và human review ở T09B | [Báo cáo T09A](reports/benchmark-t09a/README.md), [giao thức annotation](data/benchmark/README.md) |
-| Linking và ablation | Resolver ba property, baseline, bốn ablation, runner dùng chung retrieval và bộ chấm trực tiếp đã có | [Đánh giá phát triển với annotation nháp](reports/linking-development/README.md) |
-| Kiểm chứng GPU | T11A hoàn tất: hai base control không adapter, 100 câu/config, resume thật, provenance và tài nguyên; EX phát triển đều 0/100, mọi SQL dừng ở validator/compiler | [Báo cáo T11A](reports/gpu-development-t11a/README.md), [kết quả](RESULTS.md) |
-| Thực nghiệm nghiên cứu | Đã train QLoRA b3/42 ở T11B; chẩn đoán prompt trên adapter đóng băng đạt EX 19/100; chưa mở rộng seed và chưa chạy ma trận test frozen | [Chẩn đoán T11B](reports/gpu-development-t11b/README.md), [hướng dẫn T10](reports/experiments-t10/README.md), [phương pháp](METHODOLOGY.md) |
+| Dataset hiện tại | Đã kiểm gold và review agent; human review còn chờ | [Dataset và hồ sơ kiểm](reports/dataset/README.md) |
+| Benchmark v2 | T09A: 100 câu/SQL, annotation và hồ sơ review; draft, chờ full snapshot và human review ở T09B | [Báo cáo T09A](reports/benchmark/README.md), [giao thức annotation](data/benchmark/README.md) |
+| Linking và ablation | Resolver ba property, baseline, bốn ablation, runner dùng chung retrieval và bộ chấm trực tiếp đã có | [Đánh giá phát triển với annotation nháp](reports/linking/README.md) |
+| Kiểm chứng GPU | T11A hoàn tất: hai base control không adapter, 100 câu/config, resume thật, provenance và tài nguyên; EX phát triển đều 0/100, mọi SQL dừng ở validator/compiler | [Báo cáo T11A](reports/experiments/README.md), [kết quả](RESULTS.md) |
+| Thực nghiệm nghiên cứu | Đã train QLoRA b3/42 ở T11B; chẩn đoán prompt trên adapter đóng băng đạt EX 19/100; chưa mở rộng seed và chưa chạy ma trận test frozen | [Chẩn đoán T11B](reports/experiments/README.md), [hướng dẫn T10](reports/experiments/WORKFLOW.md), [phương pháp](METHODOLOGY.md) |

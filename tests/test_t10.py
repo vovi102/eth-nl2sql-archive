@@ -32,6 +32,28 @@ CATALOG = json.loads(cfg.CATALOG_PATH.read_text())
 LINKINGS = {case["id"]: Linking((), (), ()) for case in CASES}
 
 
+@pytest.mark.parametrize("tampered", [False, True])
+def test_diagnostic_results_are_verified_and_excluded_from_seed_aggregates(tmp_path, tampered):
+    directory = tmp_path / "reports/experiments/diagnosis/evaluation"
+    directory.mkdir(parents=True)
+    checksums = {}
+    for name, ex, valid in (("dates-columns", 0.19, 0.85), ("base-dates-columns", 0, 0)):
+        path = directory / f"{name}.json"
+        cfg.write_json(path, {"n": 100, "execution_accuracy": ex, "valid_sql_rate": valid})
+        checksums[path.name] = cfg.sha256_file(path)
+    cfg.write_json(directory / "manifest.json", checksums)
+    out = tmp_path / "RESULTS.md"
+    if tampered:
+        cfg.write_json(directory / "dates-columns.json", {"n": 999})
+        with pytest.raises(ValueError, match="Diagnostic evaluation hash mismatch"):
+            write_report(tmp_path / "runs", "dev_eval", out)
+        assert not out.exists()
+    else:
+        write_report(tmp_path / "runs", "dev_eval", out)
+        assert "| b3/42 + dates/columns | 100 | 19.0 | 85.0 |" in out.read_text()
+        assert json.loads((tmp_path / "runs/seed-summary-dev_eval.json").read_text()) == {}
+
+
 class Tokenizer:
     eos_token_id = 2
     unk_token_id = 0

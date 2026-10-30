@@ -1,57 +1,41 @@
-# T01 — Xác nhận pipeline hiện tại
+# Kiểm chứng hiện hành
 
-Ngày kiểm tra: **26/10/2026** (Asia/Saigon). Trạng thái: **hoàn thành**.
+Ngày kiểm: **30/10/2026**, Asia/Saigon. Kiểm tra local sau khi dọn `reports/` và
+`runs/`, cập nhật đường dẫn và bỏ phụ thuộc vào ZIP/báo cáo lịch sử.
 
-## Môi trường
-
-- Linux x86_64, CPython 3.11.15, uv 0.11.14.
-- Môi trường `.venv/` được tạo bằng `uv sync --locked`, gồm dependency lõi và nhóm `dev`.
-- Giữ nguyên `pyproject.toml`, `.python-version` và `uv.lock`.
-- SHA-256 của `uv.lock`:
-  `2e20ab85c09f1b1d4c6294abbe18184549d519b721bdac168ecf5fa7dda5a4ca`.
-
-| Package | Phiên bản |
+| Kiểm tra | Kết quả |
 |---|---|
-| eth-nl2sql | 0.1.0 |
-| duckdb | 1.5.6 |
-| numpy | 2.4.6 |
-| pyarrow | 21.0.0 |
-| pytest | 8.4.2 |
-| pytz | 2026.5 |
-| rapidfuzz | 3.14.6 |
-| ruff | 0.17.2 |
-| sqlglot | 30.24.0 |
+| `uv run --locked pytest -q` | 360 passed, 146,27 giây |
+| Ba case regression bổ sung | 3 passed: giữ manifest không chép ZIP; tách chẩn đoán khỏi seed aggregate; từ chối evaluation sai hash |
+| `uv run --locked ruff check src tests scripts` | All checks passed |
+| `uv run --locked eth-nl2sql check-sql` | 1.547 SQL, không lỗi |
+| `uv run --locked eth-nl2sql report` | Tạo RESULTS thành công, chẩn đoán prompt có mục riêng |
+| `git diff --check` | Không lỗi whitespace |
+| Liên kết Markdown local | Đều trỏ tới file hiện có |
 
-## Kết quả
+Các case mới chạy riêng sau suite đầy đủ; không diễn giải bảng trên thành một
+lần chạy đầy đủ 363 case. Kiểm SQL trên schema rỗng không thay kiểm gold trên dữ liệu.
 
-| Kiểm tra | Kết quả | Exit code |
-|---|---|---|
-| `uv sync --locked` | Cài đặt thành công theo lockfile | 0 |
-| `uv run --locked pytest -q` | `75 passed in 11.99s` | 0 |
-| `uv run --locked ruff check src tests` | `All checks passed!` | 0 |
-| `uv run --locked eth-nl2sql check-sql` | `{"checked": 1050, "failures": []}` | 0 |
+## Toàn vẹn và giữ artifact
 
-`check-sql` kiểm SQL phân biệt trong từng split: 901 train, 99 dev và 50 test.
-Các kiểm tra đã pass; không cần sửa mã nguồn hoặc dữ liệu để hoàn tất T01.
+Đối chiếu SHA-256 trước/sau xác nhận **130 artifact dữ liệu được giữ nguyên**,
+kể cả prediction, evaluation, prompt/SFT và metadata train. File benchmark v2
+không đổi. Manifest của raw diagnostic output và evaluation đều khớp. Adapter
+cuối `b3/42` khớp digest đã ghi:
 
-## Chạy lại
+`4881dd2caa1014ea214e3a68c33cf4224a40b87dd1182c7d0658f58b54f1aed7`.
 
-Từ thư mục gốc của repo:
+Toàn bộ 40 output gốc được kiểm trước khi xóa ZIP/checkpoint. Manifest hiện tại
+chỉ liệt kê 17 file gốc còn giữ; không tuyên bố checkpoint đã xóa vẫn tồn tại.
+`reports/` và `runs/` còn khoảng **103,43 MiB**, giảm **658,27 MiB**; không còn
+ZIP, log, JUnit, notebook sinh tự động hoặc checkpoint optimizer cũ.
 
-```bash
-uv sync --locked
-uv run --locked pytest -q
-uv run --locked ruff check src tests
-uv run --locked eth-nl2sql check-sql
-```
+Giới hạn provenance có sẵn: hash source training trong manifest `b3/42` khác
+HEAD trước khi dọn. Adapter vẫn nguyên vẹn; không sửa manifest để vượt kiểm
+resume. Chi tiết ở [hướng dẫn thực nghiệm](reports/experiments/WORKFLOW.md).
 
-Trong phiên kiểm tra này, mỗi lệnh trên dùng thêm biến môi trường
-`UV_CACHE_DIR=/tmp/eth-nl2sql-uv` vì thư mục cache mặc định chỉ đọc.
-Lần cài đầu cần tải package; các kiểm tra sau khi cài không cần BigQuery hoặc GPU.
+## Phạm vi
 
-## Phạm vi xác nhận
-
-T01 xác nhận test của pipeline lõi trên CPU với fixture cục bộ, lint và khả năng chạy SQL
-dataset trên schema DuckDB rỗng. Kết quả này chưa xác nhận tính đúng của gold trên dữ liệu
-Ethereum thật, parity BigQuery–DuckDB, embedding MiniLM hoặc training/inference trên GPU.
-Các phần đó thuộc các task tiếp theo.
+Kiểm tra này không chạy GPU hoặc query BigQuery mới. Các số đo thực nghiệm
+được giữ nguyên từ lần chạy gốc. Snapshot đầy đủ, parity và human review vẫn
+chưa hoàn tất; xem [báo cáo hiện hành](reports/README.md).

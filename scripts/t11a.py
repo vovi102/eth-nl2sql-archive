@@ -1,6 +1,6 @@
 """T11A: package development inputs, run real GPU controls, and collect intact outputs.
 
-Run with the repository environment; see reports/gpu-development-t11a/README.md.
+Run with the repository environment; see reports/experiments/README.md.
 The GPU phase calls the production CLI in separate processes to exercise resume.
 """
 
@@ -42,7 +42,7 @@ from eth_nl2sql.gpu_workflow import (  # noqa: E402
     verify_inputs as check_inputs,
 )
 
-REPORT = ROOT / "reports/gpu-development-t11a"
+REPORT = ROOT / "reports/experiments/base-controls"
 CONTROLS = ("b3-base", "b3l-base")
 CONFIGS = (*training_configs(), *CONTROLS)
 

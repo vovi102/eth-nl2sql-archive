@@ -255,7 +255,7 @@ def review_packet(cases, annotations, reviews, notes, gold, properties, multi, r
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--store", type=Path, default=DATA_DIR / "store/t09-sample-v2.duckdb")
-    parser.add_argument("--out", type=Path, default=ROOT / "reports/benchmark-t09a")
+    parser.add_argument("--out", type=Path, default=ROOT / "reports/benchmark")
     args = parser.parse_args()
     if args.out.resolve().is_relative_to(BENCHMARK.resolve()):
         parser.error("reports must not overwrite benchmark inputs")

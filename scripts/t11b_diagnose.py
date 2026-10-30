@@ -27,7 +27,7 @@ from eth_nl2sql.generation.prompt import messages_digest
 from eth_nl2sql.generation.smoke import inspect_predictions
 
 ROOT = cfg.ROOT
-REPORT = ROOT / "reports/gpu-development-t11b"
+REPORT = ROOT / "reports/experiments"
 WORK = REPORT / "diagnosis"
 ORIGINAL = ROOT / "runs/b3/seed-42"
 DATE_RE = re.compile(r"DATE '([0-9]{4}-[0-9]{2}-[0-9]{2})'")
@@ -42,10 +42,8 @@ DATE_RULES = (
 
 
 def original_output_manifest() -> dict:
-    with zipfile.ZipFile(REPORT / "b3-seed-42/artifacts.zip") as archive:
-        return json.loads(
-            archive.read("reports/gpu-development-t11b/b3-seed-42/outputs-manifest.json")
-        )
+    """Read checksums of retained outputs without keeping a transport ZIP."""
+    return json.loads((REPORT / "b3-seed-42/outputs-manifest.json").read_text())
 
 
 def variant_messages(messages: list[dict], variant: str, catalog: dict) -> list[dict]:
@@ -127,7 +125,6 @@ def audit() -> None:
         key: len({r[key] for r in datasets["train"]} & {r[key] for r in datasets["dev"]})
         for key in ("id", "family_id", "question", "sql", "template_id")
     }
-    archive = REPORT / "b3-seed-42/artifacts.zip"
     manifest = original_output_manifest()
     for path, expected in manifest.items():
         if cfg.sha256_file(ROOT / path) != expected:
@@ -135,7 +132,9 @@ def audit() -> None:
     ledger = {
         "evaluation_role": "development",
         "scope": "first ten dev_eval cases",
-        "archive_sha256": cfg.sha256_file(archive),
+        "retained_output_manifest_sha256": cfg.sha256_file(
+            REPORT / "b3-seed-42/outputs-manifest.json"
+        ),
         "verified_original_files": len(manifest),
         "adapter_sha256": tree_digest(ORIGINAL / "adapter"),
         "predictions_sha256": cfg.sha256_file(ORIGINAL / "predictions-dev_eval.jsonl"),
@@ -225,7 +224,9 @@ def prepare(archive: Path, *, attempt: int = 1) -> None:
         "scope": "inference prompt intervention on frozen T11B adapter, no retraining",
         "stop_if_smoke_fails": True,
         "matched_base_control": "b3-base/dates-columns",
-        "original_archive_sha256": cfg.sha256_file(REPORT / "b3-seed-42/artifacts.zip"),
+        "original_output_manifest_sha256": cfg.sha256_file(
+            REPORT / "b3-seed-42/outputs-manifest.json"
+        ),
         "adapter_sha256": tree_digest(ORIGINAL / "adapter"),
         "original_output_files": original_manifest,
         "generator": cfg.load()["models"]["generator"],

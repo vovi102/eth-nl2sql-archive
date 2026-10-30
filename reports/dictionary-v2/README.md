@@ -1,4 +1,4 @@
-# T04 — Dictionary v2
+# Dictionary v2 hiện hành
 
 Hoàn tất ngày 26/10/2026. Dictionary tải qua linker và managed SQL layer; store local đã dựng
 lại với v2 và `build-store`/`link` mặc định chọn v2.
@@ -22,8 +22,7 @@ Token quản trị CoinEx/SwissBorg và token giao thức được tách khỏi 
 viên V2/V3/V4. Tên view `entity_labels_v1` giữ nguyên để tương thích managed SQL API.
 
 Loader và store kiểm địa chỉ trùng/sai, chain, nguồn/ngày, graph owner–alias–nhóm và checksum.
-Nhãn v1 vẫn giữ nguyên để tái tạo parity. Tài liệu T03 ghi trạng thái nhãn v1 tại thời điểm T03;
-store hiện tại dùng v2 như metadata trong `validation.json`.
+Nhãn v1 vẫn giữ nguyên để tái tạo parity. Store hiện tại dùng v2 như metadata trong `validation.json`.
 
 ## Chạy lại
 

@@ -23,7 +23,7 @@ from eth_nl2sql.linking.workflow import linking_provenance, save_linkings  # noq
 
 
 def prepare(device: str) -> None:
-    report = ROOT / "reports/gpu-development-t11a/linking-runtime.json"
+    report = ROOT / "reports/experiments/base-controls/linking-runtime.json"
     start = time.monotonic()
     encoder = load_encoder(cfg.load())
     encoder.to(device)

@@ -1,6 +1,0 @@
-{
-  "error": "RuntimeError: train failed",
-  "evaluation_role": "development",
-  "job": "b3-seed-42",
-  "status": "failed"
-}

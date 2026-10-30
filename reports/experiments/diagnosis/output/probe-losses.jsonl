@@ -1,0 +1,16 @@
+{"id": "syn-v2-000010__en__formal", "probe": "dev-iso", "teacher_forced_loss": 1.588601116964128e-05}
+{"id": "syn-v2-000010__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 2.419165502942633e-05}
+{"id": "syn-v2-000051__en__formal", "probe": "dev-iso", "teacher_forced_loss": 1.5182057722995523e-05}
+{"id": "syn-v2-000051__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 2.160244548576884e-05}
+{"id": "syn-v2-000090__en__formal", "probe": "dev-iso", "teacher_forced_loss": 1.567491199239157e-05}
+{"id": "syn-v2-000090__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 2.7233176297158934e-05}
+{"id": "syn-v2-000125__en__formal", "probe": "dev-iso", "teacher_forced_loss": 2.2434473066823557e-05}
+{"id": "syn-v2-000125__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 2.7753496397053823e-05}
+{"id": "syn-v2-000174__en__formal", "probe": "dev-iso", "teacher_forced_loss": 5.7547014876035973e-05}
+{"id": "syn-v2-000174__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 0.00029111860203556716}
+{"id": "syn-v2-000223__en__formal", "probe": "dev-iso", "teacher_forced_loss": 6.943955668248236e-05}
+{"id": "syn-v2-000223__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 7.018934411462396e-05}
+{"id": "syn-v2-000262__en__formal", "probe": "dev-iso", "teacher_forced_loss": 3.978654422098771e-05}
+{"id": "syn-v2-000262__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 4.224151780363172e-05}
+{"id": "syn-v2-000351__en__formal", "probe": "dev-iso", "teacher_forced_loss": 2.2318288756650873e-05}
+{"id": "syn-v2-000351__en__formal", "probe": "dev-natural-date", "teacher_forced_loss": 0.0001812594273360446}

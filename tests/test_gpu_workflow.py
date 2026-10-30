@@ -179,11 +179,31 @@ def test_bundle_roundtrip_and_repeated_output_archive(tmp_path):
         ).read_bytes()
 
 
+def test_t11b_collect_retains_checksums_without_copying_zip(scripts, tmp_path, monkeypatch):
+    runner = scripts.runner
+    root = tmp_path / "root"
+    monkeypatch.setattr(runner, "ROOT", root)
+    monkeypatch.setattr(runner, "REPORT", root / "reports/experiments")
+    name = "runs/b1/seed-42/predictions-dev_eval.jsonl"
+    payload = b'{"id": "q1", "raw_output": "SELECT 1"}\n'
+    manifest = {name: hashlib.sha256(payload).hexdigest()}
+    archive = tmp_path / "transport.zip"
+    with zipfile.ZipFile(archive, "w") as bundle:
+        bundle.writestr(name, payload)
+        bundle.writestr(
+            "reports/experiments/pilot/outputs-manifest.json", json.dumps(manifest)
+        )
+    runner.collect("pilot", archive)
+    assert (root / name).read_bytes() == payload
+    assert json.loads((runner.REPORT / "pilot/outputs-manifest.json").read_text()) == manifest
+    assert not list(root.rglob("*.zip"))
+
+
 def test_t11b_collect_checks_every_file_before_writing(scripts, tmp_path, monkeypatch):
     runner = scripts.runner
     root = tmp_path / "root"
     monkeypatch.setattr(runner, "ROOT", root)
-    monkeypatch.setattr(runner, "REPORT", root / "reports/gpu-development-t11b")
+    monkeypatch.setattr(runner, "REPORT", root / "reports/experiments")
     archive = tmp_path / "bad.zip"
     first = "runs/b3/seed-42/first.txt"
     last = "runs/b3/seed-42/last.txt"
@@ -191,7 +211,7 @@ def test_t11b_collect_checks_every_file_before_writing(scripts, tmp_path, monkey
         bundle.writestr(first, "verified")
         bundle.writestr(last, "tampered")
         bundle.writestr(
-            "reports/gpu-development-t11b/pilot/outputs-manifest.json",
+            "reports/experiments/pilot/outputs-manifest.json",
             json.dumps(
                 {
                     first: hashlib.sha256(b"verified").hexdigest(),

@@ -6,7 +6,6 @@ import argparse
 import hashlib
 import json
 import math
-import shutil
 import zipfile
 from collections import defaultdict
 from pathlib import Path
@@ -43,10 +42,6 @@ def collect(archive: Path) -> None:
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(data)
         (WORK / "output/manifest.json").write_bytes(z.read("manifest.json"))
-    target = WORK / "artifacts.zip"
-    if target.exists() and cfg.sha256_file(target) != cfg.sha256_file(archive):
-        raise ValueError("Refusing to replace original diagnostic ZIP")
-    shutil.copy2(archive, target)
     cfg.write_json(
         WORK / "download.json",
         {
@@ -180,6 +175,14 @@ def evaluate() -> dict:
         "expanded_seeds": False,
     }
     cfg.write_json(WORK / "review.json", result)
+    cfg.write_json(
+        evaluated / "manifest.json",
+        {
+            path.name: cfg.sha256_file(path)
+            for path in sorted(evaluated.iterdir())
+            if path.is_file() and path.name != "manifest.json"
+        },
+    )
     write_report(result)
     print(
         json.dumps(
@@ -288,7 +291,7 @@ def write_report(result: dict) -> None:
         "Không phân bổ số đo chung này thành runtime riêng cho từng nhánh.",
         "",
         "Xem [review có số đo đầy đủ](review.json), [kế hoạch trước khi chạy](plan.json), "
-        "[artifact nguyên vẹn](artifacts.zip), [bằng chứng gốc](ORIGINAL.md).",
+        "[checksum output](output/manifest.json), [bằng chứng gốc](evidence.json).",
     ]
     if result["issues"]:
         lines += ["", "Vấn đề cần giải quyết:", "", *[f"- {issue}" for issue in result["issues"]]]

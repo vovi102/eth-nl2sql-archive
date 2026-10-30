@@ -1,0 +1,17 @@
+[
+  {
+    "returncode": 0,
+    "runtime_s": 18.65043864400002,
+    "stage": "preflight-training"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 20339.387638135002,
+    "stage": "train"
+  },
+  {
+    "returncode": 0,
+    "runtime_s": 73.28332895099811,
+    "stage": "generate-10"
+  }
+]
