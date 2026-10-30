@@ -7,8 +7,9 @@ import json
 from contextlib import ExitStack
 from pathlib import Path
 
+from eth_nl2sql.artifacts import atomic_write_json, sha256_file
 from eth_nl2sql.data.audit import verify_import
-from eth_nl2sql.store.local import digest, supplement_queries
+from eth_nl2sql.store.local import supplement_queries
 
 MAX_BYTES = 50 * 2**30
 
@@ -52,16 +53,10 @@ def plan(project: str, directory: Path) -> dict:
         "project": project,
         "dry_run": True,
         "maximum_bytes_per_query": MAX_BYTES,
-        "source_manifest_sha256": digest(directory / "import-manifest.json"),
+        "source_manifest_sha256": sha256_file(directory / "import-manifest.json"),
         "queries": queries,
         "total_gib": sum(q["estimated_bytes"] for q in queries) / 2**30,
     }
-
-
-def _write_manifest(path: Path, value: dict) -> None:
-    partial = path.with_suffix(".json.partial")
-    partial.write_text(json.dumps(value, indent=2) + "\n")
-    partial.replace(path)
 
 
 def _progress(message: str) -> None:
@@ -83,7 +78,7 @@ def download(
     client = bigquery.Client(project=project)
     if not verify_import(directory)["passed"]:
         raise ValueError("source import integrity check failed before BigQuery execution")
-    source_hash = digest(directory / "import-manifest.json")
+    source_hash = sha256_file(directory / "import-manifest.json")
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "manifest.json"
     manifest = (
@@ -105,7 +100,7 @@ def download(
             if (
                 not existing
                 or existing["query_sha256"] != fingerprint
-                or digest(target) != existing["sha256"]
+                or sha256_file(target) != existing["sha256"]
             ):
                 raise ValueError(f"unverified existing supplement: {target}")
             progress(f"Reusing verified {name}")
@@ -142,7 +137,7 @@ def download(
             "query_sha256": fingerprint,
             "bytes_billed": int(job.total_bytes_billed or 0),
         }
-        _write_manifest(path, manifest)
+        atomic_write_json(path, manifest)
         partial = target.with_suffix(".parquet.partial")
         writer = None
         resources = ExitStack()
@@ -171,7 +166,7 @@ def download(
         partial.replace(target)
         manifest["files"][name] = {
             "path": target.name,
-            "sha256": digest(target),
+            "sha256": sha256_file(target),
             "rows": rows,
             "query_sha256": fingerprint,
             "sql": sql,
@@ -179,6 +174,6 @@ def download(
             "estimated_bytes": estimated,
             "bytes_billed": int(job.total_bytes_billed or 0),
         }
-        _write_manifest(path, manifest)
+        atomic_write_json(path, manifest)
         progress(f"Saved {name}: {rows:,} rows")
     return manifest

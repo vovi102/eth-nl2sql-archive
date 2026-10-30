@@ -15,21 +15,20 @@ import shutil
 import subprocess
 import sys
 import time
+from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
 from t11b import REPORT, ROOT, collect, evaluate
 
 from eth_nl2sql import config as cfg
+from eth_nl2sql.experiments import SEEDS
+from eth_nl2sql.generation.runs import CONFIGS, Job, training_configs
+from eth_nl2sql.kaggle import load_settings
 
 JOBS = (
     "pilot",
-    "b3-seed-42",
-    "b3l-seed-42",
-    "b3-seed-43",
-    "b3l-seed-43",
-    "b3-seed-44",
-    "b3l-seed-44",
+    *(Job(CONFIGS[name], seed).identifier for seed in SEEDS for name in training_configs()),
 )
 
 
@@ -51,6 +50,8 @@ def run(argv: list[str], log: Path) -> str:
 
 
 def review(job: str) -> dict:
+    selected = Job.parse(job)
+    job = selected.identifier
     directory = REPORT / job
     evaluation = json.loads((directory / "eval.json").read_text())
     result = {
@@ -61,10 +62,10 @@ def review(job: str) -> dict:
         "scope": evaluation["scope"],
         "issues": [],
     }
-    if job == "pilot":
+    if selected.is_pilot:
         result["decision"] = "continue_to_first_training_run"
         return result
-    name, seed = job.split("-seed-")
+    name, seed = selected.config.name, selected.seed
     training = json.loads((ROOT / f"runs/{name}/seed-{seed}/training-summary.json").read_text())
     losses = [r["eval_loss"] for r in training["log_history"] if "eval_loss" in r]
     result.update(
@@ -89,9 +90,10 @@ def review(job: str) -> dict:
 
 def required_quota_hours(job: str, jobs: dict) -> float:
     """Use measured prior training runtime, allowing for generation and bootstrap."""
-    name = job.split("-seed-")[0]
+    selected = Job.parse(job)
+    name = selected.config.name
     measured = [
-        (key.split("-seed-")[0], row["review"]["runtime_s"])
+        (Job.parse(key).config.name, row["review"]["runtime_s"])
         for key, row in jobs.items()
         if "runtime_s" in row.get("review", {})
     ]
@@ -100,7 +102,7 @@ def required_quota_hours(job: str, jobs: dict) -> float:
         estimate = max(same)
     elif measured:
         # The first linked run has longer prompts than the unlinked run.
-        estimate = max(seconds for _, seconds in measured) * (1.5 if name == "b3l" else 1)
+        estimate = max(seconds for _, seconds in measured) * (1.5 if selected.config.linking else 1)
     else:
         return 0.5
     return estimate / 3600 * 1.1 + 0.5
@@ -108,8 +110,13 @@ def required_quota_hours(job: str, jobs: dict) -> float:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--pilot-kernel", default="aohkvd/eth-nl2sql-t11b-pilot-20261028")
+    settings = load_settings()
+    parser.add_argument("--pilot-kernel")
+    parser.add_argument("--owner", default=settings.owner)
+    parser.add_argument("--run-tag", default=settings.run_tag)
+    parser.add_argument("--cache-kernel")
     args = parser.parse_args()
+    deployment = replace(settings, owner=args.owner, run_tag=args.run_tag)
     lock = (REPORT / "continuation.lock").open("a+")
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -145,8 +152,10 @@ def main() -> None:
                 continue
             state.update(status="running", current_job=job)
             cfg.write_json(state_path, state)
-            kernel = (
-                args.pilot_kernel if job == "pilot" else f"aohkvd/eth-nl2sql-t11b-{job}-20261028"
+            kernel = record.get("kernel") or (
+                (args.pilot_kernel or deployment.kernel("t11b", "pilot"))
+                if Job.parse(job).is_pilot
+                else deployment.kernel("t11b", job)
             )
             record["kernel"] = kernel
             if job != "pilot" and not record.get("submitted"):
@@ -186,6 +195,8 @@ def main() -> None:
                         kernel,
                         "--job",
                         job,
+                        "--cache-kernel",
+                        args.cache_kernel or deployment.cache_kernel,
                     ],
                     directory / "notebook.log",
                 )

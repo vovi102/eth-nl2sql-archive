@@ -10,7 +10,6 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-import os
 import subprocess
 import uuid
 from contextlib import ExitStack, contextmanager
@@ -18,9 +17,10 @@ from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
+from eth_nl2sql.artifacts import atomic_write_json
+from eth_nl2sql.store import PUBLIC_DATASET
 from eth_nl2sql.store.build import RAW_SCHEMAS, SNAPSHOT_END, SNAPSHOT_START
 
-PUBLIC = "bigquery-public-data.crypto_ethereum"
 MAX_BYTES_PER_QUERY = 50 * 2**30  # luanvan catalog cost_policy.maximum_bytes_billed
 FREE_MONTHLY_BYTES = 2**40
 TIME_COLUMN = {
@@ -57,7 +57,7 @@ def extraction_queries(
                 ExtractionQuery(
                     table,
                     day.isoformat(),
-                    f"SELECT {_columns(table)} FROM `{PUBLIC}.{table}` "
+                    f"SELECT {_columns(table)} FROM `{PUBLIC_DATASET}.{table}` "
                     f"WHERE {_window(column, day, following)}",
                 )
             )
@@ -71,7 +71,7 @@ def extraction_queries(
         ("receipt_contract_address", "transactions"),
     )
     referenced = "\nUNION DISTINCT ".join(
-        f"SELECT LOWER({column}) AS address FROM `{PUBLIC}.{table}` WHERE {window_tx}"
+        f"SELECT LOWER({column}) AS address FROM `{PUBLIC_DATASET}.{table}` WHERE {window_tx}"
         for column, table in sources
     )
     queries.append(
@@ -79,7 +79,7 @@ def extraction_queries(
             "contracts",
             "referenced",
             f"WITH referenced AS (\n{referenced}\n)\n"
-            f"SELECT {_columns('contracts')} FROM `{PUBLIC}.contracts` "
+            f"SELECT {_columns('contracts')} FROM `{PUBLIC_DATASET}.contracts` "
             f"WHERE block_timestamp < TIMESTAMP('{end}') "
             f"AND LOWER(address) IN (SELECT address FROM referenced WHERE address IS NOT NULL)",
         )
@@ -88,7 +88,7 @@ def extraction_queries(
         ExtractionQuery(
             "amended_tokens",
             "all",
-            f"SELECT {_columns('amended_tokens')} FROM `{PUBLIC}.amended_tokens`",
+            f"SELECT {_columns('amended_tokens')} FROM `{PUBLIC_DATASET}.amended_tokens`",
         )
     )
     return queries
@@ -102,23 +102,6 @@ def _client(project: str, location: str = "US"):
 
 def query_digest(query: ExtractionQuery) -> str:
     return hashlib.sha256(query.sql.encode()).hexdigest()
-
-
-def write_json(path: Path, value: dict) -> None:
-    """Publish a complete journal, including across process interruption."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    partial = path.with_suffix(path.suffix + ".partial")
-    with partial.open("w") as handle:
-        json.dump(value, handle, indent=2)
-        handle.write("\n")
-        handle.flush()
-        os.fsync(handle.fileno())
-    partial.replace(path)
-    descriptor = os.open(path.parent, os.O_RDONLY)
-    try:
-        os.fsync(descriptor)
-    finally:
-        os.close(descriptor)
 
 
 @contextmanager
@@ -337,7 +320,7 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
         verify_record(out_dir, record)
     if recovered:
         manifest["files"] = list(recorded.values())
-        write_json(manifest_path, manifest)
+        atomic_write_json(manifest_path, manifest, durable=True)
     if manifest:
         for relative, pending in manifest["jobs"].items():
             if (
@@ -372,7 +355,7 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
     if len(recorded) == len(queries):
         manifest["complete_snapshot"] = True
         verify_parquet(out_dir, manifest=manifest)
-        write_json(manifest_path, manifest)
+        atomic_write_json(manifest_path, manifest, durable=True)
         return {
             "written": 0,
             "skipped": len(recorded),
@@ -386,7 +369,7 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
         free = sandbox_status(
             project, client, {j["job_id"] for j in manifest["jobs"].values()} if manifest else set()
         )
-        write_json(out_dir / "sandbox-status.json", free)
+        atomic_write_json(out_dir / "sandbox-status.json", free, durable=True)
         if manifest is None:
             budget_bytes = free["remaining_bytes"] if budget_bytes is None else budget_bytes
             if not 0 < budget_bytes <= free["remaining_bytes"]:
@@ -411,14 +394,14 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
         quota_remaining = free["remaining_bytes"]
         missing = [p for p in queries if p not in recorded and p not in jobs]
         dry_run = plan(project, location=location)
-        write_json(out_dir / "dry-run.json", dry_run)
+        atomic_write_json(out_dir / "dry-run.json", dry_run, durable=True)
         estimates = {r["path"]: r for r in dry_run["partitions"]}
         needed = sum(estimates.get(p, {}).get("estimated_billed_bytes", 0) for p in missing)
         if not dry_run["passed"] or needed > min(remaining, quota_remaining):
             raise ValueError(
                 "dry-run failed or remaining partitions exceed the free snapshot budget"
             )
-        write_json(manifest_path, manifest)
+        atomic_write_json(manifest_path, manifest, durable=True)
         written, resumed = 0, 0
         storage = None
         if storage_api:
@@ -447,7 +430,7 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
                     "maximum_bytes_billed": cap,
                 }
                 jobs[relative] = pending
-                write_json(manifest_path, manifest)
+                atomic_write_json(manifest_path, manifest, durable=True)
             submitted_now = False
             try:
                 job = client.get_job(pending["job_id"], location=location, timeout=30)
@@ -488,7 +471,7 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
             ):
                 raise ValueError(f"BigQuery job provenance differs for {relative}")
             pending["state"] = "submitted"
-            write_json(manifest_path, manifest)
+            atomic_write_json(manifest_path, manifest, durable=True)
             progress(f"Downloading {relative} (job {job.job_id})")
             result = job.result(page_size=50_000, job_retry=None)
             if job.total_bytes_billed is None or job.total_bytes_processed is None:
@@ -508,7 +491,7 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
                 ended_at=str(getattr(job, "ended", None)),
                 download_api="storage" if storage_api else "rest",
             )
-            write_json(manifest_path, manifest)
+            atomic_write_json(manifest_path, manifest, durable=True)
             if remaining < 0 or amount > pending["maximum_bytes_billed"]:
                 raise ValueError("BigQuery job exceeded the recorded spending cap")
             partial = target.with_suffix(".parquet.partial")
@@ -549,11 +532,11 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
             # Journal checksum first. A crash between rename and journal commit
             # can be recovered against this measured record without a new job.
             pending["download"] = record
-            write_json(manifest_path, manifest)
+            atomic_write_json(manifest_path, manifest, durable=True)
             partial.replace(target)
             recorded[relative] = record
             manifest["files"] = list(recorded.values())
-            write_json(manifest_path, manifest)
+            atomic_write_json(manifest_path, manifest, durable=True)
             written += 1
             progress(f"Saved {relative}: {rows:,} rows; billed {amount / 2**30:.3f} GiB")
         # Verify every checksum and partition before advertising completeness.
@@ -562,9 +545,9 @@ def _run(project, out_dir, budget_bytes, location, storage_api, progress):
             verify_parquet(out_dir, manifest=manifest)
         except Exception:
             manifest["complete_snapshot"] = False
-            write_json(manifest_path, manifest)
+            atomic_write_json(manifest_path, manifest, durable=True)
             raise
-        write_json(manifest_path, manifest)
+        atomic_write_json(manifest_path, manifest, durable=True)
         return {
             "written": written,
             "skipped": len(observed),

@@ -3,43 +3,48 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import importlib.metadata
 import json
-import os
 import shutil
 import subprocess
 import sys
-import time
-import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from t11a import test_hashes, verify_cache  # noqa: E402
-
 from eth_nl2sql import config as cfg  # noqa: E402
 from eth_nl2sql.experiments import (  # noqa: E402
+    SEEDS,
     checked_rows,
     generation_provenance,
     verify_predictions,
 )
+from eth_nl2sql.generation.runs import CONFIGS, Job, training_configs  # noqa: E402
 from eth_nl2sql.generation.smoke import inspect_predictions  # noqa: E402
+from eth_nl2sql.gpu_workflow import (  # noqa: E402
+    StageRunner,
+    archive_outputs,
+    benchmark_hashes,
+    collect_outputs,
+    offline_environment,
+    package_inputs,
+    require_cuda,
+    source_files,
+    verify_cache,
+    verify_inputs,
+    write_runtime,
+)
 
 REPORT = ROOT / "reports/gpu-development-t11b"
-NAMES = ("b1", "b3", "b3l")
+NAMES = ("b1", *training_configs())
 
 
 def package(output: Path) -> None:
-    files = [ROOT / p for p in ("pyproject.toml", "uv.lock", "README.md")]
-    files += sorted((ROOT / "src").rglob("*.py"))
-    files += sorted((ROOT / "scripts").glob("t11*.py"))
-    files += sorted((ROOT / "configs").glob("*"))
+    files = source_files(ROOT, "t11*.py")
     files += [ROOT / f"data/{s}.jsonl" for s in ("train", "dev")]
     for name in NAMES:
         files += [ROOT / f"runs/{name}/prompts-dev_eval.jsonl"]
-        if name != "b1":
+        if CONFIGS[name].fine_tuned:
             files += [ROOT / f"runs/{name}/sft-{s}.jsonl" for s in ("train", "dev")]
     manifest = {
         "task": "T11B",
@@ -49,109 +54,45 @@ def package(output: Path) -> None:
             ["git", "diff", "HEAD", "--", "src", "scripts", "configs"], text=True
         ),
         # Per-file hashes also cover new/uncommitted files in this exact bundle.
-        "files": {p.relative_to(ROOT).as_posix(): cfg.sha256_file(p) for p in files},
-        "test_v2": test_hashes(),
+        "test_v2": benchmark_hashes(ROOT),
         "settings": cfg.load(),
         "dev_eval_sha256": cfg.sha256_file(ROOT / "data/dev_eval.jsonl"),
     }
-    cfg.write_json(REPORT / "inputs-manifest.json", manifest)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
-        for path in files:
-            archive.write(path, path.relative_to(ROOT))
-        archive.write(
-            REPORT / "inputs-manifest.json", REPORT.relative_to(ROOT) / "inputs-manifest.json"
-        )
-        archive.writestr(
-            "data/dev_eval.jsonl",
-            "".join(
-                json.dumps({k: row[k] for k in ("id", "question")}) + "\n"
-                for row in cfg.read_jsonl(ROOT / "data/dev_eval.jsonl")
-            ),
-        )
-    cfg.write_json(
-        REPORT / "bundle.json",
-        {
-            "sha256": cfg.sha256_file(output),
-            "bytes": output.stat().st_size,
-        },
-    )
+    package_inputs(ROOT, REPORT, output, files, manifest)
 
 
 def prediction_rows(name: str, seed: int) -> tuple[list, dict]:
     prompts = ROOT / f"runs/{name}/prompts-dev_eval.jsonl"
     directory = ROOT / f"runs/{name}/seed-{seed}"
-    adapter = directory / "adapter" if name != "b1" else None
+    adapter = directory / "adapter" if CONFIGS[name].fine_tuned else None
     path = directory / "predictions-dev_eval.jsonl"
+    inputs = checked_rows(prompts)
     manifest = verify_predictions(
-        path, checked_rows(prompts), generation_provenance(prompts, cfg.load(), name, seed, adapter)
+        path, inputs, generation_provenance(prompts, cfg.load(), name, seed, adapter)
     )
     rows = cfg.read_jsonl(path)
-    inputs = checked_rows(prompts)
     if [r["id"] for r in rows] != [r["id"] for r in inputs[: len(rows)]]:
         raise ValueError("Predictions differ from the declared development prefix")
     return rows, manifest
 
 
 def gpu(job: str, home: Path) -> None:
+    selected = Job.parse(job)
+    job = selected.identifier
     directory = REPORT / job
     directory.mkdir(parents=True, exist_ok=True)
-    name, seed = ("b1", 42) if job == "pilot" else (job.split("-seed-")[0], int(job[-2:]))
+    name, seed = selected.config.name, selected.seed
     status = {"job": job, "status": "running", "evaluation_role": "development"}
-    stages = []
-    os.environ.update(
-        HF_HOME=str(home),
-        HF_HUB_CACHE=str(home / "hub"),
-        HF_HUB_OFFLINE="1",
-        TRANSFORMERS_OFFLINE="1",
-    )
-
-    def cli(stage, *args):
-        print("Starting:", stage, flush=True)
-        started = time.monotonic()
-        with (directory / f"{stage}.log").open("w") as log:
-            process = subprocess.Popen(
-                [sys.executable, "-u", "-m", "eth_nl2sql.cli", *args],
-                cwd=ROOT,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                bufsize=1,
-            )
-            for line in process.stdout:
-                log.write(line)
-                log.flush()
-                print(f"{stage}: {line}", end="", flush=True)
-            returncode = process.wait()
-        stages.append(
-            {
-                "stage": stage,
-                "runtime_s": time.monotonic() - started,
-                "returncode": returncode,
-            }
-        )
-        cfg.write_json(directory / "stages.json", stages)
-        if returncode:
-            print((directory / f"{stage}.log").read_text()[-6000:], flush=True)
-            raise RuntimeError(f"{stage} failed")
+    env = offline_environment(home)
+    cli = StageRunner(ROOT, directory, env, stream=True)
 
     try:
-        manifest = json.loads((REPORT / "inputs-manifest.json").read_text())
+        manifest = verify_inputs(ROOT, REPORT)
         cfg.write_json(directory / "inputs-manifest.json", manifest)
-        for path, digest in manifest["files"].items():
-            if cfg.sha256_file(ROOT / path) != digest:
-                raise ValueError(f"Input hash mismatch: {path}")
+        write_runtime(directory)
+        require_cuda("T11B")
         verify_cache(home, ROOT / "configs/t11-model-files.json")
-        cfg.write_json(
-            directory / "runtime.json",
-            {
-                "python": sys.version,
-                "packages": {
-                    d.metadata["Name"]: d.version for d in importlib.metadata.distributions()
-                },
-            },
-        )
-        if job != "pilot":
+        if selected.config.fine_tuned:
             cli(
                 "preflight-training",
                 "preflight",
@@ -169,7 +110,7 @@ def gpu(job: str, home: Path) -> None:
         smoke = inspect_predictions(rows)
         cfg.write_json(directory / "smoke.json", smoke)
         # A failed smoke is a measured result. Never silently resume it to 100.
-        if job != "pilot" and smoke["passed"]:
+        if selected.config.fine_tuned and smoke["passed"]:
             cli("generate-100", "generate", "--config", name, "--seed", str(seed))
             rows, manifest = prediction_rows(name, seed)
             if len(rows) != 100 or manifest["status"] != "complete":
@@ -182,34 +123,22 @@ def gpu(job: str, home: Path) -> None:
         raise
     finally:
         cfg.write_json(directory / "status.json", status)
-        artifacts = [p for p in directory.rglob("*") if p.is_file()]
-        artifacts += [p for p in (ROOT / f"runs/{name}/seed-{seed}").rglob("*") if p.is_file()]
-        cfg.write_json(
+        archive_outputs(
+            ROOT,
+            (directory, ROOT / f"runs/{name}/seed-{seed}"),
             directory / "outputs-manifest.json",
-            {p.relative_to(ROOT).as_posix(): cfg.sha256_file(p) for p in artifacts},
+            ROOT.parent / f"t11b-{job}-artifacts.zip",
         )
-        with zipfile.ZipFile(
-            ROOT.parent / f"t11b-{job}-artifacts.zip", "w", zipfile.ZIP_DEFLATED
-        ) as z:
-            for path in [*artifacts, directory / "outputs-manifest.json"]:
-                z.write(path, path.relative_to(ROOT))
 
 
 def collect(job: str, archive: Path) -> None:
-    with zipfile.ZipFile(archive) as z:
-        manifest = json.loads(z.read(f"reports/gpu-development-t11b/{job}/outputs-manifest.json"))
-        for name, expected in manifest.items():
-            destination = ROOT / name
-            if not destination.resolve().is_relative_to(ROOT):
-                raise ValueError("Invalid artifact path")
-            content = z.read(name)
-            if hashlib.sha256(content).hexdigest() != expected:
-                raise ValueError(f"Artifact hash mismatch: {name}")
-            if destination.exists() and cfg.sha256_file(destination) != expected:
-                if destination.name not in ("preflight-training.json", "inputs-manifest.json"):
-                    raise ValueError(f"Refusing to replace existing artifact: {name}")
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            destination.write_bytes(content)
+    job = Job.parse(job).identifier
+    manifest = collect_outputs(
+        ROOT,
+        archive,
+        f"reports/gpu-development-t11b/{job}/outputs-manifest.json",
+        can_replace=lambda p: p.name in ("preflight-training.json", "inputs-manifest.json"),
+    )
     shutil.copy2(archive, REPORT / job / "artifacts.zip")
     cfg.write_json(
         REPORT / job / "download.json",
@@ -226,7 +155,8 @@ def evaluate(job: str) -> None:
     from eth_nl2sql.store.build import connect
     from eth_nl2sql.store.manifest import store_profile
 
-    name, seed = ("b1", 42) if job == "pilot" else (job.split("-seed-")[0], int(job[-2:]))
+    selected = Job.parse(job)
+    name, seed = selected.config.name, selected.seed
     predictions, _ = prediction_rows(name, seed)
     if len(predictions) == 100:
         # Complete runs use the production split/provenance checks and feed the
@@ -301,7 +231,7 @@ if __name__ == "__main__":
         default="pilot",
         choices=(
             "pilot",
-            *(f"{name}-seed-{seed}" for name in ("b3", "b3l") for seed in (42, 43, 44)),
+            *(f"{name}-seed-{seed}" for name in training_configs() for seed in SEEDS),
         ),
     )
     parser.add_argument("--hf-home", type=Path)
@@ -309,6 +239,8 @@ if __name__ == "__main__":
     if args.stage == "package":
         package(args.archive)
     elif args.stage == "gpu":
+        if args.hf_home is None:
+            parser.error("gpu requires --hf-home")
         gpu(args.job, args.hf_home)
     elif args.stage == "collect":
         collect(args.job, args.archive)

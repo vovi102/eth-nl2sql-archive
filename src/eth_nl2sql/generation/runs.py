@@ -6,6 +6,7 @@ encoder); the GPU side only reads the messages and generates.
 
 from __future__ import annotations
 
+import re
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 
@@ -49,6 +50,43 @@ CONFIGS.update(
         for name, variant in EXPERIMENTS.items()
     }
 )
+
+
+def training_configs() -> tuple[str, ...]:
+    return tuple(name for name, config in CONFIGS.items() if config.fine_tuned)
+
+
+@dataclass(frozen=True)
+class Job:
+    """A configuration/seed pair; the B1/42 development pilot has a stable alias."""
+
+    config: RunConfig
+    seed: int
+
+    def __post_init__(self) -> None:
+        if type(self.seed) is not int or self.seed < 0:
+            raise ValueError("Job seed must be a non-negative integer")
+        if CONFIGS.get(self.config.name) != self.config:
+            raise ValueError(f"Unknown job configuration: {self.config.name}")
+
+    @property
+    def is_pilot(self) -> bool:
+        return self.config.name == "b1" and self.seed == 42
+
+    @property
+    def identifier(self) -> str:
+        return "pilot" if self.is_pilot else f"{self.config.name}-seed-{self.seed}"
+
+    @classmethod
+    def parse(cls, value: str | Job) -> Job:
+        if isinstance(value, cls):
+            return value
+        if value == "pilot":
+            return cls(CONFIGS["b1"], 42)
+        match = re.fullmatch(r"(.+)-seed-(0|[1-9][0-9]*)", value)
+        if match and match[1] in CONFIGS and CONFIGS[match[1]].fine_tuned:
+            return cls(CONFIGS[match[1]], int(match[2]))
+        raise ValueError(f"Invalid development job: {value!r}; use pilot or CONFIG-seed-N")
 
 
 def _messages(

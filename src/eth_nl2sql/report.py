@@ -7,9 +7,11 @@ import statistics
 from collections.abc import Mapping
 from pathlib import Path
 
+from eth_nl2sql.artifacts import json_digest
 from eth_nl2sql.config import read_jsonl, sha256_file, write_json
+from eth_nl2sql.data.annotations import GROUPS
 from eth_nl2sql.evaluate import mcnemar_exact
-from eth_nl2sql.experiments import SEEDS, digest
+from eth_nl2sql.experiments import SEEDS
 from eth_nl2sql.generation.runs import CONFIGS
 from eth_nl2sql.linking.variants import EXPERIMENTS
 
@@ -25,7 +27,7 @@ PAIRS = (
     ("b1l", "b3l", "fine-tuning vs zero-shot"),
     ("b2l", "b3l", "fine-tuning vs five-shot"),
 )
-SPECIFICS = ("multi_address", "alias", "class_level", "ambiguous_property")
+SPECIFICS = tuple(group for group in GROUPS if group != "generic")
 
 
 def _pct(value: float | None) -> str:
@@ -145,7 +147,7 @@ def _load_evaluations(runs_dir: Path, split: str) -> tuple[dict, dict, dict]:
             if (
                 len(ids) != len(set(ids))
                 or len(ids) != ev["n"]
-                or digest(sorted(ids)) != ev["case_ids_sha256"]
+                or json_digest(sorted(ids)) != ev["case_ids_sha256"]
                 or ev["config"] != name
                 or ev["split"] != split
                 or ev["seed"] != seed

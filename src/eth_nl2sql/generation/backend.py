@@ -7,11 +7,11 @@ import time
 from collections.abc import Mapping
 from pathlib import Path
 
+from eth_nl2sql.artifacts import json_digest
 from eth_nl2sql.config import read_jsonl, sha256_file, write_json
 from eth_nl2sql.experiments import (
     ResourceMonitor,
     checked_rows,
-    digest,
     generation_provenance,
     prediction_manifest,
     verify_predictions,
@@ -216,9 +216,9 @@ def generate_file(
                     "config": name,
                     "seed": seed,
                     "prompt_sha256": row["prompt_sha256"],
-                    "provenance_sha256": digest(provenance),
+                    "provenance_sha256": json_digest(provenance),
                 }
-                record["record_sha256"] = digest(record)
+                record["record_sha256"] = json_digest(record)
                 handle.write(json.dumps(record, ensure_ascii=False) + "\n")
                 handle.flush()
     except Exception as exc:

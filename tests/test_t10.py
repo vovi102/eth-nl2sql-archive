@@ -159,10 +159,10 @@ def experiment(tmp_path, monkeypatch):
         path = tmp_path / f"{name}.jsonl"
         cfg.write_jsonl(path, rows)
         monkeypatch.setitem(cli.SPLITS, name, path)
-    original_read = cli._read_split
+    original_read = cli.read_checked_split
     monkeypatch.setattr(
         cli,
-        "_read_split",
+        "read_checked_split",
         lambda name, *args: original_read(name, *args) if name == "test" else splits[name],
     )
     for name in ("b3", "b3l", "b3-base", "b3l-base"):

@@ -10,34 +10,22 @@ from collections import Counter
 from collections.abc import Mapping, Sequence
 
 from eth_nl2sql.generation.extract import extract_sql
-from eth_nl2sql.store.build import connect, create_schema
-from eth_nl2sql.store.execute import ExecutionError, execute
-from eth_nl2sql.validation import ValidationError
+from eth_nl2sql.store.compile import compile_queries
 
 
 def inspect_predictions(rows: Sequence[Mapping], *, timeout_s: float = 10.0) -> dict:
-    cases = []
-    con = connect()
-    try:
-        create_schema(con)
-        for row in rows:
-            sql, format_ok = extract_sql(row.get("raw_output") or "")
-            case = {
+    queries = []
+    for row in rows:
+        sql, format_ok = extract_sql(row.get("raw_output") or "")
+        queries.append(
+            {
                 "id": row["id"],
                 "sql": sql,
                 "format_ok": format_ok,
                 "finish_reason": row.get("finish_reason"),
-                "status": "no_sql",
             }
-            if sql:
-                try:
-                    execute(con, sql, timeout_s=timeout_s)
-                    case["status"] = "ok"
-                except (ValidationError, ExecutionError) as exc:
-                    case.update(status=exc.code, error=str(exc))
-            cases.append(case)
-    finally:
-        con.close()
+        )
+    cases = compile_queries(queries, timeout_s=timeout_s)
     counts = dict(Counter(case["status"] for case in cases))
     return {
         "rows": len(cases),

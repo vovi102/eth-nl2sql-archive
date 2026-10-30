@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from contextlib import contextmanager
 from datetime import date, timedelta
@@ -12,16 +11,16 @@ from tempfile import TemporaryDirectory
 
 import duckdb
 
+from eth_nl2sql.artifacts import sha256_file
 from eth_nl2sql.data.audit import audit_import
+from eth_nl2sql.store import PUBLIC_DATASET
 from eth_nl2sql.store.build import RAW_SCHEMAS
 
 CSV_TABLES = ("blocks", "transactions", "token_transfers", "contracts")
-PUBLIC = "bigquery-public-data.crypto_ethereum"
 
 
-def digest(path: Path) -> str:
-    with path.open("rb") as handle:
-        return hashlib.file_digest(handle, "sha256").hexdigest()
+# Backward compatible alias; internal callers use the explicit file-hash name.
+digest = sha256_file
 
 
 def quote(value: str) -> str:
@@ -163,7 +162,7 @@ def supplement_queries(directory: Path) -> list[tuple[str, str, dict]]:
         (
             "transactions",
             f"SELECT `hash`, block_number, block_timestamp, block_hash, transaction_index, "
-            f"receipt_gas_used, receipt_contract_address FROM `{PUBLIC}.transactions` "
+            f"receipt_gas_used, receipt_contract_address FROM `{PUBLIC_DATASET}.transactions` "
             f"WHERE {window} "
             "AND (lower(from_address) IN UNNEST(@labeled) OR lower(to_address) IN UNNEST(@labeled) "
             "OR MOD(ABS(FARM_FINGERPRINT(`hash`)), 100) = 0)",
@@ -171,20 +170,20 @@ def supplement_queries(directory: Path) -> list[tuple[str, str, dict]]:
         ),
         (
             "blocks",
-            f"SELECT number, `hash`, base_fee_per_gas FROM `{PUBLIC}.blocks` "
+            f"SELECT number, `hash`, base_fee_per_gas FROM `{PUBLIC_DATASET}.blocks` "
             f"WHERE timestamp >= TIMESTAMP('{start}') AND timestamp < TIMESTAMP('{end}')",
             {},
         ),
         (
             "contracts",
             f"SELECT address, is_erc20, is_erc721, block_timestamp, block_number, block_hash "
-            f"FROM `{PUBLIC}.contracts` WHERE block_timestamp < TIMESTAMP('{end}') "
+            f"FROM `{PUBLIC_DATASET}.contracts` WHERE block_timestamp < TIMESTAMP('{end}') "
             "AND lower(address) IN UNNEST(@addresses)",
             {"addresses": addresses},
         ),
         (
             "amended_tokens",
-            f"SELECT address, symbol, name, decimals FROM `{PUBLIC}.amended_tokens`",
+            f"SELECT address, symbol, name, decimals FROM `{PUBLIC_DATASET}.amended_tokens`",
             {},
         ),
     ]
@@ -218,7 +217,7 @@ def _load_supplements(con, directory: Path, source_hash: str) -> dict:
         if not record or record.get("path") != f"{table}.parquet":
             raise ValueError(f"missing or invalid supplement manifest entry: {table}")
         path = directory / record["path"]
-        if digest(path) != record["sha256"]:
+        if sha256_file(path) != record["sha256"]:
             raise ValueError(f"supplement checksum mismatch: {table}")
         projection = ", ".join(
             f"CAST({quote(c)} AS {kind}) AS {quote(c)}" for c, kind in schema.items()
@@ -380,7 +379,7 @@ def prepare_local(directory: Path, parquet_dir: Path, supplements: Path, *, prog
                         "table": table,
                         "path": f"{table}/data.parquet",
                         "rows": count,
-                        "sha256": digest(target),
+                        "sha256": sha256_file(target),
                         "bytes": target.stat().st_size,
                     }
                 )

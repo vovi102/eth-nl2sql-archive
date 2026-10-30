@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import gc
-import hashlib
 import json
 import platform
 import re
@@ -12,17 +11,16 @@ from collections.abc import Mapping, Sequence
 from dataclasses import asdict
 from pathlib import Path
 
-from eth_nl2sql.config import ROOT, read_jsonl, sha256_file, write_json
+from eth_nl2sql.artifacts import atomic_write_json, json_digest
+from eth_nl2sql.config import ROOT, read_jsonl, sha256_file
 from eth_nl2sql.generation.prompt import messages_digest
 from eth_nl2sql.generation.runs import CONFIGS
 
 SEEDS = (42, 43, 44)
 
 
-def digest(value: object) -> str:
-    return hashlib.sha256(
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
-    ).hexdigest()
+# Compatibility for existing experiment consumers.
+digest = json_digest
 
 
 def selected_seeds(value: str | int, config: Mapping) -> tuple[int, ...]:
@@ -49,11 +47,11 @@ def model_digest(config: Mapping) -> str:
         raise ValueError("Generator revision must be an immutable 40-character commit SHA")
     if spec.get("load_in_4bit") is not True:
         raise ValueError("The GPU backend requires load_in_4bit=true")
-    return digest(spec)
+    return json_digest(spec)
 
 
 def source_digest(*names: str) -> str:
-    return digest({name: sha256_file(ROOT / "src/eth_nl2sql" / name) for name in names})
+    return json_digest({name: sha256_file(ROOT / "src/eth_nl2sql" / name) for name in names})
 
 
 def tree_digest(directory: Path, *, exclude: str | None = None) -> str:
@@ -64,7 +62,7 @@ def tree_digest(directory: Path, *, exclude: str | None = None) -> str:
     }
     if not files:
         raise ValueError(f"Missing or empty artifact directory: {directory}")
-    return digest(files)
+    return json_digest(files)
 
 
 def checked_rows(path: Path, *, training: bool = False) -> list[dict]:
@@ -114,7 +112,7 @@ def training_provenance(
         "generator": dict(config["models"]["generator"]),
         "model_sha256": model_digest(config),
         "qlora": dict(config["qlora"]),
-        "qlora_sha256": digest(config["qlora"]),
+        "qlora_sha256": json_digest(config["qlora"]),
         "train_sha256": sha256_file(train_path),
         "dev_sha256": sha256_file(dev_path),
         "code_sha256": source_digest(
@@ -134,6 +132,17 @@ def check_manifest(path: Path, provenance: Mapping) -> dict:
 
 def manifest_record(provenance: Mapping, **extra) -> dict:
     return {"version": 1, "provenance": dict(provenance), **extra}
+
+
+def adapter_path(name: str, out_dir: Path, requested: Path | None = None) -> Path | None:
+    if not CONFIGS[name].fine_tuned:
+        if requested is not None:
+            raise ValueError(f"{name} must run without an adapter")
+        return None
+    expected = out_dir / "adapter"
+    if requested is not None and requested.resolve() != expected.resolve():
+        raise ValueError(f"{name} requires the adapter for this seed: {expected}")
+    return expected
 
 
 def adapter_digest(adapter: Path | None, config: Mapping, name: str, seed: int) -> str | None:
@@ -171,7 +180,7 @@ def generation_provenance(
         "model_sha256": model_digest(config),
         "adapter_sha256": adapter_digest(adapter, config, name, seed),
         "generation": dict(config["generation"]),
-        "generation_sha256": digest(config["generation"]),
+        "generation_sha256": json_digest(config["generation"]),
         "code_sha256": source_digest("generation/backend.py", "generation/prompt.py"),
     }
 
@@ -198,8 +207,8 @@ def verify_predictions(path: Path, prompts: Sequence[Mapping], provenance: Mappi
             identifier not in by_id
             or identifier in seen
             or row.get("prompt_sha256") != by_id[identifier]["prompt_sha256"]
-            or row.get("provenance_sha256") != digest(provenance)
-            or checksum != digest({k: v for k, v in row.items() if k != "record_sha256"})
+            or row.get("provenance_sha256") != json_digest(provenance)
+            or checksum != json_digest({k: v for k, v in row.items() if k != "record_sha256"})
         ):
             raise ValueError(f"Prediction provenance/hash mismatch: {path}, {identifier}")
         seen.add(identifier)
@@ -247,7 +256,4 @@ class ResourceMonitor:
 
 
 def write_manifest(path: Path, provenance: Mapping, **extra) -> None:
-    # Atomic replacement prevents a session interruption from leaving partial JSON.
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    write_json(temporary, manifest_record(provenance, **extra))
-    temporary.replace(path)
+    atomic_write_json(path, manifest_record(provenance, **extra))

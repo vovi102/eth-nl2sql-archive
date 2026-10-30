@@ -13,6 +13,7 @@ from tempfile import TemporaryDirectory
 
 import duckdb
 
+from eth_nl2sql.artifacts import sha256_file
 from eth_nl2sql.store.build import RAW_SCHEMAS
 
 IMPORT_FILES = (
@@ -36,11 +37,6 @@ TIMESTAMPS = {
     "token_transfers": "block_timestamp",
     "transactions": "block_timestamp",
 }
-
-
-def _sha256(path: Path) -> str:
-    with path.open("rb") as handle:
-        return hashlib.file_digest(handle, "sha256").hexdigest()
 
 
 def _quote(name: str) -> str:
@@ -125,7 +121,7 @@ def _verify_files(directory: Path, manifest: dict, report: dict) -> None:
         report["files"].append(observed)
         try:
             observed["bytes"] = path.stat().st_size
-            observed["sha256"] = _sha256(path)
+            observed["sha256"] = sha256_file(path)
             if observed["bytes"] != record["bytes"]:
                 _issue(report, "error", "size_mismatch", "file size differs from manifest", name)
             if observed["sha256"] != record["sha256"]:

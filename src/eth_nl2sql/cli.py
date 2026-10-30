@@ -17,21 +17,19 @@ import sys
 from pathlib import Path
 
 from eth_nl2sql import config as cfg
-from eth_nl2sql.data.splits import read_split, split_paths
+from eth_nl2sql.artifacts import ensure_output_paths
+from eth_nl2sql.data.splits import read_checked_split, split_paths
+from eth_nl2sql.linking.workflow import (
+    build_pipeline,
+    check_linking_manifest,
+    linking_path,
+    linking_provenance,
+    load_linkings,
+    save_linkings,
+)
 
 RUNS_DIR = cfg.ROOT / "runs"
 SPLITS = split_paths()
-
-
-def _read_split(name: str, dictionary: Path = cfg.DICTIONARY_DIR) -> list[dict]:
-    try:
-        if name == "test":
-            from eth_nl2sql.data.benchmark import require_frozen
-
-            require_frozen(SPLITS["test"].parent, cfg.DATA_DIR, dictionary)
-        return read_split(name)
-    except ValueError as exc:
-        raise SystemExit(str(exc)) from exc
 
 
 def _git_commit() -> str | None:
@@ -114,16 +112,11 @@ def cmd_dictionary_coverage(args: argparse.Namespace) -> None:
     from eth_nl2sql.linking.audit import coverage_gate, dictionary_coverage, render_coverage
     from eth_nl2sql.store.build import connect
 
-    protected = {
-        args.store.resolve(),
-        *(p.resolve() for p in args.dictionary.rglob("*") if p.is_file()),
-    }
-    if args.baseline:
-        protected.add(args.baseline.resolve())
-    if args.out.resolve() in protected or args.report.resolve() in protected:
-        raise SystemExit("Coverage output must not overwrite the dictionary or store")
-    if args.out.resolve() == args.report.resolve():
-        raise SystemExit("JSON and Markdown report paths must be different")
+    ensure_output_paths(
+        (args.out, args.report),
+        (args.store, args.dictionary, *((args.baseline,) if args.baseline else ())),
+        message="Coverage output must not overwrite the dictionary or store",
+    )
     with connect(args.store) as con:
         report = dictionary_coverage(con, args.dictionary)
     if args.baseline:
@@ -198,24 +191,26 @@ def cmd_prepare_local(args: argparse.Namespace) -> None:
 
 def cmd_check_sql(args: argparse.Namespace) -> None:
     """Compile every gold and training query against an empty store (no data needed)."""
-    from eth_nl2sql.store.build import connect, create_schema
-    from eth_nl2sql.store.execute import ExecutionError, execute
-    from eth_nl2sql.validation import ValidationError
+    from eth_nl2sql.store.compile import compile_queries
 
-    con = connect()
-    create_schema(con)
-    failures = []
-    total = 0
-    for split, path in SPLITS.items():
-        if not path.is_file():
-            continue
-        for sql in sorted({row["sql"] for row in cfg.read_jsonl(path)}):
-            total += 1
-            try:
-                execute(con, sql)
-            except (ValidationError, ExecutionError) as exc:
-                failures.append({"split": split, "code": exc.code, "error": str(exc), "sql": sql})
-    _print({"checked": total, "failures": failures})
+    queries = [
+        {"split": split, "sql": sql}
+        for split, path in SPLITS.items()
+        if path.is_file()
+        for sql in sorted({row["sql"] for row in cfg.read_jsonl(path)})
+    ]
+    results = compile_queries(queries)
+    failures = [
+        {
+            "split": row["split"],
+            "code": row["status"],
+            "error": row.get("error", "Empty SQL"),
+            "sql": row["sql"],
+        }
+        for row in results
+        if row["status"] != "ok"
+    ]
+    _print({"checked": len(results), "failures": failures})
     if failures:
         sys.exit(1)
 
@@ -230,13 +225,11 @@ def cmd_check_dataset(args: argparse.Namespace) -> None:
     from eth_nl2sql.data.dataset_audit import audit_dataset, render_audit
     from eth_nl2sql.store.build import connect
 
-    protected = {args.store.resolve()}
-    protected.update(p.resolve() for p in args.data.rglob("*") if p.is_file())
-    protected.update(p.resolve() for p in args.dictionary.rglob("*") if p.is_file())
-    if args.out.resolve() in protected or args.report.resolve() in protected:
-        raise SystemExit("Dataset reports must not overwrite data, dictionary or store")
-    if args.out.resolve() == args.report.resolve():
-        raise SystemExit("JSON and Markdown report paths must be different")
+    ensure_output_paths(
+        (args.out, args.report),
+        (args.store, args.data, args.dictionary),
+        message="Dataset reports must not overwrite data, dictionary or store",
+    )
     with connect(args.store) as con:
         report = audit_dataset(
             con,
@@ -278,13 +271,12 @@ def cmd_check_annotations(args: argparse.Namespace) -> None:
 
 
 def _write_benchmark_report(args: argparse.Namespace, report: dict, inputs: list[Path]) -> None:
-    protected = {p.resolve() for p in inputs}
-    protected.update(p.resolve() for p in args.dictionary.rglob("*") if p.is_file())
-    protected.update(p.resolve() for p in cfg.DATA_DIR.rglob("*") if p.is_file())
-    if getattr(args, "store", None):
-        protected.add(args.store.resolve())
-    if args.out.resolve() in protected:
-        raise SystemExit("Benchmark report must not overwrite input data, dictionary or store")
+    store = getattr(args, "store", None)
+    ensure_output_paths(
+        (args.out,),
+        (*inputs, args.dictionary, cfg.DATA_DIR, *((store,) if store else ())),
+        message="Benchmark report must not overwrite input data, dictionary or store",
+    )
     cfg.write_json(args.out, report)
     _print(
         {
@@ -335,11 +327,11 @@ def cmd_freeze_benchmark(args: argparse.Namespace) -> None:
 def cmd_check_data(args: argparse.Namespace) -> None:
     from eth_nl2sql.data.audit import audit_import, render_report
 
-    protected = {p.resolve() for p in args.directory.glob("*") if p.is_file()}
-    if args.out.resolve() in protected or args.report.resolve() in protected:
-        raise SystemExit("Report paths must not overwrite files in the input directory")
-    if args.out.resolve() == args.report.resolve():
-        raise SystemExit("JSON and Markdown report paths must be different")
+    ensure_output_paths(
+        (args.out, args.report),
+        (args.directory,),
+        message="Report paths must not overwrite files in the input directory",
+    )
     report = audit_import(args.directory, progress=lambda message: print(message, file=sys.stderr))
     cfg.write_json(args.out, report)
     args.report.parent.mkdir(parents=True, exist_ok=True)
@@ -358,168 +350,48 @@ def cmd_check_data(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
-def _linking_pipeline(dictionary_dir: Path, *, use_encoder: bool, variant: str = "full"):
-    from eth_nl2sql.linking.context import LinkingPipeline
-    from eth_nl2sql.linking.dictionary import load_dictionary
-    from eth_nl2sql.linking.entity import EntityLinker
-    from eth_nl2sql.linking.schema import SchemaLinker
-
-    encoder = None
-    if use_encoder:
-        from eth_nl2sql.generation.retrieval import load_encoder
-
-        encoder = load_encoder(cfg.load())
-    dictionary = load_dictionary(dictionary_dir)
-    catalog = json.loads(cfg.CATALOG_PATH.read_text())
-    synonyms = json.loads(cfg.SYNONYMS_PATH.read_text())
-    return LinkingPipeline(
-        dictionary,
-        SchemaLinker(catalog, synonyms, encoder),
-        EntityLinker(dictionary, encoder),
-        variant=variant,
-    )
-
-
-def _linking_path(split: str, variant: str = "full") -> Path:
-    directory = cfg.DATA_DIR / "linking"
-    return directory / (f"{split}.jsonl" if variant == "full" else f"{variant}/{split}.jsonl")
-
-
-def _linking_provenance(dictionary: Path, use_encoder: bool) -> dict:
-    return {
-        "dictionary": {p.name: cfg.sha256_file(p) for p in sorted(dictionary.glob("*.json"))},
-        "catalog_sha256": cfg.sha256_file(cfg.CATALOG_PATH),
-        "synonyms_sha256": cfg.sha256_file(cfg.SYNONYMS_PATH),
-        "encoder": cfg.load()["models"]["encoder"] if use_encoder else None,
-        "code": {
-            p.name: cfg.sha256_file(p)
-            for p in sorted((cfg.ROOT / "src/eth_nl2sql/linking").glob("*.py"))
-        },
-    }
-
-
-def _save_linkings(split: str, variant: str, rows: list[dict], provenance: dict) -> Path:
-    path = _linking_path(split, variant)
-    cfg.write_jsonl(path, rows)
-    cfg.write_json(
-        path.with_suffix(".manifest.json"),
-        {
-            **provenance,
-            "split": split,
-            "variant": variant,
-            "predictions_sha256": cfg.sha256_file(path),
-        },
-    )
-    return path
-
-
-def _check_linking_manifest(path: Path, split: str, variant: str, dictionary: Path) -> dict:
-    manifest_path = path.with_suffix(".manifest.json")
-    if not manifest_path.exists():
-        raise SystemExit(f"Missing linking manifest {manifest_path}; rerun link")
-    manifest = json.loads(manifest_path.read_text())
-    current = _linking_provenance(dictionary, use_encoder=False)
-    if (
-        any(
-            manifest.get(k) != current[k]
-            for k in ("dictionary", "catalog_sha256", "synonyms_sha256")
-        )
-        or manifest.get("predictions_sha256") != cfg.sha256_file(path)
-        or any(manifest.get(k) != value for k, value in (("split", split), ("variant", variant)))
-    ):
-        raise SystemExit(f"Stale linking manifest/dictionary/schema in {path}; rerun link")
-    return manifest
-
-
 def cmd_link(args: argparse.Namespace) -> None:
     from eth_nl2sql.linking.context import LinkingPipeline, link_rows
     from eth_nl2sql.linking.variants import VARIANTS
 
-    cases = _read_split(args.split, args.dictionary)
-    pipeline = _linking_pipeline(args.dictionary, use_encoder=not args.no_encoder)
-    provenance = _linking_provenance(args.dictionary, not args.no_encoder)
+    cases = read_checked_split(args.split, args.dictionary)
+    pipeline = build_pipeline(args.dictionary, use_encoder=not args.no_encoder)
+    provenance = linking_provenance(args.dictionary, not args.no_encoder)
     outputs = {}
     for variant in VARIANTS if args.variant == "all" else (args.variant,):
         selected = LinkingPipeline(
             pipeline.entity.dictionary, pipeline.schema, pipeline.entity, variant=variant
         )
         rows = link_rows(selected, cases)
-        outputs[variant] = str(_save_linkings(args.split, variant, rows, provenance))
+        outputs[variant] = str(save_linkings(args.split, variant, rows, provenance))
     _print({"split": args.split, "rows": len(cases), "outputs": outputs})
-
-
-def _load_linkings(split: str, variant: str = "full", cases: list[dict] | None = None) -> dict:
-    from eth_nl2sql.linking.context import Linking
-
-    path = _linking_path(split, variant)
-    if not path.exists():
-        raise SystemExit(f"missing {path}; run `eth-nl2sql link --split {split}` first")
-    rows = cfg.read_jsonl(path)
-    if len({row["id"] for row in rows}) != len(rows):
-        raise SystemExit(f"Duplicate linking IDs in {path}")
-    if cases is not None:
-        questions = {c["id"]: c["question"] for c in cases}
-        if {r["id"]: r.get("question") for r in rows} != questions:
-            raise SystemExit(f"Stale linking questions/IDs in {path}; rerun link")
-    if path.with_suffix(".manifest.json").exists():
-        _check_linking_manifest(path, split, variant, cfg.DICTIONARY_DIR)
-    return {row["id"]: Linking.from_json(row["linking"]) for row in rows}
 
 
 def cmd_link_experiments(args: argparse.Namespace) -> None:
     from dataclasses import asdict
 
+    from eth_nl2sql.generation.retrieval import cached_retriever, example_retriever
     from eth_nl2sql.generation.runs import prompt_suite
     from eth_nl2sql.linking.context import Linking, LinkingPipeline, link_rows
     from eth_nl2sql.linking.variants import EXPERIMENTS, VARIANTS
 
-    cases = _read_split(args.split, args.dictionary)
-    base = _linking_pipeline(args.dictionary, use_encoder=not args.no_encoder)
-    provenance = _linking_provenance(args.dictionary, not args.no_encoder)
+    cases = read_checked_split(args.split, args.dictionary)
+    base = build_pipeline(args.dictionary, use_encoder=not args.no_encoder)
+    provenance = linking_provenance(args.dictionary, not args.no_encoder)
     linkings = {}
     for variant in VARIANTS:
         pipeline = LinkingPipeline(
             base.entity.dictionary, base.schema, base.entity, variant=variant
         )
         rows = link_rows(pipeline, cases)
-        _save_linkings(args.split, variant, rows, provenance)
+        save_linkings(args.split, variant, rows, provenance)
         linkings[variant] = {row["id"]: Linking.from_json(row["linking"]) for row in rows}
-    train = _read_split("train")
-    if args.examples:
-        from eth_nl2sql.generation.retrieval import normalize_question
-
-        example_rows = cfg.read_jsonl(args.examples)
-        selected = {row["id"]: row["example_ids"] for row in example_rows}
-        if len(selected) != len(example_rows) or set(selected) != {c["id"] for c in cases}:
-            raise SystemExit("Example cache must cover exactly the split IDs, without duplicates")
-        train_index = {row["id"]: row for row in train}
-        examples = {}
-        for case in cases:
-            ids = selected[case["id"]]
-            if len(ids) != 5 or len(set(ids)) != 5 or not set(ids) <= train_index.keys():
-                raise SystemExit("Example cache needs five distinct training IDs per question")
-            shots = [train_index[key] for key in ids]
-            if any(
-                (case.get("family_id") is not None and shot.get("family_id") == case["family_id"])
-                or normalize_question(shot["question"]) == normalize_question(case["question"])
-                for shot in shots
-            ):
-                raise SystemExit("Example cache leaks the question or its family")
-            examples[case["id"]] = shots
-
-        def retrieve(case):
-            return examples[case["id"]]
-    else:
-        from eth_nl2sql.generation.retrieval import FewShotRetriever, load_encoder
-
-        encoder = base.schema.encoder
-        retriever = FewShotRetriever(
-            train, encoder if encoder is not None else load_encoder(cfg.load()), k=5
-        )
-
-        def retrieve(case):
-            return retriever.retrieve(case["question"], exclude_family=case.get("family_id"))
-
+    train = read_checked_split("train")
+    retrieve = (
+        cached_retriever(args.examples, cases, train)
+        if args.examples
+        else example_retriever(train, cfg.load(), encoder=base.schema.encoder, k=5)
+    )
     suite = prompt_suite(
         cases,
         catalog=json.loads(cfg.CATALOG_PATH.read_text()),
@@ -557,7 +429,7 @@ def cmd_evaluate_linking(args: argparse.Namespace) -> None:
     from eth_nl2sql.linking.dictionary import load_dictionary
     from eth_nl2sql.linking.evaluate import score_predictions
 
-    cases = _read_split(args.split, args.dictionary)
+    cases = read_checked_split(args.split, args.dictionary)
     directory = SPLITS["test"].parent if args.split == "test" else cfg.DATA_DIR
     prefix = "" if args.split == "test" else f"{args.split}-"
     annotations_path = directory / f"{prefix}annotations.jsonl"
@@ -569,7 +441,7 @@ def cmd_evaluate_linking(args: argparse.Namespace) -> None:
     audit = audit_annotations(cases, annotations, reviews, load_dictionary(args.dictionary))
     if not audit["passed"]:
         raise SystemExit(f"Invalid linking annotations/reviews: {audit}")
-    predictions_path = args.predictions or _linking_path(args.split, args.variant)
+    predictions_path = args.predictions or linking_path(args.split, args.variant)
     predictions = cfg.read_jsonl(predictions_path)
     questions = {c["id"]: c["question"] for c in cases}
     if any(
@@ -578,7 +450,7 @@ def cmd_evaluate_linking(args: argparse.Namespace) -> None:
         for row in predictions
     ):
         raise SystemExit("Stale linking questions or wrong prediction variant")
-    metadata = _check_linking_manifest(predictions_path, args.split, args.variant, args.dictionary)
+    metadata = check_linking_manifest(predictions_path, args.split, args.variant, args.dictionary)
     try:
         report = score_predictions(
             predictions,
@@ -606,56 +478,35 @@ def cmd_prompts(args: argparse.Namespace) -> None:
     from eth_nl2sql.generation.runs import CONFIGS, prompt_rows, training_rows
 
     if args.split == "test":
-        _read_split(args.split)
+        read_checked_split(args.split)
     run = CONFIGS[args.config]
     catalog = json.loads(cfg.CATALOG_PATH.read_text())
     out_dir = RUNS_DIR / run.name
     if args.training:
         for split in ("train", "dev"):
-            cases = _read_split(split)
-            linkings = _load_linkings(split, run.linking_variant, cases) if run.linking else None
+            cases = read_checked_split(split)
+            linkings = load_linkings(split, run.linking_variant, cases) if run.linking else None
             rows = training_rows(run, cases, catalog=catalog, linkings=linkings)
             cfg.write_jsonl(out_dir / f"sft-{split}.jsonl", rows)
         _print({"config": run.name, "out": str(out_dir)})
         return
-    cases = _read_split(args.split)
+    cases = read_checked_split(args.split)
     retrieve = None
     if run.examples:
-        from eth_nl2sql.generation.retrieval import FewShotRetriever, load_encoder
+        from eth_nl2sql.generation.retrieval import example_retriever
 
-        experiment = cfg.load()
-        retriever = FewShotRetriever(
-            _read_split("train"),
-            load_encoder(experiment),
-            k=experiment["retrieval"]["examples"],
-        )
-
-        def retrieve(case):
-            return retriever.retrieve(case["question"], exclude_family=case.get("family_id"))
+        retrieve = example_retriever(read_checked_split("train"), cfg.load())
 
     rows = prompt_rows(
         run,
         cases,
         catalog=catalog,
-        linkings=_load_linkings(args.split, run.linking_variant, cases) if run.linking else None,
+        linkings=load_linkings(args.split, run.linking_variant, cases) if run.linking else None,
         retrieve=retrieve,
     )
     out = out_dir / f"prompts-{args.split}.jsonl"
     cfg.write_jsonl(out, rows)
     _print({"config": run.name, "split": args.split, "rows": len(rows), "out": str(out)})
-
-
-def _adapter_path(name: str, out_dir: Path, requested: Path | None = None) -> Path | None:
-    from eth_nl2sql.generation.runs import CONFIGS
-
-    if not CONFIGS[name].fine_tuned:
-        if requested is not None:
-            raise ValueError(f"{name} must run without an adapter")
-        return None
-    expected = out_dir / "adapter"
-    if requested is not None and requested.resolve() != expected.resolve():
-        raise ValueError(f"{name} requires the adapter for this seed: {expected}")
-    return expected
 
 
 def cmd_preflight(args: argparse.Namespace) -> None:
@@ -673,7 +524,7 @@ def cmd_preflight(args: argparse.Namespace) -> None:
     from eth_nl2sql.train_qlora import preflight_training, training_inputs
 
     # The draft gate runs before tokenizer loading, including --training with --split test.
-    _read_split(args.split)
+    read_checked_split(args.split)
     experiment = cfg.load()
     model_digest(experiment)
     inputs = RUNS_DIR / args.config
@@ -715,14 +566,14 @@ def cmd_preflight(args: argparse.Namespace) -> None:
 
 
 def cmd_generate(args: argparse.Namespace) -> None:
-    from eth_nl2sql.experiments import run_directory, selected_seeds
+    from eth_nl2sql.experiments import adapter_path, run_directory, selected_seeds
     from eth_nl2sql.generation.backend import generate_file
 
-    _read_split(args.split)
+    read_checked_split(args.split)
     experiment = cfg.load()
     for seed in selected_seeds(args.seed, experiment):
         out_dir = run_directory(RUNS_DIR, args.config, seed)
-        adapter = _adapter_path(args.config, out_dir, args.adapter)
+        adapter = adapter_path(args.config, out_dir, args.adapter)
         written = generate_file(
             RUNS_DIR / args.config / f"prompts-{args.split}.jsonl",
             out_dir / f"predictions-{args.split}.jsonl",
@@ -746,13 +597,14 @@ def cmd_smoke(args: argparse.Namespace) -> None:
 
 def cmd_train(args: argparse.Namespace) -> None:
     from eth_nl2sql.experiments import run_directory, selected_seeds
+    from eth_nl2sql.generation.runs import training_configs
     from eth_nl2sql.train_qlora import train, training_inputs
 
     experiment = cfg.load()
-    names = ("b3", "b3l") if args.config == "all" else (args.config,)
+    names = training_configs() if args.config == "all" else (args.config,)
     # Validate both real splits before loading any GPU model.
     for split in ("train", "dev"):
-        _read_split(split)
+        read_checked_split(split)
     for name in names:
         inputs = RUNS_DIR / name
         training_inputs(inputs / "sft-train.jsonl", inputs / "sft-dev.jsonl", experiment)
@@ -775,120 +627,29 @@ def cmd_train(args: argparse.Namespace) -> None:
 def cmd_echo_gold(args: argparse.Namespace) -> None:
     rows = [
         {"id": row["id"], "config": "gold-echo", "raw_output": row["sql"], "latency_ms": None}
-        for row in _read_split(args.split)
+        for row in read_checked_split(args.split)
     ]
     cfg.write_jsonl(RUNS_DIR / "gold-echo" / f"predictions-{args.split}.jsonl", rows)
     _print({"rows": len(rows)})
 
 
 def cmd_evaluate(args: argparse.Namespace) -> None:
-    from eth_nl2sql.evaluate import case_rows, evaluate_predictions, summarize
-    from eth_nl2sql.experiments import (
-        checked_rows,
-        digest,
-        generation_provenance,
-        prediction_manifest,
-        run_directory,
-        selected_seeds,
-        verify_predictions,
-        write_manifest,
-    )
-    from eth_nl2sql.store.build import connect
-    from eth_nl2sql.store.manifest import store_profile
+    from eth_nl2sql.evaluation_workflow import evaluate_runs
 
     # Check the release gate before touching predictions or model artifacts.
-    cases = _read_split(args.split)
-    experiment = cfg.load()
-    settings = experiment["evaluation"]
-    seeds = (None,) if args.config == "gold-echo" else selected_seeds(args.seed, experiment)
-    for seed in seeds:
-        out_dir = (
-            RUNS_DIR / args.config if seed is None else run_directory(RUNS_DIR, args.config, seed)
-        )
-        predictions_path = out_dir / f"predictions-{args.split}.jsonl"
-        provenance = None
-        if seed is not None:
-            prompts_path = RUNS_DIR / args.config / f"prompts-{args.split}.jsonl"
-            prompts = checked_rows(prompts_path)
-            if {r["id"] for r in prompts} != {c["id"] for c in cases}:
-                raise ValueError("Prompt IDs differ from the evaluation split")
-            provenance = generation_provenance(
-                prompts_path, experiment, args.config, seed, _adapter_path(args.config, out_dir)
-            )
-            prediction_info = verify_predictions(predictions_path, prompts, provenance)
-            if prediction_info.get("status") != "complete":
-                raise ValueError("Complete generation for the entire split before evaluation")
-        rows = cfg.read_jsonl(predictions_path)
-        predictions = {row["id"]: row for row in rows}
-        if len(predictions) != len(rows) or set(predictions) - {c["id"] for c in cases}:
-            raise ValueError("Duplicate or unknown prediction IDs")
-        if seed is not None and set(predictions) != {c["id"] for c in cases}:
-            raise ValueError("Complete generation for the entire split before evaluation")
-        with connect(args.store) as con:
-            profile = store_profile(con)
-            if args.split == "test":
-                manifest = json.loads((SPLITS["test"].parent / "manifest.json").read_text())
-                if profile != manifest["store"]:
-                    raise SystemExit("Evaluation store differs from the frozen benchmark store")
-            results = evaluate_predictions(
-                con,
-                cases,
-                predictions,
-                float_digits=settings["float_digits"],
-                timeout_s=settings["timeout_s"],
-            )
-        summary = summarize(
-            results, samples=settings["bootstrap_samples"], seed=settings["bootstrap_seed"]
-        )
-        summary.update(
-            {
-                "store": profile,
-                "config": args.config,
-                "seed": seed,
-                "split": args.split,
-                "missing_predictions": sorted({c["id"] for c in cases} - set(predictions)),
-                "predictions_sha256": cfg.sha256_file(predictions_path),
-                "dataset_sha256": cfg.sha256_file(SPLITS[args.split]),
-                "case_ids_sha256": digest(sorted(c["id"] for c in cases)),
-                "evaluation_settings_sha256": digest(settings),
-                "evaluation_role": "final_benchmark" if args.split == "test" else "development",
-            }
-        )
-        if provenance is not None:
-            summary.update(
-                {
-                    k: provenance[k]
-                    for k in (
-                        "model_sha256",
-                        "prompts_sha256",
-                        "adapter_sha256",
-                        "generation_sha256",
-                    )
-                }
-            )
-            summary["prediction_manifest_sha256"] = cfg.sha256_file(
-                prediction_manifest(predictions_path)
-            )
-            training_manifest = out_dir / "training-manifest.json"
-            if training_manifest.exists():
-                training = json.loads(training_manifest.read_text())["provenance"]
-                summary["training_protocol_sha256"] = digest(
-                    {k: v for k, v in training.items() if k != "seed"}
-                )
-        if args.split == "test":
-            summary["benchmark_manifest_sha256"] = cfg.sha256_file(
-                SPLITS["test"].parent / "manifest.json"
-            )
-        cases_path = out_dir / f"cases-{args.split}.jsonl"
-        evaluation_path = out_dir / f"eval-{args.split}.json"
-        cfg.write_jsonl(cases_path, case_rows(results))
-        cfg.write_json(evaluation_path, summary)
-        write_manifest(
-            evaluation_path.with_suffix(".manifest.json"),
-            summary,
-            evaluation_sha256=cfg.sha256_file(evaluation_path),
-            cases_sha256=cfg.sha256_file(cases_path),
-        )
+    cases = read_checked_split(args.split)
+    summaries = evaluate_runs(
+        RUNS_DIR,
+        args.config,
+        args.split,
+        args.seed,
+        args.store,
+        cases=cases,
+        experiment=cfg.load(),
+        split_path=SPLITS[args.split],
+        benchmark_manifest=SPLITS["test"].parent / "manifest.json",
+    )
+    for summary in summaries:
         _print(
             {
                 k: summary[k]
@@ -906,7 +667,7 @@ def cmd_evaluate(args: argparse.Namespace) -> None:
 def cmd_report(args: argparse.Namespace) -> None:
     from eth_nl2sql.report import write_report
 
-    _read_split(args.split)
+    read_checked_split(args.split)
     path = write_report(RUNS_DIR, args.split, cfg.ROOT / "RESULTS.md")
     _print({"written": str(path)})
 
@@ -1108,7 +869,7 @@ def main(argv: list[str] | None = None) -> None:
     command.add_argument("--predictions", type=Path)
     command.add_argument("--out", type=Path)
 
-    from eth_nl2sql.generation.runs import CONFIGS
+    from eth_nl2sql.generation.runs import CONFIGS, training_configs
 
     command = add("prompts", cmd_prompts, "render prompts (or SFT rows) for a configuration")
     command.add_argument("--config", choices=CONFIGS, required=True)
@@ -1135,7 +896,7 @@ def main(argv: list[str] | None = None) -> None:
     command.add_argument("--out", type=Path, required=True)
 
     command = add("train", cmd_train, "QLoRA fine-tuning for b3/b3l (GPU)")
-    command.add_argument("--config", choices=("b3", "b3l", "all"), required=True)
+    command.add_argument("--config", choices=(*training_configs(), "all"), required=True)
     command.add_argument("--seed", choices=("42", "43", "44", "all"), default="42")
     command.add_argument("--resume", action="store_true")
 

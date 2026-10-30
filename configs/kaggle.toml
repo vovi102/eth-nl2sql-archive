@@ -1,0 +1,4 @@
+# Deployment identity is separate from experimental/model settings.
+owner = "aohkvd"
+run_tag = "20261028"
+environment_cache = "nl2sql-environment-cache"

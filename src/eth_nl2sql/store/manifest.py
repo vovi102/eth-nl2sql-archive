@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from datetime import timedelta
 from pathlib import Path, PurePosixPath
@@ -10,10 +9,10 @@ from pathlib import Path, PurePosixPath
 import duckdb
 import pyarrow.parquet as pq
 
+from eth_nl2sql.artifacts import sha256_file
 
-def file_digest(path: Path) -> str:
-    with path.open("rb") as handle:
-        return hashlib.file_digest(handle, "sha256").hexdigest()
+# Backward compatible name for Parquet manifest consumers.
+file_digest = sha256_file
 
 
 def verify_record(directory: Path, record: dict) -> None:

@@ -10,6 +10,7 @@ from eth_nl2sql import config as cfg
 from eth_nl2sql.data.annotations import draft_development_annotations, pending_review
 from eth_nl2sql.linking.dictionary import load_dictionary
 from eth_nl2sql.linking.variants import EXPERIMENTS, VARIANTS
+from eth_nl2sql.linking.workflow import linking_path
 
 
 @pytest.fixture()
@@ -37,7 +38,7 @@ def experiment(tmp_path, monkeypatch):
     monkeypatch.setattr(cfg, "DATA_DIR", tmp_path / "data")
     monkeypatch.setattr(cli, "RUNS_DIR", tmp_path / "runs")
     monkeypatch.setattr(
-        cli, "_read_split", lambda name, *args: train if name == "train" else [case]
+        cli, "read_checked_split", lambda name, *args: train if name == "train" else [case]
     )
     train_path = cfg.DATA_DIR / "train.jsonl"
     cfg.write_jsonl(train_path, train)
@@ -96,7 +97,7 @@ def test_cli_suite_and_direct_scores_are_reproducible(experiment, tmp_path):
 
 def test_cli_rejects_a_changed_question_or_wrong_variant(experiment, tmp_path):
     cli.main(["link", "--split", "dev_eval", "--no-encoder", "--dictionary", str(MINI_DICTIONARY)])
-    path = cli._linking_path("dev_eval")
+    path = linking_path("dev_eval")
     rows = cfg.read_jsonl(path)
     rows[0]["question"] = "Some other question"
     cfg.write_jsonl(path, rows)
@@ -129,7 +130,7 @@ def test_suite_rejects_retrieval_examples_outside_train(experiment):
 
 def test_scoring_rejects_predictions_bound_to_a_different_dictionary(experiment, tmp_path):
     cli.main(["link", "--split", "dev_eval", "--no-encoder", "--dictionary", str(MINI_DICTIONARY)])
-    path = cli._linking_path("dev_eval").with_suffix(".manifest.json")
+    path = linking_path("dev_eval").with_suffix(".manifest.json")
     manifest = json.loads(path.read_text())
     manifest["dictionary"]["entities.json"] = "0" * 64
     cfg.write_json(path, manifest)

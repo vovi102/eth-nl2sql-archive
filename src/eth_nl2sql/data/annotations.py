@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 from collections import Counter
@@ -14,6 +13,7 @@ from sqlglot.errors import SqlglotError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
+from eth_nl2sql.artifacts import json_digest, text_digest
 from eth_nl2sql.config import CATALOG_PATH, ROOT
 from eth_nl2sql.linking.dictionary import Dictionary, normalize_phrase, owner_id
 from eth_nl2sql.validation import MANAGED_RELATIONS, relation_name, validate_sql
@@ -23,13 +23,9 @@ GROUPS = ("generic", "multi_address", "alias", "class_level", "ambiguous_propert
 PROPERTY_COUNTS = {"direction": 7, "fact": 7, "address_role": 6}
 
 
-def text_digest(text: str) -> str:
-    return hashlib.sha256(text.encode()).hexdigest()
-
-
 def content_digest(value: dict) -> str:
     """JSON key order and whitespace do not invalidate an otherwise identical review."""
-    return text_digest(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":")))
+    return json_digest(value)
 
 
 def annotation_digest(annotation: dict) -> str:

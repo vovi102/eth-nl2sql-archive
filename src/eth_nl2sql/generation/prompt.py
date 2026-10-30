@@ -7,10 +7,9 @@ ids, which is why 99/100 zero-shot outputs there referenced unknown tables.
 
 from __future__ import annotations
 
-import hashlib
-import json
 from collections.abc import Mapping, Sequence
 
+from eth_nl2sql.artifacts import json_digest
 from eth_nl2sql.validation import PROJECT_DATASET
 
 LABEL_COLUMNS = (
@@ -154,5 +153,4 @@ def build_messages(
 
 
 def messages_digest(messages: Sequence[Mapping]) -> str:
-    payload = json.dumps(list(messages), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-    return hashlib.sha256(payload.encode()).hexdigest()
+    return json_digest(list(messages))

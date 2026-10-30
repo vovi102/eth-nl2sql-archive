@@ -7,15 +7,10 @@ The GPU phase calls the production CLI in separate processes to exercise resume.
 from __future__ import annotations
 
 import argparse
-import hashlib
-import importlib.metadata
 import json
-import os
 import shutil
 import subprocess
 import sys
-import time
-import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,18 +22,33 @@ from eth_nl2sql.experiments import (  # noqa: E402
     generation_provenance,
     verify_predictions,
 )
+from eth_nl2sql.generation.runs import CONFIGS as RUN_CONFIGS  # noqa: E402
+from eth_nl2sql.generation.runs import training_configs  # noqa: E402
+from eth_nl2sql.gpu_workflow import (  # noqa: E402
+    StageRunner,
+    archive_outputs,
+    benchmark_hashes,
+    collect_outputs,
+    offline_environment,
+    package_inputs,
+    require_cuda,
+    source_files,
+    write_runtime,
+)
+from eth_nl2sql.gpu_workflow import (  # noqa: E402
+    verify_cache as verify_cache,
+)
+from eth_nl2sql.gpu_workflow import (  # noqa: E402
+    verify_inputs as check_inputs,
+)
 
 REPORT = ROOT / "reports/gpu-development-t11a"
 CONTROLS = ("b3-base", "b3l-base")
-CONFIGS = ("b3", "b3l", *CONTROLS)
+CONFIGS = (*training_configs(), *CONTROLS)
 
 
 def test_hashes() -> dict:
-    return {
-        p.relative_to(ROOT).as_posix(): cfg.sha256_file(p)
-        for p in sorted((ROOT / "data/benchmark/v2").rglob("*"))
-        if p.is_file() and "__pycache__" not in p.parts
-    }
+    return benchmark_hashes(ROOT)
 
 
 def package(output: Path) -> None:
@@ -56,7 +66,12 @@ def package(output: Path) -> None:
             raise ValueError(f"Stale linking cache: {split}")
         links[split] = manifest
     identity_keys = (
-        "encoder", "code", "catalog_sha256", "synonyms_sha256", "dictionary", "runtime",
+        "encoder",
+        "code",
+        "catalog_sha256",
+        "synonyms_sha256",
+        "dictionary",
+        "runtime",
     )
     if any(any(links[s][k] != links["train"][k] for k in identity_keys) for s in links):
         raise ValueError("Linking pipeline differs across splits")
@@ -67,83 +82,46 @@ def package(output: Path) -> None:
             (r["id"], r["messages"]) for r in b
         ]:
             raise ValueError("Compact control prompts differ from adapter prompts")
-    files = [ROOT / p for p in ("pyproject.toml", "uv.lock", "README.md")]
-    files += sorted((ROOT / "src").rglob("*.py"))
-    files += sorted((ROOT / "scripts").glob("t11a*.py"))
-    files += sorted((ROOT / "configs").glob("*"))
+    files = source_files(ROOT, "t11a*.py")
     files += [ROOT / f"data/linking/{s}.manifest.json" for s in links]
     for name in CONFIGS:
         files += [ROOT / f"runs/{name}/prompts-dev_eval.jsonl"]
-        if name in ("b3", "b3l"):
+        if RUN_CONFIGS[name].fine_tuned:
             files += [ROOT / f"runs/{name}/sft-{s}.jsonl" for s in ("train", "dev")]
     manifest = {
-        "task": "T11A", "evaluation_role": "development", "expected_rows": 100,
+        "task": "T11A",
+        "evaluation_role": "development",
+        "expected_rows": 100,
         "code_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         "generator": settings["models"]["generator"],
-        "encoder": settings["models"]["encoder"], "generation": settings["generation"],
+        "encoder": settings["models"]["encoder"],
+        "generation": settings["generation"],
         "dataset_sha256": {s: cfg.sha256_file(ROOT / f"data/{s}.jsonl") for s in links},
-        "linking": links, "test_v2_unchanged": test_hashes(),
-        "files": {p.relative_to(ROOT).as_posix(): cfg.sha256_file(p) for p in files},
+        "linking": links,
+        "test_v2_unchanged": test_hashes(),
     }
-    cfg.write_json(REPORT / "inputs-manifest.json", manifest)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
-        for path in files:
-            archive.write(path, path.relative_to(ROOT))
-        archive.write(
-            REPORT / "inputs-manifest.json", REPORT.relative_to(ROOT) / "inputs-manifest.json"
-        )
-        # Generation needs IDs/questions only. Evaluation gold stays on the local machine.
-        rows = cfg.read_jsonl(ROOT / "data/dev_eval.jsonl")
-        archive.writestr("data/dev_eval.jsonl", "".join(
-            json.dumps({k: r[k] for k in ("id", "question")}) + "\n" for r in rows
-        ))
-    cfg.write_json(REPORT / "bundle.json", {
-        "sha256": cfg.sha256_file(output), "bytes": output.stat().st_size,
-        "code_commit": manifest["code_commit"],
-    })
+    package_inputs(
+        ROOT,
+        REPORT,
+        output,
+        files,
+        manifest,
+        bundle_metadata={"code_commit": manifest["code_commit"]},
+    )
     print(json.dumps({"archive": str(output), "bytes": output.stat().st_size}))
 
 
 def verify_inputs() -> dict:
-    manifest = json.loads((REPORT / "inputs-manifest.json").read_text())
-    for name, expected in manifest["files"].items():
-        if cfg.sha256_file(ROOT / name) != expected:
-            raise ValueError(f"Input hash mismatch: {name}")
-    return manifest
-
-
-def verify_cache(home: Path, pins: Path) -> dict:
-    settings = cfg.load()["models"]["generator"]
-    pin = json.loads(pins.read_text())["models"]["model"]
-    if any(pin[k] != settings[k] for k in ("repo_id", "revision")):
-        raise ValueError("Mounted model pin differs from experiment.toml")
-    snapshot = home / "hub" / ("models--" + pin["repo_id"].replace("/", "--"))
-    snapshot /= "snapshots/" + pin["revision"]
-    result = {}
-    for name, expected in pin["files"].items():
-        path = snapshot / name
-        size = path.stat().st_size
-        h = hashlib.sha256() if expected["algorithm"] == "sha256" else hashlib.sha1()
-        if expected["algorithm"] == "git-blob-sha1":
-            h.update(f"blob {size}\0".encode())
-        with path.open("rb") as handle:
-            while chunk := handle.read(8 * 1024 * 1024):
-                h.update(chunk)
-        if size != expected["bytes"] or h.hexdigest() != expected["digest"]:
-            raise ValueError(f"Mounted model file failed checksum: {name}")
-        result[name] = {"bytes": size, "digest": h.hexdigest(), "passed": True}
-        print("Verified model file:", name, flush=True)
-    return result
+    return check_inputs(ROOT, REPORT)
 
 
 def verify_run(name: str, expected: int) -> tuple[Path, list, dict]:
     prompts = ROOT / f"runs/{name}/prompts-dev_eval.jsonl"
     path = ROOT / f"runs/{name}/seed-42/predictions-dev_eval.jsonl"
     inputs = checked_rows(prompts)
-    manifest = verify_predictions(path, inputs, generation_provenance(
-        prompts, cfg.load(), name, 42, None
-    ))
+    manifest = verify_predictions(
+        path, inputs, generation_provenance(prompts, cfg.load(), name, 42, None)
+    )
     rows = cfg.read_jsonl(path)
     if len(rows) != expected or [r["id"] for r in rows] != [r["id"] for r in inputs[:expected]]:
         raise ValueError(f"{name}: expected exactly {expected} ordered unique predictions")
@@ -156,37 +134,16 @@ def verify_run(name: str, expected: int) -> tuple[Path, list, dict]:
 
 def gpu(home: Path, pins: Path) -> None:
     REPORT.mkdir(parents=True, exist_ok=True)
-    stages = []
     status = {"task": "T11A", "evaluation_role": "development", "status": "running"}
-    env = dict(os.environ, HF_HOME=str(home), HF_HUB_CACHE=str(home / "hub"),
-               HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", TOKENIZERS_PARALLELISM="false")
-    os.environ.update(env)
-
-    def cli(stage: str, *args: str) -> None:
-        print("Starting:", stage, flush=True)
-        start = time.monotonic()
-        with (REPORT / f"{stage}.log").open("w") as log:
-            result = subprocess.run([sys.executable, "-m", "eth_nl2sql.cli", *args],
-                                    cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
-        stages.append({"stage": stage, "runtime_s": time.monotonic() - start,
-                       "returncode": result.returncode})
-        cfg.write_json(REPORT / "stages.json", stages)
-        if result.returncode:
-            raise RuntimeError(f"{stage} failed; inspect {stage}.log")
+    env = offline_environment(home)
+    cli = StageRunner(ROOT, REPORT, env)
 
     try:
         status["inputs"] = verify_inputs()
-        cfg.write_json(REPORT / "runtime.json", {
-            "python": sys.version, "packages": {
-                d.metadata["Name"]: d.version for d in importlib.metadata.distributions()
-            }, "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
-        })
-        import torch
-
-        if not torch.cuda.is_available():
-            raise ValueError("T11A requires an actual CUDA GPU")
+        write_runtime(REPORT)
+        require_cuda("T11A")
         status["cache"] = verify_cache(home, pins)
-        for name in ("b3", "b3l"):
+        for name in training_configs():
             cli(f"preflight-{name}", "preflight", "--config", name, "--training")
         for name in CONTROLS:
             cli(f"preflight-{name}", "preflight", "--config", name)
@@ -209,47 +166,47 @@ def gpu(home: Path, pins: Path) -> None:
             path, completed, manifest = verify_run(name, 100)
             if completed[:10] != rows:
                 raise ValueError("Resume changed the first ten predictions")
-            cfg.write_json(REPORT / f"{name}-resume.json", {
-                "passed": True, "smoke_rows": 10, "final_rows": 100,
-                "first_ten_unchanged": True, "repeated_smoke_noop": True,
-                "session_generated_rows": [s["generated_rows"] for s in manifest["sessions"]],
-            })
+            cfg.write_json(
+                REPORT / f"{name}-resume.json",
+                {
+                    "passed": True,
+                    "smoke_rows": 10,
+                    "final_rows": 100,
+                    "first_ten_unchanged": True,
+                    "repeated_smoke_noop": True,
+                    "session_generated_rows": [s["generated_rows"] for s in manifest["sessions"]],
+                },
+            )
         status["status"] = "gpu_complete_pending_local_evaluation"
     except BaseException as exc:
         status.update(status="failed", error=f"{type(exc).__name__}: {exc}")
         raise
     finally:
         cfg.write_json(REPORT / "gpu-status.json", status)
-        artifacts = [p for base in (ROOT / "runs", REPORT) for p in base.rglob("*") if p.is_file()]
-        cfg.write_json(ROOT / "outputs-manifest.json", {
-            p.relative_to(ROOT).as_posix(): cfg.sha256_file(p) for p in artifacts
-        })
-        with zipfile.ZipFile(ROOT.parent / "t11a-artifacts.zip", "w", zipfile.ZIP_DEFLATED) as z:
-            for path in [*artifacts, ROOT / "outputs-manifest.json"]:
-                z.write(path, path.relative_to(ROOT))
+        archive_outputs(
+            ROOT,
+            (ROOT / "runs", REPORT),
+            ROOT / "outputs-manifest.json",
+            ROOT.parent / "t11a-artifacts.zip",
+        )
 
 
 def collect(archive: Path) -> None:
-    with zipfile.ZipFile(archive) as z:
-        manifest = json.loads(z.read("outputs-manifest.json"))
-        for name, expected in manifest.items():
-            dest = ROOT / name
-            if not dest.resolve().is_relative_to(ROOT):
-                raise ValueError(f"Invalid artifact path: {name}")
-            data = z.read(name)
-            if hashlib.sha256(data).hexdigest() != expected:
-                raise ValueError(f"Downloaded artifact hash mismatch: {name}")
-            # Never replace prepared prompts/SFT with different files during collection.
-            if dest.exists() and "/seed-" not in name and not name.startswith("reports/"):
-                if dest.read_bytes() != data:
-                    raise ValueError(f"Local input differs: {name}")
-        for name in manifest:
-            dest = ROOT / name
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(z.read(name))
-        cfg.write_json(REPORT / "download-manifest.json", {
-            "archive_sha256": cfg.sha256_file(archive), "files": manifest,
-        })
+    manifest = collect_outputs(
+        ROOT,
+        archive,
+        "outputs-manifest.json",
+        can_replace=lambda p: (
+            any(part.startswith("seed-") for part in p.parts) or p.parts[0] == "reports"
+        ),
+    )
+    cfg.write_json(
+        REPORT / "download-manifest.json",
+        {
+            "archive_sha256": cfg.sha256_file(archive),
+            "files": manifest,
+        },
+    )
     for name in CONTROLS:
         verify_run(name, 100)
     original = json.loads((REPORT / "inputs-manifest.json").read_text())
@@ -269,9 +226,12 @@ def summarize() -> None:
     for name in CONTROLS:
         path, rows, manifest = verify_run(name, 100)
         evaluation = json.loads(path.with_name("eval-dev_eval.json").read_text())
-        if (evaluation["n"] != 100 or evaluation["missing_predictions"]
-                or evaluation["predictions_sha256"] != cfg.sha256_file(path)
-                or evaluation["evaluation_role"] != "development"):
+        if (
+            evaluation["n"] != 100
+            or evaluation["missing_predictions"]
+            or evaluation["predictions_sha256"] != cfg.sha256_file(path)
+            or evaluation["evaluation_role"] != "development"
+        ):
             raise ValueError(f"Incomplete/stale evaluation: {name}")
         sessions = manifest["sessions"]
         if any(s.get("peak_gpu_memory_gib") is None or not s["hardware"]["gpus"] for s in sessions):
@@ -280,29 +240,43 @@ def summarize() -> None:
         if not resume["passed"]:
             raise ValueError(f"Resume check failed: {name}")
         summary["controls"][name] = {
-            "n": 100, "execution_accuracy": evaluation["execution_accuracy"],
+            "n": 100,
+            "execution_accuracy": evaluation["execution_accuracy"],
             "execution_accuracy_ci95": evaluation["execution_accuracy_ci95"],
             "status_counts": evaluation["status_counts"],
             "sql_error_rows": sum(v for k, v in evaluation["status_counts"].items() if k != "ok"),
             "length_limited_rows": manifest["length_limited_rows"],
-            "latency_ms": evaluation["generation_ms"], "store": evaluation["store"],
+            "latency_ms": evaluation["generation_ms"],
+            "store": evaluation["store"],
             "session_runtime_s": sum(s["runtime_s"] for s in sessions),
             "peak_gpu_allocated_gib": max(s["peak_gpu_memory_gib"] for s in sessions),
             "peak_gpu_reserved_gib": max(s["peak_gpu_reserved_gib"] for s in sessions),
-            "sessions": sessions, "resume": resume,
+            "sessions": sessions,
+            "resume": resume,
             "predictions_sha256": cfg.sha256_file(path),
         }
     summary["preflight"] = {}
-    for name in ("b3", "b3l"):
+    for name in training_configs():
         preflight = json.loads((ROOT / f"runs/{name}/seed-42/preflight-training.json").read_text())
         if not preflight["passed"]:
             raise ValueError(f"Training preflight failed: {name}")
         summary["preflight"][name] = {
-            "context_limit": preflight["context_limit"], "max_length": preflight["max_length"],
-            **{s: {k: preflight[s][k] for k in (
-                "input_rows", "kept_rows", "dropped_over_max_length", "dropped_fraction",
-                "min_tokens", "max_tokens",
-            )} for s in ("train", "dev")},
+            "context_limit": preflight["context_limit"],
+            "max_length": preflight["max_length"],
+            **{
+                s: {
+                    k: preflight[s][k]
+                    for k in (
+                        "input_rows",
+                        "kept_rows",
+                        "dropped_over_max_length",
+                        "dropped_fraction",
+                        "min_tokens",
+                        "max_tokens",
+                    )
+                }
+                for s in ("train", "dev")
+            },
         }
     summary["status"] = "complete"
     summary["completion_uses_accuracy_threshold"] = False

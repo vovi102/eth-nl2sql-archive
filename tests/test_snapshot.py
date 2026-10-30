@@ -325,17 +325,18 @@ def test_monthly_quota_counts_project_jobs_and_allows_resuming_own_active_job(mo
 
 
 def test_resume_recovers_crash_between_file_rename_and_manifest_commit(remote, monkeypatch):
-    original = snapshot.write_json
+    original = snapshot.atomic_write_json
     interrupted = False
 
-    def write(path, value):
+    def write(path, value, *, durable=False):
         nonlocal interrupted
+        assert durable
         if path.name == "manifest.json" and value.get("files") and not interrupted:
             interrupted = True
             raise RuntimeError("interrupted before file record was committed")
-        original(path, value)
+        original(path, value, durable=durable)
 
-    monkeypatch.setattr(snapshot, "write_json", write)
+    monkeypatch.setattr(snapshot, "atomic_write_json", write)
     with pytest.raises(RuntimeError):
         run(remote)
     assert len(remote.submitted) == 1 and len(list(remote.out.rglob("*.parquet"))) == 1

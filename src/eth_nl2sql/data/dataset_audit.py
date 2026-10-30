@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from collections import Counter
 from collections.abc import Callable
@@ -11,6 +10,7 @@ from pathlib import Path
 
 import duckdb
 
+from eth_nl2sql.artifacts import text_digest
 from eth_nl2sql.config import read_jsonl, sha256_file
 from eth_nl2sql.data.annotations import audit_annotations
 from eth_nl2sql.data.entities import split_audit
@@ -21,10 +21,6 @@ from eth_nl2sql.results import is_order_sensitive, row_digests
 from eth_nl2sql.store.execute import ExecutionError, execute
 from eth_nl2sql.store.manifest import store_profile
 from eth_nl2sql.validation import ValidationError
-
-
-def text_digest(text: str) -> str:
-    return hashlib.sha256(text.encode()).hexdigest()
 
 
 def owner_support(con: duckdb.DuckDBPyConnection, expected: dict) -> dict:
