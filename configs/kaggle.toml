@@ -1,9 +1,10 @@
 # Names describe output ownership, not execution dates.
 owner = "aohkvd"
-environment_cache = "nl2sql-environment-cache"
+environment_cache = "eth-nl2sql-model-cache"
 inference_kernel = "eth-nl2sql-inference"
+inputs_dataset = "eth-nl2sql-inputs"
 
 # Existing adapter output stays at its published identity. New training jobs use
 # eth-nl2sql-<config>-seed-<seed>, with no run_tag/date in the name.
 [training_kernels]
-b3-seed-42 = "eth-nl2sql-t11b-b3-seed-42-20261028"
+b3-seed-42 = "eth-nl2sql-fine-tune"

@@ -42,33 +42,47 @@ def package_inputs(
     manifest: dict,
     *,
     bundle_metadata: dict | None = None,
+    persist_reports: bool = True,
 ) -> dict:
     manifest = {
         **manifest,
         "files": {p.relative_to(root).as_posix(): cfg.sha256_file(p) for p in files},
     }
     manifest_path = report / "inputs-manifest.json"
-    cfg.write_json(manifest_path, manifest)
+    if persist_reports:
+        cfg.write_json(manifest_path, manifest)
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
-        for path in [*files, manifest_path]:
-            archive.write(path, path.relative_to(root))
+
+        def write(name: str, data: bytes) -> None:
+            entry = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            entry.compress_type = zipfile.ZIP_DEFLATED
+            entry.external_attr = 0o100644 << 16
+            archive.writestr(entry, data)
+
+        for path in files:
+            write(path.relative_to(root).as_posix(), path.read_bytes())
+        write(
+            manifest_path.relative_to(root).as_posix(),
+            (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode(),
+        )
         # Evaluation gold stays local; the GPU receives only IDs and questions.
-        archive.writestr(
+        write(
             "data/dev_eval.jsonl",
             "".join(
                 json.dumps({k: row[k] for k in ("id", "question")}) + "\n"
                 for row in cfg.read_jsonl(root / "data/dev_eval.jsonl")
-            ),
+            ).encode(),
         )
-    cfg.write_json(
-        report / "bundle.json",
-        {
-            "sha256": cfg.sha256_file(output),
-            "bytes": output.stat().st_size,
-            **(bundle_metadata or {}),
-        },
-    )
+    if persist_reports:
+        cfg.write_json(
+            report / "bundle.json",
+            {
+                "sha256": cfg.sha256_file(output),
+                "bytes": output.stat().st_size,
+                **(bundle_metadata or {}),
+            },
+        )
     return manifest
 
 
@@ -80,16 +94,28 @@ def verify_inputs(root: Path, report: Path) -> dict:
     return manifest
 
 
-def verify_cache(home: Path, pins: Path) -> dict:
+def verify_cache(home: Path, pins: Path, *, component: str = "model") -> dict:
     settings = cfg.load()["models"]["generator"]
-    pin = json.loads(pins.read_text())["models"]["model"]
-    if any(pin[k] != settings[k] for k in ("repo_id", "revision")):
+    models = json.loads(pins.read_text())["models"]
+    if any(models["model"][k] != settings[k] for k in ("repo_id", "revision")):
         raise ValueError("Mounted model pin differs from experiment.toml")
+    if component == "all":
+        return {name: _verify_cached_model(home, pin) for name, pin in models.items()}
+    if component not in models:
+        raise ValueError(f"Unknown cache component: {component}")
+    return _verify_cached_model(home, models[component])
+
+
+def _verify_cached_model(home: Path, pin: dict) -> dict:
     snapshot = home / "hub" / ("models--" + pin["repo_id"].replace("/", "--"))
     snapshot /= "snapshots/" + pin["revision"]
     result = {}
     for name, expected in pin["files"].items():
         path = snapshot / name
+        if PurePosixPath(name).is_absolute() or ".." in PurePosixPath(name).parts:
+            raise ValueError(f"Invalid model cache path: {name}")
+        if expected["algorithm"] not in ("sha256", "sha1", "git-blob-sha1"):
+            raise ValueError(f"Unknown model checksum algorithm: {expected['algorithm']}")
         size = path.stat().st_size
         h = hashlib.sha256() if expected["algorithm"] == "sha256" else hashlib.sha1()
         if expected["algorithm"] == "git-blob-sha1":

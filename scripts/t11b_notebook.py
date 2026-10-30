@@ -29,7 +29,6 @@ def build(
         "scripts/t11b.py",
         "configs/t11b-gpu-requirements.txt",
         job=selected.identifier,
-        compressed=True,
         live_logs=True,
     )
     build_notebook(archive, output, kernel, spec, cache_kernel=cache_kernel)

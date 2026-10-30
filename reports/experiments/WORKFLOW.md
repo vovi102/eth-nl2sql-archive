@@ -74,9 +74,11 @@ Không dùng `run_tag` hoặc ngày để tạo thêm kernel.
 | Pilot, base control, chẩn đoán, chỉ sinh SQL | Dùng chung `OWNER/eth-nl2sql-inference`, mỗi lượt là một version |
 | Model cache | `OWNER/<environment_cache>` |
 
-`training_kernels` ghi ngoại lệ cho adapter đã công bố. `b3/42` hiện tiếp tục
-mount kernel lịch sử được cấu hình ở đó; không đổi tên, xóa hoặc push đè output
-đang làm nguồn. Các job train mới có tên ổn định không kèm ngày. Client từ chối
+`training_kernels` ghi identity cho adapter đã công bố. Kernel `b3/42` đã đổi tên
+thành `eth-nl2sql-fine-tune`; cache là `eth-nl2sql-model-cache`, giữ nguyên ID,
+version và output. Các ref trong bằng chứng cũ vẫn mô tả tên tại thời điểm chạy.
+Không xóa hoặc push đè output đang làm nguồn. Các job train mới có tên ổn định
+không kèm ngày. Client từ chối
 push lên producer đã tồn tại; thay protocol/input cần một identity mới được
 cấu hình rõ ràng, không tự cập nhật output đang được mount.
 
@@ -111,7 +113,61 @@ Thông tin `kernel_sources` nhận owner/slug theo
 Quy tắc giữ producer riêng bảo vệ nguồn mount khỏi các version của job khác;
 version ref bảo vệ việc polling/download, không biến nguồn mount thành version pin.
 Xem thêm [Kaggle CLI](https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels.md).
-Notebook chạy tay đã bỏ khỏi repo; chỉ giữ builder và template dùng chung.
+Notebook chạy tay cũ đã bỏ; hai notebook hiện hành được sinh bằng workflow bên dưới.
+
+## Đồng bộ notebook local và Kaggle
+
+Chỉ sửa source local, rồi chạy:
+
+```bash
+uv run --locked eth-nl2sql kaggle build --job b3-seed-42
+uv run --locked eth-nl2sql kaggle status --offline
+uv run --locked eth-nl2sql kaggle status
+```
+
+`notebooks/fine_tune.ipynb` và `notebooks/model_cache.ipynb` là bản dễ đọc, giống
+byte với bản dựng trong `.cache/kaggle/<workflow>/`. Header ghi commit và cờ source
+chưa commit, fingerprint code/dữ liệu, job/config/seed và SHA256 của input.
+Nếu source, dữ liệu hoặc notebook local đổi sau build, `status` báo `needs_build`.
+Phần Kaggle báo `in_sync`/`different` và Input có sẵn hay không; không lưu version
+hay chạy GPU. Commit Git không tự cập nhật Kaggle.
+
+Bundle vẫn dùng `package_inputs`: chỉ ID/câu hỏi của dev_eval được gửi lên GPU,
+gold và chấm EX ở local. Bản dựng không ghi đè manifest hoặc hash nghiên cứu đã lưu.
+ZIP mang đuôi `.bundle` trong Input để giữ nguyên byte. Tên file chứa SHA256;
+notebook từ chối bundle thiếu, sai hash hoặc có đường dẫn không hợp lệ trước khi
+cài thư viện/chạy workflow. Một dataset private `inputs_dataset` trong config
+được dùng chung cho hai notebook; version mới có thể thay bundle, khi đó notebook
+cũ sẽ dừng thay vì âm thầm dùng input khác.
+
+Chỉ khi cần xuất bản input cho lượt chạy đã được duyệt:
+
+```bash
+# Lần đầu tạo dataset private; chưa chạy hoặc lưu notebook:
+uv run --locked eth-nl2sql kaggle publish-inputs --create
+# Các lần sau tạo version dataset mới, giữ version cũ:
+uv run --locked eth-nl2sql kaggle publish-inputs
+# Kiểm Input đã xử lý xong và đối chiếu lại notebook:
+uv run --locked eth-nl2sql kaggle status
+# Submit riêng khi kernel là producer mới chưa có output cần bảo vệ:
+uv run --locked eth-nl2sql kaggle run --workflow fine-tune
+```
+
+`run` từ chối ghi đè hai producer hiện có; không dùng Quick Save để "đồng bộ"
+vì latest output có thể trở thành rỗng. Để cập nhật notebook trên hai kernel này,
+trước hết cần quyết định cách giữ nguồn output và lượt chạy thay thế. Không tự
+submit lại train/cache chỉ vì local khác cloud.
+
+Builder chẩn đoán hoặc controller cũ cũng tạo Input đính kèm. Có thể xuất bản
+đúng gói nó đã dựng bằng `kaggle publish-inputs --deployment <thư-mục-notebook>`
+(thêm `--create` chỉ lần đầu). `KaggleClient.push` kiểm Input tồn tại trước submit.
+Lỗi/timeout khi xuất bản không được tự retry vì server có thể đã nhận version.
+
+Cache dùng `scripts/model_cache.py` và runtime CPU khóa ở
+`configs/model-cache-requirements.txt`, không còn phụ thuộc repo `LuanVan`.
+Thêm secret `HF_TOKEN` trong Kaggle Add-ons > Secrets khi cần tải lại cache;
+token chỉ truyền qua stdin và không ghi vào notebook/provenance. Hàm kiểm hash
+cache được dùng chung với workflow train, không tải model vào RAM/GPU.
 
 ## Chấm và báo cáo
 

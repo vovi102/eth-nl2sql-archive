@@ -1,0 +1,2 @@
+# Same Hugging Face client as the locked training environment; no torch install.
+huggingface-hub==0.36.2

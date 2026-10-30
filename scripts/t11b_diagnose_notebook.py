@@ -23,7 +23,6 @@ def build(archive: Path, output: Path, kernel: str, *, cache_kernel: str | None 
         "t11b-diagnosis",
         "scripts/t11b_diagnose.py",
         "configs/t11b-gpu-requirements.txt",
-        compressed=True,
         live_logs=True,
         extra_kernel_sources=(adapter_kernel,),
     )

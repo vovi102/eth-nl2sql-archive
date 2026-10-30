@@ -59,14 +59,21 @@ def test_diagnostic_builder_is_repeatable_and_mounts_the_planned_adapter(tmp_pat
     snapshots = []
     for _ in range(2):
         builder.build(archive, output, "tester/inference", cache_kernel="tester/cache")
-        snapshots.append({p.name: p.read_bytes() for p in output.iterdir()})
+        snapshots.append(
+            {
+                p.relative_to(output).as_posix(): p.read_bytes()
+                for p in output.rglob("*")
+                if p.is_file()
+            }
+        )
     assert snapshots[0] == snapshots[1]
     assert importlib.import_module("t11a_notebook").SPEC == original
     metadata = json.loads((output / "kernel-metadata.json").read_text())
     assert metadata["kernel_sources"] == ["tester/cache", "producer/frozen-adapter"]
     assert metadata["code_file"] == "t11b-diagnosis.ipynb"
-    source = json.loads((output / metadata["code_file"]).read_text())["cells"][0]["source"]
-    assert source.count("zlib.decompress(payload)") == 1
+    built = json.loads((output / metadata["code_file"]).read_text())
+    source = "\n".join(c["source"] for c in built["cells"] if c["cell_type"] == "code")
+    assert "PAYLOAD" not in source
     assert "scripts/t11b_diagnose.py" in source
     assert "configs/t11b-gpu-requirements.txt" in source
     assert "for line in process.stdout" in source
@@ -76,17 +83,17 @@ def test_diagnostic_builder_is_repeatable_and_mounts_the_planned_adapter(tmp_pat
     assert not (tmp_path / "overwrite").exists()
 
 
-def test_all_builders_enforce_source_size_limit(tmp_path):
+def test_large_inputs_do_not_enlarge_notebook_source(tmp_path):
     archive = tmp_path / "inputs.zip"
-    archive.write_bytes(bytes(range(256)) * 10)
-    spec = NotebookSpec("diagnostic", "run.py", "requirements.txt", compressed=True)
-    # Incompressible data exercises the same check for every compressed builder.
+    spec = NotebookSpec("diagnostic", "run.py", "requirements.txt")
     import random
 
-    archive.write_bytes(random.Random(42).randbytes(800_000))
-    with pytest.raises(ValueError, match="1 MB"):
-        build_notebook(archive, tmp_path / "out", "tester/inference", spec)
-    assert not (tmp_path / "out").exists()
+    with zipfile.ZipFile(archive, "w") as bundle:
+        bundle.writestr("data.bin", random.Random(42).randbytes(800_000))
+    output = tmp_path / "out"
+    build_notebook(archive, output, "tester/inference", spec)
+    assert (output / "diagnostic.ipynb").stat().st_size < 20_000
+    assert json.loads((output / "kernel-metadata.json").read_text())["dataset_sources"]
 
 
 def test_push_pins_version_and_collects_only_that_version_in_a_fresh_directory(tmp_path):

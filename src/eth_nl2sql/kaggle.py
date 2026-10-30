@@ -28,6 +28,7 @@ class KaggleSettings:
     environment_cache: str
     inference_kernel: str = "eth-nl2sql-inference"
     training_kernels: dict[str, str] = field(default_factory=dict)
+    inputs_dataset: str = "eth-nl2sql-inputs"
 
     def _owned(self, slug: str) -> str:
         return slug if "/" in slug else f"{self.owner}/{slug}"
@@ -35,6 +36,10 @@ class KaggleSettings:
     @property
     def cache_kernel(self) -> str:
         return self._owned(self.environment_cache)
+
+    @property
+    def input_dataset(self) -> str:
+        return self._owned(self.inputs_dataset)
 
     def kernel(self, job: str | Job | None = None) -> str:
         """Training outputs have stable identities; inference jobs share versions."""
@@ -49,7 +54,7 @@ class KaggleSettings:
 def load_settings(path: Path | None = None) -> KaggleSettings:
     with (path or cfg.ROOT / "configs/kaggle.toml").open("rb") as handle:
         values = tomllib.load(handle)
-    for key in ("owner", "environment_cache", "inference_kernel"):
+    for key in ("owner", "environment_cache", "inference_kernel", "inputs_dataset"):
         override = os.environ.get(f"ETH_NL2SQL_KAGGLE_{key.upper()}")
         if override is not None:
             values[key] = override
@@ -146,21 +151,16 @@ class KaggleClient:
             )
         if producer and self._producer_exists(kernel):
             raise ValueError(f"Producer kernel already exists; preserve its output: {kernel}")
+        if (notebook / "deployment.json").exists() and not self.inputs_available(notebook):
+            raise ValueError("Publish the matching workflow inputs before running this notebook")
         record = {"kernel": kernel, "identity": identity, "status": "submitting"}
         atomic_write_json(receipt, record)
         # Never retry a push: a timeout can still have created a remote version.
+        argv = ["kaggle", "kernels", "push", "-p", str(notebook), "--timeout", "43200"]
+        if metadata.get("enable_gpu", True):
+            argv += ["--accelerator", "NvidiaTeslaT4"]
         output = self.command(
-            [
-                "kaggle",
-                "kernels",
-                "push",
-                "-p",
-                str(notebook),
-                "--accelerator",
-                "NvidiaTeslaT4",
-                "--timeout",
-                "43200",
-            ],
+            argv,
             "push.log",
             attempts=1,
         )
@@ -170,6 +170,109 @@ class KaggleClient:
         reference = f"{kernel}/{int(match[1])}"
         atomic_write_json(receipt, {**record, "status": "submitted", "kernel_ref": reference})
         return reference
+
+    def inputs_available(self, notebook: Path) -> bool:
+        deployment = json.loads((notebook / "deployment.json").read_text())
+        output = self.command(
+            [
+                "kaggle",
+                "datasets",
+                "files",
+                deployment["input_dataset"],
+                "--format",
+                "json",
+                "--page-size",
+                "200",
+            ],
+            "input-files.json",
+            attempts=1,
+        )
+        rows = json.loads(output)
+        if isinstance(rows, dict):
+            rows = rows.get("datasetFiles", rows.get("dataset_files", rows.get("files", [])))
+        return any(row["name"] == deployment["input_file"] for row in rows)
+
+    def publish_inputs(self, notebook: Path, *, create: bool = False) -> dict:
+        """Publish only the input dataset; never start or save a kernel version."""
+        deployment = json.loads((notebook / "deployment.json").read_text())
+        inputs = notebook / "inputs"
+        archive = inputs / deployment["input_file"]
+        checksum = deployment["provenance"]["input_sha256"]
+        if cfg.sha256_file(archive) != checksum:
+            raise ValueError("Staged inputs changed; rebuild before publishing")
+        metadata = json.loads((inputs / "dataset-metadata.json").read_text())
+        if metadata["id"] != deployment["input_dataset"]:
+            raise ValueError("Input dataset identity differs from the notebook")
+        receipt = self.directory / f"inputs-submission-{checksum}.json"
+        if receipt.exists():
+            record = json.loads(receipt.read_text())
+            if record["dataset"] != metadata["id"]:
+                raise ValueError("Input dataset changed; use a new deployment directory")
+            if record["status"] == "submitted":
+                return record
+            raise RuntimeError("Input publication outcome unknown; inspect inputs-publish.log")
+        record = {"dataset": metadata["id"], "sha256": checksum, "status": "submitting"}
+        atomic_write_json(receipt, record)
+        argv = [
+            "kaggle",
+            "datasets",
+            "create" if create else "version",
+            "-p",
+            str(inputs),
+            "--keep-tabular",
+            "--dir-mode",
+            "skip",
+        ]
+        if not create:
+            argv += ["-m", f"Workflow inputs SHA256 {checksum}"]
+        # A timeout may already have created the dataset version. Never retry blindly.
+        self.command(argv, "inputs-publish.log", attempts=1)
+        record["status"] = "submitted"
+        atomic_write_json(receipt, record)
+        return record
+
+    def sync_status(self, notebook: Path) -> dict:
+        """Compare local and remote code without executing or saving a notebook."""
+        from eth_nl2sql.gpu_notebook import notebook_source
+
+        metadata = json.loads((notebook / "kernel-metadata.json").read_text())
+        local = json.loads((notebook / metadata["code_file"]).read_text())
+        result = {
+            "kernel": metadata["id"],
+            "local_provenance": local["metadata"].get("eth_nl2sql"),
+        }
+        self.directory.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix="kaggle-inspect-") as temporary:
+            self.command(
+                ["kaggle", "kernels", "pull", metadata["id"], "-p", temporary, "-m"],
+                "pull.log",
+                attempts=1,
+            )
+            remote_metadata = json.loads((Path(temporary) / "kernel-metadata.json").read_text())
+            remote = json.loads((Path(temporary) / remote_metadata["code_file"]).read_text())
+        result["remote_provenance"] = remote["metadata"].get("eth_nl2sql")
+        changed = []
+        if notebook_source(local) != notebook_source(remote):
+            changed.append("notebook_source")
+        for key in ("dataset_sources", "kernel_sources", "model_sources"):
+            if sorted(metadata.get(key, [])) != sorted(remote_metadata.get(key, [])):
+                changed.append(key)
+        for key in ("enable_gpu", "enable_internet", "is_private"):
+            actual = remote_metadata.get(key, False)
+            if isinstance(actual, str):
+                actual = actual.lower() == "true"
+            if metadata.get(key, False) != actual:
+                changed.append(key)
+        try:
+            available = self.inputs_available(notebook)
+        except (RuntimeError, subprocess.TimeoutExpired):
+            available = False
+        return {
+            **result,
+            "status": "different" if changed else "in_sync",
+            "changed": changed,
+            "input_file_available": available,
+        }
 
     def _producer_exists(self, kernel: str) -> bool:
         # A missing/private kernel can return 403 from status. List our own

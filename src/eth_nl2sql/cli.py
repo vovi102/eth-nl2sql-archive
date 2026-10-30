@@ -673,8 +673,11 @@ def cmd_report(args: argparse.Namespace) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
+    from eth_nl2sql.kaggle_workflow import add_parser as add_kaggle_parser
+
     parser = argparse.ArgumentParser(prog="eth-nl2sql", description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
+    add_kaggle_parser(sub)
 
     def add(name: str, handler, help_text: str) -> argparse.ArgumentParser:
         command = sub.add_parser(name, help=help_text)

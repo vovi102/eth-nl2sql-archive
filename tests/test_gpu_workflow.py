@@ -1,6 +1,5 @@
 """GPU orchestration regressions, exercised without loading a model."""
 
-import base64
 import hashlib
 import importlib
 import json
@@ -8,7 +7,6 @@ import os
 import subprocess
 import sys
 import zipfile
-import zlib
 from types import SimpleNamespace
 
 import pytest
@@ -52,23 +50,30 @@ def test_notebook_build_is_repeatable_and_does_not_change_t11a(scripts, tmp_path
     snapshots = []
     for _ in range(2):
         scripts.b.build(archive, output, "tester/experiment", "b3-seed-42")
-        snapshots.append({p.name: p.read_bytes() for p in output.iterdir()})
+        snapshots.append(
+            {
+                p.relative_to(output).as_posix(): p.read_bytes()
+                for p in output.rglob("*")
+                if p.is_file()
+            }
+        )
     assert snapshots[0] == snapshots[1]
     assert scripts.a.SPEC == original
     assert not hasattr(scripts.a, "BOOTSTRAP")
     assert not hasattr(importlib.import_module("t11b_notebook"), "LIVE_PROCESS")
     metadata = json.loads((output / "kernel-metadata.json").read_text())
     assert metadata["code_file"] == "t11b.ipynb"
-    source = json.loads((output / metadata["code_file"]).read_text())["cells"][0]["source"]
-    assert source.count("zlib.decompress(payload)") == 1
+    notebook = json.loads((output / metadata["code_file"]).read_text())
+    source = "\n".join(c["source"] for c in notebook["cells"] if c["cell_type"] == "code")
+    assert "PAYLOAD" not in source
     compile(source, metadata["code_file"], "exec")
-    payload = {}
-    exec("\n".join(source.splitlines()[:2]), payload)
-    encoded = base64.b64decode(payload["PAYLOAD"])
-    assert hashlib.sha256(encoded).hexdigest() == payload["BUNDLE_SHA256"]
-    assert zlib.decompress(encoded) == archive.read_bytes()
+    identity = {}
+    exec(notebook["cells"][1]["source"], identity)
+    assert cfg.sha256_file(output / "inputs" / identity["INPUT_FILE"]) == identity["INPUT_SHA256"]
+    assert (output / "inputs" / identity["INPUT_FILE"]).read_bytes() == archive.read_bytes()
     scripts.a.build(archive, tmp_path / "a", "tester/control")
-    a_source = json.loads((tmp_path / "a/t11a.ipynb").read_text())["cells"][0]["source"]
+    a_notebook = json.loads((tmp_path / "a/t11a.ipynb").read_text())
+    a_source = "\n".join(c["source"] for c in a_notebook["cells"] if c["cell_type"] == "code")
     assert "zlib.decompress" not in a_source
     assert "scripts/t11a.py" in a_source
 
